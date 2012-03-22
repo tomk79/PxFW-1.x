@@ -2,12 +2,12 @@
 $this->load_pxclass('/bases/pxcommand.php');
 
 /**
- * PX Command: publishを実行する
+ * PX Command: clearcacheを実行する
  * @author Tomoya Koyanagi <tomk79@gmail.com>
  */
-class px_pxcommands_publish extends px_bases_pxcommand{
+class px_pxcommands_clearcache extends px_bases_pxcommand{
 
-	protected $pxcommand_name = 'publish';
+	protected $pxcommand_name = 'clearcache';
 
 	public function __construct( &$px ){
 		parent::__construct( &$px );
@@ -15,7 +15,7 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 	}//__construct()
 
 	/**
-	 * Execute PX Command "publish".
+	 * Execute PX Command "clearcache".
 	 * @access public
 	 * @return null
 	 */
