@@ -73,8 +73,8 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 	}
 
 	private function apply_dirs( $path ){
-		$realpath_target_dir = realpath( $this->path_docroot_dir.'/'.$path );
-		$realpath_publish_dir = realpath( $this->path_publish_dir.'/'.$path );
+		$realpath_target_dir  = t::realpath( $this->path_docroot_dir.'/'.$path );
+		$realpath_publish_dir = t::realpath( $this->path_publish_dir.'/'.$path );
 
 		$items = $this->px->dbh->ls( $realpath_target_dir );
 		foreach( $items as $filename ){
@@ -85,11 +85,23 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 				continue;
 			}
 
+			$extension = $this->px->dbh->get_extension( $current_path );
+
 			if( is_dir( $current_path ) ){
+				//  対象がディレクトリだったら
 				$this->px->dbh->mkdir( $current_publishto );
 				$this->apply_dirs( $path.'/'.$filename );
 			}elseif( is_file( $current_path ) ){
-				$this->px->dbh->copy( $current_path , $current_publishto );
+				//  対象がファイルだったら
+				switch( strtolower($extension) ){
+					case 'html':
+						$url = 'http'.($this->px->req->is_ssl()?'s':'').'://'.$_SERVER['HTTP_HOST'].$this->px->dbh->get_realpath(dirname($_SERVER['SCRIPT_NAME']).$path.'/'.$filename);
+						$this->px->dbh->get_http_content( $url , $current_publishto );
+						break;
+					default:
+						$this->px->dbh->copy( $current_path , $current_publishto );
+						break;
+				}
 			}
 
 		}
@@ -98,10 +110,10 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 	}//apply_dirs();
 
 	private function is_ignore_path( $path ){
-		$path = realpath( $path );
+		$path = t::realpath( $path );
 		if( !file_exists($path) ){ return true; }
 		foreach( $this->paths_ignore as $row ){
-			if( realpath($row) == $path ){
+			if( t::realpath($row) == $path ){
 				return true;
 			}
 		}
@@ -113,11 +125,11 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 	 * @return true
 	 */
 	private function setup(){
-		$this->path_docroot_dir = realpath('.');
-		$this->path_publish_dir = realpath($this->px->get_conf('paths.publish_dir'));
-		array_push( $this->paths_ignore , realpath($this->px->get_conf('paths.px_dir')) );
-		array_push( $this->paths_ignore , realpath($this->path_docroot_dir.'/.htaccess') );
-		array_push( $this->paths_ignore , realpath($this->path_docroot_dir.'/_px_execute.php') );
+		$this->path_docroot_dir = t::realpath('.');
+		$this->path_publish_dir = t::realpath($this->px->get_conf('paths.publish_dir'));
+		array_push( $this->paths_ignore , t::realpath($this->px->get_conf('paths.px_dir')) );
+		array_push( $this->paths_ignore , t::realpath($this->path_docroot_dir.'/.htaccess') );
+		array_push( $this->paths_ignore , t::realpath($this->path_docroot_dir.'/_px_execute.php') );
 
 		return true;
 	}

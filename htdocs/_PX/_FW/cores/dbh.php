@@ -1004,9 +1004,9 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	 * 書き込み/上書きしてよいアイテムか検証
 	 */
 	function is_writable( $path ){
-		if( strlen( $this->conf->fs_encoding ) ){
+		if( strlen( $this->px->get_conf('filesystems.encoding') ) ){
 			//PxFW 0.6.4 追加
-			$path = @t::convert_encoding( $path , $this->conf->fs_encoding );
+			$path = @t::convert_encoding( $path , $this->px->get_conf('filesystems.encoding') );
 		}
 
 		if( is_array( $this->conf->writeprotect ) ){
@@ -1032,9 +1032,9 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	#--------------------------------------
 	#	読み込んでよいアイテムか検証
 	function is_readable( $path ){
-		if( strlen( $this->conf->fs_encoding ) ){
+		if( strlen( $this->px->get_conf('filesystems.encoding') ) ){
 			//PxFW 0.6.4 追加
-			$path = @t::convert_encoding( $path , $this->conf->fs_encoding );
+			$path = @t::convert_encoding( $path , $this->px->get_conf('filesystems.encoding') );
 		}
 		if( is_array( $this->conf->readprotect ) ){
 			foreach( $this->conf->readprotect as $Line ){
@@ -1053,8 +1053,8 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	#	ファイルが存在するかどうか調べる
 	#	PxFW 0.6.4 追加
 	function is_file( $path ){
-		if( strlen( $this->conf->fs_encoding ) ){
-			$path = @t::convert_encoding( $path , $this->conf->fs_encoding );
+		if( strlen( $this->px->get_conf('filesystems.encoding') ) ){
+			$path = @t::convert_encoding( $path , $this->px->get_conf('filesystems.encoding') );
 		}
 		return @is_file( $path );
 	}
@@ -1063,8 +1063,8 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	#	フォルダが存在するかどうか調べる
 	#	PxFW 0.6.4 追加
 	function is_dir( $path ){
-		if( strlen( $this->conf->fs_encoding ) ){
-			$path = @t::convert_encoding( $path , $this->conf->fs_encoding );
+		if( strlen( $this->px->get_conf('filesystems.encoding') ) ){
+			$path = @t::convert_encoding( $path , $this->px->get_conf('filesystems.encoding') );
 		}
 		return @is_dir( $path );
 	}
@@ -1073,8 +1073,8 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	#	ファイルまたはフォルダが存在するかどうか調べる
 	#	PxFW 0.6.4 追加
 	function file_exists( $path ){
-		if( strlen( $this->conf->fs_encoding ) ){
-			$path = @t::convert_encoding( $path , $this->conf->fs_encoding );
+		if( strlen( $this->px->get_conf('filesystems.encoding') ) ){
+			$path = @t::convert_encoding( $path , $this->px->get_conf('filesystems.encoding') );
 		}
 		return @file_exists( $path );
 	}
@@ -1082,9 +1082,9 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	#--------------------------------------
 	#	ディレクトリを作成する
 	function mkdir( $dirpath , $perm = null ){
-		if( strlen( $this->conf->fs_encoding ) ){
+		if( strlen( $this->px->get_conf('filesystems.encoding') ) ){
 			//PxFW 0.6.4 追加
-			$dirpath = @t::convert_encoding( $dirpath , $this->conf->fs_encoding );
+			$dirpath = @t::convert_encoding( $dirpath , $this->px->get_conf('filesystems.encoding') );
 		}
 
 		if( @is_dir( $dirpath ) ){
@@ -1099,10 +1099,10 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	}
 	#--------------------------------------
 	#	ディレクトリを作成する(上層ディレクトリも全て作成)
-	function mkdirall( $dirpath , $perm = null ){
-		if( strlen( $this->conf->fs_encoding ) ){
+	function mkdir_all( $dirpath , $perm = null ){
+		if( strlen( $this->px->get_conf('filesystems.encoding') ) ){
 			//PxFW 0.6.4 追加
-			$dirpath = @t::convert_encoding( $dirpath , $this->conf->fs_encoding );
+			$dirpath = @t::convert_encoding( $dirpath , $this->px->get_conf('filesystems.encoding') );
 		}
 
 		if( @is_dir( $dirpath ) ){ return true; }
@@ -1113,7 +1113,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 			$targetpath = $targetpath.'/'.$Line;
 			if( !@is_dir( $targetpath ) ){
 				//PxFW 0.6.4 追加
-				$targetpath = @t::convert_encoding( $targetpath , mb_internal_encoding() , $this->conf->fs_encoding );
+				$targetpath = @t::convert_encoding( $targetpath , mb_internal_encoding() , $this->px->get_conf('filesystems.encoding') );
 				$this->mkdir( $targetpath , $perm );
 			}
 		}
@@ -1137,9 +1137,9 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 
 		$filepath = $this->get_realpath($filepath);
 
-		if( strlen( $this->conf->fs_encoding ) ){
+		if( strlen( $this->px->get_conf('filesystems.encoding') ) ){
 			//PxFW 0.6.4 追加
-			$filepath = @t::convert_encoding( $filepath , $this->conf->fs_encoding );
+			$filepath = @t::convert_encoding( $filepath , $this->px->get_conf('filesystems.encoding') );
 		}
 
 		if( !$this->is_writable( $filepath ) )	{ return false; }
@@ -1174,9 +1174,9 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	#--------------------------------------
 	#	ファイルの末尾に文字列を追加保存する
 	function savefile_push( $filepath , $CONTENT , $perm = null ){
-		if( strlen( $this->conf->fs_encoding ) ){
+		if( strlen( $this->px->get_conf('filesystems.encoding') ) ){
 			//PxFW 0.6.4 追加
-			$filepath = @t::convert_encoding( $filepath , $this->conf->fs_encoding );
+			$filepath = @t::convert_encoding( $filepath , $this->px->get_conf('filesystems.encoding') );
 		}
 
 		if( !$this->is_writable( $filepath ) )	{ return false; }
@@ -1198,9 +1198,9 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 			$this->fclose( $filepath );
 		}
 
-		if( strlen( $this->conf->fs_encoding ) ){
+		if( strlen( $this->px->get_conf('filesystems.encoding') ) ){
 			//PxFW 0.6.4 追加
-			$filepath = @t::convert_encoding( $filepath , $this->conf->fs_encoding );
+			$filepath = @t::convert_encoding( $filepath , $this->px->get_conf('filesystems.encoding') );
 		}
 
 		#	ファイルを上書き保存
@@ -1221,9 +1221,9 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	}
 	function file_get_lines( $path ){
 
-		if( strlen( $this->conf->fs_encoding ) ){
+		if( strlen( $this->px->get_conf('filesystems.encoding') ) ){
 			//PxFW 0.6.4 追加
-			$path = @t::convert_encoding( $path , $this->conf->fs_encoding );
+			$path = @t::convert_encoding( $path , $this->px->get_conf('filesystems.encoding') );
 		}
 
 		if( @is_file( $path ) ){
@@ -1260,9 +1260,9 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	}
 	function file_get_contents( $path ){
 
-		if( strlen( $this->conf->fs_encoding ) ){
+		if( strlen( $this->px->get_conf('filesystems.encoding') ) ){
 			//PxFW 0.6.4 追加
-			$path = @t::convert_encoding( $path , $this->conf->fs_encoding );
+			$path = @t::convert_encoding( $path , $this->px->get_conf('filesystems.encoding') );
 		}
 
 		if( @is_file( $path ) ){
@@ -1314,7 +1314,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 
 				if( !@is_dir( dirname( $saveTo ) ) ){
 					#	親ディレクトリがなかったら、作ってみる。
-					if( !$this->mkdirall( dirname( $saveTo ) ) ){	//Pickles Framework 0.1.1 で修正。
+					if( !$this->mkdir_all( dirname( $saveTo ) ) ){	//Pickles Framework 0.1.1 で修正。
 						#	失敗したらfalse;
 						return	false;
 					}
@@ -1348,10 +1348,10 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 		#	$path_b の方が新しかった場合にfalse
 		#	同時だった場合にnullを返す。
 
-		if( strlen( $this->conf->fs_encoding ) ){
+		if( strlen( $this->px->get_conf('filesystems.encoding') ) ){
 			//PxFW 0.6.4 追加
-			$path_a = @t::convert_encoding( $path_a , $this->conf->fs_encoding );
-			$path_b = @t::convert_encoding( $path_b , $this->conf->fs_encoding );
+			$path_a = @t::convert_encoding( $path_a , $this->px->get_conf('filesystems.encoding') );
+			$path_b = @t::convert_encoding( $path_b , $this->px->get_conf('filesystems.encoding') );
 		}
 
 		$mtime_a = filemtime( $path_a );
@@ -1367,10 +1367,10 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	#--------------------------------------
 	#	ファイル名/ディレクトリ名を変更する
 	function rename( $original , $newname ){
-		if( strlen( $this->conf->fs_encoding ) ){
+		if( strlen( $this->px->get_conf('filesystems.encoding') ) ){
 			//PxFW 0.6.4 追加
-			$original = @t::convert_encoding( $original , $this->conf->fs_encoding );
-			$newname = @t::convert_encoding( $newname , $this->conf->fs_encoding );
+			$original = @t::convert_encoding( $original , $this->px->get_conf('filesystems.encoding') );
+			$newname = @t::convert_encoding( $newname , $this->px->get_conf('filesystems.encoding') );
 		}
 
 		if( !@file_exists( $original ) ){ return	false; }
@@ -1380,17 +1380,17 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	#--------------------------------------
 	#	ファイル名/ディレクトリ名の変更を完全に実行する
 	function rename_complete( $original , $newname ){
-		if( strlen( $this->conf->fs_encoding ) ){
+		if( strlen( $this->px->get_conf('filesystems.encoding') ) ){
 			//PxFW 0.6.4 追加
-			$original = @t::convert_encoding( $original , $this->conf->fs_encoding );
-			$newname = @t::convert_encoding( $newname , $this->conf->fs_encoding );
+			$original = @t::convert_encoding( $original , $this->px->get_conf('filesystems.encoding') );
+			$newname = @t::convert_encoding( $newname , $this->px->get_conf('filesystems.encoding') );
 		}
 
 		if( !@file_exists( $original ) ){ return	false; }
 		if( !$this->is_writable( $original ) ){ return	false; }
 		$dirname = dirname( $newname );
 		if( !@is_dir( $dirname ) ){
-			if( !$this->mkdirall( $dirname ) ){
+			if( !$this->mkdir_all( $dirname ) ){
 				return	false;
 			}
 		}
@@ -1404,18 +1404,23 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	#	　ただし、ルート直下のディレクトリまでは一致している必要があり、
 	#	　そうでない場合は、falseを返します。
 	function get_realpath( $path , $itemname = null ){
+		$path = preg_replace( '/\\\\/si' , '/' , $path );
+		$itemname = preg_replace( '/\\\\/si' , '/' , $itemname );
+
 		$itemname = preg_replace( '/^\/'.'*'.'/' , '/' , $itemname );//先頭のスラッシュを1つにする。
 		if( $itemname == '/' ){ $itemname = ''; }//スラッシュだけが残ったら、ゼロバイトの文字にする。
 		if( t::realpath( $path ) == '/' ){
-			return	false;
+			$rtn = $path.$itemname;
+			$rtn = preg_replace( '/\/+/si' , '/' , $rtn );//先頭のスラッシュを1つにする。
+			return	$rtn;
 		}
 
-		if( strlen( $this->conf->fs_encoding ) ){
+		if( strlen( $this->px->get_conf('filesystems.encoding') ) ){
 			//PxFW 0.6.4 追加
-			$path = @t::convert_encoding( $path , $this->conf->fs_encoding );
+			$path = @t::convert_encoding( $path , $this->px->get_conf('filesystems.encoding') );
 		}
 
-		if( @file_exists( $path ) ){
+		if( @file_exists( $path ) && strlen(t::realpath( $path )) ){
 			return	t::realpath( $path ).$itemname;
 		}
 
@@ -1441,9 +1446,9 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	#--------------------------------------
 	#	パス情報を得る
 	function pathinfo( $path ){
-		if( strlen( $this->conf->fs_encoding ) ){
+		if( strlen( $this->px->get_conf('filesystems.encoding') ) ){
 			//PxFW 0.6.4 追加
-			$path = @t::convert_encoding( $path , $this->conf->fs_encoding );
+			$path = @t::convert_encoding( $path , $this->px->get_conf('filesystems.encoding') );
 		}
 		$pathinfo = pathinfo( $path );
 		$pathinfo['filename'] = $this->get_filename( $path );
@@ -1479,9 +1484,9 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 		#	$encoding は、保存されているCSVファイルの文字エンコードです。
 		#	省略時は Shift_JIS から、内部エンコーディングに変換します。
 
-		if( strlen( $this->conf->fs_encoding ) ){
+		if( strlen( $this->px->get_conf('filesystems.encoding') ) ){
 			//PxFW 0.6.4 追加
-			$path = @t::convert_encoding( $path , $this->conf->fs_encoding );
+			$path = @t::convert_encoding( $path , $this->px->get_conf('filesystems.encoding') );
 		}
 
 		$path = t::realpath( $path );
@@ -1554,10 +1559,10 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	#--------------------------------------
 	#	ファイルを複製する
 	function copy( $from , $to , $perm = null ){
-		if( strlen( $this->conf->fs_encoding ) ){
+		if( strlen( $this->px->get_conf('filesystems.encoding') ) ){
 			//PxFW 0.6.4 追加
-			$from = @t::convert_encoding( $from , $this->conf->fs_encoding );
-			$to   = @t::convert_encoding( $to   , $this->conf->fs_encoding );
+			$from = @t::convert_encoding( $from , $this->px->get_conf('filesystems.encoding') );
+			$to   = @t::convert_encoding( $to   , $this->px->get_conf('filesystems.encoding') );
 		}
 
 		if( !@is_file( $from ) ){
@@ -1582,16 +1587,16 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	#--------------------------------------
 	#	ディレクトリを複製する(下層ディレクトリも全てコピー)
 	function copy_all( $from , $to , $perm = null ){
-		if( strlen( $this->conf->fs_encoding ) ){
+		if( strlen( $this->px->get_conf('filesystems.encoding') ) ){
 			//PxFW 0.6.4 追加
-			$from = @t::convert_encoding( $from , $this->conf->fs_encoding );
-			$to   = @t::convert_encoding( $to   , $this->conf->fs_encoding );
+			$from = @t::convert_encoding( $from , $this->px->get_conf('filesystems.encoding') );
+			$to   = @t::convert_encoding( $to   , $this->px->get_conf('filesystems.encoding') );
 		}
 
 		$result = true;
 
 		if( @is_file( $from ) ){
-			if( $this->mkdirall( dirname( $to ) ) ){
+			if( $this->mkdir_all( dirname( $to ) ) ){
 				if( !$this->copy( $from , $to , $perm ) ){
 					$result = false;
 				}
@@ -1600,7 +1605,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 			}
 		}elseif( @is_dir( $from ) ){
 			if( !@is_dir( $to ) ){
-				if( !$this->mkdirall( $to ) ){
+				if( !$this->mkdir_all( $to ) ){
 					$result = false;
 				}
 			}
@@ -1611,7 +1616,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 					if( @is_file( $to.'/'.$Line ) ){
 						continue;
 					}elseif( !@is_dir( $to.'/'.$Line ) ){
-						if( !$this->mkdirall( $to.'/'.$Line ) ){
+						if( !$this->mkdir_all( $to.'/'.$Line ) ){
 							$result = false;
 						}
 					}
@@ -1635,9 +1640,9 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	#	ファイルを開き、ファイルリソースをセット
 	function &fopen( $filepath , $mode = 'r' , $flock = true ){
 		$filepath_fsenc = $filepath;
-		if( strlen( $this->conf->fs_encoding ) ){
+		if( strlen( $this->px->get_conf('filesystems.encoding') ) ){
 			//PxFW 0.6.4 追加
-			$filepath_fsenc = @t::convert_encoding( $filepath_fsenc , $this->conf->fs_encoding );
+			$filepath_fsenc = @t::convert_encoding( $filepath_fsenc , $this->px->get_conf('filesystems.encoding') );
 		}
 
 		$filepath = $this->get_realpath( $filepath );
@@ -1716,9 +1721,9 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	#--------------------------------------
 	#	パーミッションを変更する
 	function chmod( $filepath , $perm = null ){
-		if( strlen( $this->conf->fs_encoding ) ){
+		if( strlen( $this->px->get_conf('filesystems.encoding') ) ){
 			//PxFW 0.6.4 追加
-			$filepath = @t::convert_encoding( $filepath , $this->conf->fs_encoding );
+			$filepath = @t::convert_encoding( $filepath , $this->px->get_conf('filesystems.encoding') );
 		}
 
 		if( is_null( $perm ) ){
@@ -1737,9 +1742,9 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	#---------------------------------------------------------------------------
 	#	パーミッション情報を調べ、3桁の数字で返す。
 	function get_permission( $path ){
-		if( strlen( $this->conf->fs_encoding ) ){
+		if( strlen( $this->px->get_conf('filesystems.encoding') ) ){
 			//PxFW 0.6.4 追加
-			$path = @t::convert_encoding( $path , $this->conf->fs_encoding );
+			$path = @t::convert_encoding( $path , $this->px->get_conf('filesystems.encoding') );
 		}
 		$path = @realpath( $path );
 		if( !@file_exists( $path ) ){ return false; }
@@ -1753,9 +1758,9 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	 * ディレクトリにあるファイル名のリストを配列で返す。
 	 */
 	function ls($path){
-		if( strlen( $this->conf->fs_encoding ) ){
+		if( strlen( $this->px->get_conf('filesystems.encoding') ) ){
 			//PxFW 0.6.4 追加
-			$path = @t::convert_encoding( $path , $this->conf->fs_encoding );
+			$path = @t::convert_encoding( $path , $this->px->get_conf('filesystems.encoding') );
 		}
 		$path = @realpath($path);
 		if( $path === false ){ return false; }
@@ -1770,7 +1775,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 			array_push( $RTN , $ent );
 		}
 		closedir($dr);
-		if( strlen( $this->conf->fs_encoding ) ){
+		if( strlen( $this->px->get_conf('filesystems.encoding') ) ){
 			//PxFW 0.6.4 追加
 			$RTN = @t::convert_encoding( $RTN , mb_internal_encoding() );
 		}
@@ -1784,9 +1789,9 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 		#	このメソッドは、ファイルやシンボリックリンクも削除します。
 		#	シンボリックリンクは、その先を追わず、
 		#	シンボリックリンク本体のみを削除します。
-		if( strlen( $this->conf->fs_encoding ) ){
+		if( strlen( $this->px->get_conf('filesystems.encoding') ) ){
 			//PxFW 0.6.4 追加
-			$path = @t::convert_encoding( $path , $this->conf->fs_encoding );
+			$path = @t::convert_encoding( $path , $this->px->get_conf('filesystems.encoding') );
 		}
 
 		if( !$this->is_writable( $path ) ){
@@ -1819,10 +1824,10 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	function compare_and_cleanup( $target , $comparison ){
 		if( is_null( $comparison ) || is_null( $target ) ){ return	false; }
 
-		if( strlen( $this->conf->fs_encoding ) ){
+		if( strlen( $this->px->get_conf('filesystems.encoding') ) ){
 			//PxFW 0.6.4 追加
-			$target = @t::convert_encoding( $target , $this->conf->fs_encoding );
-			$comparison = @t::convert_encoding( $comparison , $this->conf->fs_encoding );
+			$target = @t::convert_encoding( $target , $this->px->get_conf('filesystems.encoding') );
+			$comparison = @t::convert_encoding( $comparison , $this->px->get_conf('filesystems.encoding') );
 		}
 
 		if( !@file_exists( $comparison ) && @file_exists( $target ) ){
@@ -1847,9 +1852,9 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	#----------------------------------------------------------------------------
 	#	指定されたディレクトリ以下の、全ての空っぽのディレクトリを削除する
 	function rmemptydir( $path , $option = array() ){
-		if( strlen( $this->conf->fs_encoding ) ){
+		if( strlen( $this->px->get_conf('filesystems.encoding') ) ){
 			//PxFW 0.6.4 追加
-			$path = @t::convert_encoding( $path , $this->conf->fs_encoding );
+			$path = @t::convert_encoding( $path , $this->px->get_conf('filesystems.encoding') );
 		}
 
 		if( !$this->is_writable( $path ) ){ return false; }
@@ -1919,10 +1924,10 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 		#	$option['compare_emptydir'] = bool;
 		#		空っぽのディレクトリの有無も評価に含めるか？
 
-		if( strlen( $this->conf->fs_encoding ) ){
+		if( strlen( $this->px->get_conf('filesystems.encoding') ) ){
 			//PxFW 0.6.4 追加
-			$dir_a = @t::convert_encoding( $dir_a , $this->conf->fs_encoding );
-			$dir_b = @t::convert_encoding( $dir_b , $this->conf->fs_encoding );
+			$dir_a = @t::convert_encoding( $dir_a , $this->px->get_conf('filesystems.encoding') );
+			$dir_b = @t::convert_encoding( $dir_b , $this->px->get_conf('filesystems.encoding') );
 		}
 
 		if( ( @is_file( $dir_a ) && !@is_file( $dir_b ) ) || ( !@is_file( $dir_a ) && @is_file( $dir_b ) ) ){
@@ -2290,7 +2295,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 		}
 
 		if( !@is_dir( dirname( $lockfilepath ) ) ){
-			$this->mkdirall( dirname( $lockfilepath ) );
+			$this->mkdir_all( dirname( $lockfilepath ) );
 		}
 
 		#	PHPのFileStatusCacheをクリア

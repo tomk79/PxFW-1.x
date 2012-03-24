@@ -377,8 +377,9 @@ class t{
 	}
 
 
-	#--------------------------------------
-	#	realpath()のラッパ
+	/**
+	 * realpath()のラッパ
+	 */
 	function realpath( $path ){
 		#	PicklesFramework 0.2.2 追加
 		#	realpath()の動作を、
