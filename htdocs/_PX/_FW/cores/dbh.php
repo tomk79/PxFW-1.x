@@ -1,39 +1,45 @@
 <?php
-#--------------------------------------
-#	【ファイル内目次】
-#	ファイル/ディレクトリ操作関連：allabout_filehandle
-#	データベース操作関連：allabout_dbhandle
-#	パス処理系メソッド：path_operators
-#	その他：allabout_others
-
+/**
+ * Database Handler
+ * #	【ファイル内目次】
+ * #	ファイル/ディレクトリ操作関連：allabout_filehandle
+ * #	データベース操作関連：allabout_dbhandle
+ * #	パス処理系メソッド：path_operators
+ * #	その他：allabout_others
+ * @author Tomoya Koyanagi <tomk79@gmail.com>
+ */
 class px_cores_dbh{
 	private $px;
 
-	var $localconf_auto_transaction_flg = false;
+	private $auto_transaction_flg = false;
 		#	自動トランザクション設定
-	var $localconf_auto_commit_flg = false;
+	private $auto_commit_flg = false;
 		#	自動コミット設定
-	var $try2connect_count = 1;
+	private $try2connect_count = 1;
 		#	接続に挑戦する回数
 
-	var $con = null;				#	データベースとのコネクション
-	var $errorlist = array();		#	エラーリスト
-	var $result = null;				#	RDBクエリの実行結果リソース
-	var $transaction_flg = false;	#	トランザクションフラグ
-	var $file = array();			#	ファイルオープンリソースのリスト
+	private $con = null;				#	データベースとのコネクション
+	private $errorlist = array();		#	エラーリスト
+	private $result = null;				#	RDBクエリの実行結果リソース
+	private $transaction_flg = false;	#	トランザクションフラグ
+	private $file = array();			#	ファイルオープンリソースのリスト
 
-	var $heavy_query_limit = 0.5;	#	Heavy Queryと判断されるまでの時間。
+	private $slow_query_limit = 0.5;	#	Slow Queryと判断されるまでの時間。
 
-	var $method_eventhdl_connection_error;
-	var $method_eventhdl_query_error;
+	private $method_eventhdl_connection_error;
+	private $method_eventhdl_query_error;
 		#	↑コールバックメソッド
 
+	/**
+	 * コンストラクタ
+	 */
 	public function __construct( &$px ){
 		$this->px = &$px;
 	}
 
-	#--------------------------------------
-	#	すでに確立されたデータベース接続情報を外部から受け入れる
+	/**
+	 * すでに確立されたデータベース接続情報を外部から受け入れる
+	 */
 	function set_connection( &$con ){
 		if( $this->check_connection() ){
 			#	内部の接続が有効であれば、
@@ -48,8 +54,9 @@ class px_cores_dbh{
 	#	データベース操作関連
 	#	anch: allabout_dbhandle
 
-	#--------------------------------------
-	#	データベースコネクションを確立する
+	/**
+	 * データベースコネクションを確立する
+	 */
 	function connect(){
 		if( $this->check_connection() ){ return true; }
 
@@ -167,8 +174,9 @@ class px_cores_dbh{
 		return	false;
 	}
 
-	#--------------------------------------
-	#	データベースコネクション$conが有効かどうか確認
+	/**
+	 * データベースコネクション$conが有効かどうか確認
+	 */
 	function check_connection( $con = null ){
 		if( !is_resource( $con ) ){
 			$con = &$this->con;
@@ -209,8 +217,9 @@ class px_cores_dbh{
 		return true;
 	}
 
-	#--------------------------------------
-	#	直前のクエリで処理された件数を得る
+	/**
+	 * 直前のクエリで処理された件数を得る
+	 */
 	function get_affected_rows( $res = null ){
 		#--------------------------------------
 		#	MySQLとPostgreSQLでは、渡すべきリソースの種類が異なります。
@@ -273,8 +282,9 @@ class px_cores_dbh{
 		return	false;
 	}
 
-	#--------------------------------------
-	#	トランザクション
+	/**
+	 * トランザクションを開始する
+	 */
 	function start_transaction(){
 		$this->connect();
 		if( !$this->is_transaction() ){
@@ -342,7 +352,7 @@ class px_cores_dbh{
 	function &sendquery( $querystring ){
 		if( !is_string( $querystring ) ){ return false; }
 		$this->connect();
-		if( $this->localconf_auto_transaction_flg ){
+		if( $this->auto_transaction_flg ){
 			$this->start_transaction();
 		}
 		$this->result = &$this->execute_sendquery( $querystring );
@@ -397,7 +407,7 @@ class px_cores_dbh{
 		list( $microtime , $time ) = explode( ' ' , microtime() ); 
 		$end_mtime = ( floatval( $time ) + floatval( $microtime ) );
 		$exec_time = $end_mtime - $start_mtime;
-		if( $exec_time >= $this->heavy_query_limit ){
+		if( $exec_time >= $this->slow_query_limit ){
 			#	1回のクエリに時間がかかっている場合。
 			$debug = debug_backtrace();
 			$FILE = $debug[1]['file'];
@@ -2655,7 +2665,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	function disconnect(){
 		if( !$this->check_connection() ){return	true;}
 		if( $this->is_transaction() ){
-			if( $this->localconf_auto_commit_flg ){
+			if( $this->auto_commit_flg ){
 				#	オートコミットモード
 				$this->commit();
 			}else{

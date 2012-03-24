@@ -20,10 +20,11 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 	 * @return null
 	 */
 	private function execute(){
-		ob_start();
-		test::var_dump( $this->px->get_conf_all() );
-		$src = ob_get_clean();
-		print $this->html_template( $src );
+		@header('Content-type: text/plain');
+		print 'publish | Pickles Framework'."\n";
+		print '------'."\n";
+		print 'PX command "'.$this->pxcommand_name.'" executed.'."\n";
+		print 'under construction.'."\n";
 		exit;
 	}
 }
