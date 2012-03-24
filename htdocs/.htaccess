@@ -3,7 +3,7 @@ RewriteEngine on
 RewriteCond %{REQUEST_URI} !^.*?/_px_execute.php/
 RewriteRule ^(.*)$ _px_execute.php/$1 [L]
 
-Options -MultiViews
+Options -MultiViews +FollowSymLinks
 
 ## for PxFW EZmode.
 #RewriteEngine on
