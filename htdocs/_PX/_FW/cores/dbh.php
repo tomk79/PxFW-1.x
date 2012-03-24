@@ -1,11 +1,12 @@
 <?php
 /**
  * Database Handler
- * #	【ファイル内目次】
- * #	ファイル/ディレクトリ操作関連：allabout_filehandle
- * #	データベース操作関連：allabout_dbhandle
- * #	パス処理系メソッド：path_operators
- * #	その他：allabout_others
+ * 【ファイル内目次】
+ * ファイル/ディレクトリ操作関連：allabout_filehandle
+ * データベース操作関連：allabout_dbhandle
+ * パス処理系メソッド：path_operators
+ * その他：allabout_others
+ * 
  * @author Tomoya Koyanagi <tomk79@gmail.com>
  */
 class px_cores_dbh{
@@ -999,57 +1000,15 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	#	ファイル/ディレクトリ操作関連
 	#	anch: allabout_filehandle
 
-	#--------------------------------------
-	#	扱うファイルがルートディレクトリ内にあることをチェックする
-	#	※プライベートなメソッドです。
-	function check_rootdir( $targetpath = null ){
-		if( is_null( $targetpath ) ){ return	false; }
-		$targetpath_MEMO = $targetpath;
-
-		#--------------------------------------
-		#	対象となるパスを上階層へ上っていき、
-		#	realpathが存在した時点でbreakする。
-		for( $i = 0; $i < 100; $i++ ){
-			if( @realpath( $targetpath_MEMO ) ){
-				break;
-			}
-#			$targetpath_MEMO = preg_replace( '/(.*)\\/(?:(?:(?!\\/).)*)$/' , '\\1' , $targetpath_MEMO );
-			$targetpath_MEMO = preg_replace( '/(.*)(?:\\\\|\\/).*$/' , '\\1' , $targetpath_MEMO );//Pickles Framework 0.2.2 書き換え
-		}
-		if( !@realpath( $targetpath_MEMO ) ){
-			#	結局realpathが見つからない場合は、失敗。falseを返す。
-			return	false;
-		}
-
-		$targetpath = @realpath( $targetpath_MEMO );
-		unset( $targetpath_MEMO );
-
-		#--------------------------------------
-		#	書き込んでいいディレクトリ内か検証
-		$rootdir = @realpath( $this->conf->path_root );
-		if( !@is_dir( $rootdir ) )	{ return false; }
-		if( !preg_match( '/^'.preg_quote( $rootdir , '/' ).'/' , $targetpath ) ){
-			return	false;
-		}
-		return	true;
-	}
-
-	#--------------------------------------
-	#	書き込み/上書きしてよいアイテムか検証
+	/**
+	 * 書き込み/上書きしてよいアイテムか検証
+	 */
 	function is_writable( $path ){
-		if( $this->conf->system_exec_mode == 'setup' ){
-			#	セットアップモードが有効なとき
-			return	false;
-		}
-
 		if( strlen( $this->conf->fs_encoding ) ){
 			//PxFW 0.6.4 追加
 			$path = @t::convert_encoding( $path , $this->conf->fs_encoding );
 		}
 
-		if( !$this->check_rootdir( $path ) ){
-			return	false;
-		}
 		if( is_array( $this->conf->writeprotect ) ){
 			foreach( $this->conf->writeprotect as $Line ){
 				if( preg_match( '/^'.preg_quote( $Line , '/' ).'/' , $path ) ){
@@ -1123,17 +1082,11 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	#--------------------------------------
 	#	ディレクトリを作成する
 	function mkdir( $dirpath , $perm = null ){
-		if( $this->conf->system_exec_mode == 'setup' ){
-			#	セットアップモードが有効なとき
-			return	false;
-		}
-
 		if( strlen( $this->conf->fs_encoding ) ){
 			//PxFW 0.6.4 追加
 			$dirpath = @t::convert_encoding( $dirpath , $this->conf->fs_encoding );
 		}
 
-		if( !$this->check_rootdir( $dirpath ) )	{ return false; }
 		if( @is_dir( $dirpath ) ){
 			#	既にディレクトリがあったら、作成を試みない。
 			$this->chmod( $dirpath , $perm );
@@ -1147,17 +1100,11 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	#--------------------------------------
 	#	ディレクトリを作成する(上層ディレクトリも全て作成)
 	function mkdirall( $dirpath , $perm = null ){
-		if( $this->conf->system_exec_mode == 'setup' ){
-			#	セットアップモードが有効なとき
-			return	false;
-		}
-
 		if( strlen( $this->conf->fs_encoding ) ){
 			//PxFW 0.6.4 追加
 			$dirpath = @t::convert_encoding( $dirpath , $this->conf->fs_encoding );
 		}
 
-		if( !$this->check_rootdir( $dirpath ) ){ return false; }
 		if( @is_dir( $dirpath ) ){ return true; }
 		$patharray = explode( '/' , $this->get_realpath( $dirpath ) );
 		$targetpath = '';
@@ -1195,11 +1142,6 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 			$filepath = @t::convert_encoding( $filepath , $this->conf->fs_encoding );
 		}
 
-		if( $this->conf->system_exec_mode == 'setup' ){
-			#	セットアップモードが有効なとき
-			return	false;
-		}
-
 		if( !$this->is_writable( $filepath ) )	{ return false; }
 		if( @is_dir( $filepath ) ){ return false; }
 		if( @is_file( $filepath ) && !@is_writable( $filepath ) ){ return false; }
@@ -1232,11 +1174,6 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	#--------------------------------------
 	#	ファイルの末尾に文字列を追加保存する
 	function savefile_push( $filepath , $CONTENT , $perm = null ){
-		if( $this->conf->system_exec_mode == 'setup' ){
-			#	セットアップモードが有効なとき
-			return	false;
-		}
-
 		if( strlen( $this->conf->fs_encoding ) ){
 			//PxFW 0.6.4 追加
 			$filepath = @t::convert_encoding( $filepath , $this->conf->fs_encoding );
@@ -1251,8 +1188,9 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 		return	@is_file( $filepath );
 	}
 
-	#--------------------------------------
-	#	ファイルを上書き保存して閉じる
+	/**
+	 * ファイルを上書き保存して閉じる
+	 */
 	function file_overwrite( $filepath , $CONTENT , $perm = null ){
 		#	Pickles Framework 0.3.2 追加 0:53 2008/05/17
 		if( $this->is_file_open( $filepath ) ){
@@ -1271,7 +1209,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 		#	ファイルを閉じる
 		$this->fclose( $filepath );
 		return	$result;
-	}
+	}//file_overwrite()
 
 	#--------------------------------------
 	#	ファイルの中身を1行ずつ配列にいれて返す
@@ -1311,8 +1249,9 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 		return	false;
 	}
 
-	#--------------------------------------
-	#	ファイルの中身を文字列型にして返す
+	/**
+	 * ファイルの中身を文字列型にして返す
+	 */
 	function read_file_as_str( $path ){
 		#	このメソッドは古いです。
 		#	(互換性のために残してあります)
@@ -1337,23 +1276,19 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 			#	このメソッドはそれを検証しません。
 			#	また、そのように巨大なファイルの場合でも、
 			#	ディスクではなく、メモリに直接ロードします。
-			return	$this->gethttpcontent( $path );
+			return	$this->get_http_content( $path );
 		}
 		return	false;
 	}
 
-	#--------------------------------------
-	#	HTTP通信により、コンテンツを取得する
-	function gethttpcontent( $url , $saveTo = null ){
+	/**
+	 * HTTP通信からコンテンツを取得する
+	 */
+	function get_http_content( $url , $saveTo = null ){
 		#	対象が、とてもサイズの大きなファイルだったとしても、
 		#	このメソッドはそれを検証しないことに注意してください。
 		#	また、そのように巨大なファイルの場合でも、
 		#	ディスクではなく、メモリに直接ロードします。
-
-		if( $this->conf->system_exec_mode == 'setup' ){
-			#	セットアップモードが有効なとき
-			return	false;
-		}
 
 		if( !ini_get('allow_url_fopen') ){
 			#	PHP設定値 allow_url_fopen が無効な場合は、
@@ -1401,7 +1336,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 			return	file_get_contents( $url );
 		}
 		return	false;
-	}
+	}//get_http_content()
 
 	#--------------------------------------
 	#	ファイルの更新日時を比較する
@@ -1432,11 +1367,6 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	#--------------------------------------
 	#	ファイル名/ディレクトリ名を変更する
 	function rename( $original , $newname ){
-		if( $this->conf->system_exec_mode == 'setup' ){
-			#	セットアップモードが有効なとき
-			return	false;
-		}
-
 		if( strlen( $this->conf->fs_encoding ) ){
 			//PxFW 0.6.4 追加
 			$original = @t::convert_encoding( $original , $this->conf->fs_encoding );
@@ -1450,11 +1380,6 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	#--------------------------------------
 	#	ファイル名/ディレクトリ名の変更を完全に実行する
 	function rename_complete( $original , $newname ){
-		if( $this->conf->system_exec_mode == 'setup' ){
-			#	セットアップモードが有効なとき
-			return	false;
-		}
-
 		if( strlen( $this->conf->fs_encoding ) ){
 			//PxFW 0.6.4 追加
 			$original = @t::convert_encoding( $original , $this->conf->fs_encoding );
@@ -1627,163 +1552,8 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	}
 
 	#--------------------------------------
-	#	iniファイルを読み込んで、連想にして返す
-	#	Pickles Framework 0.1.9 追加 (0:12 2007/09/23)
-	function read_ini( $path_ini_file , $option = array() ){
-		#	PHPの関数 parse_ini_file() と似てますが、まったくの独自仕様です。
-		#	【返る配列】
-		#		$RTN = array(
-		#			'common'=>array( <===最初のセクションが宣言される前にセットされた値
-		#				$key=>$value ,
-		#				$key=>$value ,
-		#			) ,
-		#			'section'=>array( <===セクション別の値がセットされる配列
-		#				$section_name1=>array(
-		#					$key=>$value ,
-		#					$key=>$value ,
-		#				) ,
-		#				$section_name2=>array(
-		#					{以下同様...}
-		#				) ,
-		#			) ,
-		#		);
-		#	【仕様・制約】
-		#	・キーや値、セクション名などに、改行を含むことはできません。
-		#	・エスケープ処理は、一切含まれません。たいへん素直に文字列を取り出します。
-		#	・空白文字で始まる(または終わる)キー、値、セクション名は設定できません。(trim()により丸められます)
-		#	・非空白行にコメントは書けません。
-
-		if( strlen( $this->conf->fs_encoding ) ){
-			//PxFW 0.6.4 追加
-			$path_ini_file = @t::convert_encoding( $path_ini_file , $this->conf->fs_encoding );
-		}
-
-		if( !$this->is_readable( $path_ini_file ) ){
-			return	false;
-		}
-		$ini_lines = $this->file_get_lines( $path_ini_file );
-		if( !is_array( $ini_lines ) ){
-			return	false;
-		}
-
-		#	コメント行設定
-		$comment_marker = ';';
-		if( strlen( $option['comment_marker'] ) ){
-			$comment_marker = $option['comment_marker'];
-		}
-
-		$RTN = array( 'common'=>array() , 'section'=>array() );
-			#	戻り値の箱を宣言
-
-		$current_section = '';//解析中の現在のセクション名
-		foreach( $ini_lines as $Line ){
-			if( strlen( $option['charset'] ) ){
-				#	iniファイルの文字コードが指定されている($option['charset'])場合、
-				#	文字コードを内部エンコードに変換する。
-				$Line = t::convert_encoding( $Line , mb_internal_encoding() , $option['charset'] );
-			}
-
-			$Line = trim( $Line );//左右両方の余白をトリミング
-
-			if( preg_match( '/^'.preg_quote($comment_marker,'/').'/' , $Line ) ){
-				#	コメント行は無視
-				continue;
-			}
-			if( !strlen( $Line ) ){
-				#	空白行は無視
-				continue;
-			}
-
-			if( preg_match( '/^\[(.*)\]$/' , $Line , $result ) ){
-				#	セクション宣言行
-				$current_section = $result[1];
-				$RTN['section'][$current_section] = array();
-				continue;
-			}
-
-			if( preg_match( '/^(.*?)=(.*)$/' , $Line , $result ) ){
-				#	データ行
-				if( strlen( $current_section ) ){
-					$RTN['section'][$current_section][trim($result[1])] = trim($result[2]);
-				}else{
-					$RTN['common'][trim($result[1])] = trim($result[2]);
-				}
-				continue;
-			}
-
-		}
-		return	$RTN;
-	}
-
-	#--------------------------------------
-	#	連想配列からiniファイルを作成して保存する
-	#	Pickles Framework 0.2.5 追加 (5:28 2008/02/05)
-	function save_ini( $path_ini_file , $ini_data , $option = array() ){
-		#	$dbh->read_ini() が返す形式と同じ連想配列を得て、
-		#	INI形式のファイルを保存する。
-
-		if( strlen( $this->conf->fs_encoding ) ){
-			//PxFW 0.6.4 追加
-			$path_ini_file = @t::convert_encoding( $path_ini_file , $this->conf->fs_encoding );
-		}
-
-		#	コメント行設定
-		$comment_marker = ';';
-		if( strlen( $option['comment_marker'] ) ){
-			$comment_marker = $option['comment_marker'];
-		}
-
-		$charset = mb_internal_encoding();
-		if( strlen( $option['charset'] ) ){
-			$charset = $option['charset'];
-		}
-
-		$FIN = '';
-		if( strlen( $option['title'] ) ){
-			$FIN .= $comment_marker.'	[[ '.t::convert_encoding( $option['title'] ).' ]]'."\n";
-		}
-		$FIN .= $comment_marker.'	Pickles Framework INI'."\n";
-		$FIN .= $comment_marker.'	charset: '.t::convert_encoding( strtoupper( $charset ) ).''."\n";
-		$FIN .= "\n";
-		if( is_array( $ini_data['common'] ) ){
-			foreach( $ini_data['common'] as $key=>$val ){
-				$key = preg_replace( '/\r\n|\r|\n|=/' , ' ' , $key );
-				$val = preg_replace( '/\r\n|\r|\n/' , ' ' , $val );
-					//改行は含められない
-				$FIN .= t::convert_encoding( $key , $charset ).'='.t::convert_encoding( $val , $charset )."\n";
-			}
-		}
-		$FIN .= "\n";
-		if( is_array( $ini_data['section'] ) ){
-			foreach( $ini_data['section'] as $section_name=>$keyval ){
-				$section_name = preg_replace( '/\r\n|\r|\n/' , ' ' , $section_name );
-					//改行は含められない
-				$FIN .= '['.t::convert_encoding( $section_name , $charset ).']'."\n";
-				foreach( $keyval as $key=>$val ){
-					$key = preg_replace( '/\r\n|\r|\n|=/' , ' ' , $key );
-					$val = preg_replace( '/\r\n|\r|\n/' , ' ' , $val );
-						//改行は含められない
-					$FIN .= t::convert_encoding( $key , $charset ).'='.t::convert_encoding( $val , $charset )."\n";
-				}
-				$FIN .= "\n";
-			}
-		}
-
-		#	作成したINIファイルをファイルに保存する。
-		if( !$this->file_overwrite( $path_ini_file , $FIN ) ){
-			return	false;
-		}
-		return	true;
-	}
-
-	#--------------------------------------
 	#	ファイルを複製する
 	function copy( $from , $to , $perm = null ){
-		if( $this->conf->system_exec_mode == 'setup' ){
-			#	セットアップモードが有効なとき
-			return	false;
-		}
-
 		if( strlen( $this->conf->fs_encoding ) ){
 			//PxFW 0.6.4 追加
 			$from = @t::convert_encoding( $from , $this->conf->fs_encoding );
@@ -1797,9 +1567,6 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 			return false;	//	Pickles Framework 0.3.5 追加
 		}
 
-		if( !$this->check_rootdir( $to ) ){
-			return false;
-		}
 		if( @is_file( $to ) ){
 			//	PxFW 0.6.5 : まったく同じファイルだった場合は、複製しないでtrueを返すようにした。
 			if( md5_file( $from ) == md5_file( $to ) && filesize( $from ) == filesize( $to ) ){
@@ -1814,19 +1581,12 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	}
 	#--------------------------------------
 	#	ディレクトリを複製する(下層ディレクトリも全てコピー)
-	function copyall( $from , $to , $perm = null ){
-		if( $this->conf->system_exec_mode == 'setup' ){
-			#	セットアップモードが有効なとき
-			return	false;
-		}
-
+	function copy_all( $from , $to , $perm = null ){
 		if( strlen( $this->conf->fs_encoding ) ){
 			//PxFW 0.6.4 追加
 			$from = @t::convert_encoding( $from , $this->conf->fs_encoding );
 			$to   = @t::convert_encoding( $to   , $this->conf->fs_encoding );
 		}
-
-		if( !$this->check_rootdir( $to ) )	{ return false; }
 
 		$result = true;
 
@@ -1844,7 +1604,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 					$result = false;
 				}
 			}
-			$itemlist = $this->getfilelist( $from );
+			$itemlist = $this->ls( $from );
 			foreach( $itemlist as $Line ){
 				if( $Line == '.' || $Line == '..' ){ continue; }
 				if( @is_dir( $from.'/'.$Line ) ){
@@ -1855,12 +1615,12 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 							$result = false;
 						}
 					}
-					if( !$this->copyall( $from.'/'.$Line , $to.'/'.$Line , $perm ) ){
+					if( !$this->copy_all( $from.'/'.$Line , $to.'/'.$Line , $perm ) ){
 						$result = false;
 					}
 					continue;
 				}elseif( @is_file( $from.'/'.$Line ) ){
-					if( !$this->copyall( $from.'/'.$Line , $to.'/'.$Line , $perm ) ){
+					if( !$this->copy_all( $from.'/'.$Line , $to.'/'.$Line , $perm ) ){
 						$result = false;
 					}
 					continue;
@@ -1956,11 +1716,6 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	#--------------------------------------
 	#	パーミッションを変更する
 	function chmod( $filepath , $perm = null ){
-		if( $this->conf->system_exec_mode == 'setup' ){
-			#	セットアップモードが有効なとき
-			return	false;
-		}
-
 		if( strlen( $this->conf->fs_encoding ) ){
 			//PxFW 0.6.4 追加
 			$filepath = @t::convert_encoding( $filepath , $this->conf->fs_encoding );
@@ -1981,7 +1736,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 
 	#---------------------------------------------------------------------------
 	#	パーミッション情報を調べ、3桁の数字で返す。
-	function getperminfo( $path ){
+	function get_permission( $path ){
 		if( strlen( $this->conf->fs_encoding ) ){
 			//PxFW 0.6.4 追加
 			$path = @t::convert_encoding( $path , $this->conf->fs_encoding );
@@ -1994,9 +1749,10 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	}
 
 
-	#---------------------------------------------------------------------------
-	#	ディレクトリにあるファイル名のリストを配列で返す。
-	function getfilelist($path){
+	/**
+	 * ディレクトリにあるファイル名のリストを配列で返す。
+	 */
+	function ls($path){
 		if( strlen( $this->conf->fs_encoding ) ){
 			//PxFW 0.6.4 追加
 			$path = @t::convert_encoding( $path , $this->conf->fs_encoding );
@@ -2019,20 +1775,15 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 			$RTN = @t::convert_encoding( $RTN , mb_internal_encoding() );
 		}
 		return	$RTN;
-	}
+	}//ls()
 
-	#----------------------------------------------------------------------------
-	#	ディレクトリを中身ごと完全に削除する
-	function rmdir( $path ){
+	/**
+	 * ディレクトリを中身ごと完全に削除する
+	 */
+	function rmdir_all( $path ){
 		#	このメソッドは、ファイルやシンボリックリンクも削除します。
 		#	シンボリックリンクは、その先を追わず、
 		#	シンボリックリンク本体のみを削除します。
-
-		if( $this->conf->system_exec_mode == 'setup' ){
-			#	セットアップモードが有効なとき
-			return	false;
-		}
-
 		if( strlen( $this->conf->fs_encoding ) ){
 			//PxFW 0.6.4 追加
 			$path = @t::convert_encoding( $path , $this->conf->fs_encoding );
@@ -2050,10 +1801,10 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 
 		}elseif( @is_dir( $path ) ){
 			#	ディレクトリの処理
-			$flist = $this->getfilelist( $path );
+			$flist = $this->ls( $path );
 			foreach ( $flist as $Line ){
 				if( $Line == '.' || $Line == '..' ){ continue; }
-				$this->rmdir( $path.'/'.$Line );
+				$this->rmdir_all( $path.'/'.$Line );
 			}
 			$result = @rmdir( $path );
 			return	$result;
@@ -2066,11 +1817,6 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	#----------------------------------------------------------------------------
 	#	ディレクトリの内部を比較し、$comparisonに含まれない要素を$targetから削除する
 	function compare_and_cleanup( $target , $comparison ){
-		if( $this->conf->system_exec_mode == 'setup' ){
-			#	セットアップモードが有効なとき
-			return	false;
-		}
-
 		if( is_null( $comparison ) || is_null( $target ) ){ return	false; }
 
 		if( strlen( $this->conf->fs_encoding ) ){
@@ -2080,12 +1826,12 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 		}
 
 		if( !@file_exists( $comparison ) && @file_exists( $target ) ){
-			$this->rmdir( $target );
+			$this->rmdir_all( $target );
 			return	true;
 		}
 
 		if( @is_dir( $target ) ){
-			$flist = $this->getfilelist( $target );
+			$flist = $this->ls( $target );
 		}else{
 			return	true;
 		}
@@ -2101,11 +1847,6 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	#----------------------------------------------------------------------------
 	#	指定されたディレクトリ以下の、全ての空っぽのディレクトリを削除する
 	function rmemptydir( $path , $option = array() ){
-		if( $this->conf->system_exec_mode == 'setup' ){
-			#	セットアップモードが有効なとき
-			return	false;
-		}
-
 		if( strlen( $this->conf->fs_encoding ) ){
 			//PxFW 0.6.4 追加
 			$path = @t::convert_encoding( $path , $this->conf->fs_encoding );
@@ -2139,7 +1880,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 		#	/ 次の階層を処理するかどうかのスイッチ
 		#--------------------------------------
 
-		$flist = $this->getfilelist( $path );
+		$flist = $this->ls( $path );
 		if( !count( $flist ) ){
 			#	開いたディレクトリの中身が
 			#	"." と ".." のみだった場合
@@ -2209,8 +1950,8 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 		if( @is_dir( $dir_a ) || @is_dir( $dir_b ) ){
 			#--------------------------------------
 			#	両方ディレクトリだったら
-			$contlist_a = $this->getfilelist( $dir_a );
-			$contlist_b = $this->getfilelist( $dir_b );
+			$contlist_a = $this->ls( $dir_a );
+			$contlist_b = $this->ls( $dir_b );
 
 			if( $option['compare_emptydir'] && $contlist_a !== $contlist_b ){
 				#	空っぽのディレクトリも厳密に評価する設定で、
@@ -2590,7 +2331,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 		#	PHPのFileStatusCacheをクリア
 		clearstatcache();
 
-		$this->rmdir( $lockfilepath );
+		$this->rmdir_all( $lockfilepath );
 		$RTN = $this->file_overwrite( $lockfilepath , '' );
 		return	$RTN;
 	}

@@ -11,7 +11,7 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 
 	private $path_docroot_dir;
 	private $path_publish_dir;
-	private $paths_ignore_dir = array();
+	private $paths_ignore = array();
 
 	public function __construct( &$px ){
 		parent::__construct( &$px );
@@ -20,7 +20,7 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 
 	/**
 	 * Execute PX Command "publish".
-	 * @access public
+	 * @access private
 	 * @return null
 	 */
 	private function execute(){
@@ -32,20 +32,82 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 		print '------'."\n";
 		print 'path_docroot_dir => '.$this->path_docroot_dir."\n";
 		print 'path_publish_dir => '.$this->path_publish_dir."\n";
-		print 'paths_ignore_dir => '."\n";
-		var_dump($this->paths_ignore_dir);
+		print 'paths_ignore => '."\n";
+		var_dump($this->paths_ignore);
 		print '------'."\n";
 		if(!is_dir($this->path_docroot_dir)){
 			print 'path_docroot_dir is NOT exists.'."\n";
+			print 'exit.'."\n";
 			exit;
 		}
 		if(!is_dir($this->path_publish_dir)){
 			print 'path_publish_dir is NOT exists.'."\n";
+			print 'exit.'."\n";
 			exit;
 		}
-		print 'under construction.'."\n";
+
+		print '------'."\n";
+		print 'cleaning publish dir.'."\n";
+		$this->clear_publish_dir();
+		print 'done.'."\n";
+		print ''."\n";
+
+		print '------'."\n";
+		print 'start publishing.'."\n";
+		$this->apply_dirs( '/' );
+		print 'done.'."\n";
+		print ''."\n";
+
+		print '------'."\n";
+		print 'publish completed.'."\n";
+		print 'exit.'."\n";
 		exit;
 	}
+
+	private function clear_publish_dir(){
+		$files = $this->px->dbh->ls( $this->path_publish_dir );
+		foreach( $files as $filename ){
+			$this->px->dbh->rmdir_all( $this->path_publish_dir.'/'.$filename );
+		}
+		return true;
+	}
+
+	private function apply_dirs( $path ){
+		$realpath_target_dir = realpath( $this->path_docroot_dir.'/'.$path );
+		$realpath_publish_dir = realpath( $this->path_publish_dir.'/'.$path );
+
+		$items = $this->px->dbh->ls( $realpath_target_dir );
+		foreach( $items as $filename ){
+			$current_path = $realpath_target_dir.'/'.$filename;
+			$current_publishto = $realpath_publish_dir.'/'.$filename;
+
+			if($this->is_ignore_path($current_path)){
+				continue;
+			}
+
+			if( is_dir( $current_path ) ){
+				$this->px->dbh->mkdir( $current_publishto );
+				$this->apply_dirs( $path.'/'.$filename );
+			}elseif( is_file( $current_path ) ){
+				$this->px->dbh->copy( $current_path , $current_publishto );
+			}
+
+		}
+
+		return true;
+	}//apply_dirs();
+
+	private function is_ignore_path( $path ){
+		$path = realpath( $path );
+		if( !file_exists($path) ){ return true; }
+		foreach( $this->paths_ignore as $row ){
+			if( realpath($row) == $path ){
+				return true;
+			}
+		}
+		return false;
+	}//is_ignore_path();
+
 	/**
 	 * セットアップ
 	 * @return true
@@ -53,7 +115,10 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 	private function setup(){
 		$this->path_docroot_dir = realpath('.');
 		$this->path_publish_dir = realpath($this->px->get_conf('paths.publish_dir'));
-		array_push( $this->paths_ignore_dir , realpath($this->px->get_conf('paths.px_dir')) );
+		array_push( $this->paths_ignore , realpath($this->px->get_conf('paths.px_dir')) );
+		array_push( $this->paths_ignore , realpath($this->path_docroot_dir.'/.htaccess') );
+		array_push( $this->paths_ignore , realpath($this->path_docroot_dir.'/_px_execute.php') );
+
 		return true;
 	}
 }
