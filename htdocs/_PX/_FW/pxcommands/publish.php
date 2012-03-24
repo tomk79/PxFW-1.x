@@ -26,7 +26,7 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 	private function execute(){
 		$this->setup();
 		@header('Content-type: text/plain');
-		print 'publish | Pickles Framework'."\n";
+		print ''.$this->pxcommand_name.' | Pickles Framework'."\n";
 		print '------'."\n";
 		print 'PX command "'.$this->pxcommand_name.'" executed.'."\n";
 		print '------'."\n";

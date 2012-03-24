@@ -1,6 +1,7 @@
 <?php
 /**
  * Database Handler
+ * 
  * 【ファイル内目次】
  * ファイル/ディレクトリ操作関連：allabout_filehandle
  * データベース操作関連：allabout_dbhandle
@@ -1122,11 +1123,11 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 
 	#--------------------------------------
 	#	ファイルを保存する
-	function savefile( $filepath , $CONTENT , $perm = null ){
+	function save_file( $filepath , $CONTENT , $perm = null ){
 		#	このメソッドは、$filepathにデータを保存します。
 		#	もともと保存されていた内容は破棄され、新しいデータで上書きします。
 		#	もとのデータを保持したまま追記したい場合は、
-		#	savefile_push()メソッドを使用してください。
+		#	save_file_push()メソッドを使用してください。
 		#
 		#	ただし、fopenしたリソースは、1回の処理の間保持されるので、
 		#	1回の処理で同じファイルに対して2回以上コールされた場合は、
@@ -1173,7 +1174,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 
 	#--------------------------------------
 	#	ファイルの末尾に文字列を追加保存する
-	function savefile_push( $filepath , $CONTENT , $perm = null ){
+	function save_file_push( $filepath , $CONTENT , $perm = null ){
 		if( strlen( $this->px->get_conf('filesystems.encoding') ) ){
 			//PxFW 0.6.4 追加
 			$filepath = @t::convert_encoding( $filepath , $this->px->get_conf('filesystems.encoding') );
@@ -1204,7 +1205,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 		}
 
 		#	ファイルを上書き保存
-		$result = $this->savefile( $filepath , $CONTENT , $perm );
+		$result = $this->save_file( $filepath , $CONTENT , $perm );
 
 		#	ファイルを閉じる
 		$this->fclose( $filepath );
@@ -1325,7 +1326,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 				$res = $this->fopen( $url , 'r' , false );
 				while( $LINE = @fgets( $res ) ){
 					if( !strlen( $LINE ) ){ break; }
-					$this->savefile( $saveTo , $LINE );
+					$this->save_file( $saveTo , $LINE );
 				}
 				$this->fclose( $url );
 				return	true;
