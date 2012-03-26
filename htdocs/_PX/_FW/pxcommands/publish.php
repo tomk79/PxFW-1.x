@@ -65,9 +65,9 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 	}
 
 	private function clear_publish_dir(){
-		$files = $this->px->dbh->ls( $this->path_publish_dir );
+		$files = $this->px->dbh()->ls( $this->path_publish_dir );
 		foreach( $files as $filename ){
-			$this->px->dbh->rmdir_all( $this->path_publish_dir.'/'.$filename );
+			$this->px->dbh()->rmdir_all( $this->path_publish_dir.'/'.$filename );
 		}
 		return true;
 	}
@@ -76,7 +76,7 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 		$realpath_target_dir  = t::realpath( $this->path_docroot_dir.'/'.$path );
 		$realpath_publish_dir = t::realpath( $this->path_publish_dir.'/'.$path );
 
-		$items = $this->px->dbh->ls( $realpath_target_dir );
+		$items = $this->px->dbh()->ls( $realpath_target_dir );
 		foreach( $items as $filename ){
 			$current_path = $realpath_target_dir.'/'.$filename;
 			$current_publishto = $realpath_publish_dir.'/'.$filename;
@@ -85,21 +85,21 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 				continue;
 			}
 
-			$extension = $this->px->dbh->get_extension( $current_path );
+			$extension = $this->px->dbh()->get_extension( $current_path );
 
 			if( is_dir( $current_path ) ){
 				//  対象がディレクトリだったら
-				$this->px->dbh->mkdir( $current_publishto );
+				$this->px->dbh()->mkdir( $current_publishto );
 				$this->apply_dirs( $path.'/'.$filename );
 			}elseif( is_file( $current_path ) ){
 				//  対象がファイルだったら
 				switch( strtolower($extension) ){
 					case 'html':
-						$url = 'http'.($this->px->req->is_ssl()?'s':'').'://'.$_SERVER['HTTP_HOST'].$this->px->dbh->get_realpath(dirname($_SERVER['SCRIPT_NAME']).$path.'/'.$filename);
-						$this->px->dbh->get_http_content( $url , $current_publishto );
+						$url = 'http'.($this->px->req()->is_ssl()?'s':'').'://'.$_SERVER['HTTP_HOST'].$this->px->dbh()->get_realpath(dirname($_SERVER['SCRIPT_NAME']).$path.'/'.$filename);
+						$this->px->dbh()->get_http_content( $url , $current_publishto );
 						break;
 					default:
-						$this->px->dbh->copy( $current_path , $current_publishto );
+						$this->px->dbh()->copy( $current_path , $current_publishto );
 						break;
 				}
 			}

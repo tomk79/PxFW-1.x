@@ -36,11 +36,11 @@ class px_pxcommands_clearcache extends px_bases_pxcommand{
 				print '[ERROR] Directory "'.$path_cache_dir.'" is NOT exists.'."\n";
 				continue;
 			}
-			$items = $this->px->dbh->ls( $path_cache_dir );
+			$items = $this->px->dbh()->ls( $path_cache_dir );
 			foreach( $items as $filename ){
-				$this->px->dbh->rmdir_all( $path_cache_dir.'/'.$filename );
+				$this->px->dbh()->rmdir_all( $path_cache_dir.'/'.$filename );
 			}
-			$this->px->dbh->save_file( $path_cache_dir.'/readme.txt' , 'This directory is for saving cache files.' );
+			$this->px->dbh()->save_file( $path_cache_dir.'/readme.txt' , 'This directory is for saving cache files.' );
 			print '[Complete] Directory "'.$path_cache_dir.'"'."\n";
 		}
 		print '------'."\n";

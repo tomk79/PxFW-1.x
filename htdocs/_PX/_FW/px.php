@@ -6,12 +6,12 @@
  */
 class px_px{
 	private $conf = array();
-	public $dbh  ;
-	public $error;
-	public $req  ;
-	public $site ;
-	public $theme;
-	public $user ;
+	private $obj_dbh  ;
+	private $obj_error;
+	private $obj_req  ;
+	private $obj_site ;
+	private $obj_theme;
+	private $obj_user ;
 
 	private $pxcommand;
 
@@ -30,7 +30,7 @@ class px_px{
 		$this->create_core_instances();
 
 		//  PXコマンドを解析
-		$this->pxcommand = $this->parse_pxcommand( $this->req->get_param('PX') );
+		$this->pxcommand = $this->parse_pxcommand( $this->req()->get_param('PX') );
 
 		return true;
 	}//__construct()
@@ -48,8 +48,8 @@ class px_px{
 		unset( $tmp_px_class_name );
 
 		@header('Content-type: text/html; charset=UTF-8');//←デフォルトのContent-type。$theme->bind_contents() 内で必要があれば上書き可能。
-		if( is_file( dirname($_SERVER['SCRIPT_FILENAME']).$this->req->get_request_file_path() ) ){
-			print $this->theme->bind_contents( file_get_contents( dirname($_SERVER['SCRIPT_FILENAME']).$this->req->get_request_file_path() ) );
+		if( is_file( dirname($_SERVER['SCRIPT_FILENAME']).$this->req()->get_request_file_path() ) ){
+			print $this->theme()->bind_contents( file_get_contents( dirname($_SERVER['SCRIPT_FILENAME']).$this->req()->get_request_file_path() ) );
 		}
 		return true;
 	}//execute()
@@ -113,6 +113,7 @@ class px_px{
 	}//get_conf()
 	/**
 	 * 全てのコンフィグ値を出力。
+	 * @return すべての値が入ったコンフィグの連想配列
 	 */
 	public function get_conf_all(){
 		return $this->conf;
@@ -120,6 +121,7 @@ class px_px{
 
 	/**
 	 * コアライブラリのインスタンス生成。
+	 * @return true
 	 */
 	private function create_core_instances(){
 		//  スタティックメソッドをロード
@@ -128,23 +130,60 @@ class px_px{
 
 		//  コアオブジェクトのインスタンス生成
 		require_once( $this->get_conf('paths.px_dir').'_FW/cores/error.php' );
-		$this->error = new px_cores_error( &$this );
+		$this->obj_error = new px_cores_error( &$this );
 		require_once( $this->get_conf('paths.px_dir').'_FW/cores/dbh.php' );
-		$this->dbh = new px_cores_dbh( &$this );
+		$this->obj_dbh = new px_cores_dbh( &$this );
 		require_once( $this->get_conf('paths.px_dir').'_FW/cores/req.php' );
-		$this->req = new px_cores_req( &$this );
+		$this->obj_req = new px_cores_req( &$this );
 		require_once( $this->get_conf('paths.px_dir').'_FW/cores/site.php' );
-		$this->site = new px_cores_site( &$this );
+		$this->obj_site = new px_cores_site( &$this );
 		require_once( $this->get_conf('paths.px_dir').'_FW/cores/user.php' );
-		$this->user = new px_cores_user( &$this );
+		$this->obj_user = new px_cores_user( &$this );
 		require_once( $this->get_conf('paths.px_dir').'_FW/cores/theme.php' );
-		$this->theme = new px_cores_theme( &$this );
+		$this->obj_theme = new px_cores_theme( &$this );
 
 		return true;
 	}//create_core_instances()
 
 	/**
+	 * コアオブジェクト $dbh にアクセスする。
+	 * @return $dbhオブジェクト
+	 */
+	public function &dbh(){ return $this->obj_dbh; }
+
+	/**
+	 * コアオブジェクト $error にアクセスする。
+	 * @return $errorオブジェクト
+	 */
+	public function &error(){ return $this->obj_error; }
+
+	/**
+	 * コアオブジェクト $req にアクセスする。
+	 * @return $reqオブジェクト
+	 */
+	public function &req(){ return $this->obj_req; }
+
+	/**
+	 * コアオブジェクト $site にアクセスする。
+	 * @return $siteオブジェクト
+	 */
+	public function &site(){ return $this->obj_site; }
+
+	/**
+	 * コアオブジェクト $theme にアクセスする。
+	 * @return $themeオブジェクト
+	 */
+	public function &theme(){ return $this->obj_theme; }
+
+	/**
+	 * コアオブジェクト $user にアクセスする。
+	 * @return $userオブジェクト
+	 */
+	public function &user(){ return $this->obj_user; }
+
+	/**
 	 * Pxのクラスファイルをロードする。
+	 * 
 	 */
 	public function load_pxclass($path){
 		//戻り値は、ロードしたクラス名

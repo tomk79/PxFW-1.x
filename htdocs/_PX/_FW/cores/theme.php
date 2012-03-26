@@ -9,7 +9,7 @@ class px_cores_theme{
 	public function bind_contents( $content ){
 		@header('Content-type: text/html; charset=UTF-8');
 
-		$page_info = $this->px->site->get_current_page_info();
+		$page_info = $this->px->site()->get_current_page_info();
 
 		$RTN = '';
 		$RTN .= '<!doctype html>'."\n";
@@ -25,7 +25,7 @@ class px_cores_theme{
 		$RTN .= '</div><!-- /#content -->'."\n";
 		$RTN .= '</body>'."\n";
 		$RTN .= '</html>'."\n";
-//test::var_dump($this->px->site->get_page_info_by_id('test.abc'));
+//test::var_dump($this->px->site()->get_page_info_by_id('test.abc'));
 
 		return $RTN;
 	}

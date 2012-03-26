@@ -12,7 +12,7 @@ class px_cores_site{
 
 	private function load_sitemap_csv(){
 		//  サイトマップ定義をロード
-		$tmp_sitemap_definition = $this->px->dbh->read_csv_utf8( $this->px->get_conf('paths.px_dir').'configs/sitemapdefinition.csv' );
+		$tmp_sitemap_definition = $this->px->dbh()->read_csv_utf8( $this->px->get_conf('paths.px_dir').'configs/sitemapdefinition.csv' );
 		foreach ($tmp_sitemap_definition as $key=>$val) {
 			$this->sitemap_definition[$val[0]] = array();
 			$this->sitemap_definition[$val[0]]['num'] = $key;
@@ -23,7 +23,7 @@ class px_cores_site{
 		//  / サイトマップ定義をロード
 
 		//  サイトマップをロード
-		$tmp_sitemap = $this->px->dbh->read_csv_utf8( $this->px->get_conf('paths.px_dir').'sitemaps/sitemap.csv' );
+		$tmp_sitemap = $this->px->dbh()->read_csv_utf8( $this->px->get_conf('paths.px_dir').'sitemaps/sitemap.csv' );
 		foreach ($tmp_sitemap as $row) {
 			$tmp_array = array();
 			foreach ($this->sitemap_definition as $defrow) {
@@ -61,7 +61,7 @@ class px_cores_site{
 		return $this->get_page_info($path);
 	}
 	public function get_current_page_info(){
-		$current_path = $this->px->req->get_request_file_path();
+		$current_path = $this->px->req()->get_request_file_path();
 		return $this->get_page_info( $current_path );
 	}
 
