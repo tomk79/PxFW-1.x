@@ -48,11 +48,54 @@ class px_px{
 		unset( $tmp_px_class_name );
 
 		@header('Content-type: text/html; charset=UTF-8');//←デフォルトのContent-type。$theme->bind_contents() 内で必要があれば上書き可能。
-		if( is_file( dirname($_SERVER['SCRIPT_FILENAME']).$this->req()->get_request_file_path() ) ){
-			print $this->theme()->bind_contents( file_get_contents( dirname($_SERVER['SCRIPT_FILENAME']).$this->req()->get_request_file_path() ) );
+		$path_content = dirname($_SERVER['SCRIPT_FILENAME']).$this->req()->get_request_file_path();
+		if( is_file( $path_content ) ){
+			$src_content = $this->execute_content( $path_content );
+			print $this->theme()->bind_contents( $src_content );
 		}
 		return true;
 	}//execute()
+
+	/**
+	 * コンテンツを実行し、出力ソースを返す
+	 */
+	private function execute_content( $path_content ){
+//		return file_get_contents($path_content);
+
+		$smarty = $this->factory_smarty();
+
+		//$smarty->force_compile = true;
+		$smarty->debugging = true;
+		$smarty->caching = false;
+		$smarty->cache_lifetime = 120;
+
+		$smarty->assign("px",$this);
+
+		ob_start();
+		$smarty->display($path_content);
+		$rtn = ob_get_clean();
+
+		return $rtn;
+	}
+
+	/**
+	 * Smartyオブジェクトを生成する。
+	 */
+	public function factory_smarty(){
+		@require_once($this->get_conf('paths.px_dir').'libs/smarty/Smarty.class.php');
+		$smarty = new Smarty;
+		//$smarty->force_compile = true;
+		$smarty->debugging = false;
+		$smarty->caching = true;
+		$smarty->cache_lifetime = (60*60*24);//キャッシュの有効期限：24h
+
+		$smarty->template_dir = $this->get_conf('paths.px_dir').'/templates/';
+		$smarty->compile_dir  = $this->get_conf('paths.px_dir').'/_sys/caches/smarty/compiles/';
+		$smarty->config_dir   = $this->get_conf('paths.px_dir').'/configs/';
+		$smarty->cache_dir    = $this->get_conf('paths.px_dir').'/_sys/caches/smarty/caches/';
+
+		return $smarty;
+	}
 
 	/**
 	 * PXコマンドを解析する。
