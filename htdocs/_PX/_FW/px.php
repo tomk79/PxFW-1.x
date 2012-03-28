@@ -50,33 +50,17 @@ class px_px{
 		@header('Content-type: text/html; charset=UTF-8');//←デフォルトのContent-type。$theme->bind_contents() 内で必要があれば上書き可能。
 		$path_content = dirname($_SERVER['SCRIPT_FILENAME']).$this->req()->get_request_file_path();
 		if( is_file( $path_content ) ){
-			$src_content = $this->execute_content( $path_content );
-			print $this->theme()->bind_contents( $src_content );
+			$extension = strtolower( $this->dbh()->get_extension( $path_content ) );
+			$class_name = $this->load_pxclass( 'extensions/'.$extension.'.php' );
+			if( $class_name ){
+				$obj_extension = new $class_name( &$this );
+				$obj_extension->execute( $path_content );
+			}else{
+				print $this->theme()->bind_contents( '<p>Content file is not found.</p>' );
+			}
 		}
 		return true;
 	}//execute()
-
-	/**
-	 * コンテンツを実行し、出力ソースを返す
-	 */
-	private function execute_content( $path_content ){
-//		return file_get_contents($path_content);
-
-		$smarty = $this->factory_smarty();
-
-		//$smarty->force_compile = true;
-		$smarty->debugging = true;
-		$smarty->caching = false;
-		$smarty->cache_lifetime = 120;
-
-		$smarty->assign("px",$this);
-
-		ob_start();
-		$smarty->display($path_content);
-		$rtn = ob_get_clean();
-
-		return $rtn;
-	}
 
 	/**
 	 * Smartyオブジェクトを生成する。
@@ -89,10 +73,10 @@ class px_px{
 		$smarty->caching = true;
 		$smarty->cache_lifetime = (60*60*24);//キャッシュの有効期限：24h
 
-		$smarty->template_dir = $this->get_conf('paths.px_dir').'/templates/';
-		$smarty->compile_dir  = $this->get_conf('paths.px_dir').'/_sys/caches/smarty/compiles/';
-		$smarty->config_dir   = $this->get_conf('paths.px_dir').'/configs/';
-		$smarty->cache_dir    = $this->get_conf('paths.px_dir').'/_sys/caches/smarty/caches/';
+		$smarty->config_dir   = $this->get_conf('paths.px_dir').'configs/';
+		$smarty->template_dir = $this->get_conf('paths.px_dir').'_sys/caches/smarty/templates/';
+		$smarty->compile_dir  = $this->get_conf('paths.px_dir').'_sys/caches/smarty/compiles/';
+		$smarty->cache_dir    = $this->get_conf('paths.px_dir').'_sys/caches/smarty/caches/';
 
 		return $smarty;
 	}
