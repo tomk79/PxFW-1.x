@@ -23,6 +23,7 @@ class px_cores_theme{
 		$RTN .= '<div id="content" class="contents">'."\n";
 		$RTN .= $content;
 		$RTN .= '</div><!-- /#content -->'."\n";
+		$RTN .= '<div>'.t::h($_SERVER['HTTP_USER_AGENT']).'</div>'."\n";
 		$RTN .= '</body>'."\n";
 		$RTN .= '</html>'."\n";
 //test::var_dump($this->px->site()->get_page_info_by_id('test.abc'));

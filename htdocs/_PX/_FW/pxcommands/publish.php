@@ -97,7 +97,15 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 				switch( strtolower($extension) ){
 					case 'html':
 						$url = 'http'.($this->px->req()->is_ssl()?'s':'').'://'.$_SERVER['HTTP_HOST'].$this->px->dbh()->get_realpath(dirname($_SERVER['SCRIPT_NAME']).$path.'/'.$filename);
-						$this->px->dbh()->get_http_content( $url , $current_publishto );
+
+						$httpaccess = $this->factory_httpaccess();
+						$httpaccess->clear_request_header();//初期化
+						$httpaccess->set_url( $url );//ダウンロードするURL
+						$httpaccess->set_method( 'GET' );//メソッド
+						$httpaccess->set_user_agent( 'PicklesCrawler' );//HTTP_USER_AGENT
+						$httpaccess->save_http_contents( $current_publishto );//ダウンロードを実行する
+
+//						$this->px->dbh()->get_http_content( $url , $current_publishto );
 						break;
 					default:
 						$this->px->dbh()->copy( $current_path , $current_publishto );
@@ -109,6 +117,11 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 
 		return true;
 	}//apply_dirs();
+
+	private function factory_httpaccess(){
+		@require_once( $this->px->get_conf('paths.px_dir').'libs/PxHTTPAccess/PxHTTPAccess.php' );
+		return new PxHTTPAccess();
+	}
 
 	private function is_ignore_path( $path ){
 		$path = t::realpath( $path );
