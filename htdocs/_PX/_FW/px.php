@@ -48,7 +48,28 @@ class px_px{
 		unset( $tmp_px_class_name );
 
 		@header('Content-type: text/html; charset=UTF-8');//←デフォルトのContent-type。$theme->bind_contents() 内で必要があれば上書き可能。
+
 		$path_content = dirname($_SERVER['SCRIPT_FILENAME']).$this->req()->get_request_file_path();
+
+		//------
+		//  拡張子違いのコンテンツを検索
+		//  リクエストはmod_rewriteの設定上、*.html でしかこない。
+		//  a.html のクエリでも、a.php があれば、a.php を採用できるようにしている。
+		$path_content_dir = dirname($path_content);
+		$page_extension = $this->site()->get_current_page_info();
+		$page_extension = $page_extension['extension'];
+		$path_content_trim_extension = $this->dbh()->trim_extension($path_content);
+		foreach( $this->dbh()->ls( $path_content_dir ) as $file_basename ){
+			$filename = $this->dbh()->trim_extension( $file_basename );
+			$extension = (strlen($page_extension)?$page_extension:$this->dbh()->get_extension( $file_basename ));
+			$path_content_realpath = $path_content_dir.'/'.$filename.'.'.$extension;
+			if ($path_content_realpath == $path_content_trim_extension.'.'.$extension) {
+				$path_content = $path_content_realpath;
+				break;
+			}
+		}
+		//  / 拡張子違いのコンテンツを検索
+		//------
 		if( is_file( $path_content ) ){
 			$extension = strtolower( $this->dbh()->get_extension( $path_content ) );
 			$class_name = $this->load_pxclass( 'extensions/'.$extension.'.php' );
@@ -56,8 +77,10 @@ class px_px{
 				$obj_extension = new $class_name( &$this );
 				$obj_extension->execute( $path_content );
 			}else{
-				print $this->theme()->bind_contents( '<p>Content file is not found.</p>' );
+				print $this->theme()->bind_contents( '<p>Unknow extension.</p>' );
 			}
+		}else{
+			print $this->theme()->bind_contents( '<p>Content file is not found.</p>' );
 		}
 		return true;
 	}//execute()

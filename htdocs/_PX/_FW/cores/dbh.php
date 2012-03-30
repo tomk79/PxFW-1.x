@@ -1452,7 +1452,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 			$path = @t::convert_encoding( $path , $this->px->get_conf('filesystem.encoding') );
 		}
 		$pathinfo = pathinfo( $path );
-		$pathinfo['filename'] = $this->get_filename( $path );
+		$pathinfo['filename'] = $this->trim_extension( $pathinfo['basename'] );
 		return	$pathinfo;
 	}
 	#--------------------------------------
@@ -1462,9 +1462,9 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	}
 	#--------------------------------------
 	#	パス情報から、拡張子を除いたファイル名を取得する
-	function get_filename( $path ){
+	function trim_extension( $path ){
 		$pathinfo = pathinfo( $path );
-		$RTN = preg_replace( '/\.'.preg_quote( $pathinfo['extension'] , '/' ).'$/' , '' , $pathinfo['basename'] );
+		$RTN = preg_replace( '/\.'.preg_quote( $pathinfo['extension'] , '/' ).'$/' , '' , $path );
 		return	$RTN;
 	}
 	#--------------------------------------

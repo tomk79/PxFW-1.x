@@ -10,8 +10,9 @@ class px_extensions_php extends px_bases_extension{
 		ob_start();
 		$px = &$this->px;
 		@include( $path_content );
-		$rtn = ob_get_clean();
-		return $rtn;
+		$src = ob_get_clean();
+		print $this->px->theme()->bind_contents( $src );
+		return true;
 	}
 
 }

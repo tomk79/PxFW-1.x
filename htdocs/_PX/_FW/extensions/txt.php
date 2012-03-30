@@ -7,11 +7,11 @@ class px_extensions_txt extends px_bases_extension{
 	 * @return string 出力ソース
 	 */
 	public function execute( $path_content ){
-		ob_start();
-		$px = &$this->px;
-		@include( $path_content );
-		$rtn = ob_get_clean();
-		return $rtn;
+		$src = @file_get_contents( $path_content );
+		$src = htmlspecialchars($src);
+		$src = preg_replace('/\r\n|\r|\n/','<br />'."\r\n",$src);
+		print $this->px->theme()->bind_contents( $src );
+		return $src;
 	}
 
 }

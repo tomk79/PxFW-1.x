@@ -1,3 +1,4 @@
 "/index.html","/index.html",,"ホーム",,,,,1
 "/test/index.html","/test/index.html","test","テストページ",,,,,1
 "/test/abc.html","/test/abc.html","test.abc","テストページ(abc)",,,,"/test",1
+"/test/def.html","/test/def.html","","テストページ(def)",,,,"/test/test.abc",1

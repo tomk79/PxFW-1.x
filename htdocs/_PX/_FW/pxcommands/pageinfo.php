@@ -17,7 +17,7 @@ class px_pxcommands_pageinfo extends px_bases_pxcommand{
 	 * Execute PX Command "pageinfo".
 	 */
 	private function execute(){
-		$pageinfo = $this->px->site()->get_page_info( $this->px->req()->get_request_file_path() );
+		$pageinfo = $this->px->site()->get_current_page_info();
 		ob_start();
 		test::var_dump( $pageinfo );
 		$src = ob_get_clean();
