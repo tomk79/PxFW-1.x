@@ -62,6 +62,7 @@ class px_px{
 		foreach( $this->dbh()->ls( $path_content_dir ) as $file_basename ){
 			$filename = $this->dbh()->trim_extension( $file_basename );
 			$extension = (strlen($page_extension)?$page_extension:$this->dbh()->get_extension( $file_basename ));
+			if($extension == 'files'){continue;}
 			$path_content_realpath = $path_content_dir.'/'.$filename.'.'.$extension;
 			if ($path_content_realpath == $path_content_trim_extension.'.'.$extension) {
 				$path_content = $path_content_realpath;
@@ -70,6 +71,7 @@ class px_px{
 		}
 		//  / 拡張子違いのコンテンツを検索
 		//------
+
 		if( is_file( $path_content ) ){
 			$extension = strtolower( $this->dbh()->get_extension( $path_content ) );
 			$class_name = $this->load_pxclass( 'extensions/'.$extension.'.php' );
