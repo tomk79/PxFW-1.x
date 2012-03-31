@@ -56,33 +56,10 @@ class px_cores_theme{
 		$smarty->assign("px",$this->px);
 		$smarty->assign("page_info",$page_info);
 		$smarty->assign("content",$content);
-
-		ob_start();
-		$smarty->display( $template_path.''.$this->get_theme_id().'.html' );
-		$src = ob_get_clean();
-		return $src;
-
-/**
-		$src = '';
-		$src .= '<!doctype html>'."\n";
-		$src .= '<html>'."\n";
-		$src .= '<head>'."\n";
-		$src .= '<meta charset="UTF-8" />'."\n";
-		$src .= '<title>'.t::h(($page_info['title']?$page_info['title']:'Untitled')).' | '.t::h($this->px->get_conf('project.name')).'</title>'."\n";
-		$src .= '</head>'."\n";
-		$src .= '<body>'."\n";
-		$src .= '<h1>'.t::h(($page_info['title_h1']?$page_info['title_h1']:'Untitled')).'</h1>'."\n";
-		$src .= '<div id="content" class="contents">'."\n";
-		$src .= $content;
-		$src .= '</div><!-- /#content -->'."\n";
-		$src .= '<div>'.t::h($_SERVER['HTTP_USER_AGENT']).'</div>'."\n";
-		$src .= '</body>'."\n";
-		$src .= '</html>'."\n";
-//test::var_dump($this->px->site()->get_page_info_by_id('test.abc'));
-/**/
+		$src = $smarty->fetch( $template_path.''.$this->get_theme_id().'.html' );
 
 		return $src;
-	}
+	}//bind_contents();
 
 
 }

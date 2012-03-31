@@ -7,7 +7,8 @@ class px_extensions_html extends px_bases_extension{
 	 * @return string 出力ソース
 	 */
 	public function execute( $path_content ){
-		/*ここをオーバーライドしてください。*/
+		@header('Content-type: text/html; charset=UTF-8');
+
 		$src = $this->execute_content($path_content);
 		print $this->px->theme()->bind_contents( $src );
 		return true;
@@ -24,9 +25,7 @@ class px_extensions_html extends px_bases_extension{
 		$smarty->assign("px",$this->px);
 		$smarty->assign("page_info",$this->px->site()->get_current_page_info());
 
-		ob_start();
-		$smarty->display($path_content);
-		$src = ob_get_clean();
+		$src = $smarty->fetch($path_content);
 
 		return $src;
 	}

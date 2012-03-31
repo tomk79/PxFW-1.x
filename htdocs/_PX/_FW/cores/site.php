@@ -33,7 +33,8 @@ class px_cores_site{
 			$tmp_array['content'] = preg_replace( '/\/$/si' , '/index.html' , $tmp_array['path'] );
 			if( !strlen( $tmp_array['id'] ) ){
 				$tmp_id = $tmp_array['path'];
-				$tmp_id = preg_replace( '/\/index\.[a-zA-Z0-9]+$/si' , '/' , $tmp_id );
+				$tmp_id = $this->px->dbh()->trim_extension($tmp_id);
+				$tmp_id = preg_replace( '/\/index$/si' , '/' , $tmp_id );
 				$tmp_id = preg_replace( '/\/+$/si' , '' , $tmp_id );
 				$tmp_id = preg_replace( '/^\/+/si' , '' , $tmp_id );
 				$tmp_id = preg_replace( '/\//si' , '.' , $tmp_id );
@@ -43,18 +44,40 @@ class px_cores_site{
 			$this->sitemap_id_map[$tmp_array['id']] = $tmp_array['path'];
 		}
 		//  / サイトマップをロード
+		return true;
 	}
 
-	public function get_sitemap_all(){
+	/**
+	 * ホームページのパスを取得する
+	 */
+	public function get_path_home(){
+		$rtn = dirname( $_SERVER['SCRIPT_NAME'] );
+		$rtn = str_replace('\\','/',$rtn);
+		$rtn .= ($rtn!='/'?'/':'');
+		return $rtn;
+	}
+
+	/**
+	 * サイトマップ配列を取得する。
+	 */
+	public function get_sitemap(){
 		return $this->sitemap_array;
 	}
+
+	/**
+	 * ページ情報を取得する。
+	 */
 	public function get_page_info( $path ){
+		$args = func_get_args();
 		$path = preg_replace( '/\/$/si' , '/index.html' , $path );
 		$rtn = $this->sitemap_array[$path];
 		if( !is_array($rtn) ){ return null; }
 		if( !strlen( $rtn['title_breadcrumb'] ) ){ $rtn['title_breadcrumb'] = $rtn['title']; }
 		if( !strlen( $rtn['title_h1'] ) ){ $rtn['title_h1'] = $rtn['title']; }
 		if( !strlen( $rtn['title_label'] ) ){ $rtn['title_label'] = $rtn['title']; }
+		if( count($args) >= 2 ){
+			$rtn = $rtn[$args[1]];
+		}
 		return $rtn;
 	}
 	public function get_page_info_by_id( $page_id ){
