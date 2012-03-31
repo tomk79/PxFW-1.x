@@ -49,7 +49,10 @@ class px_px{
 
 		@header('Content-type: text/html; charset=UTF-8');//←デフォルトのContent-type。$theme->bind_contents() 内で必要があれば上書き可能。
 
-		$path_content = dirname($_SERVER['SCRIPT_FILENAME']).$this->req()->get_request_file_path();
+		$path_content = dirname($_SERVER['SCRIPT_FILENAME']).$this->site()->get_page_info( $this->req()->get_request_file_path() , 'content' );
+		if( !is_file($path_content) ){
+			$path_content = dirname($_SERVER['SCRIPT_FILENAME']).$this->req()->get_request_file_path();
+		}
 
 		//------
 		//  拡張子違いのコンテンツを検索
