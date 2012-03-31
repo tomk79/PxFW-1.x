@@ -61,6 +61,11 @@ class px_cores_theme{
 		return $src;
 	}//bind_contents();
 
+	public function href( $linkto ){
+		$path = $this->px->site()->get_page_info($linkto,'path');
+		$path = preg_replace( '/^\/+/' , '' , $path );
+		return $this->px->site()->get_path_home().$path;
+	}
 
 }
 ?>

@@ -17,7 +17,7 @@
 </div><!-- /#content -->
 
 <div class="footer">
-	<div>{if $site->get_page_info($req->get_request_file_path(),'id')}[<a href="{$site->get_page_info( $site->get_parent($req->get_request_file_path()), 'path' )}">上の階層へ</a>]{/if}</div>
+	{if $site->get_page_info($req->get_request_file_path(),'id')}<div>[<a href="{$theme->href($site->get_parent($req->get_request_file_path()))}">上の階層へ</a>]</div>{/if}
 </div>
 </body>
 </html>
