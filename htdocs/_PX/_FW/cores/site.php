@@ -51,6 +51,7 @@ class px_cores_site{
 	public function get_page_info( $path ){
 		$path = preg_replace( '/\/$/si' , '/index.html' , $path );
 		$rtn = $this->sitemap_array[$path];
+		if( !is_array($rtn) ){ return null; }
 		if( !strlen( $rtn['title_breadcrumb'] ) ){ $rtn['title_breadcrumb'] = $rtn['title']; }
 		if( !strlen( $rtn['title_h1'] ) ){ $rtn['title_h1'] = $rtn['title']; }
 		if( !strlen( $rtn['title_label'] ) ){ $rtn['title_label'] = $rtn['title']; }

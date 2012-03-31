@@ -5,6 +5,7 @@
 静的な構成のウェブサイトを効率よく制作するためのフレームワークです。
 Pickles Framework 0.x系( http://pickles.pxt.jp/ )の後継です。
 
+
 ■セットアップ手順
 
 1. 最新のソース一式をダウンロードする。
@@ -12,6 +13,22 @@ Pickles Framework 0.x系( http://pickles.pxt.jp/ )の後継です。
 3. htdocsに格納されたファイル一式を、
    お使いのウェブサーバーのドキュメントルート配下の任意のディレクトリに設置する。
 4. ウェブブラウザからアクセスする。
+
+
+■使い方
+
+1. ./_PX/sitemaps/sitemap.csv を編集して、ページを登録する。
+2. コンテンツのHTMLを編集する。
+3. テーマ ./_PX/themes/default/default.html を編集する。
+
+
+■パブリッシュ手順
+
+1. URLに ?PX=publish を付けてアクセスする。
+2. ./_PX/_sys/publish/ に出力される。
+
+出力先のディレクトリは ./_PX/configs/mainconf.ini の
+pathsディレクティブ publish_dir で変更できます。
 
 
 ■システム用件
@@ -31,6 +48,8 @@ Pickles Framework 0.x系( http://pickles.pxt.jp/ )の後継です。
 ・PostgreSQL
 ・SQLite
 
+※フレームワークの基本的な処理にデータベースは使用しません。
+
 
 ■Windowsサーバでの制約
 
@@ -47,7 +66,7 @@ Windows系OSでは、次のような制約を受ける。
 
 ■作者
 
-Tomoya Koyanagi
+(C)Tomoya Koyanagi <tomk79@gmail.com>
 http://www.pxt.jp/
 Twitter: @tomk79 http://twitter.com/tomk79/
 

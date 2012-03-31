@@ -18,7 +18,11 @@ class px_extensions_html extends px_bases_extension{
 	 */
 	private function execute_content( $path_content ){
 		$smarty = $this->px->factory_smarty();
-		$smarty->assign("px",$this);
+		$smarty->caching = false;
+		$smarty->config_dir   = $this->px->dbh()->trim_extension($path_content).'.files/';
+		$smarty->template_dir = $this->px->dbh()->trim_extension($path_content).'.files/';
+		$smarty->assign("px",$this->px);
+		$smarty->assign("page_info",$this->px->site()->get_current_page_info());
 
 		ob_start();
 		$smarty->display($path_content);
