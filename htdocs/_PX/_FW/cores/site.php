@@ -37,7 +37,18 @@ class px_cores_site{
 				foreach ($this->sitemap_definition as $defrow) {
 					$tmp_array[$defrow['key']] = $row[$defrow['num']];
 				}
+				if( preg_match( '/^(?:\*)/is' , $tmp_array['path'] ) ){
+					//アスタリスク始まりの場合はコメント行とみなす。
+					continue;
+				}
+				if( !preg_match( '/^(?:\/)/is' , $tmp_array['path'] ) ){
+					//不正な形式のチェック
+					continue;
+				}
 				$tmp_array['path'] = preg_replace( '/\/$/si' , '/index.html' , $tmp_array['path'] );
+				if( !strlen( $tmp_array['content'] ) ){
+					$tmp_array['content'] = $tmp_array['path'];
+				}
 				$tmp_array['content'] = preg_replace( '/\/$/si' , '/index.html' , $tmp_array['content'] );
 				if( !strlen( $tmp_array['id'] ) ){
 					$tmp_id = $tmp_array['path'];

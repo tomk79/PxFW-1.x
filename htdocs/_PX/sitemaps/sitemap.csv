@@ -1,4 +1,5 @@
-"/","/",,"ホーム",,,,,1
-"/test/","/test/","test","テストページ",,,,,1
-"/test/abc.html","/test/abc.html","test.abc","テストページ(abc)",,,,"/test",1
-"/test/def.html","/test/def.html","","テストページ(def)",,,,"/test/test.abc",1
+"*path","*content","*id","*title","*title_breadcrumb","*title_h1","*title_label","*logical_path","*list_flg","*authlevel","*layout","*extension","*orderby","*keywords","*description","*category_top_flg"
+"/","/",,"ホーム",,,,,1,,,,,,,
+"/test/","/test/","test","テストページ",,,,,1,,,,,,,
+"/test/abc.html","/test/abc.html","test.abc","テストページ(abc)",,,,"test",1,,,,,,,
+"/test/def.html","/test/def.html",,"テストページ(def)",,,,"test>test.abc",1,,,,,,,
