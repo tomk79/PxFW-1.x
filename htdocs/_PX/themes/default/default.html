@@ -3,10 +3,11 @@
 <head>
 <meta charset="UTF-8" />
 <title>{$page_info.title} | Pickles Project 1.x</title>
+<link rel="stylesheet" href="{$px->get_install_path()}common/css/common.css" type="text/css" />
 </head>
 <body>
 <div class="header">
-	<div><a href="{$site->get_path_home()}">Pickles Project 1.x</a></div>
+	<div><a href="{$px->get_install_path()}">Pickles Project 1.x</a></div>
 </div>
 
 <h1>{$page_info.title_h1}</h1>
@@ -17,7 +18,8 @@
 </div><!-- /#content -->
 
 <div class="footer">
-	{if $site->get_page_info($req->get_request_file_path(),'id')}<div>[<a href="{$theme->href($site->get_parent($req->get_request_file_path()))}">上の階層へ</a>]</div>{/if}
+	{if $site->get_page_info($req->get_request_file_path(),'id')}<div class="center">[{$theme->mk_link($site->get_parent($req->get_request_file_path()),'1つ上の階層へ')}]</div>{/if}
+	<div class="center">[{$theme->mk_link('/')}]</div>
 </div>
 </body>
 </html>
