@@ -64,16 +64,6 @@ class px_cores_site{
 	}
 
 	/**
-	 * ホームページのパスを取得する
-	 */
-	public function get_path_home(){
-		$rtn = dirname( $_SERVER['SCRIPT_NAME'] );
-		$rtn = str_replace('\\','/',$rtn);
-		$rtn .= ($rtn!='/'?'/':'');
-		return $rtn;
-	}
-
-	/**
 	 * サイトマップ配列を取得する。
 	 */
 	public function get_sitemap(){

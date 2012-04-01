@@ -84,6 +84,17 @@ class px_px{
 	}//execute()
 
 	/**
+	 * PxFWのインストール先パスを取得する。
+	 * @return string ドキュメントルートからのパス(スラッシュ閉じ)
+	 */
+	public function get_install_path(){
+		$rtn = dirname( $_SERVER['SCRIPT_NAME'] );
+		$rtn = str_replace('\\','/',$rtn);
+		$rtn .= ($rtn!='/'?'/':'');
+		return $rtn;
+	}
+
+	/**
 	 * Smartyオブジェクトを生成する。
 	 */
 	public function factory_smarty(){
