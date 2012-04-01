@@ -1,6 +1,7 @@
 # for PxFW 1.X
 RewriteEngine on
 RewriteCond %{REQUEST_URI} !^.*?/_px_execute.php/
+RewriteCond %{REQUEST_URI} /(.*?\.html)?$
 RewriteRule ^(.*)$ _px_execute.php/$1 [L]
 
 Options -MultiViews +FollowSymLinks
