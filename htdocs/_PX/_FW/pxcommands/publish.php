@@ -140,7 +140,7 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 	 */
 	private function setup(){
 		$this->path_docroot_dir = t::realpath('.');
-		$this->path_publish_dir = t::realpath($this->px->get_conf('paths.publish_dir'));
+		$this->path_publish_dir = t::realpath($this->px->get_conf('publish.path_publish_dir'));
 		array_push( $this->paths_ignore , t::realpath($this->px->get_conf('paths.px_dir')) );
 		array_push( $this->paths_ignore , t::realpath($this->path_docroot_dir.'/.htaccess') );
 		array_push( $this->paths_ignore , t::realpath($this->path_docroot_dir.'/_px_execute.php') );

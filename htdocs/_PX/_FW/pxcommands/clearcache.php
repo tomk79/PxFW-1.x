@@ -55,7 +55,7 @@ class px_pxcommands_clearcache extends px_bases_pxcommand{
 	 */
 	private function setup(){
 		array_push( $this->paths_cache_dir , t::realpath($this->px->get_conf('paths.px_dir').'_sys/caches/') );
-		array_push( $this->paths_cache_dir , t::realpath($this->px->get_conf('paths.publish_dir')) );
+		array_push( $this->paths_cache_dir , t::realpath($this->px->get_conf('publish.path_publish_dir')) );
 		array_push( $this->paths_cache_dir , t::realpath('./_caches/') );
 
 		return true;

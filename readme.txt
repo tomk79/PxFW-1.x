@@ -28,7 +28,7 @@ Pickles Framework 0.x系( http://pickles.pxt.jp/ )の後継です。
 2. ./_PX/_sys/publish/ に出力される。
 
 出力先のディレクトリは ./_PX/configs/mainconf.ini の
-pathsディレクティブ publish_dir で変更できます。
+publishディレクティブ path_publish_dir で変更できます。
 
 
 ■システム用件
