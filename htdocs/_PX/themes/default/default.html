@@ -18,6 +18,7 @@
 </div><!-- /#content -->
 
 <div class="footer">
+	<div class="breadcrumb">{$theme->mk_breadcrumb()}</div>
 	{if $site->get_page_info($req->get_request_file_path(),'id')}<div class="center">[{$theme->mk_link($site->get_parent($req->get_request_file_path()),'1つ上の階層へ')}]</div>{/if}
 	<div class="center">[{$theme->mk_link('/')}]</div>
 </div>

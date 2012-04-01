@@ -3,3 +3,14 @@
 .center{
 	text-align:center;
 }
+
+/* パンくず */
+.breadcrumb{
+}
+.breadcrumb ul,
+.breadcrumb ul li{
+	display: inline;
+	list-style-type: none;
+	margin:0px;
+	padding:0px;
+}
