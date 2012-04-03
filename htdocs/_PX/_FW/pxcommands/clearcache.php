@@ -54,11 +54,24 @@ class px_pxcommands_clearcache extends px_bases_pxcommand{
 	 * @return true
 	 */
 	private function setup(){
-		array_push( $this->paths_cache_dir , t::realpath($this->px->get_conf('paths.px_dir').'_sys/caches/') );
-		array_push( $this->paths_cache_dir , t::realpath($this->px->get_conf('publish.path_publish_dir')) );
-		array_push( $this->paths_cache_dir , t::realpath('./_caches/') );
-
+		$this->setup_add_targetpath( $this->px->get_conf('paths.px_dir').'_sys/caches/' );
+		$this->setup_add_targetpath( $this->px->get_conf('publish.path_publish_dir') );
+		$this->setup_add_targetpath( './_caches/' );
 		return true;
 	}
+
+	/**
+	 * キャッシュクリア対象ディレクトリを追加する
+	 * @return true
+	 */
+	private function setup_add_targetpath( $path ){
+		$path = t::realpath($path);
+		if(!is_dir($path)){
+			return false;
+		}
+		array_push( $this->paths_cache_dir , $path );
+		return true;
+	}
+
 }
 ?>
