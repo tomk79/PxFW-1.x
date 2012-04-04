@@ -13,6 +13,9 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 	private $path_publish_dir;
 	private $paths_ignore = array();
 
+	private $queue_items = array();//←パブリッシュ対象の一覧
+	private $done_items = array();//←パブリッシュ完了した対象の一覧
+
 	public function __construct( &$px ){
 		parent::__construct( &$px );
 		$this->execute();
@@ -46,15 +49,40 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 			exit;
 		}
 
+		flush();
 		print '------'."\n";
-		print 'cleaning publish dir.'."\n";
+		print '* cleaning publish dir.'."\n";
+		flush();
 		$this->clear_publish_dir();
 		print 'done.'."\n";
 		print ''."\n";
+		flush();
 
 		print '------'."\n";
-		print 'start publishing.'."\n";
-		$this->apply_dirs( '/' );
+		print '* start scaning directory.'."\n";
+		set_time_limit(60*60);
+		$this->scan_dirs( '/' );
+		set_time_limit(300);
+		flush();
+		print '------'."\n";
+		print '* add pages by sitemap.'."\n";
+		foreach( $this->px->site()->get_sitemap() as $page_info ){
+			$this->add_queue( $this->px->dbh()->get_realpath($this->px->get_install_path().$page_info['path']) );
+		}
+		flush();
+		print '------'."\n";
+		print '* start publishing.'."\n";
+		while( 1 ){
+			if( !count($this->queue_items) ){
+				break;
+			}
+			$path = array_pop( $this->queue_items );
+			print $path.''."\n";
+			set_time_limit(60*60);
+			$this->publish_file( $path );
+			set_time_limit(30);
+			flush();
+		}
 		print 'done.'."\n";
 		print ''."\n";
 
@@ -67,14 +95,26 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 	private function clear_publish_dir(){
 		$files = $this->px->dbh()->ls( $this->path_publish_dir );
 		foreach( $files as $filename ){
+			print ''.'/'.$filename."\n";
 			$this->px->dbh()->rmdir_all( $this->path_publish_dir.'/'.$filename );
 		}
 		return true;
 	}
 
-	private function apply_dirs( $path ){
+	private function add_queue( $path ){
+		if( !preg_match( '/^\//' , $path ) ){
+			return false;
+		}
+		if( $this->done_items[$path] ){ return true; }
+		array_push( $this->queue_items , $path );
+		$this->done_items[$path] = true;
+		print '[add_queue] '.$path."\n";
+		return true;
+	}
+
+	private function scan_dirs( $path ){
 		$realpath_target_dir  = t::realpath( $this->path_docroot_dir.'/'.$path );
-		$realpath_publish_dir = t::realpath( $this->path_publish_dir.'/'.$path );
+		$realpath_publish_dir = t::realpath( $this->path_publish_dir.$this->px->get_install_path().'/'.$path );
 
 		$items = $this->px->dbh()->ls( $realpath_target_dir );
 		foreach( $items as $filename ){
@@ -91,32 +131,45 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 			if( is_dir( $current_path ) ){
 				//  対象がディレクトリだったら
 				$this->px->dbh()->mkdir( $current_publishto );
-				$this->apply_dirs( $path.'/'.$filename );
+				$this->scan_dirs( $path.'/'.$filename );
 			}elseif( is_file( $current_original_path ) ){
 				//  対象がファイルだったら
-				switch( strtolower($extension) ){
-					case 'html':
-						$url = 'http'.($this->px->req()->is_ssl()?'s':'').'://'.$_SERVER['HTTP_HOST'].$this->px->dbh()->get_realpath(dirname($_SERVER['SCRIPT_NAME']).$path.'/'.$filename);
-
-						$httpaccess = $this->factory_httpaccess();
-						$httpaccess->clear_request_header();//初期化
-						$httpaccess->set_url( $url );//ダウンロードするURL
-						$httpaccess->set_method( 'GET' );//メソッド
-						$httpaccess->set_user_agent( 'PicklesCrawler' );//HTTP_USER_AGENT
-						$httpaccess->save_http_contents( $current_publishto );//ダウンロードを実行する
-
-//						$this->px->dbh()->get_http_content( $url , $current_publishto );
-						break;
-					default:
-						$this->px->dbh()->copy( $current_path , $current_publishto );
-						break;
-				}
+				$this->add_queue( $this->px->dbh()->get_realpath($this->px->get_install_path().$path.'/'.$filename) );
 			}
 
 		}
 
 		return true;
-	}//apply_dirs();
+	}//scan_dirs();
+
+	private function publish_file( $path ){
+		if( !preg_match( '/^\//' , $path ) ){
+			return false;
+		}
+		$extension = $this->px->dbh()->get_extension( $path );
+		switch( strtolower($extension) ){
+			case 'html':
+				$url = 'http'.($this->px->req()->is_ssl()?'s':'').'://'.$_SERVER['HTTP_HOST'].$this->px->dbh()->get_realpath($this->px->get_install_path().$path.'/'.$filename);
+
+				$httpaccess = $this->factory_httpaccess();
+				$httpaccess->clear_request_header();//初期化
+				$httpaccess->set_url( $url );//ダウンロードするURL
+				$httpaccess->set_method( 'GET' );//メソッド
+				$httpaccess->set_user_agent( 'PicklesCrawler' );//HTTP_USER_AGENT
+				$httpaccess->save_http_contents( $this->path_publish_dir.$path );//ダウンロードを実行する
+
+				$relatedlink = $httpaccess->get_response('X-PXFW-RELATEDLINK');
+				foreach( explode(',',$relatedlink) as $row ){
+					$this->add_queue($row);
+				}
+
+				break;
+			default:
+				$this->px->dbh()->copy( $this->path_docroot_dir.$path , $this->path_publish_dir.$path );
+				break;
+		}
+		return true;
+	}
 
 	private function factory_httpaccess(){
 		@require_once( $this->px->get_conf('paths.px_dir').'libs/PxHTTPAccess/PxHTTPAccess.php' );
