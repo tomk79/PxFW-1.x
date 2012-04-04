@@ -32,6 +32,8 @@ class px_cores_dbh{
 	private $method_eventhdl_query_error;
 		#	↑コールバックメソッド
 
+	private $default_permission = array('dir'=>0775,'file'=>0775);
+
 	/**
 	 * コンストラクタ
 	 */
@@ -152,7 +154,7 @@ class px_cores_dbh{
 			#	【 Oracle 】
 
 			$try_counter = 0;
-			while( $res = @oci_connect( $this->px->get_conf('dbs.user') , $this->px->get_conf('dbs.password') , $this->px->get_conf('dbs.database_name') , $this->px->get_conf('dbs.charset') , $this->conf->rdb['sessionmode'] ) ){
+			while( $res = @oci_connect( $this->px->get_conf('dbs.user') , $this->px->get_conf('dbs.password') , $this->px->get_conf('dbs.database_name') , $this->px->get_conf('dbs.charset') , $this->px->get_conf('dbs.sessionmode') ) ){
 				$try_counter ++;
 				if( is_resource( $res ) ){
 					break;
@@ -1006,23 +1008,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	 */
 	function is_writable( $path ){
 		if( strlen( $this->px->get_conf('filesystem.encoding') ) ){
-			//PxFW 0.6.4 追加
 			$path = @t::convert_encoding( $path , $this->px->get_conf('filesystem.encoding') );
-		}
-
-		if( is_array( $this->conf->writeprotect ) ){
-			foreach( $this->conf->writeprotect as $Line ){
-				if( preg_match( '/^'.preg_quote( $Line , '/' ).'/' , $path ) ){
-					return	false;
-				}
-			}
-		}
-		if( is_array( $this->conf->readprotect ) ){
-			foreach( $this->conf->readprotect as $Line ){
-				if( preg_match( '/^'.preg_quote( $Line , '/' ).'/' , $path ) ){
-					return	false;
-				}
-			}
 		}
 		if( @file_exists( $path ) && !@is_writable( $path ) ){
 			return	false;
@@ -1034,15 +1020,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	#	読み込んでよいアイテムか検証
 	function is_readable( $path ){
 		if( strlen( $this->px->get_conf('filesystem.encoding') ) ){
-			//PxFW 0.6.4 追加
 			$path = @t::convert_encoding( $path , $this->px->get_conf('filesystem.encoding') );
-		}
-		if( is_array( $this->conf->readprotect ) ){
-			foreach( $this->conf->readprotect as $Line ){
-				if( preg_match( '/^'.preg_quote( $Line , '/' ).'/' , $path ) ){
-					return	false;
-				}
-			}
 		}
 		if( !@is_readable( $path ) ){
 			return	false;
@@ -1102,18 +1080,17 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	#	ディレクトリを作成する(上層ディレクトリも全て作成)
 	function mkdir_all( $dirpath , $perm = null ){
 		if( strlen( $this->px->get_conf('filesystem.encoding') ) ){
-			//PxFW 0.6.4 追加
 			$dirpath = @t::convert_encoding( $dirpath , $this->px->get_conf('filesystem.encoding') );
 		}
 
 		if( @is_dir( $dirpath ) ){ return true; }
+		if( @is_file( $dirpath ) ){ return false; }
 		$patharray = explode( '/' , $this->get_realpath( $dirpath ) );
 		$targetpath = '';
 		foreach( $patharray as $Line ){
 			if( !strlen( $Line ) || $Line == '.' || $Line == '..' ){ continue; }
 			$targetpath = $targetpath.'/'.$Line;
 			if( !@is_dir( $targetpath ) ){
-				//PxFW 0.6.4 追加
 				$targetpath = @t::convert_encoding( $targetpath , mb_internal_encoding() , $this->px->get_conf('filesystem.encoding') );
 				$this->mkdir( $targetpath , $perm );
 			}
@@ -1729,9 +1706,9 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 
 		if( is_null( $perm ) ){
 			if( @is_dir( $filepath ) ){
-				$perm = $this->conf->dbh_dir_default_permission;
+				$perm = $this->default_permission['dir'];
 			}else{
-				$perm = $this->conf->dbh_file_default_permission;
+				$perm = $this->default_permission['file'];
 			}
 		}
 		if( is_null( $perm ) ){
@@ -2016,277 +1993,15 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 
 
 	#******************************************************************************************************************
-	#	パス処理系メソッド
-	#	anch: path_operators
-
-	function getpath_contents( $localpath = null ){
-		return	$this->get_realpath( $this->conf->path_contents_dir.$localpath );
-	}
-	function getpath_sitemap( $localpath = null ){
-		return	$this->get_realpath( $this->conf->path_sitemap_dir.$localpath );
-	}
-	function getpath_romdata( $localpath = null ){
-		return	$this->get_realpath( $this->conf->path_ramdata_dir.$localpath );
-	}
-	function getpath_ramdata( $localpath = null ){
-		return	$this->get_realpath( $this->conf->path_ramdata_dir.$localpath );
-	}
-	function getpath_theme_collection( $localpath = null ){
-		return	$this->get_realpath( $this->conf->path_theme_collection_dir.$localpath );
-	}
-	function getpath_system( $localpath = null ){
-		return	$this->get_realpath( $this->conf->path_system_dir.$localpath );
-	}
-
-
-
-
-
-	#******************************************************************************************************************
 	#	その他
 	#	anch: allabout_others
-
-	#--------------------------------------
-	#	基本ライブラリのロード
-	function require_lib( $lib_localpath , $layer = 'theme' , $themeCt = null , $themeId = null , $options = array() ){
-		$lib_localpath = preg_replace( '/^\/'.'*'.'/' , '/' , $lib_localpath );
-		$lib_localpath = preg_replace( '/\/+/' , '/' , $lib_localpath );
-		$classname_body = str_replace( '/' , '_' , t::trimext( $lib_localpath ) );
-
-		if( !strlen( $layer ) || !is_string( $layer ) ){
-			#	デフォルトはテーマ層
-			$layer = 'theme';
-		}
-		$layer = strtolower( $layer );
-
-		if( is_null( $this->conf->theme_id ) && $layer == 'theme' ){
-			#	Pickles Framework 0.4.0 追加
-			#	ThemeId = null が採用されても、
-			#	defaultテーマのviewstyleが採用されていた
-			#	不具合に対する修正として。
-			$layer = 'project';
-		}
-
-		if( $layer == 'theme' ){
-			#	テーマ層指定だったら、
-			#	第3、第4引数を確認
-			#	$themeCtと$themeIdの両方が必須となり、
-			#	かつ、存在する有効なテーマである必要がある。
-			#	さもなくば、$confから、$userが設定した値を取得。
-			#	それでもなければ、project指定として扱う。
-
-			if( class_exists( 'theme'.$classname_body ) ){
-				#	既にそのクラス名が存在していたら、そこでOK。
-				return	'theme'.$classname_body;
-			}
-
-			if( !strlen( $themeCt ) && strlen( $this->conf->CT ) ){
-				$themeCt = $this->conf->CT;
-			}
-			if( !strlen( $themeId ) && strlen( $this->conf->theme_id ) ){
-				$themeId = $this->conf->theme_id;
-			}
-			if( !strlen( $themeId ) && strlen( $this->conf->default_theme_id ) ){
-				$themeId = $this->conf->default_theme_id;
-			}
-
-			if( !strlen( $themeCt ) || !strlen( $themeId ) ){
-				$layer = 'project';
-			}
-			if( !@is_dir( $this->conf->path_theme_collection_dir.'/'.$themeId.'/'.$themeCt ) ){//Pickles Framework 0.4.0 より前のバージョンでは、$themeIdと$themeCtとの順が逆でした。
-				$layer = 'project';
-			}
-		}
-
-		$adoptLayer = null;
-		switch( $layer ){
-			case 'theme':
-				#	テーマ層
-				#	$themeCtと$themeIdは、大文字/小文字を区別します。
-				if( class_exists( 'theme'.$classname_body ) ){
-					#	既にそのクラス名が存在していたら、そこでOK。
-					return	'theme'.$classname_body;
-				}
-				$rootpath_tmp = $this->conf->path_theme_collection_dir.$themeId.'/'.$themeCt.'/lib';//Pickles Framework 0.4.0 より前のバージョンでは、$themeIdと$themeCtとの順が逆でした。
-				if( isolated::require_once_with_conf( $rootpath_tmp.$lib_localpath , &$this->conf ) ){
-					#	対象のファイルを見つけたら、
-					#	パスをセットしてswitchを抜ける。
-					if( class_exists( 'theme'.$classname_body ) ){
-						#	クラスがちゃんと存在したら。
-						$adoptLayer = 'theme';
-						$rootpath = $rootpath_tmp;
-						break;
-					}
-				}
-				unset($rootpath_tmp);
-			case 'project':
-				if( class_exists( 'project'.$classname_body ) ){
-					#	既にそのクラス名が存在していたら、そこでOK。
-					return	'project'.$classname_body;
-				}
-				if( isolated::require_once_with_conf( $this->conf->path_lib_project.$lib_localpath , &$this->conf ) ){
-					#	対象のファイルを見つけたら、
-					#	パスをセットしてswitchを抜ける。
-					if( class_exists( 'project'.$classname_body ) ){
-						#	クラスがちゃんと存在したら。
-						$adoptLayer = 'project';
-						$rootpath = $this->conf->path_lib_project;
-						break;
-					}
-				}
-			case 'package':
-				if( class_exists( 'package'.$classname_body ) ){
-					#	既にそのクラス名が存在していたら、そこでOK。
-					return	'package'.$classname_body;
-				}
-				if( isolated::require_once_with_conf( $this->conf->path_lib_package.$lib_localpath , &$this->conf ) ){
-					#	対象のファイルを見つけたら、
-					#	パスをセットしてswitchを抜ける。
-					if( class_exists( 'package'.$classname_body ) ){
-						#	クラスがちゃんと存在したら。
-						$adoptLayer = 'package';
-						$rootpath = $this->conf->path_lib_package;
-						break;
-					}
-				}
-			case 'base':
-				if( class_exists( 'base'.$classname_body ) ){
-					#	既にそのクラス名が存在していたら、そこでOK。
-					return	'base'.$classname_body;
-				}
-				if( isolated::require_once_with_conf( $this->conf->path_lib_base.$lib_localpath , &$this->conf ) ){
-					#	対象のファイルを見つけたら、
-					#	パスをセットしてswitchを抜ける。
-					if( class_exists( 'base'.$classname_body ) ){
-						#	クラスがちゃんと存在したら。
-						$adoptLayer = 'base';
-						$rootpath = $this->conf->path_lib_base;
-						break;
-					}
-				}
-			default:
-				return	false;
-				break;
-		}
-
-		if( $this->conf->debug_mode ){
-			if( $layer != 'theme' && $layer != $adoptLayer ){
-				$this->errors->error_log( '['.$layer.']を探した結果、['.$adoptLayer.']が採用されました。['.$lib_localpath.']' );
-			}
-		}
-
-		if( !class_exists( $adoptLayer.$classname_body ) ){
-			return	false;
-		}
-		return	$adoptLayer.$classname_body;
-	}
-
-
-	#--------------------------------------
-	#	ページャー情報を計算して答える
-	function get_pager_info( $total_count , $current_page_num , $display_per_page = 10 , $option = array() ){
-		#	Pickles Framework 0.1.3 で追加
-
-		#	総件数
-		$total_count = intval( $total_count );
-		if( $total_count <= 0 ){ return false; }
-
-		#	現在のページ番号
-		$current_page_num = intval( $current_page_num );
-		if( $current_page_num <= 0 ){ $current_page_num = 1; }
-
-		#	ページ当たりの表示件数
-		$display_per_page = intval( $display_per_page );
-		if( $display_per_page <= 0 ){ $display_per_page = 10; }
-
-		#	インデックスの範囲
-		$index_size = 0;
-		if( !is_null( $option['index_size'] ) ){
-			$index_size = intval( $option['index_size'] );
-		}
-		if( $index_size < 1 ){
-			$index_size = 5;
-		}
-
-		$RTN = array(
-			'tc'=>$total_count,
-			'dpp'=>$display_per_page,
-			'current'=>$current_page_num,
-			'total_page_count'=>null,
-			'first'=>null,
-			'prev'=>null,
-			'next'=>null,
-			'last'=>null,
-			'limit'=>$display_per_page,
-			'offset'=>0,
-			'index_start'=>0,
-			'index_end'=>0,
-			'errors'=>array(),
-		);
-
-		if( $total_count%$display_per_page ){
-			$RTN['total_page_count'] = intval($total_count/$display_per_page) + 1;
-		}else{
-			$RTN['total_page_count'] = intval($total_count/$display_per_page);
-		}
-
-		if( $RTN['total_page_count'] != $current_page_num ){
-			$RTN['last'] = $RTN['total_page_count'];
-		}
-		if( 1 != $current_page_num ){
-			$RTN['first'] = 1;
-		}
-
-		if( $RTN['total_page_count'] > $current_page_num ){
-			$RTN['next'] = intval($current_page_num) + 1;
-		}
-		if( 1 < $current_page_num ){
-			$RTN['prev'] = intval($current_page_num) - 1;
-		}
-
-		$RTN['offset'] = ($RTN['current']-1)*$RTN['dpp'];
-
-		if( $current_page_num > $RTN['total_page_count'] ){
-			array_push( $RTN['errors'] , 'Current page num ['.$current_page_num.'] is over the Total page count ['.$RTN['total_page_count'].'].' );
-		}
-
-		#	インデックスの範囲
-		#		23:50 2007/08/29 Pickles Framework 0.1.8 追加
-		$RTN['index_start'] = 1;
-		$RTN['index_end'] = $RTN['total_page_count'];
-		if( ( $index_size*2+1 ) >= $RTN['total_page_count'] ){
-			#	範囲のふり幅全開にしたときに、
-			#	総ページ数よりも多かったら、常に全部出す。
-			$RTN['index_start'] = 1;
-			$RTN['index_end'] = $RTN['total_page_count'];
-		}elseif( ( $index_size < $RTN['current'] ) && ( $index_size < ( $RTN['total_page_count']-$RTN['current'] ) ) ){
-			#	範囲のふり幅全開にしたときに、
-			#	すっぽり収まるようなら、前後に $index_size 分だけ出す。
-			$RTN['index_start'] = $RTN['current']-$index_size;
-			$RTN['index_end'] = $RTN['current']+$index_size;
-		}elseif( $index_size >= $RTN['current'] ){
-			#	前方が収まらない場合は、
-			#	あまった分を後方に回す
-			$surplus = ( $index_size - $RTN['current'] + 1 );
-			$RTN['index_start'] = 1;
-			$RTN['index_end'] = $RTN['current']+$index_size+$surplus;
-		}elseif( $index_size >= ( $RTN['total_page_count']-$RTN['current'] ) ){
-			#	後方が収まらない場合は、
-			#	あまった分を前方に回す
-			$surplus = ( $index_size - ($RTN['total_page_count']-$RTN['current']) );
-			$RTN['index_start'] = $RTN['current']-$index_size-$surplus;
-			$RTN['index_end'] = $RTN['total_page_count'];
-		}
-
-		return	$RTN;
-	}
 
 	#--------------------------------------
 	#	アプリケーションをロックする
 	function lock( $lockname = 'applock' , $user_cd = null , $timeout_limit = 10 , $lockfile_expire = 0 ){
 		#	PxFW 0.6.4 : $lockfile_expire を追加。
 		if( !preg_match( '/^[a-zA-Z0-9_-]+$/ism' , $lockname ) ){ $lockname = 'applock'; }
-		$lockfilepath = $this->conf->path_system_dir.'applock/'.$lockname.'.txt';
+		$lockfilepath = $this->px->get_conf('paths.px_dir').'_sys/applock/'.$lockname.'.txt';
 		$lockfile_expire = intval( $lockfile_expire );
 
 		$timeout_limit = intval( $timeout_limit );
@@ -2324,7 +2039,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 			#	PHPのFileStatusCacheをクリア
 			clearstatcache();
 		}
-		$RTN = $this->file_overwrite( $lockfilepath , $user_cd.'::'.date( 'Y-m-d H:i:s' , $this->conf->time ) );
+		$RTN = $this->file_overwrite( $lockfilepath , $user_cd.'::'.date( 'Y-m-d H:i:s' , time() ) );
 		return	$RTN;
 	}
 
@@ -2332,7 +2047,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	#	アプリケーションロックを解除する
 	function unlock( $lockname = 'applock' ){
 		if( !preg_match( '/^[a-zA-Z0-9_-]+$/ism' , $lockname ) ){ $lockname = 'applock'; }
-		$lockfilepath = $this->conf->path_system_dir.'applock/'.$lockname.'.txt';
+		$lockfilepath = $this->px->get_conf('paths.px_dir').'_sys/applock/'.$lockname.'.txt';
 
 		#	PHPのFileStatusCacheをクリア
 		clearstatcache();

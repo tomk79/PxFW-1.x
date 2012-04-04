@@ -113,8 +113,8 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 	}
 
 	private function scan_dirs( $path ){
-		$realpath_target_dir  = t::realpath( $this->path_docroot_dir.'/'.$path );
-		$realpath_publish_dir = t::realpath( $this->path_publish_dir.$this->px->get_install_path().'/'.$path );
+		$realpath_target_dir  = $this->px->dbh()->get_realpath( $this->path_docroot_dir.'/'.$path );
+		$realpath_publish_dir = $this->px->dbh()->get_realpath( $this->path_publish_dir.$this->px->get_install_path().'/'.$path );
 
 		$items = $this->px->dbh()->ls( $realpath_target_dir );
 		foreach( $items as $filename ){
@@ -130,7 +130,7 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 
 			if( is_dir( $current_path ) ){
 				//  対象がディレクトリだったら
-				$this->px->dbh()->mkdir( $current_publishto );
+				$this->px->dbh()->mkdir_all( $current_publishto );
 				$this->scan_dirs( $path.'/'.$filename );
 			}elseif( is_file( $current_original_path ) ){
 				//  対象がファイルだったら
