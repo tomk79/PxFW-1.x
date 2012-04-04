@@ -66,7 +66,8 @@ Windows系OSでは、次のような制約を受ける。
 
 ■ライセンス
 
-MIT Lisence を適用。
+MIT License を適用する。
+http://ja.wikipedia.org/wiki/MIT_License
 
 
 ■作者
