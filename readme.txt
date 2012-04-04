@@ -64,6 +64,11 @@ Windows系OSでは、次のような制約を受ける。
 ・この他、PHPやApacheが持つ制約の影響を受ける。
 
 
+■ライセンス
+
+MIT Lisence を適用。
+
+
 ■作者
 
 (C)Tomoya Koyanagi <tomk79@gmail.com>
