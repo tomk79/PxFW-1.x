@@ -3,3 +3,4 @@
 "/test/","/test/","test","テストページ",,,,,1,,,,,,,
 "/test/abc.html","/test/abc.html","test.abc","テストページ(abc)",,,,"test",1,,,,,,,
 "/test/def.html","/test/def.html",,"テストページ(def)",,,,"test>test.abc",1,,,,,,,
+"/test/titletest.html","/test/titletest.html",,"テストページ<strong>タグを書く</strong>",,,,"test>test.abc",1,,,,,,,

@@ -2,15 +2,15 @@
 <html>
 <head>
 <meta charset="UTF-8" />
-<title>{$page_info.title} | {$px->get_conf('project.name')}</title>
+<title>{$page_info.title|escape} | {$px->get_conf('project.name')}</title>
 <link rel="stylesheet" href="{$px->get_install_path()}common/css/common.css" type="text/css" />
 </head>
 <body>
 <div class="header">
-	<div><a href="{$px->get_install_path()}">{$px->get_conf('project.name')}</a></div>
+	<div><a href="{$px->get_install_path()}">{$px->get_conf('project.name')|escape}</a></div>
 </div>
 
-<h1>{$page_info.title_h1}</h1>
+<h1>{$page_info.title_h1|escape}</h1>
 <div id="content" class="contents">
 
 {$content}
