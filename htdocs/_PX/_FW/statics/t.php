@@ -113,7 +113,7 @@ class t{
 			foreach( $TEXT_KEYS as $Line ){
 				$KEY = mb_convert_encoding( $Line , $encode , $encodefrom );
 				if( is_array( $TEXT[$Line] ) ){
-					$RTN[$KEY] = text::convert_encoding( $TEXT[$Line] , $encode , $encodefrom );
+					$RTN[$KEY] = t::convert_encoding( $TEXT[$Line] , $encode , $encodefrom );
 				}else{
 					$RTN[$KEY] = @mb_convert_encoding( $TEXT[$Line] , $encode , $encodefrom );
 				}
@@ -133,7 +133,7 @@ class t{
 		if( is_array( $TEXT ) ){
 			#	配列なら
 			foreach( $TEXT as $key=>$val ){
-				$TEXT[$key] = text::stripslashes( $val );
+				$TEXT[$key] = t::stripslashes( $val );
 			}
 		}elseif( is_string( $TEXT ) ){
 			#	文字列なら
@@ -170,7 +170,7 @@ class t{
 					#	配列のnull要素を削除するオプションが有効だった場合
 					continue;
 				}
-				$RTN .= ''.text::data2text( $Line ).'=>'.text::data2text( $value[$Line] , $option ).',';
+				$RTN .= ''.t::data2text( $Line ).'=>'.t::data2text( $value[$Line] , $option ).',';
 				if( $option['array_break'] ){ $RTN .= "\n"; }
 			}
 			$RTN = preg_replace( '/,(?:\r\n|\r|\n)?$/' , '' , $RTN );
@@ -191,7 +191,7 @@ class t{
 
 		if( is_string( $value ) ){
 			#	文字列型
-			$RTN = '\''.text::escape_singlequote( $value ).'\'';
+			$RTN = '\''.t::escape_singlequote( $value ).'\'';
 			$RTN = preg_replace( '/\r\n|\r|\n/' , '\'."\\n".\'' , $RTN );
 			$RTN = preg_replace( '/'.preg_quote('<'.'?','/').'/' , '<\'.\'?' , $RTN );
 			$RTN = preg_replace( '/'.preg_quote('?'.'>','/').'/' , '?\'.\'>' , $RTN );
@@ -213,12 +213,12 @@ class t{
 
 		if( is_object( $value ) ){
 			#	オブジェクト型
-			return	'\''.text::escape_singlequote( gettype( $value ) ).'\'';
+			return	'\''.t::escape_singlequote( gettype( $value ) ).'\'';
 		}
 
 		if( is_resource( $value ) ){
 			#	リソース型
-			return	'\''.text::escape_singlequote( gettype( $value ) ).'\'';
+			return	'\''.t::escape_singlequote( gettype( $value ) ).'\'';
 		}
 
 		if( is_bool( $value ) ){
@@ -241,7 +241,7 @@ class t{
 		$RTN = '';
 		$RTN .= '<'.'?php'."\n";
 		$RTN .= '	/'.'* '.@mb_internal_encoding().' *'.'/'."\n";
-		$RTN .= '	return '.text::data2text( $value , $option ).';'."\n";
+		$RTN .= '	return '.t::data2text( $value , $option ).';'."\n";
 		$RTN .= '?'.'>';
 		return	$RTN;
 	}
@@ -289,9 +289,9 @@ class t{
 					continue;
 				}
 				if( $is_hash ){
-					$RTN .= ''.text::data2jstext( $key.'' , $option ).':';
+					$RTN .= ''.t::data2jstext( $key.'' , $option ).':';
 				}
-				$RTN .= text::data2jstext( $value[$key] , $option );
+				$RTN .= t::data2jstext( $value[$key] , $option );
 				$RTN .= ', ';
 				if( $option['array_break'] ){ $RTN .= "\n"; }
 			}
@@ -313,12 +313,12 @@ class t{
 			$methodarray = get_class_methods( get_class( $value ) );
 			foreach( $proparray as $key=>$val ){
 				if( !is_int( $key ) ){
-					$RTN .= ''.text::data2jstext( $key , $option ).':';
+					$RTN .= ''.t::data2jstext( $key , $option ).':';
 				}else{
-					$RTN .= '\''.text::data2jstext( $key , $option ).'\':';
+					$RTN .= '\''.t::data2jstext( $key , $option ).'\':';
 				}
 
-				$RTN .= text::data2jstext( $val , $option );
+				$RTN .= t::data2jstext( $val , $option );
 				$RTN .= ', ';
 			}
 			$RTN = preg_replace( '/,(?:\s+)?(?:\r\n|\r|\n)?$/' , '' , $RTN );
@@ -338,7 +338,7 @@ class t{
 
 		if( is_string( $value ) ){
 			#	文字列型
-			$RTN = '\''.text::escape_singlequote( $value ).'\'';
+			$RTN = '\''.t::escape_singlequote( $value ).'\'';
 			$RTN = preg_replace( '/\r\n|\r|\n/' , '\'+"\n"+\'' , $RTN );
 			$RTN = preg_replace( '/'.preg_quote('<'.'?','/').'/' , '<\'+\'?' , $RTN );
 			$RTN = preg_replace( '/'.preg_quote('?'.'>','/').'/' , '?\'+\'>' , $RTN );
@@ -482,7 +482,7 @@ class t{
 		$int_round = intval( $int_round );
 		if( $int_round < 0 ){ return false; }
 
-		$rgb = text::color_hex2rgb( $txt_hex );
+		$rgb = t::color_hex2rgb( $txt_hex );
 		if( $rgb === false ){ return false; }
 
 		foreach( $rgb as $key=>$val ){
@@ -536,7 +536,7 @@ class t{
 		$int_round = intval( $int_round );
 		if( $int_round < 0 ){ return false; }
 
-		$rgb = text::color_hex2rgb( $txt_hex );
+		$rgb = t::color_hex2rgb( $txt_hex );
 		if( $rgb === false ){ return false; }
 
 		sort( $rgb );
@@ -565,7 +565,7 @@ class t{
 		$int_round = intval( $int_round );
 		if( $int_round < 0 ){ return false; }
 
-		$rgb = text::color_hex2rgb( $txt_hex );
+		$rgb = t::color_hex2rgb( $txt_hex );
 		if( $rgb === false ){ return false; }
 
 		sort( $rgb );
@@ -589,9 +589,9 @@ class t{
 		if( $int_round < 0 ){ return false; }
 
 		$hsb = array(
-			'h'=>text::color_get_hue( $txt_hex , $int_round ) ,
-			's'=>text::color_get_saturation( $txt_hex , $int_round ) ,
-			'b'=>text::color_get_brightness( $txt_hex , $int_round ) ,
+			'h'=>t::color_get_hue( $txt_hex , $int_round ) ,
+			's'=>t::color_get_saturation( $txt_hex , $int_round ) ,
+			'b'=>t::color_get_brightness( $txt_hex , $int_round ) ,
 		);
 		return	$hsb;
 	}
@@ -603,11 +603,11 @@ class t{
 		$int_round = intval( $int_round );
 		if( $int_round < 0 ){ return false; }
 
-		$txt_hex = text::color_rgb2hex( $int_r , $int_g , $int_b );
+		$txt_hex = t::color_rgb2hex( $int_r , $int_g , $int_b );
 		$hsb = array(
-			'h'=>text::color_get_hue( $txt_hex , $int_round ) ,
-			's'=>text::color_get_saturation( $txt_hex , $int_round ) ,
-			'b'=>text::color_get_brightness( $txt_hex , $int_round ) ,
+			'h'=>t::color_get_hue( $txt_hex , $int_round ) ,
+			's'=>t::color_get_saturation( $txt_hex , $int_round ) ,
+			'b'=>t::color_get_brightness( $txt_hex , $int_round ) ,
 		);
 		return	$hsb;
 	}
@@ -668,8 +668,8 @@ class t{
 	#	HSB値から16進数のRGBコードを得る
 	#	Pickles Framework 0.5.3 追加
 	function color_hsb2hex( $int_hue , $int_saturation , $int_brightness , $int_round = 0 ){
-		$rgb = text::color_hsb2rgb( $int_hue , $int_saturation , $int_brightness , $int_round );
-		$hex = text::color_rgb2hex( $rgb['r'] , $rgb['g'] , $rgb['b'] );
+		$rgb = t::color_hsb2rgb( $int_hue , $int_saturation , $int_brightness , $int_round );
+		$hex = t::color_rgb2hex( $rgb['r'] , $rgb['g'] , $rgb['b'] );
 		return	$hex;
 	}
 

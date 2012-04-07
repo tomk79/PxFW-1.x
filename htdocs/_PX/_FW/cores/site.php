@@ -14,9 +14,18 @@ class px_cores_site{
 	 * サイトマップCSVを読み込む
 	 */
 	private function load_sitemap_csv(){
-		$path_sitemap_definition = $this->px->get_conf('paths.px_dir').'configs/sitemapdefinition.csv';
+		$path_sitemap_definition = $this->px->get_conf('paths.px_dir').'configs/sitemap_definition.csv';
 		$path_sitemap_dir = $this->px->get_conf('paths.px_dir').'sitemaps/';
 		$ary_sitemap_files = $this->px->dbh()->ls( $path_sitemap_dir );
+		$path_sitemap_cache_dir = $this->px->get_conf('paths.px_dir').'_sys/caches/sitemaps/';
+
+		if( $this->is_sitemap_cache() ){
+			//  サイトマップキャッシュが存在する場合、キャッシュからロードする。
+			$this->sitemap_definition = @include($path_sitemap_cache_dir.'sitemap_definition,array');
+			$this->sitemap_array      = @include($path_sitemap_cache_dir.'sitemap,array');
+			$this->sitemap_id_map     = @include($path_sitemap_cache_dir.'sitemap_id_map,array');
+			return true;
+		}
 
 		//  サイトマップ定義をロード
 		$tmp_sitemap_definition = $this->px->dbh()->read_csv_utf8( $path_sitemap_definition );
@@ -64,7 +73,31 @@ class px_cores_site{
 			}
 		}
 		//  / サイトマップをロード
+
+		//  キャッシュディレクトリを作成
+		$this->px->dbh()->mkdir($path_sitemap_cache_dir);
+
+		//  キャッシュファイルを作成
+		$this->px->dbh()->file_overwrite( $path_sitemap_cache_dir.'sitemap_definition,array' , t::data2phpsrc($this->sitemap_definition) );
+		$this->px->dbh()->file_overwrite( $path_sitemap_cache_dir.'sitemap,array' , t::data2phpsrc($this->sitemap_array) );
+		$this->px->dbh()->file_overwrite( $path_sitemap_cache_dir.'sitemap_id_map,array' , t::data2phpsrc($this->sitemap_id_map) );
+
 		return true;
+	}
+
+	/**
+	 * サイトマップキャッシュが読み込み可能か調べる
+	 */
+	private function is_sitemap_cache(){
+		$path_sitemap_cache_dir = $this->px->get_conf('paths.px_dir').'_sys/caches/sitemaps/';
+		if(
+			is_file($path_sitemap_cache_dir.'sitemap_definition,array') && 
+			is_file($path_sitemap_cache_dir.'sitemap,array') && 
+			is_file($path_sitemap_cache_dir.'sitemap_id_map,array')
+		){
+			return true;
+		}
+		return false;
 	}
 
 	/**
