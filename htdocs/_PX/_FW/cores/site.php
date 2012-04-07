@@ -87,7 +87,8 @@ class px_cores_site{
 	public function get_parent( $path ){
 		$logical_path = $this->get_page_info( $path , 'logical_path' );
 		if( !strlen($logical_path) ){return '';}
-		return basename($logical_path);
+		$logical_paths = explode('>',$logical_path);
+		return $logical_paths[count($logical_paths)-1];
 	}
 
 	/**
@@ -116,6 +117,39 @@ class px_cores_site{
 		$current_path = $this->px->req()->get_request_file_path();
 		return $this->get_page_info( $current_path );
 	}
+
+	/**
+	 * 子階層のページの一覧を取得する
+	 */
+	public function get_children( $path = null ){
+		if( !strlen( $path ) ){
+			$path = $this->px->req()->get_request_file_path();
+		}
+		$page_info = $this->get_page_info( $path );
+		$rtn = array();
+		foreach( $this->get_sitemap() as $row ){
+			//  開発中
+			if( !strlen($row['id']) ){
+				continue;
+			}
+			if( ($page_info['logical_path']?$page_info['logical_path'].'>':'').$page_info['id'] == $row['logical_path'] ){
+				array_push( $rtn , $row['id'] );
+			}
+		}
+		return $rtn;
+	}//get_children()
+
+	/**
+	 * 同じ階層のページの一覧を取得する
+	 */
+	public function get_bros( $path = null ){
+		if( !strlen( $path ) ){
+			$path = $this->px->req()->get_request_file_path();
+		}
+		$parent = $this->get_parent( $path );
+		$bros = $this->get_children( $parent );
+		return $bros;
+	}//get_bros()
 
 }
 ?>
