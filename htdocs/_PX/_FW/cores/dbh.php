@@ -1262,7 +1262,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	/**
 	 * HTTP通信からコンテンツを取得する
 	 */
-	function get_http_content( $url , $saveTo = null ){
+	public function get_http_content( $url , $saveTo = null ){
 		#	対象が、とてもサイズの大きなファイルだったとしても、
 		#	このメソッドはそれを検証しないことに注意してください。
 		#	また、そのように巨大なファイルの場合でも、
@@ -1318,10 +1318,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 
 	#--------------------------------------
 	#	ファイルの更新日時を比較する
-	function is_newer_a_than_b( $path_a , $path_b ){
-		return	$this->comp_filemtime( $path_a , $path_b );
-	}
-	function comp_filemtime( $path_a , $path_b ){
+	public function is_newer_a_than_b( $path_a , $path_b ){
 		#	$path_a の方が新しかった場合にtrue
 		#	$path_b の方が新しかった場合にfalse
 		#	同時だった場合にnullを返す。
@@ -1344,22 +1341,20 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 
 	#--------------------------------------
 	#	ファイル名/ディレクトリ名を変更する
-	function rename( $original , $newname ){
+	public function rename( $original , $newname ){
 		if( strlen( $this->px->get_conf('filesystem.encoding') ) ){
-			//PxFW 0.6.4 追加
 			$original = @t::convert_encoding( $original , $this->px->get_conf('filesystem.encoding') );
 			$newname = @t::convert_encoding( $newname , $this->px->get_conf('filesystem.encoding') );
 		}
 
-		if( !@file_exists( $original ) ){ return	false; }
-		if( !$this->is_writable( $original ) ){ return	false; }
+		if( !@file_exists( $original ) ){ return false; }
+		if( !$this->is_writable( $original ) ){ return false; }
 		return	@rename( $original , $newname );
 	}
 	#--------------------------------------
 	#	ファイル名/ディレクトリ名の変更を完全に実行する
 	function rename_complete( $original , $newname ){
 		if( strlen( $this->px->get_conf('filesystem.encoding') ) ){
-			//PxFW 0.6.4 追加
 			$original = @t::convert_encoding( $original , $this->px->get_conf('filesystem.encoding') );
 			$newname = @t::convert_encoding( $newname , $this->px->get_conf('filesystem.encoding') );
 		}
@@ -1375,13 +1370,14 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 		return	@rename( $original , $newname );
 	}
 
-	#--------------------------------------
-	#	ルート相対パスを得る
-	#	※このメソッドは、realpath()と違い、
-	#	　存在しないアイテムもフルパスに変換します。
-	#	　ただし、ルート直下のディレクトリまでは一致している必要があり、
-	#	　そうでない場合は、falseを返します。
-	function get_realpath( $path , $itemname = null ){
+	/**
+	 * ルート相対パスを得る
+	 * ※このメソッドは、realpath()と違い、
+	 * 　存在しないアイテムもフルパスに変換します。
+	 * 　ただし、ルート直下のディレクトリまでは一致している必要があり、
+	 * 　そうでない場合は、falseを返します。
+	 */
+	public function get_realpath( $path , $itemname = null ){
 		$path = preg_replace( '/\\\\/si' , '/' , $path );
 		$itemname = preg_replace( '/\\\\/si' , '/' , $itemname );
 
@@ -1394,7 +1390,6 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 		}
 
 		if( strlen( $this->px->get_conf('filesystem.encoding') ) ){
-			//PxFW 0.6.4 追加
 			$path = @t::convert_encoding( $path , $this->px->get_conf('filesystem.encoding') );
 		}
 
@@ -1421,49 +1416,53 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 		return	$this->get_realpath( dirname( $path ) , basename( $path ).$itemname );
 	}
 
-	#--------------------------------------
-	#	パス情報を得る
-	function pathinfo( $path ){
+	/**
+	 * パス情報を得る
+	 */
+	public function pathinfo( $path ){
 		if( strlen( $this->px->get_conf('filesystem.encoding') ) ){
-			//PxFW 0.6.4 追加
 			$path = @t::convert_encoding( $path , $this->px->get_conf('filesystem.encoding') );
 		}
 		$pathinfo = pathinfo( $path );
 		$pathinfo['filename'] = $this->trim_extension( $pathinfo['basename'] );
 		return	$pathinfo;
 	}
-	#--------------------------------------
-	#	パス情報から、ファイル名を取得する
-	function get_basename( $path ){
+	/**
+	 * パス情報から、ファイル名を取得する
+	 */
+	public function get_basename( $path ){
 		return	pathinfo( $path , PATHINFO_BASENAME );
 	}
-	#--------------------------------------
-	#	パス情報から、拡張子を除いたファイル名を取得する
-	function trim_extension( $path ){
+	/**
+	 * パス情報から、拡張子を除いたファイル名を取得する
+	 */
+	public function trim_extension( $path ){
 		$pathinfo = pathinfo( $path );
 		$RTN = preg_replace( '/\.'.preg_quote( $pathinfo['extension'] , '/' ).'$/' , '' , $path );
 		return	$RTN;
 	}
-	#--------------------------------------
-	#	ファイル名を含むパス情報から、ファイルが格納されているディレクトリ名を取得する
-	function get_dirpath( $path ){
+	/**
+	 * ファイル名を含むパス情報から、ファイルが格納されているディレクトリ名を取得する
+	 */
+	public function get_dirpath( $path ){
 		return	pathinfo( $path , PATHINFO_DIRNAME );
 	}
-	#--------------------------------------
-	#	パス情報から、拡張子を取得する
-	function get_extension( $path ){
+	/**
+	 * パス情報から、拡張子を取得する
+	 */
+	public function get_extension( $path ){
 		return	pathinfo( $path , PATHINFO_EXTENSION );
 	}
 
 
-	#--------------------------------------
-	#	CSVファイルを読み込む
-	function read_csv( $path , $size = 10000 , $delimiter = ',' , $enclosure = '"' , $encoding = 'SJIS-win' , $option = array() ){
-		#	$encoding は、保存されているCSVファイルの文字エンコードです。
-		#	省略時は Shift_JIS から、内部エンコーディングに変換します。
+	/**
+	 * CSVファイルを読み込む
+	 */
+	public function read_csv( $path , $options = array() ){
+		#	$options['charset'] は、保存されているCSVファイルの文字エンコードです。
+		#	省略時は SJIS-win から、内部エンコーディングに変換します。
 
 		if( strlen( $this->px->get_conf('filesystem.encoding') ) ){
-			//PxFW 0.6.4 追加
 			$path = @t::convert_encoding( $path , $this->px->get_conf('filesystem.encoding') );
 		}
 
@@ -1473,10 +1472,10 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 			return	false;
 		}
 
-		if( !strlen( $delimiter ) )		{ $delimiter = ','; }
-		if( !strlen( $enclosure ) )		{ $enclosure = '"'; }
-		if( !strlen( $size ) )			{ $size = 10000; }
-		if( !strlen( $encoding ) )		{ $encoding = 'SJIS-win'; }
+		if( !strlen( $options['delimiter'] ) )    { $options['delimiter'] = ','; }
+		if( !strlen( $options['enclosure'] ) )    { $options['enclosure'] = '"'; }
+		if( !strlen( $options['size'] ) )         { $options['size'] = 10000; }
+		if( !strlen( $options['charset'] ) )      { $options['charset'] = 'SJIS-win'; }
 
 		$RTN = array();
 		if( !$this->fopen($path,'r') ){ return false; }
@@ -1484,36 +1483,41 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 		if( !is_resource( $filelink ) || !is_null( $this->file[$path]['contents'] ) ){
 			return $this->file[$path]['contents'];
 		}
-		while( $SMMEMO = fgetcsv( $filelink , intval( $size ) , $delimiter , $enclosure ) ){
-			$SMMEMO = t::convert_encoding( $SMMEMO , mb_internal_encoding() , $encoding.',UTF-8,SJIS-win,eucJP-win,SJIS,EUC-JP' );
+		while( $SMMEMO = fgetcsv( $filelink , intval( $options['size'] ) , $options['delimiter'] , $options['enclosure'] ) ){
+			$SMMEMO = t::convert_encoding( $SMMEMO , mb_internal_encoding() , $options['charset'].',UTF-8,SJIS-win,eucJP-win,SJIS,EUC-JP' );
 			array_push( $RTN , $SMMEMO );
 		}
 		$this->fclose($path);
 		return	$RTN;
 	}
 
-	#--------------------------------------
-	#	UTF-8のCSVファイルを読み込む
-	function read_csv_utf8( $path , $size = 10000 , $delimiter = ',' , $enclosure = '"' , $option = array() ){
-		#	Pickles Framework 0.3.6 追加
+	/**
+	 * UTF-8のCSVファイルを読み込む
+	 */
+	function read_csv_utf8( $path , $options = array() ){
 		#	読み込み時にUTF-8の解釈が優先される。
-		return	$this->read_csv( $path , $size , $delimiter , $enclosure , 'UTF-8' , $option );
+		if( !gettype($options) ){
+			$options = array();
+		}
+		$options['charset'] = 'UTF-8';
+		return	$this->read_csv( $path , $options );
 	}
 
-	#--------------------------------------
-	#	配列をCSV形式に変換する
-	function mk_csv( $array , $encoding = 'SJIS-win' ){
-		#	$encoding は、出力されるCSV形式の文字エンコードを指定します。
+	/**
+	 * 配列をCSV形式に変換する
+	 */
+	public function mk_csv( $array , $options = array() ){
+		#	$options['charset'] は、出力されるCSV形式の文字エンコードを指定します。
 		#	省略時は Shift_JIS に変換して返します。
 		if( !is_array( $array ) ){ $array = array(); }
 
-		if( !strlen( $encoding ) ){ $encoding = 'SJIS-win'; }
+		if( !strlen( $options['charset'] ) ){ $options['charset'] = 'SJIS-win'; }
 		$RTN = '';
 		foreach( $array as $Line ){
 			if( is_null( $Line ) ){ continue; }
 			if( !is_array( $Line ) ){ $Line = array(); }
 			foreach( $Line as $cell ){
-				$cell = mb_convert_encoding( $cell , $encoding , mb_internal_encoding().',UTF-8,SJIS-win,eucJP-win,SJIS,EUC-JP' );
+				$cell = @t::convert_encoding( $cell , $options['charset'] , mb_internal_encoding().',UTF-8,SJIS-win,eucJP-win,SJIS,EUC-JP' );
 				if( preg_match( '/"/' , $cell ) ){
 					$cell = preg_replace( '/"/' , '""' , $cell);
 				}
@@ -1523,15 +1527,19 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 				$RTN .= $cell.',';
 			}
 			$RTN = preg_replace( '/,$/' , '' , $RTN );
-			$RTN .= "\n";
+			$RTN .= "\r\n";
 		}
 		return	$RTN;
 	}
-	#--------------------------------------
-	#	配列をUTF8-エンコードのCSV形式に変換する
-	#	Pickles Framework 0.5.3 追加
-	function mk_csv_utf8( $array ){
-		return	$this->mk_csv( $array , 'UTF-8' );
+	/**
+	 * 配列をUTF8-エンコードのCSV形式に変換する
+	 */
+	public function mk_csv_utf8( $array , $options = array() ){
+		if( !is_array($options) ){
+			$options = array();
+		}
+		$options['charset'] = 'UTF-8';
+		return	$this->mk_csv( $array , $options );
 	}
 
 	#--------------------------------------

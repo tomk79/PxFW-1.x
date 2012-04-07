@@ -4,3 +4,5 @@
 "/test/abc.html","/test/abc.html","test.abc","テストページ(abc)",,,,"test",1,,,,,,,
 "/test/def.html","/test/def.html",,"テストページ(def)",,,,"test>test.abc",1,,,,,,,
 "/test/titletest.html","/test/titletest.html",,"テストページ<strong>タグを書く</strong>",,,,"test>test.abc",1,,,,,,,
+"/test/html.html","/test/html.html","test.html","HTMLコーディングのテスト",,,,"test",1,,,,,,,
+"/test/megacontents.html","/test/megacontents.html","test.megacontents","巨大HTMLのテスト",,,,"test",1,,,,,"Pickles Framework,テスト","巨大なHTMLファイルをパースするテスト。",

@@ -90,14 +90,23 @@ class px_cores_site{
 	 */
 	private function is_sitemap_cache(){
 		$path_sitemap_cache_dir = $this->px->get_conf('paths.px_dir').'_sys/caches/sitemaps/';
+		$path_sitemap_dir = $this->px->get_conf('paths.px_dir').'sitemaps/';
 		if(
-			is_file($path_sitemap_cache_dir.'sitemap_definition,array') && 
-			is_file($path_sitemap_cache_dir.'sitemap,array') && 
-			is_file($path_sitemap_cache_dir.'sitemap_id_map,array')
+			!is_file($path_sitemap_cache_dir.'sitemap_definition,array') || 
+			!is_file($path_sitemap_cache_dir.'sitemap,array') || 
+			!is_file($path_sitemap_cache_dir.'sitemap_id_map,array')
 		){
-			return true;
+			return false;
 		}
-		return false;
+		if( $this->px->dbh()->is_newer_a_than_b( $this->px->get_conf('paths.px_dir').'configs/sitemap_definition.csv' , $path_sitemap_cache_dir.'sitemap_definition,array' ) ){
+			return false;
+		}
+		foreach( $this->px->dbh()->ls( $path_sitemap_dir ) as $filename ){
+			if( $this->px->dbh()->is_newer_a_than_b( $path_sitemap_dir.$filename , $path_sitemap_cache_dir.'sitemap,array' ) ){
+				return false;
+			}
+		}
+		return true;
 	}
 
 	/**
