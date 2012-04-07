@@ -1,0 +1,39 @@
+@charset "UTF-8";
+
+body{
+	text-align:center;
+	padding:0px 0px 0px 0px;
+	margin:0px 0px 0px 0px;
+}
+body > .outline{
+	text-align:left;
+	width:800px;
+	margin:0px auto;
+}
+body > .outline > .header{
+}
+body > .outline > .header > .logo{
+}
+body > .outline > .header > .logo a{
+	font-size:xx-large;
+	font-weight:bold;
+}
+
+body > .outline > .middle{
+	clear:both;
+}
+body > .outline > .middle > .column1{
+	width:74%;
+	float:left;
+}
+
+body > .outline > .middle > .column2{
+	width:24%;
+	float:right;
+}
+
+body > .outline > .footer{
+	clear:both;
+}
+
+

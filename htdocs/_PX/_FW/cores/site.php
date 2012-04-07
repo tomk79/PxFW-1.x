@@ -122,7 +122,7 @@ class px_cores_site{
 	 * 子階層のページの一覧を取得する
 	 */
 	public function get_children( $path = null ){
-		if( !strlen( $path ) ){
+		if( is_null( $path ) ){
 			$path = $this->px->req()->get_request_file_path();
 		}
 		$page_info = $this->get_page_info( $path );
@@ -143,7 +143,7 @@ class px_cores_site{
 	 * 同じ階層のページの一覧を取得する
 	 */
 	public function get_bros( $path = null ){
-		if( !strlen( $path ) ){
+		if( is_null( $path ) ){
 			$path = $this->px->req()->get_request_file_path();
 		}
 		$parent = $this->get_parent( $path );

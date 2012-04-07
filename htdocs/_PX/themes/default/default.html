@@ -6,19 +6,28 @@
 <link rel="stylesheet" href="{$px->get_install_path()}common/css/common.css" type="text/css" />
 </head>
 <body>
+<div class="outline" id="pagetop">
 <div class="header">
-	<div><a href="{$px->get_install_path()}">{$px->get_conf('project.name')|escape}</a></div>
-</div>
+	<div class="logo"><a href="{$px->get_install_path()}">{$px->get_conf('project.name')|escape}</a></div>
+</div><!-- /.header -->
 <div class="middle">
+<div class="column1">
 <h1>{$page_info.title_h1|escape}</h1>
 <div id="content" class="contents">
 
 {$content}
 
 </div><!-- /#content -->
-<div>
+</div><!-- /.column1 -->
+<div class="column2">
+<div class="localnavi">
+{if $site->get_page_info($req->get_request_file_path(),'id')}
+<div>{$theme->mk_link($site->get_parent($req->get_request_file_path()))}</div>
+{/if}
+{assign var='local_bros_page_info' value=$site->get_bros()}
+{if count($local_bros_page_info)}
 <ul>
-{foreach from=$site->get_bros() item=local_page_id}
+{foreach from=$local_bros_page_info item=local_page_id}
 {assign var='local_page_info' value=$site->get_page_info($local_page_id)}
 <li>{$theme->mk_link($local_page_info['path'])}
 {if $local_page_info['id']==$page_info['id']}
@@ -35,12 +44,15 @@
 </li>
 {/foreach}
 </ul>
-</div>
-</div>
+{/if}
+</div><!-- /.localnavi -->
+</div><!-- /.column2 -->
+</div><!-- /.middle -->
 <div class="footer">
+	<div class="right small">[<a href="#pagetop">ページの先頭へ戻る</a>]</div>
 	<div class="breadcrumb">{$theme->mk_breadcrumb()}</div>
-	{if $site->get_page_info($req->get_request_file_path(),'id')}<div class="center">[{$theme->mk_link($site->get_parent($req->get_request_file_path()),'1つ上の階層へ')}]</div>{/if}
 	<div class="center">[{$theme->mk_link('/')}]</div>
-</div>
+</div><!-- /.footer -->
+</div><!-- /.outline -->
 </body>
 </html>
