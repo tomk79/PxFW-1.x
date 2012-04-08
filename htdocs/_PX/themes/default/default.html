@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <title>{$page_info.title|escape} | {$px->get_conf('project.name')}</title>
+{$px->ssi(implode('/',array($px->get_install_path(),'/common/inc/common_setup.inc')))}
 <link rel="stylesheet" href="{$px->get_install_path()}common/css/common.css" type="text/css" />
 </head>
 <body>

@@ -123,6 +123,36 @@ class px_px{
 	}
 
 	/**
+	 * 外部ソースをインクルードする(ServerSideInclude)
+	 */
+	public function ssi( $path_incfile ){
+		//	パブリッシュツール(PxCrawlerなど)による静的パブリッシュを前提としたSSI処理機能。
+		//	ブラウザで確認した場合は、インクルードを解決したソースを出力し、
+		//	パブリッシュツールに対しては、ApacheのSSIタグを出力する。
+
+		if( !strlen( $path_incfile ) ){ return false; }
+		$RTN = '';
+		$path_incfile = $this->dbh()->get_realpath( $path_incfile );
+		if( $this->user()->is_publishtool() ){
+			#	パブリッシュツールだったら、SSIタグを出力する。
+			$RTN .= $this->ssi_static_tag( $path_incfile );
+		}else{
+			if( $this->dbh()->is_file( $_SERVER['DOCUMENT_ROOT'].$path_incfile ) && $this->dbh()->is_readable( $_SERVER['DOCUMENT_ROOT'].$path_incfile ) ){
+				$RTN .= $this->dbh()->file_get_contents( $_SERVER['DOCUMENT_ROOT'].$path_incfile );
+				$RTN = t::convert_encoding($RTN);
+			}
+		}
+		return	$RTN;
+	}//ssi();
+	/**
+	 * パブリッシュ時のSSIタグを出力する。
+	 * ssi() からコールされる。
+	 */
+	private function ssi_static_tag( $path ){
+		return '<!--#include virtual="'.htmlspecialchars( $path ).'" -->';
+	}//ssi_static_tag()
+
+	/**
 	 * PXコマンドを解析する。
 	 * @param string URLパラメータ PX に受け取った値
 	 * @return array 先頭にPXコマンド名を含むパラメータの配列(入力値をドットで区切ったもの)
