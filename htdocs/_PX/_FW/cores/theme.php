@@ -94,6 +94,7 @@ class px_cores_theme{
 		$href = $this->href($linkto);
 		$hrefc = $this->href($this->px->req()->get_request_file_path());
 		$label = $this->px->site()->get_page_info($linkto,'title_label');
+		$page_id = $this->px->site()->get_page_info($linkto,'id');
 		if( is_string($args[1]) ){
 			//  第2引数が文字列なら
 			//  リンクのラベルとして採用
@@ -107,7 +108,20 @@ class px_cores_theme{
 				$label = $options['label'];
 			}
 		}
-		$rtn = '<a href="'.t::h($href).'"'.($href==$hrefc?' class="current"':'').'>'.t::h($label).'</a>';
+		$breadcrumb = explode('>',$this->px->site()->get_page_info($hrefc,'logical_path'));
+		$is_current = false;
+		if($href==$hrefc){
+			$is_current = true;
+		}else{
+			foreach( $breadcrumb as $tmp_page_id ){
+				if(!strlen($tmp_page_id)){continue;}
+				if( $page_id == $tmp_page_id ){
+					$is_current = true;
+					break;
+				}
+			}
+		}
+		$rtn = '<a href="'.t::h($href).'"'.($is_current?' class="current"':'').'>'.t::h($label).'</a>';
 		return $rtn;
 	}
 
