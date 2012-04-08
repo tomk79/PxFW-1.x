@@ -61,6 +61,11 @@ class px_cores_theme{
 			);
 		}
 
+		$path_template_file = $template_path.''.$this->get_layout_id().'.html';
+		if( !is_file($path_template_file) ){
+			$path_template_file = $template_path.'default.html';
+		}
+
 		$smarty = $this->px->factory_smarty();
 		$smarty->caching = false;
 		$smarty->config_dir   = $template_path;
@@ -68,7 +73,7 @@ class px_cores_theme{
 		$smarty->assign("px",$this->px);
 		$smarty->assign("page_info",$page_info);
 		$smarty->assign("content",$content);
-		$src = $smarty->fetch( $template_path.''.$this->get_theme_id().'.html' );
+		$src = $smarty->fetch( $path_template_file );
 
 		return $src;
 	}//bind_contents();
@@ -121,6 +126,8 @@ class px_cores_theme{
 				}
 			}
 		}
+		$href = preg_replace('/\/index\.html$/si','/',$href); // index.htmlを省略
+
 		$rtn = '<a href="'.t::h($href).'"'.($is_current?' class="current"':'').'>'.t::h($label).'</a>';
 		return $rtn;
 	}

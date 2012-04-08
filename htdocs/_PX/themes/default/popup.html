@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>{$page_info.title|escape} | {$px->get_conf('project.name')}</title>
+{$px->ssi(implode('/',array($px->get_install_path(),'/common/inc/common_setup.inc')))}
+<link rel="stylesheet" href="{$px->get_install_path()}common/css/common.css" type="text/css" />
+</head>
+<body>
+<div class="outline" id="pagetop">
+<div class="header">
+	<div class="logo">{$px->get_conf('project.name')|escape}</div>
+</div><!-- /.header -->
+<div class="middle">
+<div class="column1">
+<h1>{$page_info.title_h1|escape}</h1>
+<div id="content" class="contents">
+
+{$content}
+
+</div><!-- /#content -->
+</div><!-- /.column1 -->
+<div class="column2">
+</div><!-- /.column2 -->
+</div><!-- /.middle -->
+<div class="footer">
+	<div class="right small">[<a href="#pagetop">ページの先頭へ戻る</a>]</div>
+	<div class="center">[<a href="javascript:window.close();">閉じる</a>]</div>
+</div><!-- /.footer -->
+</div><!-- /.outline -->
+</body>
+</html>

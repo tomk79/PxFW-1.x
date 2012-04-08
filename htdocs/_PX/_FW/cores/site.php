@@ -83,7 +83,7 @@ class px_cores_site{
 		$this->px->dbh()->file_overwrite( $path_sitemap_cache_dir.'sitemap_id_map,array' , t::data2phpsrc($this->sitemap_id_map) );
 
 		return true;
-	}
+	}//load_sitemap_csv();
 
 	/**
 	 * サイトマップキャッシュが読み込み可能か調べる
@@ -162,6 +162,7 @@ class px_cores_site{
 
 	/**
 	 * 子階層のページの一覧を取得する
+	 * @param $path
 	 */
 	public function get_children( $path = null ){
 		if( is_null( $path ) ){
@@ -183,6 +184,7 @@ class px_cores_site{
 
 	/**
 	 * 同じ階層のページの一覧を取得する
+	 * @param $path
 	 */
 	public function get_bros( $path = null ){
 		if( is_null( $path ) ){

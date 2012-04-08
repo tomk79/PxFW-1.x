@@ -49,9 +49,15 @@ class px_px{
 
 		@header('Content-type: text/html; charset=UTF-8');//←デフォルトのContent-type。$theme->bind_contents() 内で必要があれば上書き可能。
 
+		$page_info = $this->site()->get_page_info( $this->req()->get_request_file_path() );
+
 		$path_content = dirname($_SERVER['SCRIPT_FILENAME']).$this->site()->get_page_info( $this->req()->get_request_file_path() , 'content' );
 		if( !is_file($path_content) ){
 			$path_content = dirname($_SERVER['SCRIPT_FILENAME']).$this->req()->get_request_file_path();
+		}
+
+		if( strlen( $page_info['layout'] ) ){
+			$this->theme()->set_layout_id($page_info['layout']);
 		}
 
 		//------
@@ -70,6 +76,9 @@ class px_px{
 
 		if( is_file( $path_content ) ){
 			$extension = strtolower( $this->dbh()->get_extension( $path_content ) );
+			if( strlen($page_info['extension']) ){
+				$extension = $page_info['extension'];
+			}
 			$class_name = $this->load_pxclass( 'extensions/'.$extension.'.php' );
 			if( $class_name ){
 				$obj_extension = new $class_name( &$this );
