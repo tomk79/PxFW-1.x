@@ -171,8 +171,10 @@ class px_cores_site{
 		$page_info = $this->get_page_info( $path );
 		$rtn = array();
 		foreach( $this->get_sitemap() as $row ){
-			//  開発中
 			if( !strlen($row['id']) ){
+				continue;
+			}
+			if( !$row['list_flg'] ){
 				continue;
 			}
 			if( ($page_info['logical_path']?$page_info['logical_path'].'>':'').$page_info['id'] == $row['logical_path'] ){
