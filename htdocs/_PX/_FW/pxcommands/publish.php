@@ -149,7 +149,7 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 		$extension = $this->px->dbh()->get_extension( $path );
 		switch( strtolower($extension) ){
 			case 'html':
-				$url = 'http'.($this->px->req()->is_ssl()?'s':'').'://'.$_SERVER['HTTP_HOST'].$this->px->dbh()->get_realpath($this->px->get_install_path().$path.'/'.$filename);
+				$url = 'http'.($this->px->req()->is_ssl()?'s':'').'://'.$_SERVER['HTTP_HOST'].$this->px->dbh()->get_realpath($path.'/'.$filename);
 
 				$httpaccess = $this->factory_httpaccess();
 				$httpaccess->clear_request_header();//初期化
