@@ -7,6 +7,7 @@
 <meta name="description" content="{$page_info.description|escape}" />
 {$px->ssi(implode('/',array($px->get_install_path(),'/common/inc/common_setup.inc')))}
 <link rel="stylesheet" href="{$px->get_install_path()}common/css/common.css" type="text/css" />
+{content name="head"}
 </head>
 <body>
 <div class="outline" id="pagetop">
@@ -18,7 +19,7 @@
 <h1>{$page_info.title_h1|escape}</h1>
 <div id="content" class="contents">
 
-{$content}
+{content}
 
 </div><!-- /#content -->
 </div><!-- /.column1 -->

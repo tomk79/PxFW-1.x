@@ -3,6 +3,10 @@ class px_cores_theme{
 	private $px;
 	private $theme_id = 'default';
 	private $layout_id = 'default';
+	private $contents_cabinet = array(
+		''=>'',    //  メインコンテンツ
+		'head'=>'' //  ヘッドセクションに追記
+	);
 
 	public function __construct( &$px ){
 		$this->px = &$px;
@@ -48,6 +52,7 @@ class px_cores_theme{
 	 * コンテンツソースをレイアウトにバインドして返す。
 	 */
 	public function bind_contents( $content ){
+		$this->send_content($content,'');
 		@header('Content-type: text/html; charset=UTF-8');
 
 		$template_path = $this->px->dbh()->get_realpath($this->px->get_conf('paths.px_dir').'themes/'.$this->get_theme_id()).'/';
@@ -72,7 +77,7 @@ class px_cores_theme{
 		$smarty->template_dir = $template_path;
 		$smarty->assign("px",$this->px);
 		$smarty->assign("page_info",$page_info);
-		$smarty->assign("content",$content);
+		$smarty->assign("content",$this->pull_content(''));
 		$src = $smarty->fetch( $path_template_file );
 
 		return $src;
@@ -163,6 +168,25 @@ class px_cores_theme{
 		$rtn .= '<li> &gt; <strong>'.t::h($page_info['title_breadcrumb']).'</strong></li>';
 		$rtn .= '</ul>';
 		return $rtn;
+	}
+
+	/**
+	 * コンテンツキャビネットにコンテンツを送る
+	 */
+	public function send_content( $src , $content_name = '' ){
+		if( !strlen($content_name) ){ $content_name = ''; }
+		if( !is_string($content_name) ){ return false; }
+		$this->contents_cabinet[$content_name] .= $src;
+		return true;
+	}
+
+	/**
+	 * コンテンツキャビネットからコンテンツを引き出す
+	 */
+	public function pull_content( $content_name = '' ){
+		if( !strlen($content_name) ){ $content_name = ''; }
+		if( !is_string($content_name) ){ return false; }
+		return $this->contents_cabinet[$content_name];
 	}
 
 }
