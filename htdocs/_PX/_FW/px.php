@@ -41,6 +41,8 @@ class px_px{
 	 * @return boolean true
 	 */
 	public function execute(){
+		$this->access_log();//アクセスログを記録
+
 		$tmp_px_class_name = $this->load_pxclass( 'pxcommands/'.$this->pxcommand[0].'.php' );
 		if( $tmp_px_class_name ){
 			$obj_pxcommands = new $tmp_px_class_name( $this );
@@ -320,6 +322,14 @@ class px_px{
 		}
 		return $class_name;
 	}//load_pxclass()
+
+	/**
+	 * アクセスログを記録する。
+	 */
+	private function access_log(){
+		if( !strlen( $this->get_conf('paths.access_log') ) ){ return false; }
+		return @error_log( date('Y-m-d H:i:s').'	'.$this->req()->get_request_file_path()."\r\n" , 3 , $this->get_conf('paths.access_log') );
+	}
 
 }
 
