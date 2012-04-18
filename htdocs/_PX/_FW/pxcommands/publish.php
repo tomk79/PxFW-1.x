@@ -10,7 +10,8 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 	protected $pxcommand_name = 'publish';
 
 	private $path_docroot_dir;
-	private $path_publish_dir;
+	private $path_publish_dir;	//パブリッシュ先ディレクトリ
+	private $path_tmppublish_dir;//一次書き出しディレクトリ(固定)
 	private $paths_ignore = array();
 
 	private $queue_items = array();//←パブリッシュ対象の一覧
@@ -34,6 +35,7 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 		print 'PX command "'.$this->pxcommand_name.'" executed.'."\n";
 		print '------'."\n";
 		print 'path_docroot_dir => '.$this->path_docroot_dir."\n";
+		print 'path_tmppublish_dir => '.$this->path_tmppublish_dir."\n";
 		print 'path_publish_dir => '.$this->path_publish_dir."\n";
 		print 'paths_ignore => '."\n";
 		var_dump($this->paths_ignore);
@@ -43,8 +45,8 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 			print 'exit.'."\n";
 			exit;
 		}
-		if(!is_dir($this->path_publish_dir)){
-			print 'path_publish_dir is NOT exists.'."\n";
+		if(!is_dir($this->path_tmppublish_dir)){
+			print 'path_tmppublish_dir is NOT exists.'."\n";
 			print 'exit.'."\n";
 			exit;
 		}
@@ -92,15 +94,39 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 		exit;
 	}
 
+	/**
+	 * セットアップ
+	 * @return true
+	 */
+	private function setup(){
+		$this->path_docroot_dir = t::realpath('.');
+		$this->path_publish_dir = t::realpath($this->px->get_conf('publish.path_publish_dir'));
+		$this->path_tmppublish_dir = t::realpath($this->px->get_conf('paths.px_dir').'_sys/publish/');
+
+		array_push( $this->paths_ignore , t::realpath($this->px->get_conf('paths.px_dir')) );
+		array_push( $this->paths_ignore , t::realpath($this->path_docroot_dir.'/.htaccess') );
+		array_push( $this->paths_ignore , t::realpath($this->path_docroot_dir.'/_px_execute.php') );
+
+		return true;
+	}
+
+	/**
+	 * パブリッシュディレクトリを空っぽにする
+	 * @return true
+	 */
 	private function clear_publish_dir(){
-		$files = $this->px->dbh()->ls( $this->path_publish_dir );
+		$files = $this->px->dbh()->ls( $this->path_tmppublish_dir );
 		foreach( $files as $filename ){
 			print ''.'/'.$filename."\n";
-			$this->px->dbh()->rmdir_all( $this->path_publish_dir.'/'.$filename );
+			$this->px->dbh()->rmdir_all( $this->path_tmppublish_dir.'/'.$filename );
 		}
 		return true;
 	}
 
+	/**
+	 * パブリッシュキューを追加する
+	 * @return true
+	 */
 	private function add_queue( $path ){
 		if( !preg_match( '/^\//' , $path ) ){
 			return false;
@@ -112,16 +138,21 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 		return true;
 	}
 
+	/**
+	 * ディレクトリを再帰的にスキャンする
+	 * @param $path
+	 * @return true
+	 */
 	private function scan_dirs( $path ){
 		$realpath_target_dir  = $this->px->dbh()->get_realpath( $this->path_docroot_dir.'/'.$path );
-		$realpath_publish_dir = $this->px->dbh()->get_realpath( $this->path_publish_dir.$this->px->get_install_path().'/'.$path );
+		$realpath_tmppublish_dir = $this->px->dbh()->get_realpath( $this->path_tmppublish_dir.'/htdocs/'.$this->px->get_install_path().'/'.$path );
 
 		$items = $this->px->dbh()->ls( $realpath_target_dir );
 		foreach( $items as $filename ){
 			$current_original_path = $realpath_target_dir.'/'.$filename;
 			$filename = preg_replace( '/\.html(?:\.[a-zA-Z0-9]+)?$/si' , '.html' , $filename );
 			$current_path = $realpath_target_dir.'/'.$filename;
-			$current_publishto = $realpath_publish_dir.'/'.$filename;
+			$current_publishto = $realpath_tmppublish_dir.'/'.$filename;
 
 			if($this->is_ignore_path($current_original_path)){
 				continue;
@@ -142,6 +173,11 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 		return true;
 	}//scan_dirs();
 
+	/**
+	 * ファイル単体をパブリッシュする
+	 * @param $path
+	 * @return true
+	 */
 	private function publish_file( $path ){
 		if( !preg_match( '/^\//' , $path ) ){
 			return false;
@@ -156,7 +192,7 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 				$httpaccess->set_url( $url );//ダウンロードするURL
 				$httpaccess->set_method( 'GET' );//メソッド
 				$httpaccess->set_user_agent( 'PicklesCrawler' );//HTTP_USER_AGENT
-				$httpaccess->save_http_contents( $this->path_publish_dir.$path );//ダウンロードを実行する
+				$httpaccess->save_http_contents( $this->path_tmppublish_dir.'/htdocs/'.$path );//ダウンロードを実行する
 
 				$relatedlink = $httpaccess->get_response('X-PXFW-RELATEDLINK');
 				foreach( explode(',',$relatedlink) as $row ){
@@ -165,17 +201,23 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 
 				break;
 			default:
-				$this->px->dbh()->copy( $this->path_docroot_dir.$path , $this->path_publish_dir.$path );
+				$this->px->dbh()->copy( $this->path_docroot_dir.$path , $this->path_tmppublish_dir.'/htdocs/'.$path );
 				break;
 		}
 		return true;
 	}
 
+	/**
+	 * HTTPAccessオブジェクトを生成して返す
+	 */
 	private function factory_httpaccess(){
 		@require_once( $this->px->get_conf('paths.px_dir').'libs/PxHTTPAccess/PxHTTPAccess.php' );
 		return new PxHTTPAccess();
 	}
 
+	/**
+	 * 除外ファイルか調べる
+	 */
 	private function is_ignore_path( $path ){
 		$path = t::realpath( $path );
 		if( !file_exists($path) ){ return true; }
@@ -187,18 +229,5 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 		return false;
 	}//is_ignore_path();
 
-	/**
-	 * セットアップ
-	 * @return true
-	 */
-	private function setup(){
-		$this->path_docroot_dir = t::realpath('.');
-		$this->path_publish_dir = t::realpath($this->px->get_conf('publish.path_publish_dir'));
-		array_push( $this->paths_ignore , t::realpath($this->px->get_conf('paths.px_dir')) );
-		array_push( $this->paths_ignore , t::realpath($this->path_docroot_dir.'/.htaccess') );
-		array_push( $this->paths_ignore , t::realpath($this->path_docroot_dir.'/_px_execute.php') );
-
-		return true;
-	}
 }
 ?>
