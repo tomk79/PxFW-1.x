@@ -21,9 +21,9 @@ class px_cores_site{
 
 		if( $this->is_sitemap_cache() ){
 			//  サイトマップキャッシュが存在する場合、キャッシュからロードする。
-			$this->sitemap_definition = @include($path_sitemap_cache_dir.'sitemap_definition,array');
-			$this->sitemap_array      = @include($path_sitemap_cache_dir.'sitemap,array');
-			$this->sitemap_id_map     = @include($path_sitemap_cache_dir.'sitemap_id_map,array');
+			$this->sitemap_definition = @include($path_sitemap_cache_dir.'sitemap_definition.array');
+			$this->sitemap_array      = @include($path_sitemap_cache_dir.'sitemap.array');
+			$this->sitemap_id_map     = @include($path_sitemap_cache_dir.'sitemap_id_map.array');
 			return true;
 		}
 
@@ -78,9 +78,9 @@ class px_cores_site{
 		$this->px->dbh()->mkdir($path_sitemap_cache_dir);
 
 		//  キャッシュファイルを作成
-		$this->px->dbh()->file_overwrite( $path_sitemap_cache_dir.'sitemap_definition,array' , t::data2phpsrc($this->sitemap_definition) );
-		$this->px->dbh()->file_overwrite( $path_sitemap_cache_dir.'sitemap,array' , t::data2phpsrc($this->sitemap_array) );
-		$this->px->dbh()->file_overwrite( $path_sitemap_cache_dir.'sitemap_id_map,array' , t::data2phpsrc($this->sitemap_id_map) );
+		$this->px->dbh()->file_overwrite( $path_sitemap_cache_dir.'sitemap_definition.array' , t::data2phpsrc($this->sitemap_definition) );
+		$this->px->dbh()->file_overwrite( $path_sitemap_cache_dir.'sitemap.array' , t::data2phpsrc($this->sitemap_array) );
+		$this->px->dbh()->file_overwrite( $path_sitemap_cache_dir.'sitemap_id_map.array' , t::data2phpsrc($this->sitemap_id_map) );
 
 		return true;
 	}//load_sitemap_csv();
