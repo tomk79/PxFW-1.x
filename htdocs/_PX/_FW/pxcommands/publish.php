@@ -33,6 +33,7 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 		print ''.$this->pxcommand_name.' | Pickles Framework'."\n";
 		print '------'."\n";
 		print 'PX command "'.$this->pxcommand_name.'" executed.'."\n";
+		print date('Y-m-d H:i:s')."\n";
 		print '------'."\n";
 		print 'path_docroot_dir => '.$this->path_docroot_dir."\n";
 		print 'path_tmppublish_dir => '.$this->path_tmppublish_dir."\n";
@@ -90,6 +91,7 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 
 		print '------'."\n";
 		print 'publish completed.'."\n";
+		print date('Y-m-d H:i:s')."\n";
 		print 'exit.'."\n";
 		exit;
 	}
@@ -99,9 +101,9 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 	 * @return true
 	 */
 	private function setup(){
-		$this->path_docroot_dir = t::realpath('.');
-		$this->path_publish_dir = t::realpath($this->px->get_conf('publish.path_publish_dir'));
-		$this->path_tmppublish_dir = t::realpath($this->px->get_conf('paths.px_dir').'_sys/publish/');
+		$this->path_docroot_dir = t::realpath('.').'/';
+		$this->path_publish_dir = t::realpath($this->px->get_conf('publish.path_publish_dir')).'/';
+		$this->path_tmppublish_dir = t::realpath($this->px->get_conf('paths.px_dir').'_sys/publish/').'/';
 
 		array_push( $this->paths_ignore , t::realpath($this->px->get_conf('paths.px_dir')) );
 		array_push( $this->paths_ignore , t::realpath($this->path_docroot_dir.'/.htaccess') );
@@ -136,6 +138,33 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 		$this->done_items[$path] = true;
 		print '[add_queue] '.$path."\n";
 		return true;
+	}
+
+	/**
+	 * パブリッシュログを出力する
+	 * @param $ary_logtexts
+	 * @return true|false
+	 */
+	private function publish_log( $ary_logtexts ){
+		$logtext = '';
+		$logtext .= date('Y-m-d H:i:s').'	';
+		$logtext .= ($ary_logtexts['result']?'success':'FAILED').'	';
+		$logtext .= $ary_logtexts['publish_type'].'	';
+		$logtext .= $ary_logtexts['path'].'	';
+		return @error_log( $logtext."\r\n", 3, $this->path_tmppublish_dir.'publish_log.txt' );
+	}
+
+	/**
+	 * パブリッシュエラーログを出力する
+	 * @param $ary_logtexts
+	 * @return true|false
+	 */
+	private function publish_error_log( $ary_logtexts ){
+		$logtext = '';
+		$logtext .= date('Y-m-d H:i:s').'	';
+		$logtext .= $ary_logtexts['error'].'	';
+		$logtext .= $ary_logtexts['path'];
+		return @error_log( $logtext."\r\n", 3, $this->path_tmppublish_dir.'publish_error_log.txt' );
 	}
 
 	/**
@@ -185,7 +214,7 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 		$extension = $this->px->dbh()->get_extension( $path );
 		switch( strtolower($extension) ){
 			case 'html':
-				$url = 'http'.($this->px->req()->is_ssl()?'s':'').'://'.$_SERVER['HTTP_HOST'].$this->px->dbh()->get_realpath($path.'/'.$filename);
+				$url = 'http'.($this->px->req()->is_ssl()?'s':'').'://'.$_SERVER['HTTP_HOST'].$this->px->dbh()->get_realpath($path);
 
 				$httpaccess = $this->factory_httpaccess();
 				$httpaccess->clear_request_header();//初期化
@@ -199,9 +228,32 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 					$this->add_queue($row);
 				}
 
+				$result = $httpaccess->get_status_cd();
+				$this->publish_log( array(
+					'result'=>($result==200?true:false),
+					'publish_type'=>'http',
+					'path'=>$this->px->dbh()->get_realpath($path),
+				) );
+				if($result!=200){
+					$this->publish_error_log( array(
+						'error'=>'[ERROR] Publishing HTML was FAILED.',
+						'path'=>$this->px->dbh()->get_realpath($path),
+					) );
+				}
 				break;
 			default:
-				$this->px->dbh()->copy( $this->path_docroot_dir.$path , $this->path_tmppublish_dir.'/htdocs/'.$path );
+				$result = $this->px->dbh()->copy( $_SERVER['DOCUMENT_ROOT'].$path , $this->path_tmppublish_dir.'/htdocs/'.$path );
+				$this->publish_log( array(
+					'result'=>($result?true:false),
+					'publish_type'=>'copy',
+					'path'=>$this->px->dbh()->get_realpath($path),
+				) );
+				if(!$result){
+					$this->publish_error_log( array(
+						'error'=>'[ERROR] Copying file was FAILED.',
+						'path'=>$this->px->dbh()->get_realpath($path),
+					) );
+				}
 				break;
 		}
 		return true;
