@@ -24,7 +24,7 @@ class px_pxcommands_config extends px_bases_pxcommand{
 		exit;
 	}
 	
-	//test ahomegane4
+	//test ahomegane => changed ahomegane
 	//test tomk79 added.1
 }
 ?>
