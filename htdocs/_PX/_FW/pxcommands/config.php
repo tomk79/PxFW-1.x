@@ -24,6 +24,6 @@ class px_pxcommands_config extends px_bases_pxcommand{
 		exit;
 	}
 	
-	//test ahomegane3
+	//test ahomegane4
 }
 ?>
