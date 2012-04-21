@@ -23,5 +23,7 @@ class px_pxcommands_config extends px_bases_pxcommand{
 		print $this->html_template( $src );
 		exit;
 	}
+	
+	//test ahomegane
 }
 ?>
