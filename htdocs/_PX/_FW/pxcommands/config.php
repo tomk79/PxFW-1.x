@@ -25,5 +25,6 @@ class px_pxcommands_config extends px_bases_pxcommand{
 	}
 	
 	//test ahomegane4
+	//test tomk79 added.1
 }
 ?>
