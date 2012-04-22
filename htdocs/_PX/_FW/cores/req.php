@@ -2,10 +2,11 @@
 class px_cores_req{
 	private $px;
 	private $param = array();
+	private $dynamic_path_param = array();
 	private $flg_cmd = false;
 	private $request_file_path;
 
-	/*
+	/**
 	 *  初期化
 	 */
 	public function __construct( &$px ){
@@ -17,7 +18,7 @@ class px_cores_req{
 		}
 	}
 
-	/*
+	/**
 	 *	$_POSTと$_GETで受け取った情報を、ハッシュ$inに結合する。
 	 */
 	private function parse_input(){
@@ -70,8 +71,9 @@ class px_cores_req{
 		return	true;
 	}//parse_input()
 
-	#----------------------------------------------------------------------------
-	#	入力値に対する標準的な変換事項
+	/*
+	 *	入力値に対する標準的な変換事項
+	 */
 	private function input_default_convert( $param ){
 		#	PxFW 0.6.1 追加。0:04 2009/05/30
 		$is_callable_mb_check_encoding = is_callable( 'mb_check_encoding' );
@@ -103,21 +105,46 @@ class px_cores_req{
 		return $param;
 	}//input_default_convert()
 
+	/**
+	 * ダイナミックパスからパラメータを受け取る
+	 */
+	public function get_path_param( $key ){
+		return $this->dynamic_path_param[$key];
+	}//get_path_param()
+
+	/**
+	 * ダイナミックパスからのパラメータをセットする
+	 */
+	public function set_path_param( $key , $val ){
+		$this->dynamic_path_param[$key] = $val;
+		return true;
+	}//set_path_param()
+
+	/**
+	 * パラメータを受け取る
+	 */
 	public function get_param( $key ){
 		return $this->param[$key];
 	}//get_param()
 
+	/**
+	 * パラメータをセットする
+	 */
 	public function set_param( $key , $val ){
 		$this->param[$key] = $val;
 		return true;
 	}//set_param()
 
+	/**
+	 * リクエストパスを取得する
+	 */
 	public function get_request_file_path(){
 		return $this->request_file_path;
 	}//request_file_path()
 
-	//--------------------
-	//  SSL通信か調べる
+	/*
+	 *  SSL通信か調べる
+	 */
 	public function is_ssl(){
 		if( $_SERVER['HTTP_SSL'] || $_SERVER['HTTPS'] ){
 			#	SSL通信が有効か否か判断

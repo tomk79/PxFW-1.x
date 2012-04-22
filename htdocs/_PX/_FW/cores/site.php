@@ -4,10 +4,24 @@ class px_cores_site{
 	private $sitemap_definition = array();
 	private $sitemap_array = array();
 	private $sitemap_id_map = array();
+	private $sitemap_dynamic_paths = array();
 
 	public function __construct( &$px ){
 		$this->px = &$px;
+
+		//サイトマップCSVを読み込む
 		$this->load_sitemap_csv();
+
+		//ダイナミックパスを検索、パラメータを取り出す
+		foreach( $this->sitemap_dynamic_paths as $sitemap_dynamic_path ){
+			if( preg_match( $sitemap_dynamic_path['preg'] , $this->px->req()->get_request_file_path() , $tmp_matched ) ){
+				$page_info = $this->get_page_info( $this->px->req()->get_request_file_path() );
+				foreach( $sitemap_dynamic_path['pattern_map'] as $key=>$val ){
+					$this->px->req()->set_path_param( $val , $tmp_matched[$key+1] );
+				}
+				break;
+			}
+		}
 	}
 
 	/**
@@ -21,9 +35,10 @@ class px_cores_site{
 
 		if( $this->is_sitemap_cache() ){
 			//  サイトマップキャッシュが存在する場合、キャッシュからロードする。
-			$this->sitemap_definition = @include($path_sitemap_cache_dir.'sitemap_definition.array');
-			$this->sitemap_array      = @include($path_sitemap_cache_dir.'sitemap.array');
-			$this->sitemap_id_map     = @include($path_sitemap_cache_dir.'sitemap_id_map.array');
+			$this->sitemap_definition    = @include($path_sitemap_cache_dir.'sitemap_definition.array');
+			$this->sitemap_array         = @include($path_sitemap_cache_dir.'sitemap.array');
+			$this->sitemap_id_map        = @include($path_sitemap_cache_dir.'sitemap_id_map.array');
+			$this->sitemap_dynamic_paths = @include($path_sitemap_cache_dir.'sitemap_dynamic_paths.array');
 			return true;
 		}
 
@@ -68,8 +83,26 @@ class px_cores_site{
 					$tmp_id = preg_replace( '/\//si' , '.' , $tmp_id );
 					$tmp_array['id'] = $tmp_id;
 				}
+
+				if( preg_match( '/\{\$[a-zA-Z0-9]+\}/s' , $tmp_array['path'] ) ){
+					//ダイナミックパスのインデックス作成
+					$preg_pattern = preg_quote($tmp_array['path'],'/');
+					$preg_pattern = preg_replace('/'.preg_quote(preg_quote('{$','/'),'/').'[a-zA-Z0-9]+'.preg_quote(preg_quote('}','/'),'/').'/s','([a-zA-Z0-9]+?)',$preg_pattern);
+					preg_match_all('/\{\$([a-zA-Z0-9]+)\}/',$tmp_array['path'],$pattern_map);
+					$tmp_array['path'] = preg_replace('/'.preg_quote('{$','/').'([a-zA-Z0-9]+)'.preg_quote('}','/').'/s','$1',$tmp_array['path']);
+					array_push( $this->sitemap_dynamic_paths, array(
+						'path'=>$tmp_array['path'],
+						'id'=>$tmp_array['id'],
+						'preg'=>'/^'.$preg_pattern.'$/s',
+						'pattern_map'=>$pattern_map[1],
+					) );
+					unset($preg_pattern);
+					unset($pattern_map);
+				}
+
 				$this->sitemap_array[$tmp_array['path']] = $tmp_array;
 				$this->sitemap_id_map[$tmp_array['id']] = $tmp_array['path'];
+
 			}
 		}
 		//  / サイトマップをロード
@@ -81,6 +114,7 @@ class px_cores_site{
 		$this->px->dbh()->file_overwrite( $path_sitemap_cache_dir.'sitemap_definition.array' , t::data2phpsrc($this->sitemap_definition) );
 		$this->px->dbh()->file_overwrite( $path_sitemap_cache_dir.'sitemap.array' , t::data2phpsrc($this->sitemap_array) );
 		$this->px->dbh()->file_overwrite( $path_sitemap_cache_dir.'sitemap_id_map.array' , t::data2phpsrc($this->sitemap_id_map) );
+		$this->px->dbh()->file_overwrite( $path_sitemap_cache_dir.'sitemap_dynamic_paths.array' , t::data2phpsrc($this->sitemap_dynamic_paths) );
 
 		return true;
 	}//load_sitemap_csv();
@@ -92,17 +126,18 @@ class px_cores_site{
 		$path_sitemap_cache_dir = $this->px->get_conf('paths.px_dir').'_sys/caches/sitemaps/';
 		$path_sitemap_dir = $this->px->get_conf('paths.px_dir').'sitemaps/';
 		if(
-			!is_file($path_sitemap_cache_dir.'sitemap_definition,array') || 
-			!is_file($path_sitemap_cache_dir.'sitemap,array') || 
-			!is_file($path_sitemap_cache_dir.'sitemap_id_map,array')
+			!is_file($path_sitemap_cache_dir.'sitemap_definition.array') || 
+			!is_file($path_sitemap_cache_dir.'sitemap.array') || 
+			!is_file($path_sitemap_cache_dir.'sitemap_id_map.array') || 
+			!is_file($path_sitemap_cache_dir.'sitemap_dynamic_paths.array')
 		){
 			return false;
 		}
-		if( $this->px->dbh()->is_newer_a_than_b( $this->px->get_conf('paths.px_dir').'configs/sitemap_definition.csv' , $path_sitemap_cache_dir.'sitemap_definition,array' ) ){
+		if( $this->px->dbh()->is_newer_a_than_b( $this->px->get_conf('paths.px_dir').'configs/sitemap_definition.csv' , $path_sitemap_cache_dir.'sitemap_definition.array' ) ){
 			return false;
 		}
 		foreach( $this->px->dbh()->ls( $path_sitemap_dir ) as $filename ){
-			if( $this->px->dbh()->is_newer_a_than_b( $path_sitemap_dir.$filename , $path_sitemap_cache_dir.'sitemap,array' ) ){
+			if( $this->px->dbh()->is_newer_a_than_b( $path_sitemap_dir.$filename , $path_sitemap_cache_dir.'sitemap.array' ) ){
 				return false;
 			}
 		}
@@ -138,6 +173,13 @@ class px_cores_site{
 	 * @param パス または ページID
 	 */
 	public function get_page_info( $path ){
+		foreach( $this->sitemap_dynamic_paths as $sitemap_dynamic_path ){
+			//ダイナミックパスを検索
+			if( preg_match( $sitemap_dynamic_path['preg'] , $path , $tmp_matched ) ){
+				$path = $sitemap_dynamic_path['path'];
+				break;
+			}
+		}
 		if( strlen($this->sitemap_id_map[$path]) ){ $path = $this->sitemap_id_map[$path];}//←ページIDで指定された場合、パスに置き換える
 		$args = func_get_args();
 		$path = preg_replace( '/\/$/si' , '/index.html' , $path );
