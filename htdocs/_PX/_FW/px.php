@@ -14,6 +14,7 @@ class px_px{
 	private $obj_user ;
 
 	private $pxcommand;
+	private $relatedlinks = array();
 
 	/**
 	 * $pxオブジェクトの初期化。
@@ -52,11 +53,7 @@ class px_px{
 		@header('Content-type: text/html; charset=UTF-8');//←デフォルトのContent-type。$theme->bind_contents() 内で必要があれば上書き可能。
 
 		$page_info = $this->site()->get_page_info( $this->req()->get_request_file_path() );
-
 		$path_content = dirname($_SERVER['SCRIPT_FILENAME']).$this->site()->get_page_info( $this->req()->get_request_file_path() , 'content' );
-		if( !is_file($path_content) ){
-			$path_content = dirname($_SERVER['SCRIPT_FILENAME']).$this->req()->get_request_file_path();
-		}
 
 		if( strlen( $page_info['layout'] ) ){
 			$this->theme()->set_layout_id($page_info['layout']);
@@ -68,7 +65,7 @@ class px_px{
 		//  a.html のクエリでも、a.php があれば、a.php を採用できるようにしている。
 		$list_extensions = $this->get_extensions_list();
 		foreach( $list_extensions as $row_extension ){
-			if( is_file($path_content.'.'.$row_extension) ){
+			if( @is_file($path_content.'.'.$row_extension) ){
 				$path_content = $path_content.'.'.$row_extension;
 				break;
 			}
@@ -76,7 +73,8 @@ class px_px{
 		//  / 拡張子違いのコンテンツを検索
 		//------
 
-		if( is_file( $path_content ) ){
+		ob_start();
+		if( @is_file( $path_content ) ){
 			$extension = strtolower( $this->dbh()->get_extension( $path_content ) );
 			if( strlen($page_info['extension']) ){
 				$extension = $page_info['extension'];
@@ -91,8 +89,26 @@ class px_px{
 		}else{
 			print $this->theme()->bind_contents( '<p>Content file is not found.</p>' );
 		}
+		$final_html = @ob_get_clean();
+		if( count($this->relatedlinks) ){
+			@header('X-PXFW-RELATEDLINK: '.implode(',',$this->relatedlinks).'');
+		}
+		print $final_html;
 		return true;
 	}//execute()
+
+	/**
+	 * 拡張ヘッダ X-PXFW-RELATEDLINK にリンクを追加する。
+	 * @return true|false
+	 */
+	public function add_relatedlink( $path ){
+		$path = trim($path);
+		if(!strlen($path)){
+			return false;
+		}
+		array_push( $this->relatedlinks , $path );
+		return true;
+	}
 
 	/**
 	 * PxFWのインストール先パスを取得する。

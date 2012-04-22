@@ -92,6 +92,11 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 		print '------'."\n";
 		print 'publish completed.'."\n";
 		print date('Y-m-d H:i:s')."\n";
+		$this->publish_log( array(
+			'result'=>null,
+			'message'=>'exit;',
+			'path'=>$this->px->dbh()->get_realpath($path),
+		) );
 		print 'exit.'."\n";
 		exit;
 	}
@@ -148,9 +153,9 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 	private function publish_log( $ary_logtexts ){
 		$logtext = '';
 		$logtext .= date('Y-m-d H:i:s').'	';
-		$logtext .= ($ary_logtexts['result']?'success':'FAILED').'	';
-		$logtext .= $ary_logtexts['publish_type'].'	';
-		$logtext .= $ary_logtexts['path'].'	';
+		$logtext .= $ary_logtexts['message'].'	';
+		$logtext .= ($ary_logtexts['result']===true?'success':($ary_logtexts['result']===false?'FAILED':'')).'	';
+		$logtext .= $ary_logtexts['path'];
 		return @error_log( $logtext."\r\n", 3, $this->path_tmppublish_dir.'publish_log.txt' );
 	}
 
@@ -221,22 +226,25 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 				$httpaccess->set_url( $url );//ダウンロードするURL
 				$httpaccess->set_method( 'GET' );//メソッド
 				$httpaccess->set_user_agent( 'PicklesCrawler' );//HTTP_USER_AGENT
+				$this->px->dbh()->mkdir_all( dirname($this->path_tmppublish_dir.'/htdocs/'.$path) );
 				$httpaccess->save_http_contents( $this->path_tmppublish_dir.'/htdocs/'.$path );//ダウンロードを実行する
 
-				$relatedlink = $httpaccess->get_response('X-PXFW-RELATEDLINK');
-				foreach( explode(',',$relatedlink) as $row ){
-					$this->add_queue($row);
+				$relatedlink = $httpaccess->get_response(strtolower('X-PXFW-RELATEDLINK'));
+				if( strlen($relatedlink) ){
+					foreach( explode(',',$relatedlink) as $row ){
+						$this->add_queue($row);
+					}
 				}
 
 				$result = $httpaccess->get_status_cd();
 				$this->publish_log( array(
 					'result'=>($result==200?true:false),
-					'publish_type'=>'http',
+					'message'=>'http',
 					'path'=>$this->px->dbh()->get_realpath($path),
 				) );
 				if($result!=200){
 					$this->publish_error_log( array(
-						'error'=>'[ERROR] Publishing HTML was FAILED.',
+						'error'=>'[ERROR] Publishing HTML was FAILED.(status='.$result.')',
 						'path'=>$this->px->dbh()->get_realpath($path),
 					) );
 				}
@@ -245,7 +253,7 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 				$result = $this->px->dbh()->copy( $_SERVER['DOCUMENT_ROOT'].$path , $this->path_tmppublish_dir.'/htdocs/'.$path );
 				$this->publish_log( array(
 					'result'=>($result?true:false),
-					'publish_type'=>'copy',
+					'message'=>'copy',
 					'path'=>$this->px->dbh()->get_realpath($path),
 				) );
 				if(!$result){
