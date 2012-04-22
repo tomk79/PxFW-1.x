@@ -1,15 +1,17 @@
 <?php
 
-#	Copyright (C)Tomoya Koyanagi.
-#	LastUpdate : 11:05 2011/06/10
-
-#******************************************************************************************************************
-#	開発中のテスト用の機能群
-#	※インスタンス化せず、スタティックに使用してください。
+/**
+ * 開発中のテスト用の機能群
+ * 
+ * インスタンス化せず、スタティックに使用してください。
+ * 
+ * @author Tomoya Koyanagi
+ */
 class test{
 
-	#----------------------------------------------------------------------------
-	#	変数の内容を展開し、文字列として返す。
+	/**
+	 * 変数の内容を展開し、文字列として返す。
+	 */
 	function preview( $value ){
 
 		if( is_array( $value ) ){
@@ -17,7 +19,7 @@ class test{
 			$RTN = '';
 			$RTN .= '<span style="color:#ff0000;">'.gettype( $value ).'</span>( '.count( $value ).' )';
 			if( count( $value ) ){
-				$RTN .= '<ul style="margin-left:20px;">';
+				$RTN .= '<ul style="margin-left:20px;text-align:left;">';
 				$keylist = array_keys( $value );
 				foreach( $keylist as $Line ){
 					$RTN .= '<li>';
@@ -145,9 +147,9 @@ class test{
 		return	'<span style="color:#0000ff;">'.gettype( $value ).'</span>';
 	}
 
-	#----------------------------------------------------------------------------
-	#	値を受け取り、test::preview() に通して標準出力する。
-	#	Pickles Framework 0.4.6 追加
+	/**
+	 * test::preview() に通して標準出力する。
+	 */
 	function var_dump(){
 		$vars = func_get_args();
 		foreach( $vars as $value ){
@@ -156,8 +158,9 @@ class test{
 		return null;
 	}
 
-	#----------------------------------------------------------------------------
-	#	オブジェクトを受け取り、その先祖(継承元)を一覧化する
+	/**
+	 * オブジェクトの先祖(継承元)を一覧化する
+	 */
 	function get_history_of_object( $obj ){
 		if( is_string( $obj ) ){
 			#	文字列を受け取ったら、クラス名として処理。
@@ -174,8 +177,9 @@ class test{
 		return	$RTN;
 	}
 
-	#----------------------------------------------------------------------------
-	#	クラス名を受け取り、その先祖(継承元)を一覧化する
+	/**
+	 * クラス名から、その先祖(継承元)を一覧化する
+	 */
 	function get_history_of_class( $class_name ){
 		if( is_object( $class_name ) ){
 			#	オブジェクトを受け取ったら、オブジェクトとして処理。
@@ -198,9 +202,9 @@ class test{
 		}
 	}
 
-	#--------------------------------------
-	#	ダミー文字列を生成する
-	#	Pickles Framework 0.5.4 : 追加
+	/**
+	 * ダミー文字列を生成する
+	 */
 	function mk_dummy_text( $int_strcount = 50 ){
 		#	$int_strcount は、バイトじゃなくて文字数。
 
