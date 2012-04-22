@@ -95,7 +95,7 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 		$this->publish_log( array(
 			'result'=>null,
 			'message'=>'exit;',
-			'path'=>$this->px->dbh()->get_realpath($path),
+			'path'=>null,
 		) );
 		print 'exit.'."\n";
 		exit;
