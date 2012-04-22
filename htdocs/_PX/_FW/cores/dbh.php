@@ -1379,9 +1379,10 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	 */
 	public function get_realpath( $path , $itemname = null ){
 		$path = preg_replace( '/\\\\/si' , '/' , $path );
+		$path = preg_replace( '/^\/+/si' , '/' , $path );//先頭のスラッシュを1つにする。
 		$itemname = preg_replace( '/\\\\/si' , '/' , $itemname );
-
 		$itemname = preg_replace( '/^\/'.'*'.'/' , '/' , $itemname );//先頭のスラッシュを1つにする。
+
 		if( $itemname == '/' ){ $itemname = ''; }//スラッシュだけが残ったら、ゼロバイトの文字にする。
 		if( t::realpath( $path ) == '/' ){
 			$rtn = $path.$itemname;

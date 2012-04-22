@@ -56,6 +56,7 @@ class px_cores_theme{
 		@header('Content-type: text/html; charset=UTF-8');
 
 		$template_path = $this->px->dbh()->get_realpath($this->px->get_conf('paths.px_dir').'themes/'.$this->get_theme_id()).'/';
+		$path_px_dir = $this->px->get_conf('paths.px_dir');
 		$page_info = $this->px->site()->get_current_page_info();
 		if( is_null( $page_info ) ){
 			$page_info = array(
@@ -72,6 +73,8 @@ class px_cores_theme{
 		}
 
 		$smarty = $this->px->factory_smarty();
+		$smarty->compile_dir  = $path_px_dir.'_sys/caches/smarty/theme_compiles/';
+		$smarty->cache_dir    = $path_px_dir.'_sys/caches/smarty/theme_caches/';
 		$smarty->caching = false;
 		$smarty->config_dir   = $template_path;
 		$smarty->template_dir = $template_path;
