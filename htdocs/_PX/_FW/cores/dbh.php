@@ -1776,8 +1776,8 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 		#	このメソッドは、ファイルやシンボリックリンクも削除します。
 		#	シンボリックリンクは、その先を追わず、
 		#	シンボリックリンク本体のみを削除します。
+
 		if( strlen( $this->px->get_conf('filesystem.encoding') ) ){
-			//PxFW 0.6.4 追加
 			$path = @t::convert_encoding( $path , $this->px->get_conf('filesystem.encoding') );
 		}
 
@@ -1804,7 +1804,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 		}
 
 		return	false;
-	}
+	}//rmdir_all()
 
 	#----------------------------------------------------------------------------
 	#	ディレクトリの内部を比較し、$comparisonに含まれない要素を$targetから削除する
