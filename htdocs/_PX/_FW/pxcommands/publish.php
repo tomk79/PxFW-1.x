@@ -291,6 +291,14 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 				$httpaccess->set_url( $url );//ダウンロードするURL
 				$httpaccess->set_method( 'GET' );//メソッド
 				$httpaccess->set_user_agent( 'PicklesCrawler' );//HTTP_USER_AGENT
+				if( strlen( $this->px->get_conf('project.auth_name') ) ){
+					//  基本認証、またはダイジェスト認証が設定されている場合
+					if( strlen( $this->px->get_conf('project.auth_type') ) ){
+						$httpaccess->set_auth_type( $this->px->get_conf('project.auth_type') );//認証タイプ
+					}
+					$httpaccess->set_auth_user( $this->px->get_conf('project.auth_name') );//認証ID
+					$httpaccess->set_auth_pw( $this->px->get_conf('project.auth_password') );//認証パスワード
+				}
 				$this->px->dbh()->mkdir_all( dirname($this->path_tmppublish_dir.'/htdocs/'.$path) );
 				$httpaccess->save_http_contents( $this->path_tmppublish_dir.'/htdocs/'.$path );//ダウンロードを実行する
 
