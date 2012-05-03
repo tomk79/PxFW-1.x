@@ -180,6 +180,9 @@ class px_cores_req{
 		$expire = 1800;//30min
 		$cache_limiter = 'nocache';
 		$session_name = 'PXSID';
+		if( strlen( $this->px->get_conf('system.session_name') ) ){
+			$session_name = $this->px->get_conf('system.session_name');
+		}
 		$path = $this->px->get_install_path();
 
 		session_name( $session_name );

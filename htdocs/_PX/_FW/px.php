@@ -52,8 +52,14 @@ class px_px{
 
 		@header('Content-type: text/html; charset=UTF-8');//←デフォルトのContent-type。$theme->bind_contents() 内で必要があれば上書き可能。
 
+		$this->user()->update_login_status( $this->req()->get_param('ID') , $this->req()->get_param('PW') );//←ユーザーログイン処理
+
 		$page_info = $this->site()->get_page_info( $this->req()->get_request_file_path() );
-		$path_content = dirname($_SERVER['SCRIPT_FILENAME']).$this->site()->get_page_info( $this->req()->get_request_file_path() , 'content' );
+		$localpath_current_content = $this->site()->get_page_info( $this->req()->get_request_file_path() , 'content' );
+		if( !strlen($localpath_current_content) ){
+			$localpath_current_content = $_SERVER['PATH_INFO'];
+		}
+		$path_content = $this->dbh()->get_realpath( dirname($_SERVER['SCRIPT_FILENAME']).$localpath_current_content );
 
 		if( strlen( $page_info['layout'] ) ){
 			$this->theme()->set_layout_id($page_info['layout']);
@@ -119,7 +125,32 @@ class px_px{
 		$rtn = str_replace('\\','/',$rtn);
 		$rtn .= ($rtn!='/'?'/':'');
 		return $rtn;
-	}
+	}//get_install_path()
+
+	/**
+	 * ローカルリソースディレクトリのパスを得る
+	 * @param $path_content コンテンツのパス。省略時、カレントコンテンツを採用。
+	 * @return string ローカルリソースディレクトリのパス(スラッシュ閉じ)
+	 */
+	public function get_local_resource_dir( $path_content = null ){
+		if( !strlen( $path_content ) ){
+			$path_content = $this->req()->get_request_file_path();
+		}
+		$rtn = $this->dbh()->get_realpath($this->get_install_path().$path_content);
+		$rtn = $this->dbh()->trim_extension($rtn).'.files/';
+		return $rtn;
+	}//get_local_resource_dir()
+
+	/**
+	 * ローカルリソースディレクトリのサーバー内部パスを得る
+	 * @param $path_content コンテンツのパス。省略時、カレントコンテンツを採用。
+	 * @return string ローカルリソースディレクトリのサーバー内部パス(スラッシュ閉じ)
+	 */
+	public function get_local_resource_dir_realpath( $path_content = null ){
+		$rtn = $this->get_local_resource_dir( $path_content );
+		$rtn = $this->dbh()->get_realpath( $_SERVER['DOCUMENT_ROOT'].$rtn ).'/';
+		return $rtn;
+	}//get_local_resource_dir_realpath()
 
 	/**
 	 * Smartyオブジェクトを生成する。
@@ -147,7 +178,7 @@ class px_px{
 		$smarty->assign('user',$this->user());
 
 		return $smarty;
-	}
+	}//factory_smarty()
 
 	/**
 	 * 外部ソースをインクルードする(ServerSideInclude)
@@ -171,6 +202,7 @@ class px_px{
 		}
 		return	$RTN;
 	}//ssi();
+
 	/**
 	 * パブリッシュ時のSSIタグを出力する。
 	 * ssi() からコールされる。
@@ -185,7 +217,14 @@ class px_px{
 	 * @return array 先頭にPXコマンド名を含むパラメータの配列(入力値をドットで区切ったもの)
 	 */
 	private function parse_pxcommand( $param ){
-		if( !strlen( $param ) ){ return null; }
+		if( !$this->get_conf('system.allow_pxcommands') ){
+			//  設定で許可されていない場合は、常に null
+			return null;
+		}
+		if( !strlen( $param ) ){
+			//  パラメータ値が付いていなければ、null
+			return null;
+		}
 		return explode( '.' , $param );
 	}
 
@@ -212,7 +251,7 @@ class px_px{
 		//  ドキュメントルートへカレントディレクトリを移動する。
 		chdir( realpath( $conf->path_docroot ) );
 
-		return	true;
+		return true;
 	}//php_setup();
 
 	/**

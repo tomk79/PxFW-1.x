@@ -18,6 +18,9 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 	private $done_items = array();//←パブリッシュ完了した対象の一覧
 	private $path_target = null;//←パブリッシュ対象パス
 
+	/**
+	 * コンストラクタ
+	 */
 	public function __construct( &$px ){
 		parent::__construct( &$px );
 

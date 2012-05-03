@@ -2,15 +2,15 @@
 /**
  * Database Handler
  * 
- * 【ファイル内目次】
- * ファイル/ディレクトリ操作関連：allabout_filehandle
- * データベース操作関連：allabout_dbhandle
- * パス処理系メソッド：path_operators
- * その他：allabout_others
- * 
  * @author Tomoya Koyanagi <tomk79@gmail.com>
  */
 class px_cores_dbh{
+	//  【ファイル内目次】
+	//  ファイル/ディレクトリ操作関連：allabout_filehandle
+	//  データベース操作関連：allabout_dbhandle
+	//  パス処理系メソッド：path_operators
+	//  その他：allabout_others
+
 	private $px;
 
 	private $auto_transaction_flg = false;
@@ -20,7 +20,7 @@ class px_cores_dbh{
 	private $try2connect_count = 1;
 		#	接続に挑戦する回数
 
-	private $res_connection = null;				#	データベースとのコネクション
+	private $res_connection = null;		#	データベースとのコネクション
 	private $errorlist = array();		#	エラーリスト
 	private $result = null;				#	RDBクエリの実行結果リソース
 	private $transaction_flg = false;	#	トランザクションフラグ
@@ -1095,7 +1095,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 			if( !ini_get( 'allow_url_fopen' ) ){
 				#	PHP設定値 allow_url_fopen が無効な場合は、
 				#	file() によるウェブアクセスができないため。
-				$this->errors->error_log( 'php.ini value "allow_url_fopen" is FALSE. So, disable to get Web contents ['.$path.'] on $dbh->file_get_lines();' );
+				$this->px->error()->error_log( 'php.ini value "allow_url_fopen" is FALSE. So, disable to get Web contents ['.$path.'] on $dbh->file_get_lines();' );
 				return	false;
 			}
 			return @file( $path );
@@ -1141,7 +1141,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 		if( !ini_get('allow_url_fopen') ){
 			#	PHP設定値 allow_url_fopen が無効な場合は、
 			#	file() によるウェブアクセスができないため、エラーを記録。
-			$this->errors->error_log( 'php.ini value "allow_url_fopen" is FALSE. So, disable to get Web contents ['.$path.'] on $dbh->file_get_contents();' );
+			$this->px->error()->error_log( 'php.ini value "allow_url_fopen" is FALSE. So, disable to get Web contents ['.$path.'] on $dbh->file_get_contents();' );
 			return	false;
 		}
 		if( preg_match( '/^(?:http:\/\/|https:\/\/)/' , $url ) ){
@@ -1874,7 +1874,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 		$seq ++;	// シーケンスを一つ進める
 
 		#	エラーログを保存
-		$this->errors->error_log( $errortext , $file , $line );
+		$this->px->error()->error_log( $errortext , $file , $line );
 
 		return	true;
 	}//add_error()

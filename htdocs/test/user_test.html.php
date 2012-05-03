@@ -1,0 +1,15 @@
+
+
+<p>
+	このページは、ユーザーDBを操作するテストのためのコンテンツです。<br />
+</p>
+
+<?php
+
+	$path_resource_dir = $px->get_local_resource_dir();
+	$realpath_resource_dir = $px->get_local_resource_dir_realpath();
+	require_once( $realpath_resource_dir.'exec.php' );
+	$cont_exec = new cont_exec(&$px);
+
+	print $cont_exec->execute();
+?>
