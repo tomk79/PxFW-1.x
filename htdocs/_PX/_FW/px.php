@@ -44,6 +44,11 @@ class px_px{
 	public function execute(){
 		$this->access_log();//アクセスログを記録
 
+		if( strlen($this->req()->get_param('THEME')) ){
+			//  テーマIDの変更を反映
+			$this->theme()->set_theme_id( $this->req()->get_param('THEME') );
+		}
+
 		$tmp_px_class_name = $this->load_pxclass( 'pxcommands/'.$this->pxcommand[0].'.php' );
 		if( $tmp_px_class_name ){
 			$obj_pxcommands = new $tmp_px_class_name( $this );
@@ -62,6 +67,7 @@ class px_px{
 		$path_content = $this->dbh()->get_realpath( dirname($_SERVER['SCRIPT_FILENAME']).$localpath_current_content );
 
 		if( strlen( $page_info['layout'] ) ){
+			//  レイアウトIDの変更を反映
 			$this->theme()->set_layout_id($page_info['layout']);
 		}
 
@@ -383,7 +389,13 @@ class px_px{
 	 */
 	private function access_log(){
 		if( !strlen( $this->get_conf('paths.access_log') ) ){ return false; }
-		return @error_log( date('Y-m-d H:i:s').'	'.$this->req()->get_request_file_path()."\r\n" , 3 , $this->get_conf('paths.access_log') );
+		return @error_log(
+			date('Y-m-d H:i:s')
+			.'	'.session_id()
+			.'	'.$this->req()->get_request_file_path()
+			.'	'.$_SERVER['HTTP_USER_AGENT']
+			.'	'.$_SERVER['HTTP_REFERER']
+			."\r\n" , 3 , $this->get_conf('paths.access_log') );
 	}
 
 }

@@ -8,9 +8,15 @@ class px_cores_theme{
 		'head'=>'' //  ヘッドセクションに追記
 	);
 
+	/**
+	 * コンストラクタ
+	 */
 	public function __construct( &$px ){
 		$this->px = &$px;
-	}
+		if( strlen( $this->px->req()->get_session('THEME') ) ){
+			$this->theme_id = $this->px->req()->get_session('THEME');
+		}
+	}//__construct()
 
 	/**
 	 * テーマIDをセットする。
@@ -19,7 +25,14 @@ class px_cores_theme{
 	public function set_theme_id( $theme_id ){
 		if( !strlen( $theme_id ) ){ return false; }
 		if( !preg_match( '/^[a-zA-Z0-9\_\-]+$/si' , $theme_id ) ){ return false; }
-		$this->theme_id = $theme_id;
+		if( !is_file( $this->px->dbh()->get_realpath($this->px->get_conf('paths.px_dir').'themes/'.$theme_id).'/default.html' ) ){
+			//  指定のテーマディレクトリが存在しなかったら。
+			//	※レイアウト default.html は必須です。
+			$this->px->error()->error_log('存在しないテーマ['.$theme_id.']を選択しました。',__FILE__,__LINE__);
+			return false;
+		}
+		$this->px->req()->set_session('THEME',$theme_id);
+		$this->theme_id = $this->px->req()->get_session('THEME');
 		return true;
 	}
 	/**
