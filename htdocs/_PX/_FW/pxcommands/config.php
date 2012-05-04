@@ -18,7 +18,7 @@ class px_pxcommands_config extends px_bases_pxcommand{
 	 */
 	private function execute(){
 		ob_start();
-		test::var_dump( $this->px->get_conf_all() );
+		test::var_dump( $this->px->get_conf_all() ); //ahomemo: "::"はクラスの中のメソッドをインスタンス化せず直接呼び出す。
 		$src = ob_get_clean();
 		print $this->html_template( $src );
 		exit;
