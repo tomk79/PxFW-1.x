@@ -1,6 +1,6 @@
 【Pickles Framework 1.x】
-
 @author Tomoya Koyanagi (@tomk79)
+--------
 
 静的な構成のウェブサイトを効率よく制作するためのフレームワークです。
 Pickles Framework 0.x系( http://pickles.pxt.jp/ )の後継です。
@@ -20,6 +20,13 @@ Pickles Framework 0.x系( http://pickles.pxt.jp/ )の後継です。
 1. ./_PX/sitemaps/sitemap.csv を編集して、ページを登録する。
 2. コンテンツのHTMLを編集する。
 3. テーマ ./_PX/themes/default/default.html を編集する。
+
+　※パーミッション設定
+　　次のディレクトリとそれ以下の全てのファイルに、
+　　Apacheが書き込みできるパーミッションを設定する。
+
+　　　・./_PX/_sys
+　　　・./_caches
 
 
 ■パブリッシュ手順
