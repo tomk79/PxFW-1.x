@@ -1,5 +1,5 @@
 <?php
-$this->load_pxclass('/bases/pxcommand.php');
+$this->load_pxclass('/bases/pxcommand.php');  //ahomemo:ファイルを呼び出されると呼び出されたファイルの呼び出された箇所に処理が入る。ので、thisはそこのthis
 
 /**
  * PX Command: configを表示する
@@ -17,7 +17,7 @@ class px_pxcommands_config extends px_bases_pxcommand{
 	 * Execute PX Command "config".
 	 */
 	private function execute(){
-		ob_start();
+		ob_start();
 		test::var_dump( $this->px->get_conf_all() );
 		$src = ob_get_clean();
 		print $this->html_template( $src );

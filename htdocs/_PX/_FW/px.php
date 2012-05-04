@@ -30,7 +30,7 @@ class px_px{
 		$this->create_core_instances();
 
 		//  PXコマンドを解析
-		$this->pxcommand = $this->parse_pxcommand( $this->req()->get_param('PX') );
+		$this->pxcommand = $this->parse_pxcommand( $this->req()->get_param('PX') ); //ahomemo: urlパラメータのなかのPXコマンドを格納
 
 		return true;
 	}//__construct()
