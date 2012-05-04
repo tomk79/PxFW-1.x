@@ -1,30 +1,38 @@
 <?php
 
-#	Copyright (C)Tomoya Koyanagi.
-#	LastUpdate : 14:41 2010/02/03
-
-#******************************************************************************************************************
-#	テキストを扱うクラス(static)
-#	※インスタンス化せず、スタティックに使用してください。
+/**
+ * テキストを扱うクラス(static)
+ * 
+ * インスタンス化せず、スタティックに使用してください。
+ * 
+ * @author Tomoya Koyanagi
+ */
 class t{
 
 	#------------------------------------------------------------------------------------------------------------------
 	#	★文字変換系
 
+	/**
+	 * HTML特殊文字を変換する
+	 * htmlspecialchars() のエイリアス
+	 */
 	function h($text){
 		return htmlspecialchars($text);
 	}
 
-	#----------------------------------------------------------------------------
-	#	受け取ったテキストをHTML形式に変換する
+	/**
+	 * 受け取ったテキストをHTML形式に変換する
+	 * htmlspecialchars() を通した上で、改行コードを<br/>に変換する。
+	 */
 	function text2html( $text = '' ){
 		$text = htmlspecialchars( $text );
 		$text = preg_replace('/\r\n|\r|\n/','<br />',$text);
 		return	$text;
 	}
 
-	#----------------------------------------------------------------------------
-	#	受け取ったHTMLをテキスト形式に変換する
+	/**
+	 * HTMLソースをテキストに変換する。
+	 */
 	function html2text( $TEXT = '' ){
 		$TEXT = preg_replace( '/<br(?: ?\/)?'.'>/is' , "\n" , $TEXT );
 		$TEXT = strip_tags( $TEXT );
@@ -35,12 +43,13 @@ class t{
 		return	$TEXT;
 	}
 
-	#----------------------------------------------------------------------------
-	#	特殊な HTML エンティティを文字に戻す
+	/**
+	 * 特殊な HTML エンティティを文字に戻す
+	 */
 	function htmlspecialchars_decode( $TEXT = '' ){
 		#	PxFW 0.6.6 追加
 		#	htmlspecialchars_decode()というのもあるが、
-		#	PHP5以降からなので、とりあえず使ってない。
+		#	PHP5.1.0以降なので使わない。
 		$TEXT = preg_replace( '/&lt;/' , '<' , $TEXT );
 		$TEXT = preg_replace( '/&gt;/' , '>' , $TEXT );
 		$TEXT = preg_replace( '/&quot;/' , '"' , $TEXT );
@@ -48,40 +57,18 @@ class t{
 		return	$TEXT;
 	}
 
-	#----------------------------------------------------------------------------
-	#	受け取ったHTMLを表示できる形式に変換する
-	function html2display( $HTMLSRC = '' ){
-		$HTMLSRC = preg_replace('/&amp;copy;/','&copy;',$HTMLSRC);
-		$HTMLSRC = preg_replace('/&amp;reg;/','&reg;',$HTMLSRC);
-		$HTMLSRC = preg_replace('/&amp;trade;/','&trade;',$HTMLSRC);
-		return	$HTMLSRC;
-	}
-
-	#----------------------------------------------------------------------------
-	#	受け取ったHTMLをPerl互換正規表現に使える形式に変換する
-	function text2preg( $TEXT = '' ){
-		return preg_quote( $TEXT , '/' );
-	}
-
-	#----------------------------------------------------------------------------
-	#	フォームから受け取ったテキストデータを、
-	#	text/textarea/hidden要素に入れられる形に変換する
-	function escape_form2form( $TEXT = '' ){
-		$TEXT = htmlspecialchars( $TEXT );
-		return	$TEXT;
-	}
-
-
-	#----------------------------------------------------------------------------
-	#	シングルクオートで囲えるようにエスケープ処理する。
+	/**
+	 * シングルクオートで囲えるようにエスケープ処理する。
+	 */
 	function escape_singlequote( $TEXT = '' ){
 		$TEXT = preg_replace( '/\\\\/' , '\\\\\\\\' , $TEXT);
 		$TEXT = preg_replace( '/\'/' , '\\\'' , $TEXT);
 		return	$TEXT;
 	}
 
-	#----------------------------------------------------------------------------
-	#	ファイル名/パス名から、拡張子を削除する
+	/**
+	 * ファイル名やパス名から、拡張子を削除する
+	 */
 	function trimext( $filename ){
 		#	trim extension
 		$path_parts = pathinfo($filename);
@@ -99,11 +86,12 @@ class t{
 	#------------------------------------------------------------------------------------------------------------------
 	#	★変数変換系
 
-	#----------------------------------------------------------------------------
-	#	受け取ったテキストを、指定の文字コードに変換する
+	/**
+	 * 受け取ったテキストを、指定の文字コードに変換する
+	 */
 	function convert_encoding( $TEXT = null , $encode = null , $encodefrom = null ){
-		if( !is_callable( 'mb_internal_encoding' ) ){ return $TEXT; }//23:02 2008/01/21 Pickles Framework 0.2.4 追加
-		if( !strlen( $encodefrom ) ){ $encodefrom = mb_internal_encoding().',UTF-8,SJIS-win,eucJP-win,SJIS,EUC-JP,JIS,ASCII'; }//PxFW 0.6.7 detect_order を変更した。
+		if( !is_callable( 'mb_internal_encoding' ) ){ return $TEXT; }
+		if( !strlen( $encodefrom ) ){ $encodefrom = mb_internal_encoding().',UTF-8,SJIS-win,eucJP-win,SJIS,EUC-JP,JIS,ASCII'; }
 		if( !strlen( $encode ) ){ $encode = mb_internal_encoding(); }
 
 		if( is_array( $TEXT ) ){
@@ -125,10 +113,10 @@ class t{
 		return	$RTN;
 	}
 
-	#----------------------------------------------------------------------------
-	#	stripslashes()処理を実行する
+	/**
+	 * stripslashes()処理を実行する
+	 */
 	function stripslashes( $TEXT ){
-		#	PxFW 0.6.1 追加 (23:47 2009/05/29)
 		#	この関数は、配列を受け取ると再帰的に文字列を変換して返します。
 		if( is_array( $TEXT ) ){
 			#	配列なら
@@ -142,14 +130,16 @@ class t{
 		return	$TEXT;
 	}
 
-	#----------------------------------------------------------------------------
-	#	半角に変換する
+	/**
+	 * 半角に変換する
+	 */
 	function hankaku( $TEXT ){
 		return	@mb_convert_kana( $TEXT , 'a' , @mb_internal_encoding() );
 	}
 
-	#----------------------------------------------------------------------------
-	#	変数を受け取り、PHPのシンタックスに変換する
+	/**
+	 * 変数を受け取り、PHPのシンタックスに変換する
+	 */
 	function data2text( $value = null , $option = array() ){
 		#======================================
 		#	[ $option ]
@@ -234,9 +224,10 @@ class t{
 
 	}
 
-	#----------------------------------------------------------------------------
-	#	変数を受け取り、PHPのソースコードに変換する
-	#	(requireしたらそのままの値を返す形になるよう努力する)
+	/**
+	 * 変数をPHPのソースコードに変換する
+	 * includeしたらそのままの値を返す形になるよう変換する。
+	 */
 	function data2phpsrc( $value = null , $option = array() ){
 		$RTN = '';
 		$RTN .= '<'.'?php'."\n";
@@ -248,8 +239,9 @@ class t{
 
 
 
-	#----------------------------------------------------------------------------
-	#	変数を受け取り、JavaScriptのシンタックスに変換する
+	/**
+	 * 変数をJavaScriptのシンタックスに変換する
+	 */
 	function data2jstext( $value = null , $option = array() ){
 		#======================================
 		#	[ $option ]
@@ -402,8 +394,9 @@ class t{
 	#------------------------------------------------------------------------------------------------------------------
 	#	★文字列生成系
 
-	#----------------------------------------------------------------------------
-	#	ランダムな文字列を生成する
+	/**
+	 * ランダムな文字列を生成する
+	 */
 	function randomtext( $width = 8 , $option = array() ){
 		#	$width = 文字列のバイト数。
 
@@ -425,9 +418,9 @@ class t{
 	#------------------------------------------------------------------------------------------------------------------
 	#	★色コード系
 
-	#----------------------------------------------------------------------------
-	#	16進数の色コードからRGBの10進数を得る
-	#	Pickles Framework 0.5.3 追加
+	/**
+	 * 16進数の色コードからRGBの10進数を得る
+	 */
 	function color_hex2rgb( $txt_hex ){
 		if( is_int( $txt_hex ) ){
 			$txt_hex = dechex( $txt_hex );
@@ -458,9 +451,9 @@ class t{
 		return	$RTN;
 	}
 
-	#----------------------------------------------------------------------------
-	#	RGBの10進数の色コードから16進数を得る
-	#	Pickles Framework 0.5.3 追加
+	/**
+	 * RGBの10進数の色コードから16進数を得る
+	 */
 	function color_rgb2hex( $int_r , $int_g , $int_b ){
 		$hex_r = dechex( $int_r );
 		$hex_g = dechex( $int_g );
@@ -475,9 +468,9 @@ class t{
 		return	$RTN;
 	}
 
-	#----------------------------------------------------------------------------
-	#	色相を調べる
-	#	Pickles Framework 0.5.3 追加
+	/**
+	 * 色相を調べる
+	 */
 	function color_get_hue( $txt_hex , $int_round = 0 ){
 		$int_round = intval( $int_round );
 		if( $int_round < 0 ){ return false; }
@@ -529,9 +522,9 @@ class t{
 		return $hue;
 	}
 
-	#----------------------------------------------------------------------------
-	#	彩度を調べる
-	#	Pickles Framework 0.5.3 追加
+	/**
+	 * 彩度を調べる
+	 */
 	function color_get_saturation( $txt_hex , $int_round = 0 ){
 		$int_round = intval( $int_round );
 		if( $int_round < 0 ){ return false; }
@@ -558,9 +551,9 @@ class t{
 		return $saturation;
 	}
 
-	#----------------------------------------------------------------------------
-	#	明度を調べる
-	#	Pickles Framework 0.5.3 追加
+	/**
+	 * 明度を調べる
+	 */
 	function color_get_brightness( $txt_hex , $int_round = 0 ){
 		$int_round = intval( $int_round );
 		if( $int_round < 0 ){ return false; }
@@ -581,9 +574,9 @@ class t{
 		return $brightness;
 	}
 
-	#----------------------------------------------------------------------------
-	#	16進数のRGBコードからHSB値を得る
-	#	Pickles Framework 0.5.3 追加
+	/**
+	 * 16進数のRGBコードからHSB値を得る
+	 */
 	function color_hex2hsb( $txt_hex , $int_round = 0 ){
 		$int_round = intval( $int_round );
 		if( $int_round < 0 ){ return false; }
@@ -596,9 +589,9 @@ class t{
 		return	$hsb;
 	}
 
-	#----------------------------------------------------------------------------
-	#	RGB値からHSB値を得る
-	#	Pickles Framework 0.5.3 追加
+	/**
+	 * RGB値からHSB値を得る
+	 */
 	function color_rgb2hsb( $int_r , $int_g , $int_b , $int_round = 0 ){
 		$int_round = intval( $int_round );
 		if( $int_round < 0 ){ return false; }
@@ -612,9 +605,9 @@ class t{
 		return	$hsb;
 	}
 
-	#----------------------------------------------------------------------------
-	#	HSB値からRGB値を得る
-	#	Pickles Framework 0.5.3 追加
+	/**
+	 * HSB値からRGB値を得る
+	 */
 	function color_hsb2rgb( $int_hue , $int_saturation , $int_brightness , $int_round = 0 ){
 		$int_round = intval( $int_round );
 		if( $int_round < 0 ){ return false; }
@@ -664,9 +657,9 @@ class t{
 		$rgb = array( 'r'=>$tmp_rgb['r'] , 'g'=>$tmp_rgb['g'] , 'b'=>$tmp_rgb['b'] );
 		return	$rgb;
 	}
-	#----------------------------------------------------------------------------
-	#	HSB値から16進数のRGBコードを得る
-	#	Pickles Framework 0.5.3 追加
+	/**
+	 * HSB値から16進数のRGBコードを得る
+	 */
 	function color_hsb2hex( $int_hue , $int_saturation , $int_brightness , $int_round = 0 ){
 		$rgb = t::color_hsb2rgb( $int_hue , $int_saturation , $int_brightness , $int_round );
 		$hex = t::color_rgb2hex( $rgb['r'] , $rgb['g'] , $rgb['b'] );
@@ -675,36 +668,11 @@ class t{
 
 
 	#------------------------------------------------------------------------------------------------------------------
-	#	★フィルター系
-
-	#----------------------------------------------------------------------------
-	#	$filterがtrueだったら半角カナに変換する
-	function hankana( $TEXT , $filter = true ){
-		if( $filter ){
-			$TEXT = @mb_convert_kana( $TEXT , 'krns' , mb_internal_encoding() );
-		}
-		return	$TEXT;
-	}
-
-	#----------------------------------------------------------------------------
-	#	ブーリアンを受け取り、trueならテキストを返す。
-	function boolfilter( $bool = true , $text = null , $iffalse = null ){
-		if( $bool ){
-			return	$text;
-		}else{
-			return	$iffalse;
-		}
-	}
-
-
-
-
-	#------------------------------------------------------------------------------------------------------------------
 	#	★バリデータ系
 
-	#----------------------------------------------------------------------------
-	#	機種依存文字( Model Dependence Character )が
-	#	含まれているかどうかを判定
+	/**
+	 * 機種依存文字( Model Dependence Character )が含まれているかどうかを判定する。
+	 */
 	function mdc_exists( $TEXT , $charset = null ){
 		#	機種依存文字判定->暫定実装 Pickles Framework 0.2.8 1:46 2008/03/22
 		#	$TEXT は、内部エンコーディングされた文字列であることが前提。
@@ -727,18 +695,22 @@ class t{
 		return	false;
 	}
 
-	#----------------------------------------------------------------------------
-	#	Eメールアドレスとして正しい形式であるか判定
+	/**
+	 * Eメールアドレスとして正しい形式であるか判定
+	 */
 	function is_email( $TEXT ){
+		//注：このロジックは概ね拾えるが、完全ではないかも知れない。
 		if( !preg_match( '/^[\-\_\.a-zA-Z0-9]+\@[a-zA-Z0-9\-\_][\-\_\.a-zA-Z0-9]*[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/i' , $TEXT ) ){
 			return	false;
 		}
 		return	true;
 	}
 
-	#----------------------------------------------------------------------------
-	#	URLとして正しい形式であるか判定
+	/**
+	 * URLとして正しい形式であるか判定
+	 */
 	function is_url( $TEXT ){
+		//注：このロジックは概ね拾えるが、完全ではないかも知れない。
 		if( !preg_match( '/^(?:http|https)\:\/\/[a-z0-9\-\_][\-\_\.a-z0-9]*(?:\:[0-9]+)?\/.*$/i' , $TEXT ) ){
 			return	false;
 		}

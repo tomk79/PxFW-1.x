@@ -5,4 +5,6 @@
 "/test/def.html","/test/def.html",,"テストページ(def)",,,,"test>test.abc",1,,,,,,,
 "/test/titletest.html","/test/titletest.html",,"テストページ<strong>タグを書く</strong>",,,,"test>test.abc",1,,"popup",,,,,
 "/test/html.html","/test/html.html","test.html","HTMLコーディングのテスト",,,,"test",1,,,,,,,
+"/test/dynamic/{$a}/{$b}.html","/test/dynamic/a/b.html","","ダイナミックパスのテスト",,,,"test",1,,,,,,,
 "/test/megacontents.html","/test/megacontents.html","test.megacontents","巨大HTMLのテスト",,,,"test",1,,,,,"Pickles Framework,テスト","巨大なHTMLファイルをパースするテスト。",
+"/test/user_test.html","/test/user_test.html","test.user_test","ユーザー情報を操作するテスト",,,,"test",1,,,,,"Pickles Framework,テスト","ユーザー情報を操作するテスト。",

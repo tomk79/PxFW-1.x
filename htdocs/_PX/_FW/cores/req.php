@@ -1,11 +1,13 @@
 <?php
+
 class px_cores_req{
 	private $px;
 	private $param = array();
+	private $dynamic_path_param = array();
 	private $flg_cmd = false;
 	private $request_file_path;
 
-	/*
+	/**
 	 *  初期化
 	 */
 	public function __construct( &$px ){
@@ -15,9 +17,10 @@ class px_cores_req{
 		if (preg_match('/\/$/', $this->request_file_path)) {
 			$this->request_file_path .= 'index.html';
 		}
-	}
+		$this->session_start();
+	}//__construct()
 
-	/*
+	/**
 	 *	$_POSTと$_GETで受け取った情報を、ハッシュ$inに結合する。
 	 */
 	private function parse_input(){
@@ -70,8 +73,9 @@ class px_cores_req{
 		return	true;
 	}//parse_input()
 
-	#----------------------------------------------------------------------------
-	#	入力値に対する標準的な変換事項
+	/**
+	 *	入力値に対する標準的な変換事項
+	 */
 	private function input_default_convert( $param ){
 		#	PxFW 0.6.1 追加。0:04 2009/05/30
 		$is_callable_mb_check_encoding = is_callable( 'mb_check_encoding' );
@@ -103,21 +107,158 @@ class px_cores_req{
 		return $param;
 	}//input_default_convert()
 
+	/**
+	 * ダイナミックパスからパラメータを受け取る
+	 */
+	public function get_path_param( $key ){
+		return $this->dynamic_path_param[$key];
+	}//get_path_param()
+
+	/**
+	 * ダイナミックパスからのパラメータをセットする
+	 */
+	public function set_path_param( $key , $val ){
+		$this->dynamic_path_param[$key] = $val;
+		return true;
+	}//set_path_param()
+
+	/**
+	 * パラメータを受け取る
+	 */
 	public function get_param( $key ){
 		return $this->param[$key];
 	}//get_param()
 
+	/**
+	 * パラメータをセットする
+	 */
 	public function set_param( $key , $val ){
 		$this->param[$key] = $val;
 		return true;
 	}//set_param()
 
+	/**
+	 * クッキー情報を取得
+	 */
+	public function get_cookie( $key ){
+		return	$_COOKIE[$key];
+	}//get_cookie()
+
+	/**
+	 * クッキー情報をセット
+	 */
+	public function set_cookie( $key , $val , $expire = null , $path = null , $domain = null , $secure = false ){
+		if( is_null( $path ) ){
+			$path = $this->px->get_install_path();
+			if( !strlen( $path ) ){
+				$path = '/';
+			}
+		}
+		if( !@setcookie( $key , $val , $expire , $path , $domain , $secure ) ){
+			return false;
+		}
+
+		$_COOKIE[$key] = $val;//現在の処理からも呼び出せるように
+		return true;
+	}//set_cookie()
+
+	/**
+	 * クッキー情報を削除
+	 */
+	public function delete_cookie( $key ){
+		if( !@setcookie( $key , null ) ){
+			return false;
+		}
+		unset( $_COOKIE[$key] );
+		return true;
+	}//delete_cookie()
+
+	/**
+	 * セッションを開始
+	 */
+	private function session_start( $sid = null ){
+		$expire = 1800;//30min
+		$cache_limiter = 'nocache';
+		$session_name = 'PXSID';
+		if( strlen( $this->px->get_conf('system.session_name') ) ){
+			$session_name = $this->px->get_conf('system.session_name');
+		}
+		$path = $this->px->get_install_path();
+
+		session_name( $session_name );
+		session_cache_limiter( $cache_limiter );
+		session_cache_expire( intval($expire/60) );
+
+		if( intval( ini_get( 'session.gc_maxlifetime' ) ) < $expire + 10 ){
+			#	ガベージコレクションの生存期間が
+			#	$expireよりも短い場合は、上書きする。
+			#	バッファは固定値で10秒。
+			ini_set( 'session.gc_maxlifetime' , $expire + 10 );
+		}
+
+		session_set_cookie_params( 0 , $path );
+			//  セッションクッキー自体の寿命は定めない(=0)
+			//  そのかわり、SESSION_LAST_MODIFIED を新設し、自分で寿命を管理する。
+
+		if( strlen( $sid ) ){
+			#	セッションIDに指定があれば、有効にする。
+			session_id( $sid );
+		}
+
+		#	セッションを開始
+		$RTN = @session_start();
+
+		#	セッションの有効期限を評価
+		if( strlen( $this->get_session( 'SESSION_LAST_MODIFIED' ) ) && intval( $this->get_session( 'SESSION_LAST_MODIFIED' ) ) < intval( time() - $expire ) ){
+			#	セッションの有効期限が切れていたら、セッションキーを再発行。
+			if( is_callable('session_regenerate_id') ){
+				@session_regenerate_id( true );
+			}
+		}
+		$this->set_session( 'SESSION_LAST_MODIFIED' , time() );
+		return $RTN;
+	}//session_start()
+
+	/**
+	 * セッションIDを取得
+	 */
+	public function get_session_id(){
+		return session_id();
+	}//get_session_id()
+
+	/**
+	 * セッション情報を取得
+	 */
+	public function get_session( $key ){
+		return $_SESSION[$key];
+	}//get_session()
+
+	/**
+	 * セッション情報をセット
+	 */
+	public function set_session( $key , $val ){
+		$_SESSION[$key] = $val;
+		return true;
+	}//set_session()
+
+	/**
+	 * セッション情報を削除
+	 */
+	public function delete_session( $key ){
+		unset( $_SESSION[$key] );
+		return true;
+	}//delete_session()
+
+	/**
+	 * リクエストパスを取得する
+	 */
 	public function get_request_file_path(){
 		return $this->request_file_path;
-	}//request_file_path()
+	}//get_request_file_path()
 
-	//--------------------
-	//  SSL通信か調べる
+	/*
+	 *  SSL通信か調べる
+	 */
 	public function is_ssl(){
 		if( $_SERVER['HTTP_SSL'] || $_SERVER['HTTPS'] ){
 			#	SSL通信が有効か否か判断
@@ -127,4 +268,5 @@ class px_cores_req{
 	}
 
 }
+
 ?>
