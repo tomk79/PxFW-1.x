@@ -61,7 +61,7 @@ INSERT INTO :D:table_name (
 <?php
 		$sql = @ob_get_clean();
 		$bind_data = array(
-			'table_name'=>$this->px->get_conf('dbs.prefix').'_user',
+			'table_name'=>$this->px->get_conf('dbms.prefix').'_user',
 			'id'=>$id,
 			'user_account'=>$user_info['user_account'],
 			'user_name'=>$user_info['user_name'],
@@ -101,7 +101,7 @@ INSERT INTO :D:table_name (
 	public function get_user_count(){
 		$sql = 'SELECT count(*) AS count FROM :D:table_name WHERE delete_flg = 0;';
 		$bind_data = array(
-			'table_name'=>$this->px->get_conf('dbs.prefix').'_user',
+			'table_name'=>$this->px->get_conf('dbms.prefix').'_user',
 		);
 		$sql = $this->px->dbh()->bind( $sql , $bind_data );
 		$res = $this->px->dbh()->send_query( $sql );
@@ -116,7 +116,7 @@ INSERT INTO :D:table_name (
 	public function get_user_info( $id ){
 		$sql = 'SELECT * FROM :D:table_name WHERE id = :S:id AND delete_flg = 0;';
 		$bind_data = array(
-			'table_name'=>$this->px->get_conf('dbs.prefix').'_user',
+			'table_name'=>$this->px->get_conf('dbms.prefix').'_user',
 			'id'=>$id,
 		);
 		$sql = $this->px->dbh()->bind( $sql , $bind_data );
@@ -133,7 +133,7 @@ INSERT INTO :D:table_name (
 	public function get_user_info_by_account( $account ){
 		$sql = 'SELECT * FROM :D:table_name WHERE user_account = :S:account AND delete_flg = 0;';
 		$bind_data = array(
-			'table_name'=>$this->px->get_conf('dbs.prefix').'_user',
+			'table_name'=>$this->px->get_conf('dbms.prefix').'_user',
 			'account'=>$account,
 		);
 		$sql = $this->px->dbh()->bind( $sql , $bind_data );
@@ -182,7 +182,7 @@ WHERE id = :S:id;
 <?php
 		$sql = ob_get_clean();
 		$bind_data = array(
-			'table_name'=>$this->px->get_conf('dbs.prefix').'_user',
+			'table_name'=>$this->px->get_conf('dbms.prefix').'_user',
 			'id'=>$id,
 			'user_account'=>$user_info['user_account'],
 			'user_name'=>$user_info['user_name'],
@@ -213,7 +213,7 @@ WHERE id = :S:id;
 <?php
 		$sql = ob_get_clean();
 		$bind_data = array(
-			'table_name'=>$this->px->get_conf('dbs.prefix').'_user',
+			'table_name'=>$this->px->get_conf('dbms.prefix').'_user',
 			'id'=>$id,
 			'now'=>$this->px->dbh()->int2datetime( time() ),
 		);
@@ -242,7 +242,7 @@ WHERE id = :S:id;
 <?php
 		$sql = ob_get_clean();
 		$bind_data = array(
-			'table_name'=>$this->px->get_conf('dbs.prefix').'_user',
+			'table_name'=>$this->px->get_conf('dbms.prefix').'_user',
 			'id'=>$id,
 			'now'=>$this->px->dbh()->int2datetime( time() ),
 		);

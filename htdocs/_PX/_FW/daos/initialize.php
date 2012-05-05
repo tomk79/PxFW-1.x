@@ -13,7 +13,7 @@ class px_daos_initialize extends px_bases_dao{
 		#--------------------------------------
 		#	user: ユーザマスタテーブル
 		ob_start();?>
-<?php if( $this->px->get_conf('dbs.dbms') == 'postgresql' ){ ?>
+<?php if( $this->px->get_conf('dbms.dbms') == 'postgresql' ){ ?>
 CREATE TABLE :D:table_name(
     id    VARCHAR NOT NULL,
     user_account    VARCHAR NOT NULL,
@@ -29,7 +29,7 @@ CREATE TABLE :D:table_name(
     delete_date    TIMESTAMP DEFAULT 'NOW',
     delete_flg    INT2 NOT NULL DEFAULT '0'
 );
-<?php }elseif( $this->px->get_conf('dbs.dbms') == 'sqlite' ){ ?>
+<?php }elseif( $this->px->get_conf('dbms.dbms') == 'sqlite' ){ ?>
 CREATE TABLE :D:table_name(
     id    VARCHAR(64) NOT NULL,
     user_account    VARCHAR(64) NOT NULL,
@@ -66,11 +66,11 @@ CREATE TABLE :D:table_name(
 		$sql['user'] = array();
 		array_push( $sql['user'] , @ob_get_clean() );
 /*
-		if( $this->px->get_conf('dbs.dbms') == 'postgresql' ){
+		if( $this->px->get_conf('dbms.dbms') == 'postgresql' ){
 			#	PostgreSQL
 			array_push( $sql['user'] , 'ALTER TABLE :D:table_name ADD PRIMARY KEY ( user_cd );' );
 			array_push( $sql['user'] , 'ALTER TABLE :D:table_name ADD UNIQUE ( user_id );' );
-		}elseif( $this->px->get_conf('dbs.dbms') == 'mysql' ){
+		}elseif( $this->px->get_conf('dbms.dbms') == 'mysql' ){
 			#	MySQL
 			array_push( $sql['user'] , 'ALTER TABLE :D:table_name ADD PRIMARY KEY ( user_cd );' );
 			array_push( $sql['user'] , 'ALTER TABLE :D:table_name CHANGE user_cd user_cd INT(11) NOT NULL AUTO_INCREMENT;' );
@@ -84,7 +84,7 @@ CREATE TABLE :D:table_name(
 		foreach( $sql as $table_name=>$sql_row ){
 			foreach( $sql_row as $sql_content ){
 				$bind_data = array(
-					'table_name'=>$this->px->get_conf('dbs.prefix').'_'.$table_name,
+					'table_name'=>$this->px->get_conf('dbms.prefix').'_'.$table_name,
 				);
 				$sql_final = $this->px->dbh()->bind( $sql_content , $bind_data );
 				if( !strlen( $sql_final ) ){ continue; }

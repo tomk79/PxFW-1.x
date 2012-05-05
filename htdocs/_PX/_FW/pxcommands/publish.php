@@ -150,8 +150,8 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 	function clear_publish_dir_rmdir_all( $path_original ){
 		$path = $this->path_tmppublish_dir.'/htdocs'.$path_original;
 		$path = preg_replace('/^\/+/s','/',$path);
-		if( strlen( $this->px->get_conf('filesystem.encoding') ) ){
-			$path = @t::convert_encoding( $path , $this->px->get_conf('filesystem.encoding') );
+		if( strlen( $this->px->get_conf('system.filesystem_encoding') ) ){
+			$path = @t::convert_encoding( $path , $this->px->get_conf('system.filesystem_encoding') );
 		}
 
 		if( !$this->px->dbh()->is_writable( $path ) ){

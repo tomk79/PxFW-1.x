@@ -51,15 +51,15 @@ class px_cores_dbh{
 	public function connect(){
 		if( $this->check_connection() ){ return true; }
 
-		if( $this->px->get_conf('dbs.dbms') == 'mysql' ){
+		if( $this->px->get_conf('dbms.dbms') == 'mysql' ){
 			#--------------------------------------
 			#	【 MySQL 】
-			$server = $this->px->get_conf('dbs.host');
-			if( strlen( $this->px->get_conf('dbs.port') ) ){
-				$server .= ':'.$this->px->get_conf('dbs.port');
+			$server = $this->px->get_conf('dbms.host');
+			if( strlen( $this->px->get_conf('dbms.port') ) ){
+				$server .= ':'.$this->px->get_conf('dbms.port');
 			}
 			$try_counter = 0;
-			while( $res = @mysql_connect( $server , $this->px->get_conf('dbs.user') , $this->px->get_conf('dbs.password') , true ) ){
+			while( $res = @mysql_connect( $server , $this->px->get_conf('dbms.user') , $this->px->get_conf('dbms.password') , true ) ){
 				$try_counter ++;
 				if( is_resource( $res ) ){
 					break;
@@ -71,36 +71,36 @@ class px_cores_dbh{
 			}
 			if( is_resource( $res ) ){
 				$this->res_connection = &$res;
-				mysql_select_db( $this->px->get_conf('dbs.database_name') , $this->res_connection );
-				if( strlen( $this->px->get_conf('dbs.charset') ) ){
+				mysql_select_db( $this->px->get_conf('dbms.database_name') , $this->res_connection );
+				if( strlen( $this->px->get_conf('dbms.charset') ) ){
 					#	DB文字コードの指定があれば、
 					#	SET NAMES を発行。
-					@mysql_query( 'SET NAMES '.addslashes( $this->px->get_conf('dbs.charset') ).';' , $this->res_connection );
+					@mysql_query( 'SET NAMES '.addslashes( $this->px->get_conf('dbms.charset') ).';' , $this->res_connection );
 				}
 				return	true;
 			}else{
-				$this->add_error( 'DB connect was faild. DB Type of ['.$this->px->get_conf('dbs.dbms').'] Server ['.$this->px->get_conf('dbs.host').']' , null , __FILE__ , __LINE__ );
+				$this->add_error( 'DB connect was faild. DB Type of ['.$this->px->get_conf('dbms.dbms').'] Server ['.$this->px->get_conf('dbms.host').']' , null , __FILE__ , __LINE__ );
 				$this->eventhdl_connection_error( 'Database Connection Error.' , __FILE__ , __LINE__ );	//	DB接続エラー時のコールバック関数
 				return	false;
 			}
-		}elseif( $this->px->get_conf('dbs.dbms') == 'postgresql' ){
+		}elseif( $this->px->get_conf('dbms.dbms') == 'postgresql' ){
 			#--------------------------------------
 			#	【 PostgreSQL 】
 			$pg_connect_string = '';
-			if( strlen( $this->px->get_conf('dbs.host') ) ){
-				$pg_connect_string .= 'host='.$this->px->get_conf('dbs.host').' ';
+			if( strlen( $this->px->get_conf('dbms.host') ) ){
+				$pg_connect_string .= 'host='.$this->px->get_conf('dbms.host').' ';
 			}
-			if( strlen( $this->px->get_conf('dbs.port') ) ){
-				$pg_connect_string .= 'port='.$this->px->get_conf('dbs.port').' ';
+			if( strlen( $this->px->get_conf('dbms.port') ) ){
+				$pg_connect_string .= 'port='.$this->px->get_conf('dbms.port').' ';
 			}
-			if( strlen( $this->px->get_conf('dbs.user') ) ){
-				$pg_connect_string .= 'user='.$this->px->get_conf('dbs.user').' ';
+			if( strlen( $this->px->get_conf('dbms.user') ) ){
+				$pg_connect_string .= 'user='.$this->px->get_conf('dbms.user').' ';
 			}
-			if( strlen( $this->px->get_conf('dbs.password') ) ){
-				$pg_connect_string .= 'password='.$this->px->get_conf('dbs.password').' ';
+			if( strlen( $this->px->get_conf('dbms.password') ) ){
+				$pg_connect_string .= 'password='.$this->px->get_conf('dbms.password').' ';
 			}
-			if( strlen( $this->px->get_conf('dbs.database_name') ) ){
-				$pg_connect_string .= 'dbname='.$this->px->get_conf('dbs.database_name').' ';
+			if( strlen( $this->px->get_conf('dbms.database_name') ) ){
+				$pg_connect_string .= 'dbname='.$this->px->get_conf('dbms.database_name').' ';
 			}
 
 			$try_counter = 0;
@@ -118,27 +118,27 @@ class px_cores_dbh{
 				$this->res_connection = &$res;
 				return	true;
 			}else{
-				$this->add_error( 'DB connect was faild. DB Type of ['.$this->px->get_conf('dbs.dbms').'] Server ['.$this->px->get_conf('dbs.host').']' , null , __FILE__ , __LINE__ );
+				$this->add_error( 'DB connect was faild. DB Type of ['.$this->px->get_conf('dbms.dbms').'] Server ['.$this->px->get_conf('dbms.host').']' , null , __FILE__ , __LINE__ );
 				$this->eventhdl_connection_error( 'Database Connection Error. ' , __FILE__ , __LINE__ );	//	DB接続エラー時のコールバック関数
 				return	false;
 			}
 
-		}elseif( $this->px->get_conf('dbs.dbms') == 'sqlite' ){
+		}elseif( $this->px->get_conf('dbms.dbms') == 'sqlite' ){
 			#--------------------------------------
 			#	【 SQLite 】
-			$res = sqlite_open( $this->px->get_conf('dbs.database_name') , 0666 , $sqlite_error_msg );
+			$res = sqlite_open( $this->px->get_conf('dbms.database_name') , 0666 , $sqlite_error_msg );
 			if( is_resource( $res ) ){
 				$this->res_connection = &$res;
 				return	true;
 			}else{
-				$this->add_error( 'DB connect was faild. Because:['.$sqlite_error_msg.']. DB Type of ['.$this->px->get_conf('dbs.dbms').'] DB ['.$this->px->get_conf('dbs.database_name').']' , null , __FILE__ , __LINE__ );
+				$this->add_error( 'DB connect was faild. Because:['.$sqlite_error_msg.']. DB Type of ['.$this->px->get_conf('dbms.dbms').'] DB ['.$this->px->get_conf('dbms.database_name').']' , null , __FILE__ , __LINE__ );
 				$this->eventhdl_connection_error( 'Database Connection Error. ' , __FILE__ , __LINE__ );	//	DB接続エラー時のコールバック関数
 				return	false;
 			}
 
 		}
-		$this->add_error( 'Pickles Framework は、現在 '.$this->px->get_conf('dbs.dbms').' をサポートしていません。' , 'connect' , __FILE__ , __LINE__ );
-		$this->eventhdl_connection_error( 'Database Connection Error. Unknown DB Type ['.$this->px->get_conf('dbs.dbms').'] ' , __FILE__ , __LINE__ );	//	DB接続エラー時のコールバック関数
+		$this->add_error( 'Pickles Framework は、現在 '.$this->px->get_conf('dbms.dbms').' をサポートしていません。' , 'connect' , __FILE__ , __LINE__ );
+		$this->eventhdl_connection_error( 'Database Connection Error. Unknown DB Type ['.$this->px->get_conf('dbms.dbms').'] ' , __FILE__ , __LINE__ );	//	DB接続エラー時のコールバック関数
 		return false;
 	}//connect()
 
@@ -164,7 +164,7 @@ class px_cores_dbh{
 		}
 		if( !is_resource( $con ) ){ return false; }
 
-		if( $this->px->get_conf('dbs.dbms') == 'mysql' ){
+		if( $this->px->get_conf('dbms.dbms') == 'mysql' ){
 			#--------------------------------------
 			#	【 MySQL 】
 			if( !@mysql_ping( $con ) ){
@@ -172,7 +172,7 @@ class px_cores_dbh{
 			}
 			return true;
 
-		}elseif( $this->px->get_conf('dbs.dbms') == 'postgresql' ){
+		}elseif( $this->px->get_conf('dbms.dbms') == 'postgresql' ){
 			#--------------------------------------
 			#	【 PostgreSQL 】
 			if( !@pg_ping( $con ) ){
@@ -180,7 +180,7 @@ class px_cores_dbh{
 			}
 			return true;
 
-		}elseif( $this->px->get_conf('dbs.dbms') == 'sqlite' ){
+		}elseif( $this->px->get_conf('dbms.dbms') == 'sqlite' ){
 			#--------------------------------------
 			#	【 SQLite 】
 			if( !is_resource( $con ) ){
@@ -211,7 +211,7 @@ class px_cores_dbh{
 			return false;
 		}
 
-		if( $this->px->get_conf('dbs.dbms') == 'mysql' ){
+		if( $this->px->get_conf('dbms.dbms') == 'mysql' ){
 			#--------------------------------------
 			#	【 MySQL 】
 			if( !is_resource( $res ) ){
@@ -221,7 +221,7 @@ class px_cores_dbh{
 			}
 			return @mysql_affected_rows( $res );
 
-		}elseif( $this->px->get_conf('dbs.dbms') == 'postgresql' ){
+		}elseif( $this->px->get_conf('dbms.dbms') == 'postgresql' ){
 			#--------------------------------------
 			#	【 PostgreSQL 】
 			if( !is_resource( $res ) ){
@@ -230,7 +230,7 @@ class px_cores_dbh{
 			}
 			return @pg_affected_rows( $res );
 
-		}elseif( $this->px->get_conf('dbs.dbms') == 'sqlite' ){
+		}elseif( $this->px->get_conf('dbms.dbms') == 'sqlite' ){
 			#--------------------------------------
 			#	【 SQLite 】
 			if( !is_resource( $res ) ){
@@ -252,7 +252,7 @@ class px_cores_dbh{
 		if( !$this->is_transaction() ){
 			$this->transaction_flg = true;
 			$sql = 'START TRANSACTION;';
-			if( $this->px->get_conf('dbs.dbms') == 'sqlite' ){
+			if( $this->px->get_conf('dbms.dbms') == 'sqlite' ){
 				$sql = 'BEGIN TRANSACTION;';
 			}
 			$result = $this->execute_send_query( $sql , &$this->res_connection );
@@ -271,7 +271,7 @@ class px_cores_dbh{
 			return true;
 		}
 		$this->transaction_flg = false;
-		if( $this->px->get_conf('dbs.dbms') == 'sqlite' ){
+		if( $this->px->get_conf('dbms.dbms') == 'sqlite' ){
 			#	SQLiteの処理
 			return $this->execute_send_query( 'COMMIT TRANSACTION;' , &$this->res_connection );
 		}
@@ -288,7 +288,7 @@ class px_cores_dbh{
 			return true;
 		}
 		$this->transaction_flg = false;
-		if( $this->px->get_conf('dbs.dbms') == 'sqlite' ){
+		if( $this->px->get_conf('dbms.dbms') == 'sqlite' ){
 			#	SQLiteの処理
 			return $this->execute_send_query( 'ROLLBACK TRANSACTION;' , &$this->res_connection );
 		}
@@ -325,17 +325,17 @@ class px_cores_dbh{
 		list( $microtime , $time ) = explode( ' ' , microtime() ); 
 		$start_mtime = ( floatval( $time ) + floatval( $microtime ) );
 
-		if( $this->px->get_conf('dbs.dbms') == 'mysql' ){
+		if( $this->px->get_conf('dbms.dbms') == 'mysql' ){
 			#--------------------------------------
 			#	【 MySQL 】
 			$RTN = @mysql_query( $querystring , &$this->res_connection );	//クエリを投げる。
 
-		}elseif( $this->px->get_conf('dbs.dbms') == 'postgresql' ){
+		}elseif( $this->px->get_conf('dbms.dbms') == 'postgresql' ){
 			#--------------------------------------
 			#	【 PostgreSQL 】
 			$RTN = @pg_query( &$this->res_connection , $querystring );	//クエリを投げる。
 
-		}elseif( $this->px->get_conf('dbs.dbms') == 'sqlite' ){
+		}elseif( $this->px->get_conf('dbms.dbms') == 'sqlite' ){
 			#--------------------------------------
 			#	【 SQLite 】
 			$RTN = @sqlite_query( &$this->res_connection , $querystring );	//クエリを投げる。
@@ -347,8 +347,8 @@ class px_cores_dbh{
 			$LINE = $debug[1]['line'];
 
 			$SQL2ErrorMessage = preg_replace( '/(?:\r\n|\r|\n|\t| )+/i' , ' ' , $querystring );
-			$this->add_error( '['.$this->px->get_conf('dbs.dbms').']は、未対応のデータベースです。 SQL[ '.$SQL2ErrorMessage.' ]' , 'sendQuery' , $FILE , $LINE );
-			$this->eventhdl_query_error( 'DB Query Error. ['.$this->px->get_conf('dbs.dbms').']は、未対応のデータベースです。 SQL[ '.$SQL2ErrorMessage.' ]' , $FILE , $LINE );	//	クエリエラー時のコールバック関数
+			$this->add_error( '['.$this->px->get_conf('dbms.dbms').']は、未対応のデータベースです。 SQL[ '.$SQL2ErrorMessage.' ]' , 'sendQuery' , $FILE , $LINE );
+			$this->eventhdl_query_error( 'DB Query Error. ['.$this->px->get_conf('dbms.dbms').']は、未対応のデータベースです。 SQL[ '.$SQL2ErrorMessage.' ]' , $FILE , $LINE );	//	クエリエラー時のコールバック関数
 
 			return false;
 		}
@@ -361,7 +361,7 @@ class px_cores_dbh{
 			$debug = debug_backtrace();
 			$FILE = $debug[1]['file'];
 			$LINE = $debug[1]['line'];
-			$this->add_error( ''.$this->px->get_conf('dbs.dbms').' Heavy Query ['.$exec_time.'] sec. on SQL[ '.preg_replace( '/(?:\r\n|\r|\n|\t| )+/i' , ' ' , $querystring ).' ]' , 'sendQuery' , $FILE , $LINE );
+			$this->add_error( ''.$this->px->get_conf('dbms.dbms').' Heavy Query ['.$exec_time.'] sec. on SQL[ '.preg_replace( '/(?:\r\n|\r|\n|\t| )+/i' , ' ' , $querystring ).' ]' , 'sendQuery' , $FILE , $LINE );
 		}
 
 		if( $RTN === false ){
@@ -373,8 +373,8 @@ class px_cores_dbh{
 			$SQL2ErrorMessage = preg_replace( '/(?:\r\n|\r|\n|\t| )+/i' , ' ' , $querystring );
 			$error_report = $this->get_sql_error();
 			$DB_ERRORMSG = $error_report['message'];
-			$this->add_error( ''.$this->px->get_conf('dbs.dbms').' Query Error! ['.$DB_ERRORMSG.'] on SQL[ '.$SQL2ErrorMessage.' ]' , 'sendQuery' , $FILE , $LINE );
-			$this->eventhdl_query_error( ''.$this->px->get_conf('dbs.dbms').' Query Error. ['.$DB_ERRORMSG.'] on SQL[ '.$SQL2ErrorMessage.' ]' , $FILE , $LINE );	//	クエリエラー時のコールバック関数
+			$this->add_error( ''.$this->px->get_conf('dbms.dbms').' Query Error! ['.$DB_ERRORMSG.'] on SQL[ '.$SQL2ErrorMessage.' ]' , 'sendQuery' , $FILE , $LINE );
+			$this->eventhdl_query_error( ''.$this->px->get_conf('dbms.dbms').' Query Error. ['.$DB_ERRORMSG.'] on SQL[ '.$SQL2ErrorMessage.' ]' , $FILE , $LINE );	//	クエリエラー時のコールバック関数
 
 		}
 
@@ -417,7 +417,7 @@ class px_cores_dbh{
 						$RTN .= intval( $value );
 						break;
 					case 's':
-						if( $this->px->get_conf('dbs.dbms') == 'sqlite' ){
+						if( $this->px->get_conf('dbms.dbms') == 'sqlite' ){
 							#	SQLiteの場合は、エスケープにバックスラッシュを使用せず、
 							#	シングルクオートを重ねる仕様になっているらしい。
 							#	よって、addslashes() では対応できない。
@@ -451,23 +451,23 @@ class px_cores_dbh{
 		if( is_bool( $res ) ){ return $res; }
 		if( !is_resource( $res ) ){ return array(); }
 
-		if( $this->px->get_conf('dbs.dbms') == 'mysql' ){
+		if( $this->px->get_conf('dbms.dbms') == 'mysql' ){
 			#--------------------------------------
 			#	【 MySQL 】
 			while( $Line = mysql_fetch_assoc( $res )){ array_push( $RTN , $Line ); }
 			return $RTN;
-		}elseif( $this->px->get_conf('dbs.dbms') == 'postgresql' ){
+		}elseif( $this->px->get_conf('dbms.dbms') == 'postgresql' ){
 			#--------------------------------------
 			#	【 PostgreSQL 】
 			while( $Line = pg_fetch_assoc( $res )){ array_push( $RTN , $Line ); }
 			return $RTN;
-		}elseif( $this->px->get_conf('dbs.dbms') == 'sqlite' ){
+		}elseif( $this->px->get_conf('dbms.dbms') == 'sqlite' ){
 			#--------------------------------------
 			#	【 SQLite 】
 			while( $Line = sqlite_fetch_array( $res , SQLITE_ASSOC )){ array_push( $RTN , $Line ); }
 			return $RTN;
 		}
-		$this->add_error( $this->px->get_conf('dbs.dbms').'は、未対応のデータベースです。' , 'get_results' , __FILE__ , __LINE__ );
+		$this->add_error( $this->px->get_conf('dbms.dbms').'は、未対応のデータベースです。' , 'get_results' , __FILE__ , __LINE__ );
 		return null;
 	}//get_results()
 
@@ -479,44 +479,44 @@ class px_cores_dbh{
 		if( is_bool( $res ) ){ return $res; }
 		if( !is_resource( $res ) ){ return array(); }
 
-		if( $this->px->get_conf('dbs.dbms') == 'mysql' ){
+		if( $this->px->get_conf('dbms.dbms') == 'mysql' ){
 			#--------------------------------------
 			#	【 MySQL 】
 			$RTN = mysql_fetch_assoc( $res );
 			return	$RTN;
-		}elseif( $this->px->get_conf('dbs.dbms') == 'postgresql' ){
+		}elseif( $this->px->get_conf('dbms.dbms') == 'postgresql' ){
 			#--------------------------------------
 			#	【 PostgreSQL 】
 			$RTN = pg_fetch_assoc( $res );
 			return	$RTN;
-		}elseif( $this->px->get_conf('dbs.dbms') == 'sqlite' ){
+		}elseif( $this->px->get_conf('dbms.dbms') == 'sqlite' ){
 			#--------------------------------------
 			#	【 SQLite 】
 			$RTN = sqlite_fetch_array( $res , SQLITE_ASSOC );
 			return	$RTN;
 		}
-		$this->add_error( $this->px->get_conf('dbs.dbms').'は、未対応のデータベースです。' , 'fetch_assoc' , __FILE__ , __LINE__ );
+		$this->add_error( $this->px->get_conf('dbms.dbms').'は、未対応のデータベースです。' , 'fetch_assoc' , __FILE__ , __LINE__ );
 		return	null;
 	}
 
 	#--------------------------------------
 	#	直前のクエリのエラー報告を受ける
 	function get_sql_error(){
-		if( $this->px->get_conf('dbs.dbms') == 'mysql' ){
+		if( $this->px->get_conf('dbms.dbms') == 'mysql' ){
 			#--------------------------------------
 			#	【 MySQL 】
 			$errornum = mysql_errno( &$this->res_connection );
 			$errormsg = mysql_error( &$this->res_connection );
 			return	array( 'message'=>$errormsg , 'number'=>$errornum );
 
-		}elseif( $this->px->get_conf('dbs.dbms') == 'postgresql' ){
+		}elseif( $this->px->get_conf('dbms.dbms') == 'postgresql' ){
 			#--------------------------------------
 			#	【 PostgreSQL 】
 			$errormsg = pg_last_error( &$this->res_connection );
 			$result_error = pg_result_error( &$this->result );
 			return	array( 'message'=>$errormsg , 'number'=>null , 'result_error'=>$result_error );
 
-		}elseif( $this->px->get_conf('dbs.dbms') == 'sqlite' ){
+		}elseif( $this->px->get_conf('dbms.dbms') == 'sqlite' ){
 			#--------------------------------------
 			#	【 SQLite 】
 			$error_cd = sqlite_last_error( &$this->res_connection );
@@ -524,8 +524,8 @@ class px_cores_dbh{
 			return	array( 'message'=>$errormsg , 'number'=>$error_cd );
 
 		}
-		$this->add_error( $this->px->get_conf('dbs.dbms').'は、未対応のデータベースです。' , 'get_sql_error' , __FILE__ , __LINE__ );
-		return	array( 'message'=>$this->px->get_conf('dbs.dbms').'は、未対応のデータベースです。' );
+		$this->add_error( $this->px->get_conf('dbms.dbms').'は、未対応のデータベースです。' , 'get_sql_error' , __FILE__ , __LINE__ );
+		return	array( 'message'=>$this->px->get_conf('dbms.dbms').'は、未対応のデータベースです。' );
 	}
 
 	#--------------------------------------
@@ -537,14 +537,14 @@ class px_cores_dbh{
 		#	省略した場合は、自動的に選択します。
 		#--------------------------------------
 
-		if( $this->px->get_conf('dbs.dbms') == 'mysql' ){
+		if( $this->px->get_conf('dbms.dbms') == 'mysql' ){
 			#--------------------------------------
 			#	【 MySQL 】
 			if( !$res ){ $res = &$this->res_connection; }
 			$RTN = mysql_insert_id( $res );
 			return	$RTN;
 
-		}elseif( $this->px->get_conf('dbs.dbms') == 'postgresql' ){
+		}elseif( $this->px->get_conf('dbms.dbms') == 'postgresql' ){
 			#--------------------------------------
 			#	【 PostgreSQL 】
 			if( !strlen( $seq_table_name ) ){ return false; }//PostgreSQLでは必須
@@ -555,7 +555,7 @@ class px_cores_dbh{
 			$RTN = intval( $data['seq'] );
 			return	$RTN;
 
-		}elseif( $this->px->get_conf('dbs.dbms') == 'sqlite' ){
+		}elseif( $this->px->get_conf('dbms.dbms') == 'sqlite' ){
 			#--------------------------------------
 			#	【 SQLite 】
 			if( !$res ){ $res = &$this->res_connection; }
@@ -563,8 +563,8 @@ class px_cores_dbh{
 			return	$RTN;
 
 		}
-		$this->add_error( $this->px->get_conf('dbs.dbms').'は、未対応のデータベースです。' , 'get_last_insert_id' , __FILE__ , __LINE__ );
-		return	array( 'message'=>$this->px->get_conf('dbs.dbms').'は、未対応のデータベースです。' );
+		$this->add_error( $this->px->get_conf('dbms.dbms').'は、未対応のデータベースです。' , 'get_last_insert_id' , __FILE__ , __LINE__ );
+		return	array( 'message'=>$this->px->get_conf('dbms.dbms').'は、未対応のデータベースです。' );
 	}
 
 	#******************************************************************************************************************
@@ -574,17 +574,17 @@ class px_cores_dbh{
 	#	データベースの文字エンコードタイプを取得
 	function get_db_encoding(){
 		$this->connect();
-		if( $this->px->get_conf('dbs.dbms') == 'mysql' ){
+		if( $this->px->get_conf('dbms.dbms') == 'mysql' ){
 			#--------------------------------------
 			#	【 MySQL 】
 			return	mysql_client_encoding( $this->res_connection );
 
-		}elseif( $this->px->get_conf('dbs.dbms') == 'postgresql' ){
+		}elseif( $this->px->get_conf('dbms.dbms') == 'postgresql' ){
 			#--------------------------------------
 			#	【 PostgreSQL 】
 			return	pg_client_encoding( $this->res_connection );
 
-		}elseif( $this->px->get_conf('dbs.dbms') == 'sqlite' ){
+		}elseif( $this->px->get_conf('dbms.dbms') == 'sqlite' ){
 			#--------------------------------------
 			#	【 SQLite 】
 			return	sqlite_libencoding();
@@ -614,12 +614,12 @@ class px_cores_dbh{
 	function translateencoding_php2db( $php_encoding ){
 		$php_encoding = strtolower( $php_encoding );
 		if( preg_match( '/utf/i' , $php_encoding ) ){
-			if( $this->px->get_conf('dbs.dbms') == 'postgresql' ){
+			if( $this->px->get_conf('dbms.dbms') == 'postgresql' ){
 				return	'UNICODE';
 			}
 			return	'utf8_unicode_ci';
 		}elseif( preg_match( '/euc/i' , $php_encoding ) ){
-			if( $this->px->get_conf('dbs.dbms') == 'postgresql' ){
+			if( $this->px->get_conf('dbms.dbms') == 'postgresql' ){
 				return	'EUC_JP';
 			}
 			return	'ujis_japanese_ci';
@@ -632,10 +632,10 @@ class px_cores_dbh{
 	#--------------------------------------
 	#	テーブルの一覧を得る
 	function get_tablelist( $dbname = null ){
-		if( !$dbname ){ $dbname = $this->px->get_conf('dbs.database_name'); }
+		if( !$dbname ){ $dbname = $this->px->get_conf('dbms.database_name'); }
 		$this->connect();
 
-		if( $this->px->get_conf('dbs.dbms') == 'mysql' ){
+		if( $this->px->get_conf('dbms.dbms') == 'mysql' ){
 			#--------------------------------------
 			#	【 MySQL 】
 			$tablelist = $this->get_results( mysql_list_tables( $dbname ) );
@@ -650,7 +650,7 @@ class px_cores_dbh{
 			}
 			return	$result;
 
-		}elseif( $this->px->get_conf('dbs.dbms') == 'postgresql' ){
+		}elseif( $this->px->get_conf('dbms.dbms') == 'postgresql' ){
 			#--------------------------------------
 			#	【 PostgreSQL 】
 			ob_start();?>
@@ -674,7 +674,7 @@ ORDER BY 1;
 			}
 			return	$result;
 
-		}elseif( $this->px->get_conf('dbs.dbms') == 'sqlite' ){
+		}elseif( $this->px->get_conf('dbms.dbms') == 'sqlite' ){
 			#--------------------------------------
 			#	【 SQLite 】
 			ob_start();?>
@@ -704,7 +704,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	#	テーブルの定義を知る
 	function get_table_definition( $tablename ){
 		$this->connect();
-		if( $this->px->get_conf('dbs.dbms') == 'mysql' ){
+		if( $this->px->get_conf('dbms.dbms') == 'mysql' ){
 			#--------------------------------------
 			#	【 MySQL 】
 			$sql = 'SHOW COLUMNS FROM :D:table_name;';
@@ -726,7 +726,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 			}
 			return	$RTN;
 
-		}elseif( $this->px->get_conf('dbs.dbms') == 'postgresql' ){
+		}elseif( $this->px->get_conf('dbms.dbms') == 'postgresql' ){
 			#--------------------------------------
 			#	【 PostgreSQL 】
 			if( !is_callable( 'pg_meta_data' ) ){ return false; }
@@ -744,7 +744,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 			}
 			return	$RTN;
 
-		}elseif( $this->px->get_conf('dbs.dbms') == 'sqlite' ){
+		}elseif( $this->px->get_conf('dbms.dbms') == 'sqlite' ){
 			#--------------------------------------
 			#	【 SQLite 】
 			if( !is_callable( 'sqlite_fetch_column_types' ) ){ return false; }
@@ -848,7 +848,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	#	SQLのLIMIT句を作成する
 	function mk_sql_limit( $limit , $offset = 0 ){
 		$sql = '';
-		if( $this->px->get_conf('dbs.dbms') == 'postgresql' ){
+		if( $this->px->get_conf('dbms.dbms') == 'postgresql' ){
 			#	【 PostgreSQL 】
 			$sql .= ' OFFSET '.intval( $offset ).' LIMIT '.intval( $limit ).' ';
 		}else{
@@ -904,8 +904,8 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	 * 書き込み/上書きしてよいアイテムか検証
 	 */
 	public function is_writable( $path ){
-		if( strlen( $this->px->get_conf('filesystem.encoding') ) ){
-			$path = @t::convert_encoding( $path , $this->px->get_conf('filesystem.encoding') );
+		if( strlen( $this->px->get_conf('system.filesystem_encoding') ) ){
+			$path = @t::convert_encoding( $path , $this->px->get_conf('system.filesystem_encoding') );
 		}
 		if( @file_exists( $path ) && !@is_writable( $path ) ){
 			return	false;
@@ -917,8 +917,8 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	 * 読み込んでよいアイテムか検証
 	 */
 	public function is_readable( $path ){
-		if( strlen( $this->px->get_conf('filesystem.encoding') ) ){
-			$path = @t::convert_encoding( $path , $this->px->get_conf('filesystem.encoding') );
+		if( strlen( $this->px->get_conf('system.filesystem_encoding') ) ){
+			$path = @t::convert_encoding( $path , $this->px->get_conf('system.filesystem_encoding') );
 		}
 		if( !@is_readable( $path ) ){
 			return	false;
@@ -930,8 +930,8 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	 * ファイルが存在するかどうか調べる
 	 */
 	public function is_file( $path ){
-		if( strlen( $this->px->get_conf('filesystem.encoding') ) ){
-			$path = @t::convert_encoding( $path , $this->px->get_conf('filesystem.encoding') );
+		if( strlen( $this->px->get_conf('system.filesystem_encoding') ) ){
+			$path = @t::convert_encoding( $path , $this->px->get_conf('system.filesystem_encoding') );
 		}
 		return @is_file( $path );
 	}//is_file()
@@ -940,8 +940,8 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	 * フォルダが存在するかどうか調べる
 	 */
 	public function is_dir( $path ){
-		if( strlen( $this->px->get_conf('filesystem.encoding') ) ){
-			$path = @t::convert_encoding( $path , $this->px->get_conf('filesystem.encoding') );
+		if( strlen( $this->px->get_conf('system.filesystem_encoding') ) ){
+			$path = @t::convert_encoding( $path , $this->px->get_conf('system.filesystem_encoding') );
 		}
 		return @is_dir( $path );
 	}//is_dir()
@@ -950,8 +950,8 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	 * ファイルまたはフォルダが存在するかどうか調べる
 	 */
 	public function file_exists( $path ){
-		if( strlen( $this->px->get_conf('filesystem.encoding') ) ){
-			$path = @t::convert_encoding( $path , $this->px->get_conf('filesystem.encoding') );
+		if( strlen( $this->px->get_conf('system.filesystem_encoding') ) ){
+			$path = @t::convert_encoding( $path , $this->px->get_conf('system.filesystem_encoding') );
 		}
 		return @file_exists( $path );
 	}//file_exists()
@@ -960,8 +960,8 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	 * ディレクトリを作成する
 	 */
 	public function mkdir( $dirpath , $perm = null ){
-		if( strlen( $this->px->get_conf('filesystem.encoding') ) ){
-			$dirpath = @t::convert_encoding( $dirpath , $this->px->get_conf('filesystem.encoding') );
+		if( strlen( $this->px->get_conf('system.filesystem_encoding') ) ){
+			$dirpath = @t::convert_encoding( $dirpath , $this->px->get_conf('system.filesystem_encoding') );
 		}
 
 		if( @is_dir( $dirpath ) ){
@@ -979,8 +979,8 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	 * ディレクトリを作成する(上層ディレクトリも全て作成)
 	 */
 	public function mkdir_all( $dirpath , $perm = null ){
-		if( strlen( $this->px->get_conf('filesystem.encoding') ) ){
-			$dirpath = @t::convert_encoding( $dirpath , $this->px->get_conf('filesystem.encoding') );
+		if( strlen( $this->px->get_conf('system.filesystem_encoding') ) ){
+			$dirpath = @t::convert_encoding( $dirpath , $this->px->get_conf('system.filesystem_encoding') );
 		}
 
 		if( @is_dir( $dirpath ) ){ return true; }
@@ -991,7 +991,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 			if( !strlen( $Line ) || $Line == '.' || $Line == '..' ){ continue; }
 			$targetpath = $targetpath.'/'.$Line;
 			if( !@is_dir( $targetpath ) ){
-				$targetpath = @t::convert_encoding( $targetpath , mb_internal_encoding() , $this->px->get_conf('filesystem.encoding') );
+				$targetpath = @t::convert_encoding( $targetpath , mb_internal_encoding() , $this->px->get_conf('system.filesystem_encoding') );
 				$this->mkdir( $targetpath , $perm );
 			}
 		}
@@ -1014,9 +1014,9 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 
 		$filepath = $this->get_realpath($filepath);
 
-		if( strlen( $this->px->get_conf('filesystem.encoding') ) ){
+		if( strlen( $this->px->get_conf('system.filesystem_encoding') ) ){
 			//PxFW 0.6.4 追加
-			$filepath = @t::convert_encoding( $filepath , $this->px->get_conf('filesystem.encoding') );
+			$filepath = @t::convert_encoding( $filepath , $this->px->get_conf('system.filesystem_encoding') );
 		}
 
 		if( !$this->is_writable( $filepath ) )	{ return false; }
@@ -1057,9 +1057,9 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 			$this->fclose( $filepath );
 		}
 
-		if( strlen( $this->px->get_conf('filesystem.encoding') ) ){
+		if( strlen( $this->px->get_conf('system.filesystem_encoding') ) ){
 			//PxFW 0.6.4 追加
-			$filepath = @t::convert_encoding( $filepath , $this->px->get_conf('filesystem.encoding') );
+			$filepath = @t::convert_encoding( $filepath , $this->px->get_conf('system.filesystem_encoding') );
 		}
 
 		#	ファイルを上書き保存
@@ -1075,9 +1075,9 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	 */
 	public function file_get_lines( $path ){
 
-		if( strlen( $this->px->get_conf('filesystem.encoding') ) ){
+		if( strlen( $this->px->get_conf('system.filesystem_encoding') ) ){
 			//PxFW 0.6.4 追加
-			$path = @t::convert_encoding( $path , $this->px->get_conf('filesystem.encoding') );
+			$path = @t::convert_encoding( $path , $this->px->get_conf('system.filesystem_encoding') );
 		}
 
 		if( @is_file( $path ) ){
@@ -1108,9 +1108,9 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	 */
 	public function file_get_contents( $path ){
 
-		if( strlen( $this->px->get_conf('filesystem.encoding') ) ){
+		if( strlen( $this->px->get_conf('system.filesystem_encoding') ) ){
 			//PxFW 0.6.4 追加
-			$path = @t::convert_encoding( $path , $this->px->get_conf('filesystem.encoding') );
+			$path = @t::convert_encoding( $path , $this->px->get_conf('system.filesystem_encoding') );
 		}
 
 		if( @is_file( $path ) ){
@@ -1194,10 +1194,10 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 		#	$path_b の方が新しかった場合にfalse
 		#	同時だった場合にnullを返す。
 
-		if( strlen( $this->px->get_conf('filesystem.encoding') ) ){
+		if( strlen( $this->px->get_conf('system.filesystem_encoding') ) ){
 			//PxFW 0.6.4 追加
-			$path_a = @t::convert_encoding( $path_a , $this->px->get_conf('filesystem.encoding') );
-			$path_b = @t::convert_encoding( $path_b , $this->px->get_conf('filesystem.encoding') );
+			$path_a = @t::convert_encoding( $path_a , $this->px->get_conf('system.filesystem_encoding') );
+			$path_b = @t::convert_encoding( $path_b , $this->px->get_conf('system.filesystem_encoding') );
 		}
 
 		$mtime_a = filemtime( $path_a );
@@ -1214,9 +1214,9 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	 * ファイル名/ディレクトリ名を変更する
 	 */
 	public function rename( $original , $newname ){
-		if( strlen( $this->px->get_conf('filesystem.encoding') ) ){
-			$original = @t::convert_encoding( $original , $this->px->get_conf('filesystem.encoding') );
-			$newname = @t::convert_encoding( $newname , $this->px->get_conf('filesystem.encoding') );
+		if( strlen( $this->px->get_conf('system.filesystem_encoding') ) ){
+			$original = @t::convert_encoding( $original , $this->px->get_conf('system.filesystem_encoding') );
+			$newname = @t::convert_encoding( $newname , $this->px->get_conf('system.filesystem_encoding') );
 		}
 
 		if( !@file_exists( $original ) ){ return false; }
@@ -1228,9 +1228,9 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	 * ファイル名/ディレクトリ名の変更を完全に実行する
 	 */
 	public function rename_complete( $original , $newname ){
-		if( strlen( $this->px->get_conf('filesystem.encoding') ) ){
-			$original = @t::convert_encoding( $original , $this->px->get_conf('filesystem.encoding') );
-			$newname = @t::convert_encoding( $newname , $this->px->get_conf('filesystem.encoding') );
+		if( strlen( $this->px->get_conf('system.filesystem_encoding') ) ){
+			$original = @t::convert_encoding( $original , $this->px->get_conf('system.filesystem_encoding') );
+			$newname = @t::convert_encoding( $newname , $this->px->get_conf('system.filesystem_encoding') );
 		}
 
 		if( !@file_exists( $original ) ){ return false; }
@@ -1264,8 +1264,8 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 			return	$rtn;
 		}
 
-		if( strlen( $this->px->get_conf('filesystem.encoding') ) ){
-			$path = @t::convert_encoding( $path , $this->px->get_conf('filesystem.encoding') );
+		if( strlen( $this->px->get_conf('system.filesystem_encoding') ) ){
+			$path = @t::convert_encoding( $path , $this->px->get_conf('system.filesystem_encoding') );
 		}
 
 		if( @file_exists( $path ) && strlen(t::realpath( $path )) ){
@@ -1295,8 +1295,8 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	 * パス情報を得る
 	 */
 	public function pathinfo( $path ){
-		if( strlen( $this->px->get_conf('filesystem.encoding') ) ){
-			$path = @t::convert_encoding( $path , $this->px->get_conf('filesystem.encoding') );
+		if( strlen( $this->px->get_conf('system.filesystem_encoding') ) ){
+			$path = @t::convert_encoding( $path , $this->px->get_conf('system.filesystem_encoding') );
 		}
 		$pathinfo = pathinfo( $path );
 		$pathinfo['filename'] = $this->trim_extension( $pathinfo['basename'] );
@@ -1341,8 +1341,8 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 		#	$options['charset'] は、保存されているCSVファイルの文字エンコードです。
 		#	省略時は SJIS-win から、内部エンコーディングに変換します。
 
-		if( strlen( $this->px->get_conf('filesystem.encoding') ) ){
-			$path = @t::convert_encoding( $path , $this->px->get_conf('filesystem.encoding') );
+		if( strlen( $this->px->get_conf('system.filesystem_encoding') ) ){
+			$path = @t::convert_encoding( $path , $this->px->get_conf('system.filesystem_encoding') );
 		}
 
 		$path = t::realpath( $path );
@@ -1426,9 +1426,9 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	 * ファイルを複製する
 	 */
 	public function copy( $from , $to , $perm = null ){
-		if( strlen( $this->px->get_conf('filesystem.encoding') ) ){
-			$from = @t::convert_encoding( $from , $this->px->get_conf('filesystem.encoding') );
-			$to   = @t::convert_encoding( $to   , $this->px->get_conf('filesystem.encoding') );
+		if( strlen( $this->px->get_conf('system.filesystem_encoding') ) ){
+			$from = @t::convert_encoding( $from , $this->px->get_conf('system.filesystem_encoding') );
+			$to   = @t::convert_encoding( $to   , $this->px->get_conf('system.filesystem_encoding') );
 		}
 
 		if( !@is_file( $from ) ){
@@ -1455,9 +1455,9 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	 * ディレクトリを複製する(下層ディレクトリも全てコピー)
 	 */
 	public function copy_all( $from , $to , $perm = null ){
-		if( strlen( $this->px->get_conf('filesystem.encoding') ) ){
-			$from = @t::convert_encoding( $from , $this->px->get_conf('filesystem.encoding') );
-			$to   = @t::convert_encoding( $to   , $this->px->get_conf('filesystem.encoding') );
+		if( strlen( $this->px->get_conf('system.filesystem_encoding') ) ){
+			$from = @t::convert_encoding( $from , $this->px->get_conf('system.filesystem_encoding') );
+			$to   = @t::convert_encoding( $to   , $this->px->get_conf('system.filesystem_encoding') );
 		}
 
 		$result = true;
@@ -1508,9 +1508,9 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	 */
 	public function &fopen( $filepath , $mode = 'r' , $flock = true ){
 		$filepath_fsenc = $filepath;
-		if( strlen( $this->px->get_conf('filesystem.encoding') ) ){
+		if( strlen( $this->px->get_conf('system.filesystem_encoding') ) ){
 			//PxFW 0.6.4 追加
-			$filepath_fsenc = @t::convert_encoding( $filepath_fsenc , $this->px->get_conf('filesystem.encoding') );
+			$filepath_fsenc = @t::convert_encoding( $filepath_fsenc , $this->px->get_conf('system.filesystem_encoding') );
 		}
 
 		$filepath = $this->get_realpath( $filepath );
@@ -1587,8 +1587,8 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	 * パーミッションを変更する
 	 */
 	public function chmod( $filepath , $perm = null ){
-		if( strlen( $this->px->get_conf('filesystem.encoding') ) ){
-			$filepath = @t::convert_encoding( $filepath , $this->px->get_conf('filesystem.encoding') );
+		if( strlen( $this->px->get_conf('system.filesystem_encoding') ) ){
+			$filepath = @t::convert_encoding( $filepath , $this->px->get_conf('system.filesystem_encoding') );
 		}
 
 		if( is_null( $perm ) ){
@@ -1608,9 +1608,9 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	 * パーミッション情報を調べ、3桁の数字で返す。
 	 */
 	public function get_permission( $path ){
-		if( strlen( $this->px->get_conf('filesystem.encoding') ) ){
+		if( strlen( $this->px->get_conf('system.filesystem_encoding') ) ){
 			//PxFW 0.6.4 追加
-			$path = @t::convert_encoding( $path , $this->px->get_conf('filesystem.encoding') );
+			$path = @t::convert_encoding( $path , $this->px->get_conf('system.filesystem_encoding') );
 		}
 		$path = @realpath( $path );
 		if( !@file_exists( $path ) ){ return false; }
@@ -1624,9 +1624,9 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	 * ディレクトリにあるファイル名のリストを配列で返す。
 	 */
 	public function ls($path){
-		if( strlen( $this->px->get_conf('filesystem.encoding') ) ){
+		if( strlen( $this->px->get_conf('system.filesystem_encoding') ) ){
 			//PxFW 0.6.4 追加
-			$path = @t::convert_encoding( $path , $this->px->get_conf('filesystem.encoding') );
+			$path = @t::convert_encoding( $path , $this->px->get_conf('system.filesystem_encoding') );
 		}
 		$path = @realpath($path);
 		if( $path === false ){ return false; }
@@ -1641,7 +1641,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 			array_push( $RTN , $ent );
 		}
 		closedir($dr);
-		if( strlen( $this->px->get_conf('filesystem.encoding') ) ){
+		if( strlen( $this->px->get_conf('system.filesystem_encoding') ) ){
 			//PxFW 0.6.4 追加
 			$RTN = @t::convert_encoding( $RTN , mb_internal_encoding() );
 		}
@@ -1657,8 +1657,8 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	 */
 	public function rmdir_all( $path ){
 
-		if( strlen( $this->px->get_conf('filesystem.encoding') ) ){
-			$path = @t::convert_encoding( $path , $this->px->get_conf('filesystem.encoding') );
+		if( strlen( $this->px->get_conf('system.filesystem_encoding') ) ){
+			$path = @t::convert_encoding( $path , $this->px->get_conf('system.filesystem_encoding') );
 		}
 
 		if( !$this->is_writable( $path ) ){
@@ -1692,9 +1692,9 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	function compare_and_cleanup( $target , $comparison ){
 		if( is_null( $comparison ) || is_null( $target ) ){ return false; }
 
-		if( strlen( $this->px->get_conf('filesystem.encoding') ) ){
-			$target = @t::convert_encoding( $target , $this->px->get_conf('filesystem.encoding') );
-			$comparison = @t::convert_encoding( $comparison , $this->px->get_conf('filesystem.encoding') );
+		if( strlen( $this->px->get_conf('system.filesystem_encoding') ) ){
+			$target = @t::convert_encoding( $target , $this->px->get_conf('system.filesystem_encoding') );
+			$comparison = @t::convert_encoding( $comparison , $this->px->get_conf('system.filesystem_encoding') );
 		}
 
 		if( !@file_exists( $comparison ) && @file_exists( $target ) ){
@@ -1720,8 +1720,8 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	 * 指定されたディレクトリ以下の、全ての空っぽのディレクトリを削除する
 	 */
 	public function remove_empty_dir( $path , $option = array() ){
-		if( strlen( $this->px->get_conf('filesystem.encoding') ) ){
-			$path = @t::convert_encoding( $path , $this->px->get_conf('filesystem.encoding') );
+		if( strlen( $this->px->get_conf('system.filesystem_encoding') ) ){
+			$path = @t::convert_encoding( $path , $this->px->get_conf('system.filesystem_encoding') );
 		}
 
 		if( !$this->is_writable( $path ) ){ return false; }
@@ -1792,10 +1792,10 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 		#	$option['compare_emptydir'] = bool;
 		#		空っぽのディレクトリの有無も評価に含めるか？
 
-		if( strlen( $this->px->get_conf('filesystem.encoding') ) ){
+		if( strlen( $this->px->get_conf('system.filesystem_encoding') ) ){
 			//PxFW 0.6.4 追加
-			$dir_a = @t::convert_encoding( $dir_a , $this->px->get_conf('filesystem.encoding') );
-			$dir_b = @t::convert_encoding( $dir_b , $this->px->get_conf('filesystem.encoding') );
+			$dir_a = @t::convert_encoding( $dir_a , $this->px->get_conf('system.filesystem_encoding') );
+			$dir_b = @t::convert_encoding( $dir_b , $this->px->get_conf('system.filesystem_encoding') );
 		}
 
 		if( ( @is_file( $dir_a ) && !@is_file( $dir_b ) ) || ( !@is_file( $dir_a ) && @is_file( $dir_b ) ) ){
@@ -1958,7 +1958,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 			}
 		}
 
-		if( $this->px->get_conf('dbs.dbms') == 'mysql' ){
+		if( $this->px->get_conf('dbms.dbms') == 'mysql' ){
 			#--------------------------------------
 			#	【 MySQL 】
 			if( mysql_close( $this->res_connection ) ){
@@ -1969,7 +1969,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 				return	false;
 			}
 
-		}elseif( $this->px->get_conf('dbs.dbms') == 'postgresql' ){
+		}elseif( $this->px->get_conf('dbms.dbms') == 'postgresql' ){
 			#--------------------------------------
 			#	【 PostgreSQL 】
 			if( pg_close( $this->res_connection ) ){
@@ -1980,7 +1980,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 				return	false;
 			}
 
-		}elseif( $this->px->get_conf('dbs.dbms') == 'sqlite' ){
+		}elseif( $this->px->get_conf('dbms.dbms') == 'sqlite' ){
 			#--------------------------------------
 			#	【 SQLite 】
 			sqlite_close( $this->res_connection );

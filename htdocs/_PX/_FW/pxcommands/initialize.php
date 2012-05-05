@@ -33,7 +33,7 @@ class px_pxcommands_initialize extends px_bases_pxcommand{
 			print 'FAILED'."\n";
 		}
 
-		//var_dump( $this->px->dbh()->get_table_definition($this->px->get_conf('dbs.prefix').'_user') );
+		//var_dump( $this->px->dbh()->get_table_definition($this->px->get_conf('dbms.prefix').'_user') );
 
 		print '------'."\n";
 		print 'initialize completed.'."\n";

@@ -46,7 +46,8 @@ class cont_exec{
 	private function mode_default(){
 		$rtn = '';
 		$rtn .= '<ol>'."\n";
-		$rtn .= '<li>はじめに ?PX=config を実行し、メインコンフィグの dbs の設定内容が正しいか確認します。</li><li>?PX=initialize を実行してユーザーテーブルを作成してください。</li>'."\n";
+		$rtn .= '<li>はじめに ?PX=config を実行し、メインコンフィグの dbms の設定内容が正しいか確認します。</li>'."\n";
+		$rtn .= '<li>?PX=initialize を実行してユーザーテーブルを作成してください。</li>'."\n";
 		$rtn .= '</ol>'."\n";
 		$rtn .= '<ul>'."\n";
 		$rtn .= '	<li><a href="'.t::h( $this->px->theme()->href( $this->px->req()->get_request_file_path() ).'?mode=add_user' ).'">ユーザーを追加する</a></li>'."\n";
