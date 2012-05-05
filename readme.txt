@@ -14,19 +14,19 @@ Pickles Framework 0.x系( http://pickles.pxt.jp/ )の後継です。
    お使いのウェブサーバーのドキュメントルート配下の任意のディレクトリに設置する。
 4. ウェブブラウザからアクセスする。
 
-
-■使い方
-
-1. ./_PX/sitemaps/sitemap.csv を編集して、ページを登録する。
-2. コンテンツのHTMLを編集する。
-3. テーマ ./_PX/themes/default/default.html を編集する。
-
 　※パーミッション設定
 　　次のディレクトリとそれ以下の全てのファイルに、
 　　Apacheが書き込みできるパーミッションを設定する。
 
 　　　・./_PX/_sys
 　　　・./_caches
+
+
+■使い方
+
+1. ./_PX/sitemaps/sitemap.csv を編集して、ページを登録する。
+2. コンテンツのHTMLを編集する。
+3. テーマ ./_PX/themes/default/default.html を編集する。
 
 
 ■パブリッシュ手順
