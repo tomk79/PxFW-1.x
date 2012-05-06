@@ -24,5 +24,8 @@ class px_bases_pxcommand{
 		$src .= '</html>';
 		return $src;
 	}
+	
+	protected function html_content_arraylist( $content ){
+	}
 }
 ?>
