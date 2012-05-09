@@ -14,12 +14,12 @@ Pickles Framework 0.x系( http://pickles.pxt.jp/ )の後継です。
    お使いのウェブサーバーのドキュメントルート配下の任意のディレクトリに設置する。
 4. ウェブブラウザからアクセスする。
 
-　※パーミッション設定
-　　次のディレクトリとそれ以下の全てのファイルに、
-　　Apacheが書き込みできるパーミッションを設定する。
+  ※パーミッション設定
+    次のディレクトリとそれ以下の全てのファイルに、
+    Apacheが書き込みできるパーミッションを設定する。
 
-　　　・./_PX/_sys
-　　　・./_caches
+      ・./_PX/_sys
+      ・./_caches
 
 
 ■使い方
@@ -38,7 +38,7 @@ Pickles Framework 0.x系( http://pickles.pxt.jp/ )の後継です。
 publishディレクティブ path_publish_dir で変更できます。
 
 
-■システム用件
+■システム要件
 
 ・Linux系サーバ または Windowsサーバ
 ・Apache1.3以降
