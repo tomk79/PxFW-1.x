@@ -8,3 +8,6 @@
 "/test/dynamic/{$a}/{$b}.html","/test/dynamic/a/b.html","","ダイナミックパスのテスト",,,,"test",1,,,,,,,
 "/test/megacontents.html","/test/megacontents.html","test.megacontents","巨大HTMLのテスト",,,,"test",1,,,,,"Pickles Framework,テスト","巨大なHTMLファイルをパースするテスト。",
 "/test/user_test.html","/test/user_test.html","test.user_test","ユーザー情報を操作するテスト",,,,"test",1,,,,,"Pickles Framework,テスト","ユーザー情報を操作するテスト。",
+"alias:/test/alias/","","_alias1","エイリアス元A",,,,"test",1,,,,,"Pickles Framework,テスト","ユーザー情報を操作するテスト。",
+"/test/alias/","/test/alias/","","エイリアス機能のテスト",,,,"test>_alias1",1,,,,,"Pickles Framework,テスト","ユーザー情報を操作するテスト。",
+"alias:/test/alias/","","","エイリアス元B",,,,"test",1,,,,,"Pickles Framework,テスト","ユーザー情報を操作するテスト。",

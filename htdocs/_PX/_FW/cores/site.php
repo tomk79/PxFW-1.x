@@ -54,9 +54,11 @@ class px_cores_site{
 		//  / サイトマップ定義をロード
 
 		//  サイトマップをロード
+		$num_auto_pid = 0;
 		foreach( $ary_sitemap_files as $basename_sitemap_csv ){
 			$tmp_sitemap = $this->px->dbh()->read_csv_utf8( $path_sitemap_dir.$basename_sitemap_csv );
 			foreach ($tmp_sitemap as $row) {
+				$num_auto_pid++;
 				$tmp_array = array();
 				foreach ($this->sitemap_definition as $defrow) {
 					$tmp_array[$defrow['key']] = $row[$defrow['num']];
@@ -65,23 +67,32 @@ class px_cores_site{
 					//アスタリスク始まりの場合はコメント行とみなす。
 					continue;
 				}
-				if( !preg_match( '/^(?:\/)/is' , $tmp_array['path'] ) ){
+				if( !preg_match( '/^(?:\/|alias\:)/is' , $tmp_array['path'] ) ){
 					//不正な形式のチェック
 					continue;
 				}
-				$tmp_array['path'] = preg_replace( '/\/$/si' , '/index.html' , $tmp_array['path'] );
+				$tmp_array['path'] = preg_replace( '/\/$/si' , '/index.html' , $tmp_array['path'] );//index.htmlを付加する。
 				if( !strlen( $tmp_array['content'] ) ){
 					$tmp_array['content'] = $tmp_array['path'];
 				}
 				$tmp_array['content'] = preg_replace( '/\/$/si' , '/index.html' , $tmp_array['content'] );
 				if( !strlen( $tmp_array['id'] ) ){
-					$tmp_id = $tmp_array['path'];
-					$tmp_id = $this->px->dbh()->trim_extension($tmp_id);
-					$tmp_id = preg_replace( '/\/index$/si' , '/' , $tmp_id );
-					$tmp_id = preg_replace( '/\/+$/si' , '' , $tmp_id );
-					$tmp_id = preg_replace( '/^\/+/si' , '' , $tmp_id );
-					$tmp_id = preg_replace( '/\//si' , '.' , $tmp_id );
+					//ページID文字列を自動生成
+					$tmp_id = '';
+					if( preg_match( '/^alias\:/s' , $tmp_array['path'] ) ){
+						//エイリアス
+						$tmp_id = ':auto_page_id.'.($num_auto_pid);
+					}else{
+						//物理ページ
+						$tmp_id = $tmp_array['path'];
+						$tmp_id = $this->px->dbh()->trim_extension($tmp_id);
+						$tmp_id = preg_replace( '/\/index$/si' , '/' , $tmp_id );
+						$tmp_id = preg_replace( '/\/+$/si' , '' , $tmp_id );
+						$tmp_id = preg_replace( '/^\/+/si' , '' , $tmp_id );
+						$tmp_id = preg_replace( '/\//si' , '.' , $tmp_id );
+					}
 					$tmp_array['id'] = $tmp_id;
+					unset($tmp_id);
 				}
 
 				if( preg_match( '/\{\$[a-zA-Z0-9]+\}/s' , $tmp_array['path'] ) ){
@@ -100,9 +111,14 @@ class px_cores_site{
 					unset($pattern_map);
 				}
 
+				if( preg_match( '/^alias\:/s' , $tmp_array['path'] ) ){
+					//エイリアスの値調整
+					$tmp_array['content'] = null;
+					$tmp_array['path'] = preg_replace( '/^alias\:/s' , 'alias'.$num_auto_pid.':' , $tmp_array['path'] );
+				}
+
 				$this->sitemap_array[$tmp_array['path']] = $tmp_array;
 				$this->sitemap_id_map[$tmp_array['id']] = $tmp_array['path'];
-
 			}
 		}
 		//  / サイトマップをロード

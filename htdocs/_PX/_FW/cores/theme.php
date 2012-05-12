@@ -105,7 +105,11 @@ class px_cores_theme{
 	 */
 	public function href( $linkto ){
 		$path = $this->px->site()->get_page_info($linkto,'path');
+		if( preg_match( '/^alias[0-9]+\:(.+)/' , $path , $tmp_matched ) ){
+			$path = $tmp_matched[1];
+		}
 		$path = preg_replace( '/^\/+/' , '' , $path );
+		$path = preg_replace('/\/index\.html$/si','/',$path); // index.htmlを省略
 		return $this->px->get_install_path().$path;
 	}
 
@@ -164,6 +168,7 @@ class px_cores_theme{
 			//オプションで指定があれば、カレントページを仮定する。
 			$current_path = $args[0];
 		}
+		$current_path = $this->href($current_path);
 		$page_info = $this->px->site()->get_page_info($current_path);
 		$page_info['logical_path'] = trim($page_info['logical_path']);
 		if( $page_info['id'] == '' ){
@@ -179,7 +184,12 @@ class px_cores_theme{
 		$rtn .= '<li><a href="'.t::h($this->href('')).'">'.t::h($this->px->site()->get_page_info('','title_breadcrumb')).'</a></li>';
 		foreach( $array_breadcrumb as $page_id ){
 			$linkto_page_info = $this->px->site()->get_page_info($page_id);
-			$rtn .= '<li> &gt; <a href="'.t::h($this->href($linkto_page_info['path'])).'">'.t::h($linkto_page_info['title_breadcrumb']).'</a></li>';
+			$href = $this->href($linkto_page_info['path']);
+			if( $href == $current_path ){
+				$rtn .= '<li> &gt; '.t::h($linkto_page_info['title_breadcrumb']).'</li>';
+			}else{
+				$rtn .= '<li> &gt; <a href="'.t::h($href).'">'.t::h($linkto_page_info['title_breadcrumb']).'</a></li>';
+			}
 		}
 		$rtn .= '<li> &gt; <strong>'.t::h($page_info['title_breadcrumb']).'</strong></li>';
 		$rtn .= '</ul>';
