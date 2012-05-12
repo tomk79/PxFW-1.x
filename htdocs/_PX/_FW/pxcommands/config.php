@@ -41,7 +41,7 @@ class px_pxcommands_config extends px_bases_pxcommand{
 			"fruit"
 		);
 
-		print $this->html_template($this->print_ary_table($food2));
+		print $this->html_template($this->print_ary_table($src));
 		
 		exit;
 	}
