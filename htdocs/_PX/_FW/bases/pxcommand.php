@@ -24,8 +24,72 @@ class px_bases_pxcommand{
 		$src .= '</html>';
 		return $src;
 	}
-	
-	protected function html_content_arraylist( $content ){
+
+	//配列をtableのhtmlソースに変換
+	protected function print_ary_table( $ary ) {
+		
+		//連想配列(true)か添付配列(false)か調べる
+		function is_hash( $ary ) {
+			$i = 0;
+			foreach($ary as $key => $dummy) {
+				if ( $key !== $i++ ) return true;
+			}
+			return false;
+		}
+		
+		function make_style_ary_table() {	
+			ob_start(); ?>
+			<style type="text/css">
+			table.def {
+				border:none;
+				border-collapse: collapse;
+				text-align: left;
+				width: 800px;
+			}
+			table.def th,
+			table.def td {
+				border: 1px solid #D6D6D6;
+				padding: 10px;
+			}
+			table.def th {
+				background: #E7E7E7;
+			}
+			</style>
+<?php
+			$style = ob_get_clean();
+			
+			return $style;
+		}
+		
+		function make_html_ary_table( $ary ) {		
+			if(is_array($ary)) {
+					if(is_hash($ary)) {			
+						$html = '<table class="def">' . "\n";
+						foreach ($ary as $key => $val) {
+							$html .= '<tr>' . "\n";
+							$html .= '<th>' .$key. '</th>' . "\n";
+							$html .= '<td>' .make_html_ary_table($val). '</td>' . "\n";
+							$html .= '</tr>' . "\n";
+						}
+						$html .= '</table>' . "\n";
+					} elseif(!is_hash($ary)) {						
+						$html = '<table class="def">' . "\n";
+						foreach ($ary as $val) {
+							$html .= '<tr>' . "\n";
+							$html .= '<td>' .$val. '</td>' . "\n";
+							$html .= '</tr>' . "\n";
+						}
+						$html .= '</table>' . "\n";
+					}
+				
+				} elseif(!is_array($ary)) {
+					$html = $ary;
+				}							
+			return $html;
+		}
+		
+		return make_style_ary_table().make_html_ary_table($ary);
+		
 	}
 }
 ?>
