@@ -90,6 +90,20 @@ class px_bases_pxcommand{
 		
 		return make_style_ary_table().make_html_ary_table($ary);
 		
+		/*
+		// 配列の次元数を調べる
+		function depth($ary, $cnt = 0){
+		   if(!is_array($ary)) return $cnt; else $cnt++;
+		   $max = $cnt; $i = 0;
+		   foreach($ary as $v){
+				if(is_array($v)){
+					 $i = depth($v, $cnt);
+					 if($max < $i) $max = $i;
+				}
+		   }
+		   return $max;
+		}*/
+		
 	}
 }
 ?>
