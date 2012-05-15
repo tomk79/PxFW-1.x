@@ -18,10 +18,7 @@ class px_pxcommands_sitemap extends px_bases_pxcommand{
 	 */
 	private function execute(){
 		$sitemap = $this->px->site()->get_sitemap();
-		ob_start();
-		test::var_dump( $sitemap );
-		$src = ob_get_clean();
-		print $this->html_template( $src );
+		print $this->html_template($this->print_ary_table($sitemap));
 		exit;
 	}
 }

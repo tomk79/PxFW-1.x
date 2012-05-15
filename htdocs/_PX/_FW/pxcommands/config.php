@@ -21,7 +21,7 @@ class px_pxcommands_config extends px_bases_pxcommand{
 		//test::var_dump( $this->px->get_conf_all() ); //ahomemo: "::"はクラスの中のメソッドをインスタンス化せず直接呼び出す。
 		//$src = ob_get_clean();
 		
-		$src = $this->px->get_conf_all();
+		$config = $this->px->get_conf_all();
 		
 		//sample source
 		$food = array(
@@ -41,7 +41,7 @@ class px_pxcommands_config extends px_bases_pxcommand{
 			"fruit"
 		);
 
-		print $this->html_template($this->print_ary_table($src));
+		print $this->html_template($this->print_ary_table($config));
 		
 		exit;
 	}
