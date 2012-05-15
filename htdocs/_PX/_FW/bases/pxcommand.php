@@ -64,7 +64,7 @@ class px_bases_pxcommand{
 		function make_html_ary_table( $ary ) {		
 			if(is_array($ary)) {
 					if(is_hash($ary)) {			
-						$html = '<table class="def">' . "\n";
+						$html = '<table class="def"><col width="30%" /><col width="70%" />' . "\n";
 						foreach ($ary as $key => $val) {
 							$html .= '<tr>' . "\n";
 							$html .= '<th>' .$key. '</th>' . "\n";
@@ -73,7 +73,7 @@ class px_bases_pxcommand{
 						}
 						$html .= '</table>' . "\n";
 					} elseif(!is_hash($ary)) {						
-						$html = '<table class="def">' . "\n";
+						$html = '<table class="def"><col width="30%" /><col width="70%" />' . "\n";
 						foreach ($ary as $val) {
 							$html .= '<tr>' . "\n";
 							$html .= '<td>' .$val. '</td>' . "\n";
