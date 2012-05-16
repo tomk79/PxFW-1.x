@@ -1,6 +1,6 @@
-<?php /* Smarty version Smarty-3.1.8, created on 2012-05-15 12:48:54
+<?php /* Smarty version Smarty-3.1.8, created on 2012-05-16 08:06:07
          compiled from "\Users\k-watanabe\Desktop\private\Dropbox\project\px\PxFW-1.x\htdocs\test\commandlist.html" */ ?>
-<?php /*%%SmartyHeaderCode:203684fb2343558d301-67289391%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:54534fb343cf8b4883-97193018%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
@@ -11,15 +11,15 @@ $_valid = $_smarty_tpl->decodeProperties(array (
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '203684fb2343558d301-67289391',
+  'nocache_hash' => '54534fb343cf8b4883-97193018',
   'function' => 
   array (
   ),
-  'version' => 'Smarty-3.1.8',
-  'unifunc' => 'content_4fb234355eaae7_89807166',
   'has_nocache_code' => false,
+  'version' => 'Smarty-3.1.8',
+  'unifunc' => 'content_4fb343cf8ed199_27291243',
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_4fb234355eaae7_89807166')) {function content_4fb234355eaae7_89807166($_smarty_tpl) {?>
+<?php if ($_valid && !is_callable('content_4fb343cf8ed199_27291243')) {function content_4fb343cf8ed199_27291243($_smarty_tpl) {?>
 <p>ピクルスのコマンドは、URLの後ろに ?PX=foo でENTER!!</p>
 
 <ul>

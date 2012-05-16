@@ -4,7 +4,7 @@ class px_bases_pxcommand{
 	protected $pxcommand_name = 'pxcommand';
 
 	public function __construct( &$px ){
-		$this->px = &$px;
+		$this->px = &$px; //ahoque: これどういうこと
 	}//__construct()
 
 	protected function html_template( $content ){

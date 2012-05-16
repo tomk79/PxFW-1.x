@@ -32,6 +32,8 @@ class px_px{
 
 		//  PXコマンドを解析
 		$this->pxcommand = $this->parse_pxcommand( $this->req()->get_param('PX') ); //ahomemo: urlパラメータのなかのPXコマンドを格納
+		//ahoque: $this->obj_req->get_param('PX') じゃだめ？
+		//ahomemo: req()はpxクラス内に記述されたreqオブジェクトにアクセスするための関数。戻り値は、obj_req
 
 		return true;
 	}//__construct()
@@ -42,6 +44,7 @@ class px_px{
 	 * @return boolean true
 	 */
 	public function execute(){
+		
 		$this->access_log();//アクセスログを記録
 
 		if( strlen($this->req()->get_param('THEME')) ){
@@ -225,13 +228,13 @@ class px_px{
 	private function parse_pxcommand( $param ){
 		if( !$this->get_conf('system.allow_pxcommands') ){
 			//  設定で許可されていない場合は、常に null
-			return null;
+			return null; //ahoque: なんでfalseじゃなくてnull
 		}
 		if( !strlen( $param ) ){
 			//  パラメータ値が付いていなければ、null
 			return null;
 		}
-		return explode( '.' , $param );
+		return explode( '.' , $param ); //ahoque:explode — 文字列を文字列により分割する。なんで"."
 	}
 
 	/**
