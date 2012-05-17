@@ -55,11 +55,12 @@ class px_pxcommands_fillcontents extends px_bases_pxcommand{
 			
 			//ディレクトリ生成
 			if(!$this->px->dbh()->is_dir($dir_realpath)) {
-				$sccess_dir = $this->px->dbh()->mkdir_all( $dir_realpath , $dir_perm );
+				$success_dir = $this->px->dbh()->mkdir_all( $dir_realpath , $dir_perm );
+				
 				if($success_dir) {
 					print 'success make Directory : ' . $dir_path . "\n";
 				} else {
-					print 'error make Directory: ' . $dir_path . "\n";
+					print 'ERROR make Directory: ' . $dir_path . "\n";
 				}	
 			} else {
 				print 'exists Directory: ' . $dir_path . "\n";
@@ -67,8 +68,8 @@ class px_pxcommands_fillcontents extends px_bases_pxcommand{
 			
 			//ファイル生成
 			if(!$this->px->dbh()->is_file($file_realpath)) {
-				$sccess_file = $this->px->dbh()->save_file( $file_realpath , $CONTENT , $page_perm );
-				if($sccess_file) {
+				$success_file = $this->px->dbh()->save_file( $file_realpath , $CONTENT , $page_perm );
+				if($success_file) {
 					print 'success make File: ' . $file_path . "\n";
 				} else {
 					print 'ERROR make File: ' . $file_path . "\n";
@@ -80,7 +81,7 @@ class px_pxcommands_fillcontents extends px_bases_pxcommand{
 		}
 		
 		print '------'."\n\n";
-		print 'publish completed.'."\n";
+		print 'publish completed.'."\n\n";
 		print date('Y-m-d H:i:s')."\n\n";
 		print 'exit.'."\n";
 		exit;
