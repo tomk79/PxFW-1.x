@@ -11,3 +11,4 @@
 "alias:/test/alias/","","_alias1","エイリアス元A",,,,"test",1,,,,,"Pickles Framework,テスト","ユーザー情報を操作するテスト。",
 "/test/alias/","/test/alias/","","エイリアス機能のテスト",,,,"test>_alias1",1,,,,,"Pickles Framework,テスト","ユーザー情報を操作するテスト。",
 "alias:/test/alias/","","","エイリアス元B",,,,"test",1,,,,,"Pickles Framework,テスト","ユーザー情報を操作するテスト。",
+"/test/commandlist.html","/test/commandlist.html","test.commandlist","ピクルスのコマンドリスト",,,,"test",1,,,,,,,

@@ -1,0 +1,4 @@
+<?php
+	/* UTF-8 */
+	return array(0=>array('path'=>'/test/dynamic/a/b.html','id'=>'test.dynamic.{$a}.{$b}','preg'=>'/^\\/test\\/dynamic\\/([a-zA-Z0-9]+?)\\/([a-zA-Z0-9]+?)\\.html$/s','pattern_map'=>array(0=>'a',1=>'b')));
+?>

@@ -14,6 +14,24 @@ class px_bases_pxcommand{
 		$src .= '<html>'."\n";
 		$src .= '<head>'."\n";
 		$src .= '<title>'.htmlspecialchars( $this->pxcommand_name ).' | Pickles Framework</title>'."\n";
+		$src .= '<style type="text/css">'."\n";
+		$src .= '/* ------ table.def ------ */'."\n";
+		$src .= 'table.def {'."\n";
+		$src .= '	border:none;'."\n";
+		$src .= '	border-collapse: collapse;'."\n";
+		$src .= '	text-align: left;'."\n";
+		$src .= '	width: 800px;'."\n";
+		$src .= '}'."\n";
+		$src .= 'table.def th,'."\n";
+		$src .= 'table.def td {'."\n";
+		$src .= '	border: 1px solid #d6d6d6;'."\n";
+		$src .= '	padding: 10px;'."\n";
+		$src .= '}'."\n";
+		$src .= 'table.def th {'."\n";
+		$src .= '	background: #e7e7e7;'."\n";
+		$src .= '}'."\n";
+		$src .= '/* ------ / table.def ------ */'."\n";
+		$src .= '</style>'."\n";
 		$src .= '</head>'."\n";
 		$src .= '<body>'."\n";
 		$src .= '<h1>'.htmlspecialchars( $this->pxcommand_name ).' | Pickles Framework</h1>'."\n";
@@ -24,5 +42,7 @@ class px_bases_pxcommand{
 		$src .= '</html>';
 		return $src;
 	}
+
 }
+
 ?>

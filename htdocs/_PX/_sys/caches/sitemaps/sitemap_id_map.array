@@ -1,0 +1,4 @@
+<?php
+	/* UTF-8 */
+	return array(''=>'/index.html','test'=>'/test/index.html','test.abc'=>'/test/abc.html','test.def'=>'/test/def.html','test.titletest'=>'/test/titletest.html','test.html'=>'/test/html.html','test.dynamic.{$a}.{$b}'=>'/test/dynamic/a/b.html','test.megacontents'=>'/test/megacontents.html','test.user_test'=>'/test/user_test.html','test.commandlist'=>'/test/commandlist.html');
+?>
