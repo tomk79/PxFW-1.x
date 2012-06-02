@@ -7,11 +7,11 @@
 </ul>
 
 
-{send_content name="head"}
+<?php ob_start(); ?>
 <!-- このソースは、テーマのキャビネット "head" に送られます。 -->
-{/send_content}
+<?php $px->theme()->send_content( ob_get_clean(), 'head' ); ?>
 
-{send_content name="left"}
+<?php ob_start(); ?>
 <!-- このソースは、テーマのキャビネット "left" に送られます。(ただし、 left は定義されていないので捨てられる) -->
-{/send_content}
+<?php $px->theme()->send_content( ob_get_clean(), 'left' ); ?>
 

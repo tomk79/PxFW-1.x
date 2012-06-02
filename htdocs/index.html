@@ -8,8 +8,8 @@
 
 
 
-{send_content name="head"}
+<?php ob_start(); ?>
 <!-- このソースは、テーマのキャビネット "head" に送られます。 -->
-{/send_content}
+<?php $px->theme()->send_content( ob_get_clean(), 'head' ); ?>
 
 

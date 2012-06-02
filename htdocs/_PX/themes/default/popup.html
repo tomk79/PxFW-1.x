@@ -2,24 +2,30 @@
 <html>
 <head>
 <meta charset="UTF-8" />
-<title>{$page_info.title|escape} | {$px->get_conf('project.name')}</title>
-<meta name="keywords" content="{$page_info.keywords|escape}" />
-<meta name="description" content="{$page_info.description|escape}" />
-{$px->ssi(implode('/',array($px->get_install_path(),'/common/inc/common_setup.inc')))}
-<link rel="stylesheet" href="{$px->get_install_path()}common/css/common.css" type="text/css" />
-{content name="head"}
+<title><?php print t::h($page_info['title']); ?> | <?php print t::h($px->get_conf('project.name')); ?></title>
+<meta name="keywords" content="<?php print t::h($page_info['keywords']); ?>" />
+<meta name="description" content="<?php print t::h($page_info['description']); ?>" />
+<?php
+	print $px->ssi(implode('/',array($px->get_install_path(),'/common/inc/common_setup.inc')));
+?>
+<link rel="stylesheet" href="<?php print t::h($px->get_install_path()); ?>common/css/common.css" type="text/css" />
+<?php
+	print $px->theme()->pull_content('head');
+?>
 </head>
 <body>
 <div class="outline" id="pagetop">
 <div class="header">
-	<div class="logo">{$px->get_conf('project.name')|escape}</div>
+	<div class="logo"><?php print t::h($px->get_conf('project.name')); ?></div>
 </div><!-- /.header -->
 <div class="middle">
 <div class="column1">
-<h1>{$page_info.title_h1|escape}</h1>
+<h1><?php print t::h( $page_info['title_h1'] ); ?></h1>
 <div id="content" class="contents">
 
-{content}
+<?php
+	print $px->theme()->pull_content();
+?>
 
 </div><!-- /#content -->
 </div><!-- /.column1 -->

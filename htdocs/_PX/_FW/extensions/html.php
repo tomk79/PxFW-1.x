@@ -20,16 +20,10 @@ class px_extensions_html extends px_bases_extension{
 	private function execute_content( $path_content ){
 		$path_px_dir = $this->px->get_conf('paths.px_dir');
 
-		$smarty = $this->px->factory_smarty();
-		$smarty->compile_dir  = $path_px_dir.'_sys/caches/smarty/ext_html_compiles/';
-		$smarty->cache_dir    = $path_px_dir.'_sys/caches/smarty/ext_html_caches/';
-		$smarty->caching = false;
-		$smarty->config_dir   = $this->px->dbh()->trim_extension($path_content).'.files/';
-		$smarty->template_dir = $this->px->dbh()->trim_extension($path_content).'.files/';
-		$smarty->assign("px",$this->px);
-		$smarty->assign("page_info",$this->px->site()->get_current_page_info());
-
-		$src = $smarty->fetch($path_content);
+		$px = &$this->px;
+		ob_start();
+		@include( $path_content );
+		$src = ob_get_clean();
 
 		return $src;
 	}

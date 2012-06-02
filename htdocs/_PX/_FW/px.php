@@ -159,34 +159,6 @@ class px_px{
 	}//get_local_resource_dir_realpath()
 
 	/**
-	 * Smartyオブジェクトを生成する。
-	 */
-	public function factory_smarty(){
-		$path_px_dir = $this->get_conf('paths.px_dir');
-		@require_once($path_px_dir.'libs/smarty/Smarty.class.php');
-		$smarty = new Smarty;
-		//$smarty->force_compile = true;
-		$smarty->debugging = false;
-		$smarty->caching = true;
-		$smarty->cache_lifetime = (60*60*24);//キャッシュの有効期限：24h
-
-		$smarty->config_dir   = $path_px_dir.'configs/';
-		$smarty->template_dir = $path_px_dir.'_sys/caches/smarty/templates/';
-		$smarty->compile_dir  = $path_px_dir.'_sys/caches/smarty/compiles/';
-		$smarty->cache_dir    = $path_px_dir.'_sys/caches/smarty/caches/';
-
-		$smarty->assign('px',&$this);
-		$smarty->assign('site',$this->site());
-		$smarty->assign('theme',$this->theme());
-		$smarty->assign('req',$this->req());
-		$smarty->assign('dbh',$this->dbh());
-		$smarty->assign('error',$this->error());
-		$smarty->assign('user',$this->user());
-
-		return $smarty;
-	}//factory_smarty()
-
-	/**
 	 * 外部ソースをインクルードする(ServerSideInclude)
 	 */
 	public function ssi( $path_incfile ){

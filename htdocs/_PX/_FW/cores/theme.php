@@ -85,16 +85,10 @@ class px_cores_theme{
 			$path_template_file = $template_path.'default.html';
 		}
 
-		$smarty = $this->px->factory_smarty();
-		$smarty->compile_dir  = $path_px_dir.'_sys/caches/smarty/theme_compiles/';
-		$smarty->cache_dir    = $path_px_dir.'_sys/caches/smarty/theme_caches/';
-		$smarty->caching = false;
-		$smarty->config_dir   = $template_path;
-		$smarty->template_dir = $template_path;
-		$smarty->assign("px",$this->px);
-		$smarty->assign("page_info",$page_info);
-		$smarty->assign("content",$this->pull_content(''));
-		$src = $smarty->fetch( $path_template_file );
+		$px = &$this->px;
+		ob_start();
+		@include( $path_template_file );
+		$src = ob_get_clean();
 
 		return $src;
 	}//bind_contents();

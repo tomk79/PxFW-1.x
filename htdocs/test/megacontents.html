@@ -1,8 +1,11 @@
+<?php
+	$page_info = $px->site()->get_current_page_info();
+?>
 
 
 <p>test/megacontents.html のHTMLソースコードです。</p>
 
-<p>このページのタイトルは、<strong>{$page_info.title|escape}</strong> です。</p>
+<p>このページのタイトルは、<strong><?php print t::h( $page_info['title'] ); ?></strong> です。</p>
 
 
 

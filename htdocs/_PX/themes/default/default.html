@@ -2,60 +2,70 @@
 <html>
 <head>
 <meta charset="UTF-8" />
-<title>{$page_info.title|escape} | {$px->get_conf('project.name')}</title>
-<meta name="keywords" content="{$page_info.keywords|escape}" />
-<meta name="description" content="{$page_info.description|escape}" />
-{$px->ssi(implode('/',array($px->get_install_path(),'/common/inc/common_setup.inc')))}
-<link rel="stylesheet" href="{$px->get_install_path()}common/css/common.css" type="text/css" />
-{content name="head"}
+<title><?php print t::h($page_info['title']); ?> | <?php print t::h($px->get_conf('project.name')); ?></title>
+<meta name="keywords" content="<?php print t::h($page_info['keywords']); ?>" />
+<meta name="description" content="<?php print t::h($page_info['description']); ?>" />
+<?php
+	print $px->ssi(implode('/',array($px->get_install_path(),'/common/inc/common_setup.inc')));
+?>
+<link rel="stylesheet" href="<?php print t::h($px->get_install_path()); ?>common/css/common.css" type="text/css" />
+<?php
+	print $px->theme()->pull_content('head');
+?>
 </head>
 <body>
 <div class="outline" id="pagetop">
 <div class="header">
-	<div class="logo"><a href="{$px->get_install_path()}">{$px->get_conf('project.name')|escape}</a></div>
+	<div class="logo"><a href="<?php print t::h( $px->get_install_path() ); ?>"><?php print t::h($px->get_conf('project.name')); ?></a></div>
 </div><!-- /.header -->
 <div class="middle">
 <div class="column1">
-<h1>{$page_info.title_h1|escape}</h1>
+<h1><?php print t::h( $page_info['title_h1'] ); ?></h1>
 <div id="content" class="contents">
 
-{content}
+<?php
+	print $px->theme()->pull_content();
+?>
 
 </div><!-- /#content -->
 </div><!-- /.column1 -->
 <div class="column2">
 <div class="localnavi">
-{if $site->get_page_info($req->get_request_file_path(),'id')}
-<div>{$theme->mk_link($site->get_parent($req->get_request_file_path()))}</div>
-{/if}
-{assign var='local_bros_page_info' value=$site->get_bros()}
-{if count($local_bros_page_info)}
+<?php if( $px->site()->get_page_info($px->req()->get_request_file_path(),'id') ){ ?>
+<div><?php print $px->theme()->mk_link($px->site()->get_parent($px->req()->get_request_file_path())); ?></div>
+<?php } ?>
+
+<?php
+	$local_bros_page_info = $px->site()->get_bros();
+?>
+
+<?php if( count($local_bros_page_info) ){ ?>
 <ul>
-{foreach from=$local_bros_page_info item=local_page_id}
-{assign var='local_page_info' value=$site->get_page_info($local_page_id)}
-<li>{$theme->mk_link($local_page_info['path'])}
-{if $local_page_info['id']==$page_info['id']}
-{assign var='local_children' value=$site->get_children()}
-{if count($local_children)}
+<?php foreach( $local_bros_page_info as $local_page_id ){ ?>
+<?php $local_page_info = $px->site()->get_page_info($local_page_id); ?>
+<li><?php print $px->theme()->mk_link($local_page_info['path']); ?>
+<?php if( $local_page_info['id']==$page_info['id'] ){ ?>
+<?php $local_children = $px->site()->get_children(); ?>
+<?php if( count($local_children) ){ ?>
 <ul>
-{foreach from=$local_children item=local_child_page_id}
-{assign var='local_child_page_info' value=$site->get_page_info($local_child_page_id)}
-<li>{$theme->mk_link($local_child_page_info['path'])}</li>
-{/foreach}
+<?php foreach( $local_children as $local_child_page_id ){ ?>
+<?php $local_child_page_info = $px->site()->get_page_info($local_child_page_id); ?>
+<li><?php print $px->theme()->mk_link($local_child_page_info['path']); ?></li>
+<?php }//foreach ?>
 </ul>
-{/if}
-{/if}
+<?php }//if ?>
+<?php }//if ?>
 </li>
-{/foreach}
+<?php }//foreach ?>
 </ul>
-{/if}
+<?php }//if ?>
 </div><!-- /.localnavi -->
 </div><!-- /.column2 -->
 </div><!-- /.middle -->
 <div class="footer">
 	<div class="right small">[<a href="#pagetop">ページの先頭へ戻る</a>]</div>
-	<div class="breadcrumb">{$theme->mk_breadcrumb()}</div>
-	<div class="center">[{$theme->mk_link('/')}]</div>
+	<div class="breadcrumb"><?php print $px->theme()->mk_breadcrumb(); ?></div>
+	<div class="center">[<?php print $px->theme()->mk_link('/'); ?>]</div>
 </div><!-- /.footer -->
 </div><!-- /.outline -->
 </body>

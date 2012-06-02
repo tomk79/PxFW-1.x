@@ -1,17 +1,21 @@
-
+<?php
+	$page_info = $px->site()->get_current_page_info();
+?>
 
 <p>test/html.html のHTMLソースコードです。</p>
 
-<p>このページのタイトルは、<strong>{$page_info.title|escape}</strong> です。</p>
+<p>このページのタイトルは、<strong><?php print t::h( $page_info['title'] ); ?></strong> です。</p>
 
 <h2>ローカル変数にアサインしてみるテスト</h2>
 
-{assign var='assign_test' value='assign_test_value'}
+<?php
+	$assign_test = 'assign_test_value';
+?>
 
-<div>{$assign_test|escape}</div>
+<div><?php print t::h( $assign_test ); ?></div>
 
 <h2>環境変数を出力してみるテスト</h2>
 
 <ul>
-<li>{$smarty.server.HTTP_USER_AGENT|escape}</li>
+<li><?php print t::h( $_SERVER['HTTP_USER_AGENT'] ); ?></li>
 </ul>
