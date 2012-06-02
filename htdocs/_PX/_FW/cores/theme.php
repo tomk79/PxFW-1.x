@@ -102,8 +102,8 @@ class px_cores_theme{
 		if( preg_match( '/^alias[0-9]+\:(.+)/' , $path , $tmp_matched ) ){
 			$path = $tmp_matched[1];
 		}
-		$path = preg_replace( '/^\/+/' , '' , $path );
 		$path = preg_replace('/\/index\.html$/si','/',$path); // index.htmlを省略
+		$path = preg_replace( '/^\/+/' , '' , $path );
 		return $this->px->get_install_path().$path;
 	}
 

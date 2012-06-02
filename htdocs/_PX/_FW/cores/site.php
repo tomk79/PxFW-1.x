@@ -177,7 +177,10 @@ class px_cores_site{
 	/**
 	 * 親ページのIDを取得する
 	 */
-	public function get_parent( $path ){
+	public function get_parent( $path = null ){
+		if( is_null( $path ) ){
+			$path = $this->px->req()->get_request_file_path();
+		}
 		$logical_path = $this->get_page_info( $path , 'logical_path' );
 		if( !strlen($logical_path) ){return '';}
 		$logical_paths = explode('>',$logical_path);
