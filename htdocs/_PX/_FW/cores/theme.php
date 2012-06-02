@@ -168,7 +168,6 @@ class px_cores_theme{
 			//オプションで指定があれば、カレントページを仮定する。
 			$current_path = $args[0];
 		}
-		$current_path = $this->href($current_path);
 		$page_info = $this->px->site()->get_page_info($current_path);
 		$page_info['logical_path'] = trim($page_info['logical_path']);
 		if( $page_info['id'] == '' ){
