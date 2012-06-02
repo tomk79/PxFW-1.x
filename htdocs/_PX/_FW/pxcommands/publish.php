@@ -79,6 +79,9 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 		print '------'."\n";
 		print '* add pages by sitemap.'."\n";
 		foreach( $this->px->site()->get_sitemap() as $page_info ){
+			if( !preg_match( '/^\//s', $page_info['path'] ) ){
+				continue;
+			}
 			$this->add_queue( $this->px->dbh()->get_realpath($this->px->get_install_path().$page_info['path']) );
 		}
 		flush();
