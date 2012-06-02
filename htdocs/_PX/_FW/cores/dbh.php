@@ -1689,7 +1689,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	/**
 	 * ディレクトリの内部を比較し、$comparisonに含まれない要素を$targetから削除する
 	 */
-	function compare_and_cleanup( $target , $comparison ){
+	public function compare_and_cleanup( $target , $comparison ){
 		if( is_null( $comparison ) || is_null( $target ) ){ return false; }
 
 		if( strlen( $this->px->get_conf('system.filesystem_encoding') ) ){
@@ -1715,6 +1715,17 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 
 		return true;
 	}//compare_and_cleanup()
+
+	/**
+	 * ディレクトリを同期する
+	 * @param $path_sync_from 同期元ディレクトリ
+	 * @param $path_sync_to 同期先ディレクトリ
+	 */
+	public function sync_dir( $path_sync_from , $path_sync_to ){
+		$this->copy_all( $path_sync_from , $path_sync_to );
+		$this->compare_and_cleanup( $path_sync_to , $path_sync_from );
+		return true;
+	}//sync_dir()
 
 	/**
 	 * 指定されたディレクトリ以下の、全ての空っぽのディレクトリを削除する

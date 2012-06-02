@@ -101,6 +101,18 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 		print 'done.'."\n";
 		print ''."\n";
 
+		if( strlen( $this->path_publish_dir ) && is_dir( $this->path_publish_dir ) ){
+			print '------'."\n";
+			print 'copying files to publish.path_publish_dir.,,'."\n";
+			$copy_from = $this->px->dbh()->get_realpath( $this->path_tmppublish_dir.'htdocs/'.'.'.$this->px->get_install_path().'.'.$this->path_target ).'/';
+			$copy_to   = $this->px->dbh()->get_realpath( $this->path_publish_dir.'.'.$this->px->get_install_path().'.'.$this->path_target ).'/';
+			print 'copy from: '.$copy_from ."\n";
+			print 'copy to:   '.$copy_to   ."\n";
+			$this->px->dbh()->mkdir_all( $copy_to );
+			$this->px->dbh()->sync_dir( $copy_from , $copy_to );
+			print ''."\n";
+		}
+
 		print '------'."\n";
 		print 'publish completed.'."\n";
 		print date('Y-m-d H:i:s')."\n";
