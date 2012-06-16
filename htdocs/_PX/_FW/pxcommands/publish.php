@@ -9,7 +9,7 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 
 	private $path_docroot_dir;
 	private $path_publish_dir;	//パブリッシュ先ディレクトリ
-	private $path_tmppublish_dir;//一次書き出しディレクトリ(固定)
+	private $path_tmppublish_dir;//一時書き出しディレクトリ(固定)
 	private $paths_ignore = array();
 
 	private $queue_items = array();//←パブリッシュ対象の一覧
@@ -26,6 +26,8 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 		$this->path_target = preg_replace('/^\/+/s','/',$this->path_target);
 
 		$command = $this->get_command();
+		$this->setup();
+
 		switch( $command[1] ){
 			case 'run':
 				$this->execute();
@@ -42,10 +44,19 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 	private function homepage(){
 		$command = $this->get_command();
 		$src = '';
-		$src .= '<p>次のリンクをクリックしてパブリッシュを実行してください。</p>'."\n";
-		$src .= '<ul>'."\n";
-		$src .= '	<li><a href="?PX=publish.run" target="_blank">パブリッシュを実行する</a></li>'."\n";
-		$src .= '</ul>'."\n";
+		if( $this->is_locked() ){
+			$src .= '<p>パブリッシュは<strong>ロックされています</strong>。</p>'."\n";
+			$src .= '<p>'."\n";
+			$src .= '	現在、他のプロセスでパブリッシュが実行中である可能性があります。<br />'."\n";
+			$src .= '	しばらく待ってから、リロードしてください。<br />'."\n";
+			$src .= '</p>'."\n";
+		}else{
+			$src .= '<p>次のリンクをクリックしてパブリッシュを実行してください。</p>'."\n";
+			$src .= '<form action="?" method="get" target="_blank">'."\n";
+			$src .= '<p class="center"><button>パブリッシュを実行する</button></p>'."\n";
+			$src .= '<div><input type="hidden" name="PX" value="publish.run" /></div>'."\n";
+			$src .= '</form>'."\n";
+		}
 		print $this->html_template($src);
 		exit;
 	}
@@ -57,11 +68,11 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 	 */
 	private function execute(){
 		$command = $this->get_command();
-		$this->setup();
 		@header('Content-type: text/plain');
 		print ''.$command[0].' | Pickles Framework'."\n";
 		print '------'."\n";
 		print 'PX command "'.$command[0].'" executed.'."\n";
+		print 'ProcessID='.getmypid()."\n";
 		print date('Y-m-d H:i:s')."\n";
 		print '------'."\n";
 		print 'path_docroot_dir => '.$this->path_docroot_dir."\n";
@@ -83,6 +94,15 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 		if(!is_dir($this->path_tmppublish_dir)){
 			print '------'."\n";
 			print 'path_tmppublish_dir is NOT exists.'."\n";
+			print 'exit.'."\n";
+			exit;
+		}
+
+		flush();
+		if( !$this->lock() ){//ロック
+			print '------'."\n";
+			print 'publish is now locked.'."\n";
+			print 'Try again later...'."\n";
 			print 'exit.'."\n";
 			exit;
 		}
@@ -138,6 +158,8 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 			$this->px->dbh()->sync_dir( $copy_from , $copy_to );
 			print ''."\n";
 		}
+
+		$this->unlock();//ロック解除
 
 		print '------'."\n";
 		print 'publish completed.'."\n";
@@ -402,6 +424,76 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 		}
 		return false;
 	}//is_ignore_path();
+
+	/**
+	 * パブリッシュをロックする
+	 */
+	private function lock(){
+		$lockfilepath = $this->path_tmppublish_dir.'applock.txt';
+		$timeout_limit = 10;
+
+		if( !@is_dir( dirname( $lockfilepath ) ) ){
+			$this->px->dbh()->mkdir_all( dirname( $lockfilepath ) );
+		}
+
+		#	PHPのFileStatusCacheをクリア
+		clearstatcache();
+
+		$i = 0;
+		while( ( @is_file( $lockfilepath ) && @filesize( $lockfilepath ) ) ){
+			if( !$this->is_locked() ){
+				break;
+			}
+
+			$i ++;
+			if( $i >= $timeout_limit ){
+				return false;
+				break;
+			}
+			sleep(1);
+
+			#	PHPのFileStatusCacheをクリア
+			clearstatcache();
+		}
+		$src = '';
+		$src .= 'ProcessID='.getmypid()."\r\n";
+		$src .= date( 'Y-m-d H:i:s' , time() )."\r\n";
+		$RTN = $this->px->dbh()->file_overwrite( $lockfilepath , $src );
+		return	$RTN;
+	}//lock()
+
+	/**
+	 * パブリッシュがロックされているか確認する
+	 */
+	private function is_locked(){
+		$lockfilepath = $this->path_tmppublish_dir.'applock.txt';
+		$lockfile_expire = 60*30;//有効期限は30分
+
+		if( is_file($lockfilepath) ){
+			$file_bin = $this->px->dbh()->file_get_contents( $lockfilepath );
+			$file_bin_ary = explode( "\r\n" , $file_bin );
+			$file_time = $this->px->dbh()->datetime2int( $file_bin_ary[1] );
+			if( ( time() - $file_time ) > $lockfile_expire ){
+				#	有効期限を過ぎていたら、ロックは成立する。
+				return false;
+			}
+			return true;
+		}
+		return false;
+	}//is_locked()
+
+	/**
+	 * パブリッシュロックを解除する
+	 */
+	public function unlock(){
+		$lockfilepath = $this->path_tmppublish_dir.'applock.txt';
+
+		#	PHPのFileStatusCacheをクリア
+		clearstatcache();
+
+		unlink( $lockfilepath );
+		return	$RTN;
+	}//unlock()
 
 }
 ?>
