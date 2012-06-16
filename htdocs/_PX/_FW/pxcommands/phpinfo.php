@@ -7,10 +7,8 @@ $this->load_pxclass('/bases/pxcommand.php');
  */
 class px_pxcommands_phpinfo extends px_bases_pxcommand{
 
-	protected $pxcommand_name = 'phpinfo';
-
-	public function __construct( &$px ){
-		parent::__construct( &$px );
+	public function __construct( $command , &$px ){
+		parent::__construct( $command , &$px );
 		$this->execute();
 	}//__construct()
 
