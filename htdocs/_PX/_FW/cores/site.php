@@ -257,6 +257,21 @@ class px_cores_site{
 		$bros = $this->get_children( $parent );
 		return $bros;
 	}//get_bros()
+	
+	public function get_path_type( $path = null ) {
+		if( is_null( $path ) ){
+			$path_type = null;
+		} else if( preg_match( '/^alias:/' , $path ) ) {//alias:から始まる
+			$path_type = 'alias';
+		} else if( preg_match( '/\{\$([a-zA-Z0-9]+)\}/' , $path ) ) {//{$xxxx}を含む
+			$path_type = 'dynamic';
+		} else if( preg_match( '/^\//' , $path ) ) {///から始まる
+			$path_type = 'normal';
+		} else {
+			$path_type = false;//当てはまらない場合はfalseを返す
+		}
+		return $path_type;
+	}
 
 }
 ?>
