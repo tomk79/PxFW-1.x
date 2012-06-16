@@ -8,6 +8,10 @@ class px_cores_theme{
 		'head'=>'' //  ヘッドセクションに追記
 	);
 
+	private $func_data_memos = array(//機能別に値を記憶する領域
+		'autoindex'=>null ,//autoindex機能
+	);
+
 	/**
 	 * コンストラクタ
 	 */
@@ -66,7 +70,17 @@ class px_cores_theme{
 	 */
 	public function bind_contents( $content ){
 		$this->send_content($content,'');
-		@header('Content-type: text/html; charset=UTF-8');
+
+		//  コンテンツソースの事後加工処理
+		if( is_array( $this->func_data_memos['autoindex'] ) ){
+			//  autoindex
+			$content = $this->pull_content('');
+			$content = $this->apply_autoindex( $content );
+			$this->replace_content($content,'');
+		}
+		//  / コンテンツソースの事後加工処理
+
+		@header('Content-type: text/html; charset=UTF-8');//デフォルトのヘッダー
 
 		$template_path = $this->px->dbh()->get_realpath($this->px->get_conf('paths.px_dir').'themes/'.$this->get_theme_id()).'/';
 		$path_px_dir = $this->px->get_conf('paths.px_dir');
@@ -200,6 +214,16 @@ class px_cores_theme{
 	}
 
 	/**
+	 * コンテンツキャビネットのコンテンツを置き換える
+	 */
+	public function replace_content( $src , $content_name = '' ){
+		if( !strlen($content_name) ){ $content_name = ''; }
+		if( !is_string($content_name) ){ return false; }
+		$this->contents_cabinet[$content_name] = $src;
+		return true;
+	}
+
+	/**
 	 * コンテンツキャビネットからコンテンツを引き出す
 	 */
 	public function pull_content( $content_name = '' ){
@@ -207,6 +231,125 @@ class px_cores_theme{
 		if( !is_string($content_name) ){ return false; }
 		return $this->contents_cabinet[$content_name];
 	}
+
+	/**
+	 * ページ内の目次を自動生成する
+	 */
+	public function autoindex(){
+		if( !is_array( $this->func_data_memos['autoindex'] ) ){
+			$this->func_data_memos['autoindex'] = array();
+			$this->func_data_memos['autoindex']['metastr'] = '[__autoindex_'.md5( time() ).'__]';
+		}
+		return $this->func_data_memos['autoindex']['metastr'];
+	}//autoindex();
+
+	/**
+	 * ページ内の目次をソースに反映する
+	 */
+	private function apply_autoindex( $content ){
+		$tmp_cont = $content;
+		$content = '';
+		$index = array();
+		$indexCounter = array();
+		$i = 0;
+		while( 1 ){
+			if( !preg_match( '/^(.*?)(<\!\-\-(?:.*?)\-\->|<script(?:\s.*?)?>(?:.*?)<\/script>|<h([2-6])(?:\s.*?)?>(.*?)<\/h\3>)(.*)$/is' , $tmp_cont , $matched ) ){
+				$content .= $tmp_cont;
+				break;
+			}
+			$i ++;
+			$tmp = array();
+			$tmp['label'] = $matched[4];
+			$tmp['label'] = strip_tags( $tmp['label'] );//ラベルからHTMLタグを除去
+			$tmp['anch'] = 'hash_'.urlencode($tmp['label']);
+			if($indexCounter[$tmp['anch']]){
+				$indexCounter[$tmp['anch']] ++;
+				$tmp['anch'] = 'hash_'.$indexCounter[$tmp['anch']].'_'.urlencode($tmp['label']);
+			}else{
+				$indexCounter[$tmp['anch']] = 1;
+			}
+			$tmp['headlevel'] = intval($matched[3]);
+			if( $tmp['headlevel'] ){# 引っかかったのが見出しの場合
+				array_push( $index , $tmp );
+			}
+
+			$content .= $matched[1];
+			if( $tmp['headlevel'] ){# 引っかかったのが見出しの場合
+				#$content .= $this->back2top();
+				$content .= '<span';
+				$content .= ' id="'.htmlspecialchars($tmp['anch']).'"';
+				$content .= '></span>';
+			}
+			$content .= $matched[2];
+			$tmp_cont = $matched[5];
+		}
+
+		$anchorlinks = '';
+		$topheadlevel = 2;
+		$headlevel = $topheadlevel;
+		if( count( $index ) ){
+			$anchorlinks .= '<div class="anchorlinks">'."\n";
+			$anchorlinks .= '<h2>目次</h2>';
+			foreach($index as $key=>$row){
+				$csa = $row['headlevel'] - $headlevel;
+				$nextLevel = $index[$key+1]['headlevel'];
+				$nsa = null;
+				if( strlen( $nextLevel ) ){
+					$nsa = $nextLevel - $row['headlevel'];
+				}
+				$headlevel = $row['headlevel'];
+				if( $csa>0 ){
+					#	いま下がるとき
+					if( $key == 0 ){
+						$anchorlinks .= '<ul><li>';
+					}
+					for( $i = $csa; $i>0; $i -- ){
+						$anchorlinks .= '<ul><li>';
+					}
+				}elseif( $csa<0 ){
+					#	いま上がるとき
+					if( $key == 0 ){
+						$anchorlinks .= '<ul><li>';
+					}
+					for( $i = $csa; $i<0; $i ++ ){
+						$anchorlinks .= '</li></ul>';
+					}
+					$anchorlinks .= '</li><li>';
+				}else{
+					#	いま現状維持
+					if( $key == 0 ){
+						$anchorlinks .= '<ul>';
+					}
+					$anchorlinks .= '<li>';
+				}
+				$anchorlinks .= '<a href="#'.htmlspecialchars($row['anch']).'">'.($row['label']).'</a>';
+				if( is_null($nsa) ){
+					break;
+				}elseif( $nsa>0 ){
+					#	つぎ下がるとき
+#					for( $i = $nsa; $i>0; $i -- ){
+#						$anchorlinks .= '</li></ul></li>';
+#					}
+				}elseif( $nsa<0 ){
+					#	つぎ上がるとき
+					for( $i = $nsa; $i<0; $i ++ ){
+//						$anchorlinks .= '</li></ul>'."\n";
+					}
+				}else{
+					#	つぎ現状維持
+					$anchorlinks .= '</li>'."\n";
+				}
+			}
+			while($headlevel >= $topheadlevel){
+				$anchorlinks .= '</li></ul>'."\n";
+				$headlevel --;
+			}
+			$anchorlinks .= '</div><!-- / .anchorlinks -->'."\n";
+		}
+
+		$content = preg_replace( '/'.preg_quote($this->func_data_memos['autoindex']['metastr'],'/').'/si' , $anchorlinks , $content );
+		return $content;
+	}//apply_autoindex();
 
 }
 ?>
