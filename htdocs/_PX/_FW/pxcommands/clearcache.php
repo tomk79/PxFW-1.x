@@ -7,12 +7,10 @@ $this->load_pxclass('/bases/pxcommand.php');
  */
 class px_pxcommands_clearcache extends px_bases_pxcommand{
 
-	protected $pxcommand_name = 'clearcache';
-
 	private $paths_cache_dir = array();
 
-	public function __construct( &$px ){
-		parent::__construct( &$px );
+	public function __construct( $command , &$px ){
+		parent::__construct( $command , &$px );
 		$this->execute();
 	}//__construct()
 
@@ -22,11 +20,12 @@ class px_pxcommands_clearcache extends px_bases_pxcommand{
 	 * @return null
 	 */
 	private function execute(){
+		$command = $this->get_command();
 		$this->setup();
 		@header('Content-type: text/plain');
-		print ''.$this->pxcommand_name.' | Pickles Framework'."\n";
+		print ''.$command[0].' | Pickles Framework'."\n";
 		print '------'."\n";
-		print 'PX command "'.$this->pxcommand_name.'" executed.'."\n";
+		print 'PX command "'.$command[0].'" executed.'."\n";
 		print '------'."\n";
 		print 'paths_cache_dir => '."\n";
 		var_dump($this->paths_cache_dir);

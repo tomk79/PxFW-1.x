@@ -7,8 +7,6 @@ $this->load_pxclass('/bases/pxcommand.php');
  */
 class px_pxcommands_publish extends px_bases_pxcommand{
 
-	protected $pxcommand_name = 'publish';
-
 	private $path_docroot_dir;
 	private $path_publish_dir;	//パブリッシュ先ディレクトリ
 	private $path_tmppublish_dir;//一次書き出しディレクトリ(固定)
@@ -21,14 +19,36 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 	/**
 	 * コンストラクタ
 	 */
-	public function __construct( &$px ){
-		parent::__construct( &$px );
+	public function __construct( $command , &$px ){
+		parent::__construct( $command , &$px );
 
 		$this->path_target = $this->px->dbh()->get_realpath( $this->px->get_install_path() ).$_SERVER['PATH_INFO'];
 		$this->path_target = preg_replace('/^\/+/s','/',$this->path_target);
 
-		$this->execute();
+		$command = $this->get_command();
+		switch( $command[1] ){
+			case 'run':
+				$this->execute();
+				break;
+			default:
+				$this->homepage();
+				break;
+		}
 	}//__construct()
+
+	/**
+	 * ホームページを表示する。
+	 */
+	private function homepage(){
+		$command = $this->get_command();
+		$src = '';
+		$src .= '<p>次のリンクをクリックしてパブリッシュを実行してください。</p>'."\n";
+		$src .= '<ul>'."\n";
+		$src .= '	<li><a href="?PX=publish.run" target="_blank">パブリッシュを実行する</a></li>'."\n";
+		$src .= '</ul>'."\n";
+		print $this->html_template($src);
+		exit;
+	}
 
 	/**
 	 * Execute PX Command "publish".
@@ -36,11 +56,12 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 	 * @return null
 	 */
 	private function execute(){
+		$command = $this->get_command();
 		$this->setup();
 		@header('Content-type: text/plain');
-		print ''.$this->pxcommand_name.' | Pickles Framework'."\n";
+		print ''.$command[0].' | Pickles Framework'."\n";
 		print '------'."\n";
-		print 'PX command "'.$this->pxcommand_name.'" executed.'."\n";
+		print 'PX command "'.$command[0].'" executed.'."\n";
 		print date('Y-m-d H:i:s')."\n";
 		print '------'."\n";
 		print 'path_docroot_dir => '.$this->path_docroot_dir."\n";
@@ -48,14 +69,19 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 		print 'path_publish_dir => '.$this->path_publish_dir."\n";
 		print 'path_target => '.$this->path_target.'*'."\n";
 		print 'paths_ignore => '."\n";
-		var_dump($this->paths_ignore);
-		print '------'."\n";
+		foreach( $this->paths_ignore as $row ){
+			print '    '.$row."\n";
+		}
+		unset($row);
+
 		if(!is_dir($this->path_docroot_dir)){
+			print '------'."\n";
 			print 'path_docroot_dir is NOT exists.'."\n";
 			print 'exit.'."\n";
 			exit;
 		}
 		if(!is_dir($this->path_tmppublish_dir)){
+			print '------'."\n";
 			print 'path_tmppublish_dir is NOT exists.'."\n";
 			print 'exit.'."\n";
 			exit;

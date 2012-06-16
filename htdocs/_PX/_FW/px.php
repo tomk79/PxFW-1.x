@@ -51,7 +51,7 @@ class px_px{
 
 		$tmp_px_class_name = $this->load_pxclass( 'pxcommands/'.$this->pxcommand[0].'.php' );
 		if( $tmp_px_class_name ){
-			$obj_pxcommands = new $tmp_px_class_name( $this );
+			$obj_pxcommands = new $tmp_px_class_name( $this->pxcommand , &$this );
 		}
 		unset( $tmp_px_class_name );
 

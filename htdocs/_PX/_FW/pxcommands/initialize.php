@@ -6,13 +6,11 @@ $this->load_pxclass('/bases/pxcommand.php');
  **/
 class px_pxcommands_initialize extends px_bases_pxcommand{
 
-	protected $pxcommand_name = 'initialize';
-
 	/**
 	 * コンストラクタ
 	 */
-	public function __construct( &$px ){
-		parent::__construct( &$px );
+	public function __construct( $command , &$px ){
+		parent::__construct( $command , &$px );
 		$this->execute();
 	}//__construct()
 
@@ -20,8 +18,9 @@ class px_pxcommands_initialize extends px_bases_pxcommand{
 	 * Execute PX Command "initialize".
 	 */
 	private function execute(){
+		$command = $this->get_command();
 		@header('Content-type: text/plain');
-		print ''.$this->pxcommand_name.' | Pickles Framework'."\n";
+		print ''.$command[0].' | Pickles Framework'."\n";
 		print '------'."\n";
 		$class_name_dao_init = $this->px->load_pxclass('/daos/initialize.php');
 		$dao_init = new $class_name_dao_init( &$this->px );
