@@ -257,21 +257,35 @@ class px_cores_site{
 		$bros = $this->get_children( $parent );
 		return $bros;
 	}//get_bros()
-	
-	public function get_path_type( $path = null ) {
-		if( is_null( $path ) ){
-			$path_type = null;
-		} else if( preg_match( '/^alias:/' , $path ) ) {//alias:から始まる
+
+	/**
+	 * パス文字列を受け取り、種類を判定する。
+	 * alias: から始まる場合 => 'alias'
+	 * {$xxxx} を含む場合 => 'dynamic'
+	 * / から始まる場合 => 'normal'
+	 * どれにも当てはまらない不明な形式の場合に、falseを返す。
+	 * 
+	 * @param $path
+	 */
+	public function get_path_type( $path ) {
+		if( preg_match( '/^alias[0-9]*\:/' , $path ) ) {
+			//  alias:から始まる場合
+			//  サイトマップデータ上でpathは一意である必要あるので、
+			//  alias と : の間に、後から連番を降られる。
+			//  このため、数字が含まれている場合を考慮した。(@tomk79)
 			$path_type = 'alias';
-		} else if( preg_match( '/\{\$([a-zA-Z0-9]+)\}/' , $path ) ) {//{$xxxx}を含む
+		} else if( preg_match( '/\{\$([a-zA-Z0-9]+)\}/' , $path ) ) {
+			//  {$xxxx}を含む場合
 			$path_type = 'dynamic';
-		} else if( preg_match( '/^\//' , $path ) ) {///から始まる
+		} else if( preg_match( '/^\//' , $path ) ) {
+			//  /から始まる場合
 			$path_type = 'normal';
 		} else {
-			$path_type = false;//当てはまらない場合はfalseを返す
+			//  どれにも当てはまらない場合はfalseを返す
+			$path_type = false;
 		}
 		return $path_type;
-	}
+	}//get_path_type()
 
 }
 ?>
