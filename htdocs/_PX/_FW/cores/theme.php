@@ -113,7 +113,7 @@ class px_cores_theme{
 	 */
 	public function href( $linkto ){
 		$path = $this->px->site()->get_page_info($linkto,'path');
-		if( preg_match( '/^alias[0-9]+\:(.+)/' , $path , $tmp_matched ) ){
+		if( preg_match( '/^alias[0-9]*\:(.+)/' , $path , $tmp_matched ) ){
 			$path = $tmp_matched[1];
 		}
 		$path = preg_replace('/\/index\.html$/si','/',$path); // index.htmlを省略

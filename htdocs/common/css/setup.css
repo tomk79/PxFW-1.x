@@ -38,16 +38,10 @@ address{
 	font-style:normal;
 	text-decoration:none;
 }
-span, .span{
+span{
 	display:inline;
 	padding:0px;
 	margin:0px;
-}
-.inline{
-	display:inline !important;
-}
-.block{
-	display:block !important;
 }
 ul>li{
 	list-style-type: disc;
@@ -64,8 +58,7 @@ pre ,
 ul ,
 ol ,
 dl ,
-blockquote ,
-div.unit{
+blockquote{
 	margin-top:1em;
 	margin-bottom:1.5em;
 }
@@ -100,131 +93,6 @@ h3{
  */
 div.contents{
 	display:block !important;
-}
-
-/**
- * ユニット
- * モジュールの単位となる。前後にデフォルトマージン付加
- */
-div.unit{
-	clear:both;
-}
-
-/**
- * 画像置換
- * .haribotekit の移植
- */
-.imagereplace{
-	display:block;
-	position:relative; top:auto; left:auto;
-	padding:0px 0px 0px 0px !important;
-	border:0px solid transparent !important;
-	overflow:hidden;
-	zoom:100%;
-}
-.imagereplace .imagereplace-panel{
-	display:block;
-	position:absolute; top:0px; left:0px;
-	width:100%; height:100%;
-	background-repeat:no-repeat;
-	background-color:transparent;
-	zoom:100%;
-}
-
-
-/**
- * 文字サイズ
- */
-.xxlarge{
-	font-size:xx-large;
-}
-.xlarge{
-	font-size:x-large;
-}
-.large{
-	font-size:large;
-}
-.medium{
-	font-size:medium;
-}
-.small{
-	font-size:small;
-}
-.xsmall{
-	font-size:x-small;
-}
-.xxsmall{
-	font-size:xx-small;
-}
-
-/**
- * 文字組み
- */
-.center{
-	text-align:center;
-}
-.left{
-	text-align:left;
-}
-.right{
-	text-align:right;
-}
-
-/**
- * まわりこみ制御
- */
-.fl{
-	float:left;
-}
-.fr{
-	float:right;
-}
-.fc{
-	float:none;
-	clear:both;
-}
-
-/**
- * .clearfix
- */
-.clearfix{
-	display:block;
-	float:none;
-	clear:both;
-}
-.clearfix:after{
-	content: " ";
-	display:block;
-	visibility:hidden;
-	height:0.1px;
-	font-size:0.1em;
-	line-height:0px;
-	clear:both;
-}
-.clearfix{
-	/* clearfix(for IE6,7) (IE8以降不要) */
-	zoom:1;
-}
-
-/**
- * パンくず
- */
-.breadcrumb{
-}
-.breadcrumb ul,
-.breadcrumb ul li{
-	display: inline;
-	list-style-type: none;
-	margin:0px;
-	padding:0px;
-	font-size:small;
-}
-
-/**
- * カレントページ
- */
-.current{
-	font-weight:bold;
 }
 
 

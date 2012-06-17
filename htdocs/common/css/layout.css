@@ -36,4 +36,18 @@ body > .outline > .footer{
 	clear:both;
 }
 
+/**
+ * パンくず
+ */
+.breadcrumb{
+}
+.breadcrumb ul,
+.breadcrumb ul li{
+	display: inline;
+	list-style-type: none;
+	margin:0px;
+	padding:0px;
+	font-size:small;
+}
+
 
