@@ -50,6 +50,16 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 			$src .= '	現在、他のプロセスでパブリッシュが実行中である可能性があります。<br />'."\n";
 			$src .= '	しばらく待ってから、リロードしてください。<br />'."\n";
 			$src .= '</p>'."\n";
+			$src .= '<p>'."\n";
+			$src .= '	ロックファイルの内容を下記に示します。<br />'."\n";
+			$src .= '</p>'."\n";
+			$src .= '<blockquote><pre>'.t::h( $this->px->dbh()->file_get_contents( $this->path_tmppublish_dir.'applock.txt' ) );
+			$src .= '</pre></blockquote>'."\n";
+			$src .= '<p>'."\n";
+			$src .= '	ロックファイルは、次のパスに存在します。<br />'."\n";
+			$src .= '</p>'."\n";
+			$src .= '<blockquote><pre>'.t::h( realpath( $this->path_tmppublish_dir.'applock.txt' ) );
+			$src .= '</pre></blockquote>'."\n";
 		}else{
 			$src .= '<p>次のリンクをクリックしてパブリッシュを実行してください。</p>'."\n";
 			$src .= '<form action="?" method="get" target="_blank">'."\n";
@@ -81,7 +91,7 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 		print 'path_target => '.$this->path_target.'*'."\n";
 		print 'paths_ignore => '."\n";
 		foreach( $this->paths_ignore as $row ){
-			print '    '.$row."\n";
+			print '  - '.$row."\n";
 		}
 		unset($row);
 
