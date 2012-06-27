@@ -87,11 +87,13 @@ div.unit{
 /**
  * .clearfix
  */
+.unit,
 .clearfix{
 	display:block;
 	float:none;
 	clear:both;
 }
+.unit:after,
 .clearfix:after{
 	content: " ";
 	display:block;
@@ -101,6 +103,7 @@ div.unit{
 	line-height:0px;
 	clear:both;
 }
+.unit,
 .clearfix{
 	/* clearfix(for IE6,7) (IE8以降不要) */
 	zoom:1;

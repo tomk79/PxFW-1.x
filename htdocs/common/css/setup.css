@@ -93,6 +93,7 @@ h3{
  */
 div.contents{
 	display:block !important;
+	text-align:left;
 }
 
 
