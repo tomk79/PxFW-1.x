@@ -28,7 +28,19 @@ class px_pxcommands_clearcache extends px_bases_pxcommand{
 		print 'PX command "'.$command[0].'" executed.'."\n";
 		print '------'."\n";
 		print 'paths_cache_dir => '."\n";
-		var_dump($this->paths_cache_dir);
+		foreach( $this->paths_cache_dir as $row ){
+			print '  - '.$row."\n";
+		}
+		print '------'."\n";
+		print 'checking status...'."\n";
+		$result = $this->check_status();
+		if( !$result['result'] ){
+			print '[NG] '.$result['message']."\n";
+			print 'Try again later.'."\n";
+			print 'exit.'."\n";
+			exit;
+		}
+		print 'OK!'."\n";
 		print '------'."\n";
 		foreach( $this->paths_cache_dir as $path_cache_dir ){
 			if( !is_dir( $path_cache_dir ) ){
@@ -57,7 +69,7 @@ class px_pxcommands_clearcache extends px_bases_pxcommand{
 		$this->setup_add_targetpath( $this->px->get_conf('paths.px_dir').'_sys/publish/' );
 		$this->setup_add_targetpath( './_caches/' );
 		return true;
-	}
+	}//setup()
 
 	/**
 	 * キャッシュクリア対象ディレクトリを追加する
@@ -70,7 +82,27 @@ class px_pxcommands_clearcache extends px_bases_pxcommand{
 		}
 		array_push( $this->paths_cache_dir , $path );
 		return true;
-	}
+	}//setup_add_targetpath()
+
+	/**
+	 * ステータスをチェックする
+	 * キャッシュクリアしてよい場合は true, よくない場合は false を返す。
+	 * 
+	 * @return array
+	 */
+	private function check_status(){
+		$rtn = array(
+			'result'=>true,
+			'message'=>null,
+		);
+		if( is_file( $this->px->get_conf('paths.px_dir').'_sys/publish/applock.txt' ) ){
+			//パブリッシュ中はキャッシュクリアしてはいけない。
+			$rtn['result'] = false;
+			$rtn['message'] = 'PX=publish is running on background.';
+		}
+		return $rtn;
+	}//check_status()
 
 }
+
 ?>
