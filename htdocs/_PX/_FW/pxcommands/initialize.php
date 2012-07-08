@@ -11,8 +11,34 @@ class px_pxcommands_initialize extends px_bases_pxcommand{
 	 */
 	public function __construct( $command , &$px ){
 		parent::__construct( $command , &$px );
-		$this->execute();
+
+		$command = $this->get_command();
+
+		switch( $command[1] ){
+			case 'run':
+				$this->execute();
+				break;
+			default:
+				$this->homepage();
+				break;
+		}
 	}//__construct()
+
+	/**
+	 * ホームページを表示する。
+	 */
+	private function homepage(){
+		$command = $this->get_command();
+		$src = '';
+		$src .= '<p>サイトの設定、データベース作成等の初期セットアップ処理を行います。</p>'."\n";
+		$src .= '<p>この操作は、サイトのセットアップ時に<strong>1度だけ実行します</strong>。すでに1度実行している場合は、この操作は行わないでください。</p>'."\n";
+		$src .= '<form action="?" method="get" target="_blank">'."\n";
+		$src .= '<p class="center"><button>イニシャライズを実行する</button></p>'."\n";
+		$src .= '<div><input type="hidden" name="PX" value="'.t::h($command[0]).'.run" /></div>'."\n";
+		$src .= '</form>'."\n";
+		print $this->html_template($src);
+		exit;
+	}
 
 	/**
 	 * Execute PX Command "initialize".
