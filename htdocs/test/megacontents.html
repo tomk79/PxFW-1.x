@@ -9,7 +9,131 @@
 	print( $px->theme()->autoindex() );
 ?>
 
-<?php for($i = 0; $i<100; $i++){ ?>
+
+<h2>カラムレイアウト .columns</h2>
+
+<h3>2分割</h3>
+<div class="columns unit">
+	<div class="columns-col columns-1of2">
+		<p>columns には unit を一緒につけます。</p>
+		<p>カラム columns-1of2</p>
+		<p>カラム</p>
+		<p>カラム</p>
+		<p>カラム</p>
+		<p>カラム</p>
+	</div>
+	<div class="columns-col columns-1of2 columns-last">
+		<p>最後のカラムには、<code>.columns-last</code> を併記します。</p>
+		<p>カラム columns-1of2</p>
+		<p>.columns-last は古いIE対策。IE9以降は不要？。</p>
+	</div>
+</div><!-- / .columns -->
+
+
+<h3>3分割</h3>
+<div class="columns unit">
+	<div class="columns-col columns-1of3">
+		<p>columns には unit を一緒につけます。</p>
+		<p>カラム columns-1of3</p>
+		<p>カラム</p>
+		<p>カラム</p>
+		<p>カラム</p>
+		<p>カラム</p>
+	</div>
+	<div class="columns-col columns-1of3">
+		<p>columns には unit を一緒につけます。</p>
+		<p>カラム columns-1of3</p>
+		<p>カラム</p>
+		<p>カラム</p>
+		<p>カラム</p>
+		<p>カラム</p>
+	</div>
+	<div class="columns-col columns-1of3 columns-last">
+		<p>最後のカラムには、<code>.columns-last</code> を併記します。</p>
+		<p>カラム columns-1of3</p>
+		<p>.columns-last は古いIE対策。IE9以降は不要？。</p>
+	</div>
+</div><!-- / .columns -->
+
+<h3>4分割</h3>
+<div class="columns unit">
+	<div class="columns-col columns-1of4">
+		<p>columns には unit を一緒につけます。</p>
+		<p>カラム columns-1of4</p>
+		<p>カラム</p>
+		<p>カラム</p>
+		<p>カラム</p>
+		<p>カラム</p>
+	</div>
+	<div class="columns-col columns-1of4">
+		<p>columns には unit を一緒につけます。</p>
+		<p>カラム columns-1of4</p>
+		<p>カラム</p>
+		<p>カラム</p>
+		<p>カラム</p>
+		<p>カラム</p>
+		<p>カラム</p>
+	</div>
+	<div class="columns-col columns-1of4">
+		<p>columns には unit を一緒につけます。</p>
+		<p>カラム columns-1of4</p>
+		<p>カラム</p>
+		<p>カラム</p>
+		<p>カラム</p>
+		<p>カラム</p>
+		<p>カラム</p>
+	</div>
+	<div class="columns-col columns-1of4 columns-last">
+		<p>カラム columns-1of4</p>
+		<p>最後のカラムには、<code>.columns-last</code> を併記します。</p>
+		<p>.columns-last は古いIE対策。IE9以降は不要？。</p>
+	</div>
+</div><!-- / .columns -->
+
+<h3>変則4分割</h3>
+<div class="columns unit">
+	<div class="columns-col columns-3of4">
+		<p>columns には unit を一緒につけます。columns には unit を一緒につけます。columns には unit を一緒につけます。columns には unit を一緒につけます。columns には unit を一緒につけます。columns には unit を一緒につけます。columns には unit を一緒につけます。columns には unit を一緒につけます。</p>
+		<p>カラム columns-3of4</p>
+		<p>カラム</p>
+		<p>カラム</p>
+	</div>
+	<div class="columns-col columns-1of4 columns-last">
+		<p>最後のカラムには、<code>.columns-last</code> を併記します。</p>
+		<p>.columns-last は古いIE対策。IE9以降は不要？。</p>
+		<p>カラム columns-1of4</p>
+	</div>
+</div><!-- / .columns -->
+
+<h3>変則4分割</h3>
+<div class="columns unit">
+	<div class="columns-col columns-1of4">
+		<p>カラム</p>
+		<p>カラム columns-1of4</p>
+	</div>
+	<div class="columns-col columns-1of2">
+		<p>columns には unit を一緒につけます。</p>
+		<p>カラム columns-1of2</p>
+		<p>カラム</p>
+		<p>カラム</p>
+		<p>カラム</p>
+		<p>カラム</p>
+	</div>
+	<div class="columns-col columns-1of4 columns-last">
+		<p>カラム columns-1of4</p>
+		<p>カラム</p>
+		<p>.columns-last は古いIE対策。IE9以降は不要？。</p>
+	</div>
+</div><!-- / .columns -->
+
+
+
+
+
+
+
+
+<?php for($i = 0; $i<5; $i++){ ?>
 
 <h2>これはテストページ1</h2>
 <p>このページのタイトルは、<strong><?php print t::h( $page_info['title'] ); ?></strong> です。</p>

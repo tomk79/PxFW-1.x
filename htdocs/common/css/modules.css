@@ -133,3 +133,36 @@ table.def th {
 	background: #e7e7e7;
 }
 
+/**
+ * カラムレイアウト
+ */
+.columns {
+	margin:1em 0 1.5em 0;
+}
+.columns .columns-col {
+	float:left;
+	margin:0 3% 0 0;
+}
+.columns .columns-col:last-child {
+	margin:0 0 0 0;
+}
+.columns .columns-last{
+	/* IE7,8対応 */
+	margin:0 0 0 0;
+}
+.columns .columns-1of2 {
+	width:47%;
+}
+.columns .columns-1of3 {
+	width:30.3%;
+}
+.columns .columns-2of3 {
+	width:63.6%;
+}
+.columns .columns-1of4 {
+	width:22%;
+}
+.columns .columns-3of4 {
+	width:72%;
+}
+

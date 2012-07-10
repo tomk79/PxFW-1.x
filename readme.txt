@@ -31,7 +31,7 @@ Pickles Framework 0.x系( http://pickles.pxt.jp/ )の後継です。
 
 ■パブリッシュ手順
 
-1. URLに ?PX=publish を付けてアクセスする。
+1. URLに ?PX=publish.run を付けてアクセスする。
 2. ./_PX/_sys/publish/ に出力される。
 
 出力先のディレクトリは ./_PX/configs/mainconf.ini の
