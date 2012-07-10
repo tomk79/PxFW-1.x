@@ -288,7 +288,8 @@ class px_cores_theme{
 		$topheadlevel = 2;
 		$headlevel = $topheadlevel;
 		if( count( $index ) ){
-			$anchorlinks .= '<div class="anchorlinks">'."\n";
+			$anchorlinks .= '<!-- autoindex -->'."\n";
+			$anchorlinks .= '<div>'."\n";
 			$anchorlinks .= '<h2>目次</h2>';
 			foreach($index as $key=>$row){
 				$csa = $row['headlevel'] - $headlevel;
@@ -344,7 +345,8 @@ class px_cores_theme{
 				$anchorlinks .= '</li></ul>'."\n";
 				$headlevel --;
 			}
-			$anchorlinks .= '</div><!-- / .anchorlinks -->'."\n";
+			$anchorlinks .= '</div>'."\n";
+			$anchorlinks .= '<!-- / autoindex -->'."\n";
 		}
 
 		$content = preg_replace( '/'.preg_quote($this->func_data_memos['autoindex']['metastr'],'/').'/si' , $anchorlinks , $content );
