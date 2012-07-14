@@ -95,12 +95,12 @@ class px_cores_site{
 					unset($tmp_id);
 				}
 
-				if( preg_match( '/\{\$[a-zA-Z0-9]+\}/s' , $tmp_array['path'] ) ){
+				if( preg_match( '/\{\$[a-zA-Z0-9\_\-]+\}/s' , $tmp_array['path'] ) ){
 					//ダイナミックパスのインデックス作成
 					$preg_pattern = preg_quote($tmp_array['path'],'/');
-					$preg_pattern = preg_replace('/'.preg_quote(preg_quote('{$','/'),'/').'[a-zA-Z0-9]+'.preg_quote(preg_quote('}','/'),'/').'/s','([a-zA-Z0-9]+?)',$preg_pattern);
-					preg_match_all('/\{\$([a-zA-Z0-9]+)\}/',$tmp_array['path'],$pattern_map);
-					$tmp_array['path'] = preg_replace('/'.preg_quote('{$','/').'([a-zA-Z0-9]+)'.preg_quote('}','/').'/s','$1',$tmp_array['path']);
+					$preg_pattern = preg_replace('/'.preg_quote(preg_quote('{$','/'),'/').'[a-zA-Z0-9\-\_]+'.preg_quote(preg_quote('}','/'),'/').'/s','([a-zA-Z0-9\-\_]+?)',$preg_pattern);
+					preg_match_all('/\{\$([a-zA-Z0-9\-\_]+)\}/',$tmp_array['path'],$pattern_map);
+					$tmp_array['path'] = preg_replace('/'.preg_quote('{$','/').'([a-zA-Z0-9\-\_]+)'.preg_quote('}','/').'/s','$1',$tmp_array['path']);
 					array_push( $this->sitemap_dynamic_paths, array(
 						'path'=>$tmp_array['path'],
 						'id'=>$tmp_array['id'],
