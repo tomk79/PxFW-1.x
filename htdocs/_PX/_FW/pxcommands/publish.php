@@ -138,6 +138,10 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 			if( !preg_match( '/^\//s', $page_info['path'] ) ){
 				continue;
 			}
+			if( $this->px->site()->get_path_type( $page_info['path'] ) == 'dynamic' ){
+				$dynamic_path_info = $this->px->site()->get_dynamic_path_info( $page_info['path'] );
+				$page_info['path'] = $this->px->site()->bind_dynamic_path_param( $page_info['path'] , array() );
+			}
 			$this->add_queue( $this->px->dbh()->get_realpath($this->px->get_install_path().$page_info['path']) );
 		}
 		flush();
@@ -506,4 +510,5 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 	}//unlock()
 
 }
+
 ?>

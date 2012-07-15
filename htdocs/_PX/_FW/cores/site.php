@@ -100,17 +100,19 @@ class px_cores_site{
 					$preg_pattern = preg_quote($tmp_array['path'],'/');
 					$preg_pattern = preg_replace('/'.preg_quote(preg_quote('{$','/'),'/').'[a-zA-Z0-9\-\_]+'.preg_quote(preg_quote('}','/'),'/').'/s','([a-zA-Z0-9\-\_]+?)',$preg_pattern);
 					preg_match_all('/\{\$([a-zA-Z0-9\-\_]+)\}/',$tmp_array['path'],$pattern_map);
-					$tmp_array['path_original'] = $tmp_array['path'];
+					$tmp_path_original = $tmp_array['path'];
 					$tmp_array['path'] = preg_replace('/'.preg_quote('{$','/').'([a-zA-Z0-9\-\_]+)'.preg_quote('}','/').'/s','$1',$tmp_array['path']);
 					array_push( $this->sitemap_dynamic_paths, array(
 						'path'=>$tmp_array['path'],
-						'path_original'=>$tmp_array['path_original'],
+						'path_original'=>$tmp_path_original,
 						'id'=>$tmp_array['id'],
 						'preg'=>'/^'.$preg_pattern.'$/s',
 						'pattern_map'=>$pattern_map[1],
 					) );
+					$tmp_array['path'] = $tmp_path_original;
 					unset($preg_pattern);
 					unset($pattern_map);
+					unset($tmp_path_original);
 				}
 
 				if( preg_match( '/^alias\:/s' , $tmp_array['path'] ) ){
@@ -194,11 +196,21 @@ class px_cores_site{
 	 * @param パス または ページID
 	 */
 	public function get_page_info( $path ){
-		$sitemap_dynamic_path = $this->get_dynamic_path_info( $path );
-		if( is_array( $sitemap_dynamic_path ) ){
-			$path = $sitemap_dynamic_path['path'];
+		if( is_null($path) ){
+			return null;
 		}
-		if( strlen($this->sitemap_id_map[$path]) ){ $path = $this->sitemap_id_map[$path];}//←ページIDで指定された場合、パスに置き換える
+		if( !is_null($this->sitemap_id_map[$path]) ){
+			//ページIDで指定された場合、パスに置き換える
+			$path = $this->sitemap_id_map[$path];
+		}
+		if( is_null( $this->sitemap_array[$path] ) ){
+			//  サイトマップにズバリなければ、
+			//  ダイナミックパスを検索する。
+			$sitemap_dynamic_path = $this->get_dynamic_path_info( $path );
+			if( is_array( $sitemap_dynamic_path ) ){
+				$path = $sitemap_dynamic_path['path_original'];
+			}
+		}
 		$args = func_get_args();
 		$path = preg_replace( '/\/$/si' , '/index.html' , $path );
 		$rtn = $this->sitemap_array[$path];
@@ -210,6 +222,30 @@ class px_cores_site{
 			$rtn = $rtn[$args[1]];
 		}
 		return $rtn;
+	}
+
+	/**
+	 * ページ情報をセットする。
+	 */
+	public function set_page_info( $page_info ){
+		static $num_auto_pid = 0;
+		$tmp_array = $page_info;
+		if( !strlen( $tmp_array['path'] ) ){
+			return false;
+		}
+		if( !strlen( $tmp_array['title'] ) ){
+			$tmp_array['title'] = $tmp_array['path'];
+		}
+		if( is_null( $tmp_array['id'] ) ){
+			$tmp_array['id'] = ':live_auto_page_id.'.($num_auto_pid++);
+		}
+		$this->sitemap_array[$tmp_array['path']] = $tmp_array;
+		$this->sitemap_id_map[$tmp_array['id']] = $tmp_array['path'];
+
+		//  パブリッシュ対象にリンクを追加
+		$this->px->add_relatedlink( $this->px->theme()->href($tmp_array['path']) );
+
+		return true;
 	}
 
 	/**
@@ -247,12 +283,38 @@ class px_cores_site{
 	public function get_dynamic_path_info( $path ){
 		foreach( $this->sitemap_dynamic_paths as $sitemap_dynamic_path ){
 			//ダイナミックパスを検索
+			if( $sitemap_dynamic_path['path_original'] == $path ){
+				return $sitemap_dynamic_path;
+			}
 			if( preg_match( $sitemap_dynamic_path['preg'] , $path ) ){
 				return $sitemap_dynamic_path;
 			}
 		}
 		return false;
 	}
+
+	/**
+	 * ダイナミックパスに値をバインドする
+	 */
+	public function bind_dynamic_path_param( $dynamic_path , $params = array() ){
+		$path = '';
+		while( 1 ){
+			if( !preg_match( '/^(.*?)(?:\{\$([a-zA-Z0-9\_\-]+)\})(.*)$/s' , $dynamic_path , $tmp_matched ) ){
+				$path .= $dynamic_path;
+				break;
+			}
+			$path .= $tmp_matched[1];
+			if( !is_null( $params[$tmp_matched[2]] ) ){
+				$path .= $params[$tmp_matched[2]];
+			}else{
+				$path .= $tmp_matched[2];
+			}
+			$dynamic_path = $tmp_matched[3];
+			continue;
+		}
+		unset($dynamic_path , $tmp_matched);
+		return $path;
+	}//bind_dynamic_path_param()
 
 	/**
 	 * 子階層のページの一覧を取得する
@@ -307,8 +369,8 @@ class px_cores_site{
 			//  alias と : の間に、後から連番を降られる。
 			//  このため、数字が含まれている場合を考慮した。(@tomk79)
 			$path_type = 'alias';
-		} else if( preg_match( '/\{\$([a-zA-Z0-9]+)\}/' , $path ) ) {
-			//  {$xxxx}を含む場合
+		} else if( preg_match( '/\{\$([a-zA-Z0-9\_\-]+)\}/' , $path ) ) {
+			//  {$xxxx}を含む場合(ダイナミックパス)
 			$path_type = 'dynamic';
 		} else if( preg_match( '/^\//' , $path ) ) {
 			//  /から始まる場合
@@ -321,4 +383,5 @@ class px_cores_site{
 	}//get_path_type()
 
 }
+
 ?>
