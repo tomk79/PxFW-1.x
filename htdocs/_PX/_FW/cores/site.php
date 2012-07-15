@@ -100,9 +100,11 @@ class px_cores_site{
 					$preg_pattern = preg_quote($tmp_array['path'],'/');
 					$preg_pattern = preg_replace('/'.preg_quote(preg_quote('{$','/'),'/').'[a-zA-Z0-9\-\_]+'.preg_quote(preg_quote('}','/'),'/').'/s','([a-zA-Z0-9\-\_]+?)',$preg_pattern);
 					preg_match_all('/\{\$([a-zA-Z0-9\-\_]+)\}/',$tmp_array['path'],$pattern_map);
+					$tmp_array['path_original'] = $tmp_array['path'];
 					$tmp_array['path'] = preg_replace('/'.preg_quote('{$','/').'([a-zA-Z0-9\-\_]+)'.preg_quote('}','/').'/s','$1',$tmp_array['path']);
 					array_push( $this->sitemap_dynamic_paths, array(
 						'path'=>$tmp_array['path'],
+						'path_original'=>$tmp_array['path_original'],
 						'id'=>$tmp_array['id'],
 						'preg'=>'/^'.$preg_pattern.'$/s',
 						'pattern_map'=>$pattern_map[1],
@@ -192,12 +194,9 @@ class px_cores_site{
 	 * @param パス または ページID
 	 */
 	public function get_page_info( $path ){
-		foreach( $this->sitemap_dynamic_paths as $sitemap_dynamic_path ){
-			//ダイナミックパスを検索
-			if( preg_match( $sitemap_dynamic_path['preg'] , $path , $tmp_matched ) ){
-				$path = $sitemap_dynamic_path['path'];
-				break;
-			}
+		$sitemap_dynamic_path = $this->get_dynamic_path_info( $path );
+		if( is_array( $sitemap_dynamic_path ) ){
+			$path = $sitemap_dynamic_path['path'];
 		}
 		if( strlen($this->sitemap_id_map[$path]) ){ $path = $this->sitemap_id_map[$path];}//←ページIDで指定された場合、パスに置き換える
 		$args = func_get_args();
@@ -212,13 +211,47 @@ class px_cores_site{
 		}
 		return $rtn;
 	}
+
+	/**
+	 * ページIDからページ情報を得る
+	 */
 	public function get_page_info_by_id( $page_id ){
 		$path = $this->sitemap_id_map[$page_id];
 		return $this->get_page_info($path);
 	}
+
+	/**
+	 * 現在のページの情報を得る
+	 */
 	public function get_current_page_info(){
 		$current_path = $this->px->req()->get_request_file_path();
 		return $this->get_page_info( $current_path );
+	}
+
+	/**
+	 * パスがダイナミックパスにマッチするか調べる
+	 */
+	public function is_match_dynamic_path( $path ){
+		foreach( $this->sitemap_dynamic_paths as $sitemap_dynamic_path ){
+			//ダイナミックパスを検索
+			if( preg_match( $sitemap_dynamic_path['preg'] , $path ) ){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * ダイナミックパス情報を得る
+	 */
+	public function get_dynamic_path_info( $path ){
+		foreach( $this->sitemap_dynamic_paths as $sitemap_dynamic_path ){
+			//ダイナミックパスを検索
+			if( preg_match( $sitemap_dynamic_path['preg'] , $path ) ){
+				return $sitemap_dynamic_path;
+			}
+		}
+		return false;
 	}
 
 	/**

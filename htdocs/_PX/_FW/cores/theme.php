@@ -114,7 +114,30 @@ class px_cores_theme{
 	public function href( $linkto ){
 		$path = $this->px->site()->get_page_info($linkto,'path');
 		if( preg_match( '/^alias[0-9]*\:(.+)/' , $path , $tmp_matched ) ){
+			//  エイリアスを解決
 			$path = $tmp_matched[1];
+		}else{
+			$sitemap_dynamic_path = $this->px->site()->get_dynamic_path_info( $path );
+			if( is_array( $sitemap_dynamic_path ) ){
+				//  ダイナミックパスをバインド
+				$tmp_path = $sitemap_dynamic_path['path_original'];
+				$path = '';
+				while( 1 ){
+					if( !preg_match( '/^(.*?)(?:\{\$([a-zA-Z0-9\_\-]+)\})(.*)$/s' , $tmp_path , $tmp_matched ) ){
+						$path .= $tmp_path;
+						break;
+					}
+					$path .= $tmp_matched[1];
+					if( !is_null( $this->px->req()->get_path_param($tmp_matched[2]) ) ){
+						$path .= $this->px->req()->get_path_param($tmp_matched[2]);
+					}else{
+						$path .= $tmp_matched[2];
+					}
+					$tmp_path = $tmp_matched[3];
+					continue;
+				}
+				unset($tmp_path , $tmp_matched);
+			}
 		}
 		$path = preg_replace('/\/index\.html$/si','/',$path); // index.htmlを省略
 		$path = preg_replace( '/^\/+/' , '' , $path );
