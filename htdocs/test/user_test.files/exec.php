@@ -13,19 +13,19 @@ class cont_exec{
 	 * コンテンツを実行
 	 */
 	public function execute(){
-		switch( $this->px->req()->get_param('mode') ){
+		switch( $this->px->req()->get_param('page') ){
 			case 'add_user':
-				return $this->mode_add_user(); break;
+				return $this->page_add_user(); break;
 			case 'get_user_info':
-				return $this->mode_get_user_info(); break;
+				return $this->page_get_user_info(); break;
 			case 'login_test':
-				return $this->mode_login_test(); break;
+				return $this->page_login_test(); break;
 			case 'logout_test':
-				return $this->mode_logout_test(); break;
+				return $this->page_logout_test(); break;
 			default:
 				break;
 		}
-		return $this->mode_default();
+		return $this->page_default();
 	}
 
 	/**
@@ -43,17 +43,17 @@ class cont_exec{
 	/**
 	 * モード：デフォルト
 	 */
-	private function mode_default(){
+	private function page_default(){
 		$rtn = '';
 		$rtn .= '<ol>'."\n";
-		$rtn .= '<li>はじめに ?PX=config を実行し、メインコンフィグの dbms の設定内容が正しいか確認します。</li>'."\n";
-		$rtn .= '<li>?PX=initialize を実行してユーザーテーブルを作成してください。</li>'."\n";
+		$rtn .= '	<li>はじめに ?PX=config を実行し、メインコンフィグの dbms の設定内容が正しいか確認します。</li>'."\n";
+		$rtn .= '	<li>?PX=initialize.run を実行してユーザーテーブルを作成してください。</li>'."\n";
 		$rtn .= '</ol>'."\n";
 		$rtn .= '<ul>'."\n";
-		$rtn .= '	<li><a href="'.t::h( $this->px->theme()->href( $this->px->req()->get_request_file_path() ).'?mode=add_user' ).'">ユーザーを追加する</a></li>'."\n";
-		$rtn .= '	<li><a href="'.t::h( $this->px->theme()->href( $this->px->req()->get_request_file_path() ).'?mode=get_user_info' ).'">ユーザー情報を閲覧する</a></li>'."\n";
-		$rtn .= '	<li><a href="'.t::h( $this->px->theme()->href( $this->px->req()->get_request_file_path() ).'?mode=login_test' ).'">ログインテスト</a></li>'."\n";
-		$rtn .= '	<li><a href="'.t::h( $this->px->theme()->href( $this->px->req()->get_request_file_path() ).'?mode=logout_test' ).'">ログアウトテスト</a></li>'."\n";
+		$rtn .= '	<li><a href="'.t::h( $this->px->theme()->href( $this->px->req()->get_request_file_path() ).'?page=add_user' ).'">ユーザーを追加する</a></li>'."\n";
+		$rtn .= '	<li><a href="'.t::h( $this->px->theme()->href( $this->px->req()->get_request_file_path() ).'?page=get_user_info' ).'">ユーザー情報を閲覧する</a></li>'."\n";
+		$rtn .= '	<li><a href="'.t::h( $this->px->theme()->href( $this->px->req()->get_request_file_path() ).'?page=login_test' ).'">ログインテスト</a></li>'."\n";
+		$rtn .= '	<li><a href="'.t::h( $this->px->theme()->href( $this->px->req()->get_request_file_path() ).'?page=logout_test' ).'">ログアウトテスト</a></li>'."\n";
 		$rtn .= '</ul>'."\n";
 
 		return $rtn;
@@ -62,7 +62,18 @@ class cont_exec{
 	/**
 	 * モード：ユーザー追加テスト
 	 */
-	private function mode_add_user(){
+	private function page_add_user(){
+		switch( $this->px->req()->get_param('mode') ){
+			case 'execute':
+				return $this->page_add_user_execute();
+				break;
+			case 'complete':
+				return $this->page_add_user_complete();
+				break;
+		}
+		return $this->page_add_user_input();
+	}
+	private function page_add_user_input(){
 		$rtn = '';
 		$rtn .= '<p>'."\n";
 		$rtn .= '	ユーザーを追加します。<br />'."\n";
@@ -80,39 +91,64 @@ class cont_exec{
 		$rtn .= '<p>'."\n";
 		$rtn .= '	$dao_user->create_user(); を実行し、次のユーザーを追加します。<br />'."\n";
 		$rtn .= '</p>'."\n";
-		$new_user_info = array(
-			'user_account'=>'testuser'.time(),
-			'user_pw'=>'testuser',
-			'user_name'=>'テストユーザー['.time().']',
-			'user_email'=>'testuser'.time().'@example.com',
-		);
-		ob_start();
-		test::var_dump($new_user_info);
-		$rtn .= ob_get_clean();
 
-		$result = $dao_user->create_user( $new_user_info );
-
-		$rtn .= '<p>'."\n";
-		if( $result ){
-			$rtn .= '	成功しました。<br />'."\n";
-			$rtn .= '	追加されたユーザーのIDは '.t::h( $dao_user->get_last_insert_user_id() ).' です。<br />'."\n";
-		}else{
-			$rtn .= '	失敗しました。<br />'."\n";
-		}
-		$rtn .= '</p>'."\n";
 		$rtn .= '<p>'."\n";
 		$rtn .= '	現在のユーザー数: '.t::h($dao_user->get_user_count()).'<br />'."\n";
 		$rtn .= '</p>'."\n";
+		$rtn .= '<form action="?" method="post">'."\n";
+		$rtn .= '<dl>';
+		$rtn .= '	<dt>user_account</dt>';
+		$rtn .= '		<dd><input type="text" name="user_account" value="'.t::h( 'testuser'.time() ).'" /></dd>';
+		$rtn .= '	<dt>user_pw</dt>';
+		$rtn .= '		<dd><input type="text" name="user_pw" value="'.t::h( 'testuser' ).'" /></dd>';
+		$rtn .= '	<dt>user_name</dt>';
+		$rtn .= '		<dd><input type="text" name="user_name" value="'.t::h( 'テストユーザー['.time().']' ).'" /></dd>';
+		$rtn .= '	<dt>user_email</dt>';
+		$rtn .= '		<dd><input type="text" name="user_email" value="'.t::h( 'testuser'.time().'@example.com' ).'" /></dd>';
+		$rtn .= '</dl>';
+		$rtn .= '<div>';
+		$rtn .= '<input type="hidden" name="page" value="'.t::h($this->px->req()->get_param('page')).'" />';
+		$rtn .= '<input type="hidden" name="mode" value="execute" />';
+		$rtn .= '</div>'."\n";
+		$rtn .= '<p class="center"><input type="submit" value="ユーザーを追加する" /></p>';
+		$rtn .= '</form>'."\n";
 
-		$rtn .= '<p class="center">[<a href="'.$this->px->theme()->href( $this->px->req()->get_request_file_path() ).'">戻る</a>]</p>'."\n";
+		$rtn .= '<p class="center">[<a href="'.t::h( $this->px->theme()->href( $this->px->req()->get_request_file_path() ) ).'">戻る</a>]</p>'."\n";
 
+		return $rtn;
+	}
+	private function page_add_user_execute(){
+		$new_user_info = array(
+			'user_account'=>$this->px->req()->get_param('user_account'),
+			'user_pw'=>$this->px->req()->get_param('user_pw'),
+			'user_name'=>$this->px->req()->get_param('user_name'),
+			'user_email'=>$this->px->req()->get_param('user_email'),
+		);
+		$dao_user = $this->factory_dao_user();
+		if( !$dao_user ){
+			return '<p>DAOの生成に失敗しました。</p>';
+		}
+
+		$result = $dao_user->create_user( $new_user_info );
+		if( !$result ){
+			return '<p>ユーザーの追加に失敗しました。</p>';
+		}
+
+		return $this->px->redirect( '?page='.urlencode($this->px->req()->get_param('page')).'&mode=complete&insert_user_id='.urlencode($dao_user->get_last_insert_user_id()).'' );
+	}
+	private function page_add_user_complete(){
+		$rtn = '';
+		$rtn .= '<p>'."\n";
+		$rtn .= '	ユーザー['.t::h($this->px->req()->get_param('insert_user_id')).']を追加しました。<br />'."\n";
+		$rtn .= '</p>'."\n";
+		$rtn .= '<p class="center">[<a href="'.t::h( $this->px->theme()->href( $this->px->req()->get_request_file_path() ) ).'">戻る</a>]</p>'."\n";
 		return $rtn;
 	}
 
 	/**
 	 * モード：ユーザー情報を閲覧する
 	 */
-	private function mode_get_user_info(){
+	private function page_get_user_info(){
 		$rtn = '';
 		$rtn .= '<p>'."\n";
 		$rtn .= '	ユーザー情報を閲覧します。<br />'."\n";
@@ -120,7 +156,7 @@ class cont_exec{
 
 		$rtn .= '<form action="'.$this->px->theme()->href( $this->px->req()->get_request_file_path() ).'" method="post">'."\n";
 		$rtn .= '	<p><input type="text" name="id" value="'.t::h($this->px->req()->get_param('id')).'" /><input type="submit" value="送信" /></p>'."\n";
-		$rtn .= '	<div><input type="hidden" name="mode" value="'.t::h($this->px->req()->get_param('mode')).'" /></div>'."\n";
+		$rtn .= '	<div><input type="hidden" name="page" value="'.t::h($this->px->req()->get_param('page')).'" /></div>'."\n";
 		$rtn .= '</form>'."\n";
 
 		if( !strlen($this->px->req()->get_param('id')) ){
@@ -146,15 +182,15 @@ class cont_exec{
 			$rtn .= ob_get_clean();
 		}
 
-		$rtn .= '<p class="center">[<a href="'.$this->px->theme()->href( $this->px->req()->get_request_file_path() ).'">戻る</a>]</p>'."\n";
+		$rtn .= '<p class="center">[<a href="'.t::h( $this->px->theme()->href( $this->px->req()->get_request_file_path() ) ).'">戻る</a>]</p>'."\n";
 
 		return $rtn;
-	}//mode_get_user_info()
+	}//page_get_user_info()
 
 	/**
 	 * モード：ログインテスト
 	 */
-	private function mode_login_test(){
+	private function page_login_test(){
 		$rtn = '';
 		$rtn .= '<p>'."\n";
 		$rtn .= '	現在、ログインして'.($this->px->user()->is_login()?'います':'いません').'。<br />'."\n";
@@ -166,19 +202,19 @@ class cont_exec{
 		$rtn .= '	<p><input type="text" name="ID" value="'.t::h($this->px->req()->get_param('ID')).'" /><br /></p>'."\n";
 		$rtn .= '	<p><input type="password" name="PW" value="" /><br /></p>'."\n";
 		$rtn .= '	<p><input type="submit" value="送信" /></p>'."\n";
-		$rtn .= '	<div><input type="hidden" name="mode" value="'.t::h($this->px->req()->get_param('mode')).'" /></div>'."\n";
+		$rtn .= '	<div><input type="hidden" name="page" value="'.t::h($this->px->req()->get_param('page')).'" /></div>'."\n";
 		$rtn .= '</form>'."\n";
 
-		$rtn .= '<p class="center">[<a href="'.$this->px->theme()->href( $this->px->req()->get_request_file_path() ).'">戻る</a>]</p>'."\n";
+		$rtn .= '<p class="center">[<a href="'.t::h( $this->px->theme()->href( $this->px->req()->get_request_file_path() ) ).'">戻る</a>]</p>'."\n";
 
 		return $rtn;
-	}//mode_login_test()
+	}//page_login_test()
 
 
 	/**
 	 * モード：ログアウトテスト
 	 */
-	private function mode_logout_test(){
+	private function page_logout_test(){
 		$rtn = '';
 		$rtn .= '<p>'."\n";
 		$rtn .= '	現在、ログインして'.($this->px->user()->is_login()?'います':'いません').'。<br />'."\n";
@@ -193,11 +229,11 @@ class cont_exec{
 		$rtn .= '	現在、ログインして'.($this->px->user()->is_login()?'います':'いません').'。<br />'."\n";
 		$rtn .= '</p>'."\n";
 
-		$rtn .= '<p class="center">[<a href="'.$this->px->theme()->href( $this->px->req()->get_request_file_path() ).'">戻る</a>]</p>'."\n";
+		$rtn .= '<p class="center">[<a href="'.t::h( $this->px->theme()->href( $this->px->req()->get_request_file_path() ) ).'">戻る</a>]</p>'."\n";
 
 		return $rtn;
-	}//mode_login_test()
-
+	}//page_login_test()
 
 }
+
 ?>

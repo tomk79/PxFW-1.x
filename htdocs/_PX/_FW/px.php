@@ -332,7 +332,7 @@ class px_px{
 	public function &user(){ return $this->obj_user; }
 
 	/**
-	 * Pxのクラスファイルをロードする。
+	 * PxFWのクラスファイルをロードする。
 	 * 
 	 */
 	public function load_pxclass($path){
@@ -357,10 +357,38 @@ class px_px{
 	}//load_pxclass()
 
 	/**
+	 * リダイレクトする
+	 */
+	function redirect( $redirect_to , $options = array() ){
+		while( @ob_end_clean() );
+
+		@header( 'Location: '.$redirect_to );
+		$fin = '';
+		$fin .= '<!doctype html>'."\n";
+		$fin .= '<html>'."\n";
+		$fin .= '<head>'."\n";
+		$fin .= '<meta charset="UTF-8" />'."\n";
+		$fin .= '<title>redirect...</title>'."\n";
+		$fin .= '<meta http-equiv="refresh" content="0;url='.t::h( $redirect_to ).'" />'."\n";
+		$fin .= '</head>'."\n";
+		$fin .= '<body>'."\n";
+		$fin .= '<p class="ttr">'."\n";
+		$fin .= '画面が切り替わらない場合は、次のリンクを押してください。<br />'."\n";
+		$fin .= '[<a href="'.t::h( $redirect_to ).'">次へ</a>]<br />'."\n";
+		$fin .= '</p>'."\n";
+		$fin .= '</body>'."\n";
+		$fin .= '</html>'."\n";
+		print $fin;
+		exit();
+	}//redirect()
+
+	/**
 	 * アクセスログを記録する。
 	 */
 	private function access_log(){
-		if( !strlen( $this->get_conf('paths.access_log') ) ){ return false; }
+		if( !strlen( $this->get_conf('paths.access_log') ) ){
+			return false;
+		}
 		return @error_log(
 			date('Y-m-d H:i:s')
 			.'	'.session_id()
