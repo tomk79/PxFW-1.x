@@ -242,7 +242,7 @@ class t{
 	/**
 	 * 変数をJavaScriptのシンタックスに変換する
 	 */
-	function data2jstext( $value = null , $option = array() ){
+	function data2jssrc( $value = null , $option = array() ){
 		#======================================
 		#	[ $option ]
 		#		delete_arrayelm_if_null
@@ -281,9 +281,9 @@ class t{
 					continue;
 				}
 				if( $is_hash ){
-					$RTN .= ''.t::data2jstext( $key.'' , $option ).':';
+					$RTN .= ''.t::data2jssrc( $key.'' , $option ).':';
 				}
-				$RTN .= t::data2jstext( $value[$key] , $option );
+				$RTN .= t::data2jssrc( $value[$key] , $option );
 				$RTN .= ', ';
 				if( $option['array_break'] ){ $RTN .= "\n"; }
 			}
@@ -305,12 +305,12 @@ class t{
 			$methodarray = get_class_methods( get_class( $value ) );
 			foreach( $proparray as $key=>$val ){
 				if( !is_int( $key ) ){
-					$RTN .= ''.t::data2jstext( $key , $option ).':';
+					$RTN .= ''.t::data2jssrc( $key , $option ).':';
 				}else{
-					$RTN .= '\''.t::data2jstext( $key , $option ).'\':';
+					$RTN .= '\''.t::data2jssrc( $key , $option ).'\':';
 				}
 
-				$RTN .= t::data2jstext( $val , $option );
+				$RTN .= t::data2jssrc( $val , $option );
 				$RTN .= ', ';
 			}
 			$RTN = preg_replace( '/,(?:\s+)?(?:\r\n|\r|\n)?$/' , '' , $RTN );
