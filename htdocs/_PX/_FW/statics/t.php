@@ -67,6 +67,15 @@ class t{
 	}
 
 	/**
+	 * ダブルクオートで囲えるようにエスケープ処理する。
+	 */
+	function escape_doublequote( $TEXT = '' ){
+		$TEXT = preg_replace( '/\\\\/' , '\\\\\\\\' , $TEXT);
+		$TEXT = preg_replace( '/"/' , '\\"' , $TEXT);
+		return	$TEXT;
+	}
+
+	/**
 	 * ファイル名やパス名から、拡張子を削除する
 	 */
 	function trimext( $filename ){
@@ -262,7 +271,7 @@ class t{
 					break;
 				}
 				if( $key != $i ){
-					#	順番通りに並んでなかったらHash とする。//PxFW 0.6.4 追加
+					#	順番通りに並んでなかったらHash とする。
 					$is_hash = true;
 					break;
 				}
@@ -304,11 +313,7 @@ class t{
 			$proparray = get_object_vars( $value );
 			$methodarray = get_class_methods( get_class( $value ) );
 			foreach( $proparray as $key=>$val ){
-				if( !is_int( $key ) ){
-					$RTN .= ''.t::data2jssrc( $key , $option ).':';
-				}else{
-					$RTN .= '\''.t::data2jssrc( $key , $option ).'\':';
-				}
+				$RTN .= ''.t::data2jssrc( $key , $option ).':';
 
 				$RTN .= t::data2jssrc( $val , $option );
 				$RTN .= ', ';
@@ -330,7 +335,7 @@ class t{
 
 		if( is_string( $value ) ){
 			#	文字列型
-			$RTN = '\''.t::escape_singlequote( $value ).'\'';
+			$RTN = '"'.t::escape_doublequote( $value ).'"';
 			$RTN = preg_replace( '/\r\n|\r|\n/' , '\'+"\n"+\'' , $RTN );
 			$RTN = preg_replace( '/'.preg_quote('<'.'?','/').'/' , '<\'+\'?' , $RTN );
 			$RTN = preg_replace( '/'.preg_quote('?'.'>','/').'/' , '?\'+\'>' , $RTN );
