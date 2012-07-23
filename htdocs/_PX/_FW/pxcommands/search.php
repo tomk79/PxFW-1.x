@@ -6,6 +6,8 @@ $this->load_pxclass('/bases/pxcommand.php');
  **/
 class px_pxcommands_search extends px_bases_pxcommand{
 
+	private $search_keyword = null;
+
 	/**
 	 * コンストラクタ
 	 */
@@ -13,10 +15,12 @@ class px_pxcommands_search extends px_bases_pxcommand{
 		parent::__construct( $command , &$px );
 
 		$command = $this->get_command();
+		$this->search_keyword = $this->px->req()->get_param('KEY');
 
 		switch( $command[1] ){
-			case 'json':
-				$this->print_search_results_as_json( $px->req()->get_param('KEY') );
+			case 'api':
+				$results = $this->execute_search( $this->search_keyword );
+				$this->print_search_results_as_json( $results );
 				break;
 			default:
 				$this->homepage();
@@ -33,17 +37,82 @@ class px_pxcommands_search extends px_bases_pxcommand{
 		ob_start();
 ?><script type="text/javascript">
 $(function(){
-	alert('開発中です。');
+	contSearch.init();
+	contSearch.search();
 });
+var contSearch = new (function(){
+	var elmKeyword = null;
+	function init(){
+		elmKeyword = $('#cont_search_form input[name=KEY]');
+	}
+	this.init = init;
+
+	function getSearchKeyword(){
+		var keyword = elmKeyword[0].value;
+		return keyword;
+	}
+	function search(){
+		var keyword = getSearchKeyword();
+		var elm = $('#cont_result');
+
+		elm.html('<p>検索しています。</p>');
+		$.ajax({
+			url:'?' ,
+			data: {
+				PX: 'search.api' ,
+				KEY: keyword
+			} ,
+			dataType:'json' ,
+			success: function( data ){
+				var htmlSrc = '';
+				function drawResultSell( ary ){
+					var src = '';
+					src += '<ul>';
+					for( row in ary ){
+						src += '<li>';
+						src += '<p><strong>'+ary[row].path+'</strong></p>';
+						src += '<dl>';
+						src += '<dt>type</dt><dd>'+ary[row].type+'</dd>';
+						src += '</dl>';
+						src += '</li>';
+					}
+					src += '</ul>';
+					return src;
+				}
+				htmlSrc += '<p>検索結果: '+data['count']['total']+'件</p>';
+				htmlSrc += '<h2>コンテンツの検索結果</h2>';
+				htmlSrc += '<p>'+data['count']['contents']+'件</p>';
+				htmlSrc += drawResultSell( data['results']['contents'] );
+				htmlSrc += '<h2>サイトマップの検索結果</h2>';
+				htmlSrc += '<p>'+data['count']['sitemap']+'件</p>';
+htmlSrc += '<p><strong>開発中のため動作しません。</strong></p>';
+				htmlSrc += drawResultSell( data['results']['sitemap'] );
+				htmlSrc += '<h2>テーマの検索結果</h2>';
+				htmlSrc += '<p>'+data['count']['themes']+'件</p>';
+htmlSrc += '<p><strong>開発中のため動作しません。</strong></p>';
+				htmlSrc += drawResultSell( data['results']['themes'] );
+				elm.html(htmlSrc);
+			} ,
+			error: function(){
+				elm.html('<p>AJAX エラーが発生しました。</p>');
+			} ,
+			complete: function(){
+			}
+		});
+	}
+	this.search = search;
+})();
 </script>
 <?php
 		$src .= ob_get_clean();
 		$src .= '<p>コンテンツ、サイトマップ、テーマを検索します。</p>'."\n";
 		$src .= '<p><strong>これは開発中の機能です。現在動作していません。</strong></p>'."\n";
-		$src .= '<form action="?" method="get" target="_top">'."\n";
+		$src .= '<form action="?" method="get" target="_top" onsubmit="contSearch.search(); return false;" id="cont_search_form">'."\n";
 		$src .= '<div><input type="hidden" name="PX" value="search" /></div>'."\n";
 		$src .= '<p class="center"><input type="text" name="KEY" value="'.t::h($this->px->req()->get_param('KEY')).'" /><button>検索する</button></p>'."\n";
 		$src .= '</form>'."\n";
+		$src .= '<div id="cont_result">'."\n";
+		$src .= '</div>'."\n";
 		print $this->html_template($src);
 		exit;
 	}//homepage()
@@ -51,10 +120,92 @@ $(function(){
 	/**
 	 * 検索結果をJSON形式で出力する。
 	 */
-	private function print_search_results_as_json( $keyword ){
-		//  UTODO: 開発中です。
-		print '{}';
+	private function print_search_results_as_json( $results ){
+		while( @ob_end_clean() ){}
+		@header( 'Content-type: text/plain; charset=UTF-8' );
+		print '{ ';
+		print '"KEY":'.t::data2jssrc($this->search_keyword).', ';
+		print '"count":{';
+		print '"total":'.t::data2jssrc(count($results['contents'])+count($results['sitemap'])+count($results['themes'])).',';
+		print '"contents":'.t::data2jssrc(count($results['contents'])).',';
+		print '"sitemap":'.t::data2jssrc(count($results['sitemap'])).',';
+		print '"themes":'.t::data2jssrc(count($results['themes'])).'';
+		print '}, ';
+		print '"results":'.t::data2jssrc($results).' ';
+		print '}';
+		exit;
 	}//print_json()
+
+	/**
+	 * 検索を実行する。
+	 */
+	private function execute_search( $keyword ){
+		$results = array(
+			'contents'=>array() ,
+			'sitemap'=>array() ,
+			'themes'=>array() ,
+		);
+		if( !strlen(trim($keyword)) ){
+			return $results;
+		}
+		$results['contents'] = $this->execute_search_contents( $keyword );
+		$results['sitemap'] = $this->execute_search_sitemap( $keyword );
+		$results['themes'] = $this->execute_search_themes( $keyword );
+		return $results;
+	}
+	/**
+	 * コンテンツを検索する。
+	 */
+	private function execute_search_contents( $keyword , $path = null ){
+		$results = array();
+		$ignores = array(
+			$this->px->dbh()->get_realpath( $this->px->get_conf('paths.px_dir') ).'/'
+		);
+		$base_path = $this->px->dbh()->get_realpath('./').'/';
+		$items = $this->px->dbh()->ls( $base_path.$path );
+		foreach( $items as $item ){
+			foreach( $ignores as $ignore ){
+				//  除外指定のパスを除外
+				if( $ignore == $base_path.$path.$item.'/' ){
+					continue 2;
+				}
+			}
+			if( is_dir( $base_path.$path.$item ) ){
+				if( preg_match( '/'.preg_quote($keyword,'/').'/si' , $item ) ){
+					array_push( $results , array(
+						'path'=>'/'.$path.$item ,
+						'type'=>'dir' ,
+					) );
+				}
+				$results = array_merge( $results , $this->execute_search_contents( $keyword , $path.$item.'/' ) );
+			}elseif( is_file( $base_path.$path.$item ) ){
+				$file_bin = $this->px->dbh()->file_get_contents( $base_path.$path.'/'.$item );
+				if( preg_match( '/'.preg_quote($keyword,'/').'/si' , $file_bin ) ){
+					array_push( $results , array(
+						'path'=>'/'.$path.$item ,
+						'type'=>'file' ,
+					) );
+				}
+			}
+		}
+		return $results;
+	}
+	/**
+	 * サイトマップを検索する。
+	 */
+	private function execute_search_sitemap( $keyword , $path = null ){
+		$results = array();
+//		array_push( $results , array('path'=>'/sitemap.csv') );
+		return $results;
+	}
+	/**
+	 * テーマを検索する。
+	 */
+	private function execute_search_themes( $keyword , $path = null ){
+		$results = array();
+//		array_push( $results , array('path'=>'/themes/default.html') );
+		return $results;
+	}
 
 }
 ?>
