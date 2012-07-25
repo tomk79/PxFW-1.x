@@ -136,33 +136,33 @@ table.def th {
 /**
  * カラムレイアウト
  */
-.columns {
-	margin:1em 0 1.5em 0;
+.cols{
+	margin-left:-20px;
+	overflow:hidden;
 }
-.columns .columns-col {
+.cols-col{
 	float:left;
-	margin:0 3% 0 0;
-}
-.columns .columns-col:last-child {
 	margin:0 0 0 0;
 }
-.columns .columns-last{
-	/* IE7,8対応 */
-	margin:0 0 0 0;
+.cols-col.cols-w75per{
+	width:75%;
 }
-.columns .columns-1of2 {
-	width:47%;
+.cols-col.cols-w50per{
+	width:50%;
 }
-.columns .columns-1of3 {
-	width:30.3%;
+.cols-col.cols-w66per{
+	width:66.666%;
 }
-.columns .columns-2of3 {
-	width:63.6%;
+.cols-col.cols-w33per{
+	width:33.333%;
 }
-.columns .columns-1of4 {
-	width:22%;
+.cols-col.cols-w25per{
+	width:25%;
 }
-.columns .columns-3of4 {
-	width:72%;
+.cols .cols-pad{
+	margin-left:20px;
 }
-
+.cols .cols-last{
+	float:right;
+	/margin-right:-10px;
+}
