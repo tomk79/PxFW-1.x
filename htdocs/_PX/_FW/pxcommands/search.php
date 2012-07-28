@@ -2,7 +2,7 @@
 $this->load_pxclass('/bases/pxcommand.php');
 
 /**
- * PX Command: searchを表示する
+ * PX Command: ソースを検索する。
  **/
 class px_pxcommands_search extends px_bases_pxcommand{
 
@@ -85,11 +85,9 @@ var contSearch = new (function(){
 				htmlSrc += drawResultSell( data['results']['contents'] );
 				htmlSrc += '<h2>サイトマップの検索結果</h2>';
 				htmlSrc += '<p>'+data['count']['sitemap']+'件</p>';
-htmlSrc += '<p><strong>開発中のため動作しません。</strong></p>';
 				htmlSrc += drawResultSell( data['results']['sitemap'] );
 				htmlSrc += '<h2>テーマの検索結果</h2>';
 				htmlSrc += '<p>'+data['count']['themes']+'件</p>';
-htmlSrc += '<p><strong>開発中のため動作しません。</strong></p>';
 				htmlSrc += drawResultSell( data['results']['themes'] );
 				elm.html(htmlSrc);
 			} ,
@@ -106,7 +104,6 @@ htmlSrc += '<p><strong>開発中のため動作しません。</strong></p>';
 <?php
 		$src .= ob_get_clean();
 		$src .= '<p>コンテンツ、サイトマップ、テーマを検索します。</p>'."\n";
-		$src .= '<p><strong>これは開発中の機能です。現在動作していません。</strong></p>'."\n";
 		$src .= '<form action="?" method="get" target="_top" onsubmit="contSearch.search(); return false;" id="cont_search_form">'."\n";
 		$src .= '<div><input type="hidden" name="PX" value="search" /></div>'."\n";
 		$src .= '<p class="center"><input type="text" name="KEY" value="'.t::h($this->px->req()->get_param('KEY')).'" /><button>検索する</button></p>'."\n";
@@ -195,7 +192,35 @@ htmlSrc += '<p><strong>開発中のため動作しません。</strong></p>';
 	 */
 	private function execute_search_sitemap( $keyword , $path = null ){
 		$results = array();
-//		array_push( $results , array('path'=>'/sitemap.csv') );
+		$ignores = array(
+		);
+		$base_path = $this->px->dbh()->get_realpath( $this->px->get_conf('paths.px_dir') ).'/sitemaps/';
+		$items = $this->px->dbh()->ls( $base_path.$path );
+		foreach( $items as $item ){
+			foreach( $ignores as $ignore ){
+				//  除外指定のパスを除外
+				if( $ignore == $base_path.$path.$item.'/' ){
+					continue 2;
+				}
+			}
+			if( is_dir( $base_path.$path.$item ) ){
+				if( preg_match( '/'.preg_quote($keyword,'/').'/si' , $item ) ){
+					array_push( $results , array(
+						'path'=>'/'.$path.$item ,
+						'type'=>'dir' ,
+					) );
+				}
+				$results = array_merge( $results , $this->execute_search_sitemap( $keyword , $path.$item.'/' ) );
+			}elseif( is_file( $base_path.$path.$item ) ){
+				$file_bin = $this->px->dbh()->file_get_contents( $base_path.$path.'/'.$item );
+				if( preg_match( '/'.preg_quote($keyword,'/').'/si' , $file_bin ) ){
+					array_push( $results , array(
+						'path'=>'/'.$path.$item ,
+						'type'=>'file' ,
+					) );
+				}
+			}
+		}
 		return $results;
 	}
 	/**
@@ -203,9 +228,38 @@ htmlSrc += '<p><strong>開発中のため動作しません。</strong></p>';
 	 */
 	private function execute_search_themes( $keyword , $path = null ){
 		$results = array();
-//		array_push( $results , array('path'=>'/themes/default.html') );
+		$ignores = array(
+		);
+		$base_path = $this->px->dbh()->get_realpath( $this->px->get_conf('paths.px_dir') ).'/themes/';
+		$items = $this->px->dbh()->ls( $base_path.$path );
+		foreach( $items as $item ){
+			foreach( $ignores as $ignore ){
+				//  除外指定のパスを除外
+				if( $ignore == $base_path.$path.$item.'/' ){
+					continue 2;
+				}
+			}
+			if( is_dir( $base_path.$path.$item ) ){
+				if( preg_match( '/'.preg_quote($keyword,'/').'/si' , $item ) ){
+					array_push( $results , array(
+						'path'=>'/'.$path.$item ,
+						'type'=>'dir' ,
+					) );
+				}
+				$results = array_merge( $results , $this->execute_search_themes( $keyword , $path.$item.'/' ) );
+			}elseif( is_file( $base_path.$path.$item ) ){
+				$file_bin = $this->px->dbh()->file_get_contents( $base_path.$path.'/'.$item );
+				if( preg_match( '/'.preg_quote($keyword,'/').'/si' , $file_bin ) ){
+					array_push( $results , array(
+						'path'=>'/'.$path.$item ,
+						'type'=>'file' ,
+					) );
+				}
+			}
+		}
 		return $results;
 	}
 
 }
+
 ?>
