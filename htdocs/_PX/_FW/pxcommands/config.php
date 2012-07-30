@@ -26,7 +26,9 @@ class px_pxcommands_config extends px_bases_pxcommand{
 	private function mk_ary_table( $ary ) {
 		if(is_array($ary)) {
 			if($this->is_hash($ary)) {
-				$html = "\n" . '<table class="def"><col width="30%" /><col width="70%" />' . "\n";
+				$html = '';
+				$html .= '<table class="def">' . "\n";
+				$html .= '<colgroup><col width="30%" /><col width="70%" /></colgroup>' . "\n";
 				foreach ($ary as $key => $val) {
 					$html .= '<tr>' . "\n";
 					$html .= '<th>' .t::h( $key ). '</th>' . "\n";
@@ -35,7 +37,9 @@ class px_pxcommands_config extends px_bases_pxcommand{
 				}
 				$html .= '</table>' . "\n";
 			} elseif(!$this->is_hash($ary)) {
-				$html = "\n" . '<table class="def"><col width="30%" /><col width="70%" />' . "\n";
+				$html = '';
+				$html .= '<table class="def">' . "\n";
+				$html .= '<colgroup><col width="30%" /><col width="70%" /></colgroup>' . "\n";
 				foreach ($ary as $val) {
 					$html .= '<tr>' . "\n";
 					$html .= '<td>' .t::h( $val ). '</td>' . "\n";
