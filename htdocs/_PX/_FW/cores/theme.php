@@ -81,13 +81,6 @@ class px_cores_theme{
 			$this->replace_content($content,'');
 		}
 
-		//  コンテンツソースのファイナライズ
-		$class_name = $this->px->load_pxclass('/styles/finalizer.php');
-		$obj_finalizer = new $class_name( &$this->px );
-		unset($class_name);
-		$content = $obj_finalizer->finalize_contents( $content );
-		$this->replace_content($content,'');
-
 		//  / コンテンツソースの事後加工処理
 		//------------
 
@@ -261,7 +254,15 @@ class px_cores_theme{
 	public function pull_content( $content_name = '' ){
 		if( !strlen($content_name) ){ $content_name = ''; }
 		if( !is_string($content_name) ){ return false; }
-		return $this->contents_cabinet[$content_name];
+
+		//  コンテンツソースのファイナライズ
+		$class_name = $this->px->load_pxclass('/styles/finalizer.php');
+		$obj_finalizer = new $class_name( &$this->px );
+		unset($class_name);
+		$content = $this->contents_cabinet[$content_name];
+		$content = $obj_finalizer->finalize_contents( $content );
+
+		return $content;
 	}
 
 	/**
