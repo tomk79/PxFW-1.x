@@ -71,14 +71,25 @@ class px_cores_theme{
 	public function bind_contents( $content ){
 		$this->send_content($content,'');
 
+		//------------
 		//  コンテンツソースの事後加工処理
+
+		//  autoindex
 		if( is_array( $this->func_data_memos['autoindex'] ) ){
-			//  autoindex
 			$content = $this->pull_content('');
 			$content = $this->apply_autoindex( $content );
 			$this->replace_content($content,'');
 		}
+
+		//  コンテンツソースのファイナライズ
+		$class_name = $this->px->load_pxclass('/styles/finalizer.php');
+		$obj_finalizer = new $class_name( &$this->px );
+		unset($class_name);
+		$content = $obj_finalizer->finalize_contents( $content );
+		$this->replace_content($content,'');
+
 		//  / コンテンツソースの事後加工処理
+		//------------
 
 		@header('Content-type: text/html; charset=UTF-8');//デフォルトのヘッダー
 
