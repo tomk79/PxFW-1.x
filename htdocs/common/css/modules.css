@@ -1,17 +1,7 @@
 @charset "UTF-8";
 
 /**
- * ユニット
- * モジュールの単位となる。前後にデフォルトマージン付加
- */
-div.unit{
-	margin-top:1em;
-	margin-bottom:1.5em;
-	clear:both;
-}
-
-/**
- * 画像置換
+ * [static] 画像置換
  * .haribotekit の移植
  */
 .imagereplace{
@@ -31,9 +21,8 @@ div.unit{
 	zoom:100%;
 }
 
-
 /**
- * 文字サイズ
+ * [static] 文字サイズ
  */
 .xxlarge{
 	font-size:xx-large;
@@ -58,7 +47,7 @@ div.unit{
 }
 
 /**
- * 文字組み
+ * [static] 文字組み
  */
 .center{
 	text-align:center;
@@ -71,7 +60,7 @@ div.unit{
 }
 
 /**
- * まわりこみ制御
+ * [static] まわりこみ制御
  */
 .fl{
 	float:left;
@@ -85,7 +74,24 @@ div.unit{
 }
 
 /**
- * .clearfix
+ * [static] カレントページ
+ */
+.current{
+	font-weight:bold;
+}
+
+/**
+ * [unit] ユニット
+ * モジュールの単位となる。前後にデフォルトマージン付加
+ */
+div.unit{
+	margin-top:1em;
+	margin-bottom:1.5em;
+	clear:both;
+}
+
+/**
+ * [static] .clearfix (and [unit] unit)
  */
 .unit,
 .clearfix{
@@ -110,31 +116,7 @@ div.unit{
 }
 
 /**
- * カレントページ
- */
-.current{
-	font-weight:bold;
-}
-
-/**
- * デフォルトテーブルスタイル
- */
-table.def {
-	border:none;
-	border-collapse: collapse;
-	text-align: left;
-}
-table.def th,
-table.def td {
-	border: 1px solid #d6d6d6;
-	padding: 10px;
-}
-table.def th {
-	background: #e7e7e7;
-}
-
-/**
- * カラムレイアウト
+ * [unit] カラムレイアウト
  */
 .cols{
 	margin-left:-20px;
@@ -165,4 +147,51 @@ table.def th {
 .cols .cols-last{
 	float:right;
 	/margin-right:-10px;
+}
+
+/**
+ * [parts] デフォルトテーブルスタイル
+ */
+table.def {
+	border:none;
+	border-collapse: collapse;
+	text-align: left;
+}
+table.def th,
+table.def td {
+	border: 1px solid #d6d6d6;
+	padding: 10px;
+}
+table.def th {
+	background: #e7e7e7;
+}
+
+/**
+ * [parts] ソースコード
+ */
+.code{
+	margin:1em 0;
+}
+.code pre{
+	margin:0px;
+}
+.code code,
+.code textarea{
+	border:1px solid #999999;
+	background:#f5f5f5;
+	padding:1em;
+	font-size:small;
+	line-height:1.5em;
+}
+.code code{
+	display:block;
+	width:auto;
+	background:#e8e8e8;
+	border:1px dashed #999999;
+}
+.code textarea{
+	display:block;
+	width:100%;
+	box-sizing:border-box;
+	height:16em;
 }

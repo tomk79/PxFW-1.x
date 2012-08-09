@@ -10,7 +10,41 @@
 ?>
 
 
-<h2>カラムレイアウト .cols</h2>
+<h2>[parts] ソースコード(コピペ用) .code</h2>
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;h2&gt;ああああ&lt;/h2&gt;
+</textarea></div>
+</div>
+
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;unit&quot;&gt;
+	&lt;div class=&quot;code&quot;&gt;&lt;textarea readonly=&quot;readonly&quot;&gt;&amp;lt;h2&amp;gt;ああああ&amp;lt;/h2&amp;gt;
+&lt;/textarea&gt;&lt;/div&gt;
+&lt;/div&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+
+
+<h2>[parts] ソースコード(見てるだけ用) .code</h2>
+<div class="unit">
+	<div class="code"><pre><code>&lt;h2&gt;ああああ&lt;/h2&gt;
+</code></pre></div>
+</div>
+
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;unit&quot;&gt;
+	&lt;div class=&quot;code&quot;&gt;&lt;pre&gt;&lt;code&gt;&amp;lt;h2&amp;gt;ああああ&amp;lt;/h2&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+
+
+
+
+<h2>[unit] カラムレイアウト .cols</h2>
 
 <h3>2分割</h3>
 <div class="cols unit">
@@ -28,6 +62,25 @@
 		<p>.cols-last は古いIE対策。IE9以降は不要？。</p>
 	</div></div>
 </div><!-- / .cols -->
+
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;cols unit&quot;&gt;
+	&lt;div class=&quot;cols-col cols-w50per&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
+		&lt;p&gt;cols には unit を一緒につけます。&lt;/p&gt;
+		&lt;p&gt;カラム cols-w50per&lt;/p&gt;
+		&lt;p&gt;カラム&lt;/p&gt;
+		&lt;p&gt;カラム&lt;/p&gt;
+		&lt;p&gt;カラム&lt;/p&gt;
+		&lt;p&gt;カラム&lt;/p&gt;
+	&lt;/div&gt;&lt;/div&gt;
+	&lt;div class=&quot;cols-col cols-w50per cols-last&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
+		&lt;p&gt;最後のカラムには、&lt;code&gt;.cols-last&lt;/code&gt; を併記します。&lt;/p&gt;
+		&lt;p&gt;カラム cols-w50per&lt;/p&gt;
+		&lt;p&gt;.cols-last は古いIE対策。IE9以降は不要？。&lt;/p&gt;
+	&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;!-- / .cols --&gt;
+</textarea></div>
+</div><!-- /.unit -->
 
 
 <h3>3分割</h3>
@@ -54,6 +107,33 @@
 		<p>.cols-last は古いIE対策。IE9以降は不要？。</p>
 	</div></div>
 </div><!-- / .cols -->
+
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;cols unit&quot;&gt;
+	&lt;div class=&quot;cols-col cols-w33per&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
+		&lt;p&gt;cols には unit を一緒につけます。&lt;/p&gt;
+		&lt;p&gt;カラム cols-w33per&lt;/p&gt;
+		&lt;p&gt;カラム&lt;/p&gt;
+		&lt;p&gt;カラム&lt;/p&gt;
+		&lt;p&gt;カラム&lt;/p&gt;
+		&lt;p&gt;カラム&lt;/p&gt;
+	&lt;/div&gt;&lt;/div&gt;
+	&lt;div class=&quot;cols-col cols-w33per&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
+		&lt;p&gt;cols には unit を一緒につけます。&lt;/p&gt;
+		&lt;p&gt;カラム cols-w33per&lt;/p&gt;
+		&lt;p&gt;カラム&lt;/p&gt;
+		&lt;p&gt;カラム&lt;/p&gt;
+		&lt;p&gt;カラム&lt;/p&gt;
+		&lt;p&gt;カラム&lt;/p&gt;
+	&lt;/div&gt;&lt;/div&gt;
+	&lt;div class=&quot;cols-col cols-w33per cols-last&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
+		&lt;p&gt;最後のカラムには、&lt;code&gt;.cols-last&lt;/code&gt; を併記します。&lt;/p&gt;
+		&lt;p&gt;カラム cols-w33per&lt;/p&gt;
+		&lt;p&gt;.cols-last は古いIE対策。IE9以降は不要？。&lt;/p&gt;
+	&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;!-- / .cols --&gt;
+</textarea></div>
+</div><!-- /.unit -->
 
 <h3>4分割</h3>
 <div class="cols unit">
@@ -90,6 +170,43 @@
 	</div></div>
 </div><!-- / .cols -->
 
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;cols unit&quot;&gt;
+	&lt;div class=&quot;cols-col cols-w25per&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
+		&lt;p&gt;cols には unit を一緒につけます。&lt;/p&gt;
+		&lt;p&gt;カラム cols-w25per&lt;/p&gt;
+		&lt;p&gt;カラム&lt;/p&gt;
+		&lt;p&gt;カラム&lt;/p&gt;
+		&lt;p&gt;カラム&lt;/p&gt;
+		&lt;p&gt;カラム&lt;/p&gt;
+	&lt;/div&gt;&lt;/div&gt;
+	&lt;div class=&quot;cols-col cols-w25per&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
+		&lt;p&gt;cols には unit を一緒につけます。&lt;/p&gt;
+		&lt;p&gt;カラム cols-w25per&lt;/p&gt;
+		&lt;p&gt;カラム&lt;/p&gt;
+		&lt;p&gt;カラム&lt;/p&gt;
+		&lt;p&gt;カラム&lt;/p&gt;
+		&lt;p&gt;カラム&lt;/p&gt;
+		&lt;p&gt;カラム&lt;/p&gt;
+	&lt;/div&gt;&lt;/div&gt;
+	&lt;div class=&quot;cols-col cols-w25per&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
+		&lt;p&gt;cols には unit を一緒につけます。&lt;/p&gt;
+		&lt;p&gt;カラム cols-w25per&lt;/p&gt;
+		&lt;p&gt;カラム&lt;/p&gt;
+		&lt;p&gt;カラム&lt;/p&gt;
+		&lt;p&gt;カラム&lt;/p&gt;
+		&lt;p&gt;カラム&lt;/p&gt;
+		&lt;p&gt;カラム&lt;/p&gt;
+	&lt;/div&gt;&lt;/div&gt;
+	&lt;div class=&quot;cols-col cols-w25per cols-last&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
+		&lt;p&gt;カラム cols-w25per&lt;/p&gt;
+		&lt;p&gt;最後のカラムには、&lt;code&gt;.cols-last&lt;/code&gt; を併記します。&lt;/p&gt;
+		&lt;p&gt;.cols-last は古いIE対策。IE9以降は不要？。&lt;/p&gt;
+	&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;!-- / .cols --&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
 <h3>変則4分割</h3>
 <div class="cols unit">
 	<div class="cols-col cols-w75per"><div class="cols-pad">
@@ -104,6 +221,23 @@
 		<p>カラム cols-w25per</p>
 	</div></div>
 </div><!-- / .cols -->
+
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;cols unit&quot;&gt;
+	&lt;div class=&quot;cols-col cols-w75per&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
+		&lt;p&gt;cols には unit を一緒につけます。cols には unit を一緒につけます。cols には unit を一緒につけます。cols には unit を一緒につけます。cols には unit を一緒につけます。cols には unit を一緒につけます。cols には unit を一緒につけます。cols には unit を一緒につけます。&lt;/p&gt;
+		&lt;p&gt;カラム cols-w75per&lt;/p&gt;
+		&lt;p&gt;カラム&lt;/p&gt;
+		&lt;p&gt;カラム&lt;/p&gt;
+	&lt;/div&gt;&lt;/div&gt;
+	&lt;div class=&quot;cols-col cols-w25per cols-last&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
+		&lt;p&gt;最後のカラムには、&lt;code&gt;.cols-last&lt;/code&gt; を併記します。&lt;/p&gt;
+		&lt;p&gt;.cols-last は古いIE対策。IE9以降は不要？。&lt;/p&gt;
+		&lt;p&gt;カラム cols-w25per&lt;/p&gt;
+	&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;!-- / .cols --&gt;
+</textarea></div>
+</div><!-- /.unit -->
 
 <h3>変則4分割</h3>
 <div class="cols unit">
@@ -125,6 +259,29 @@
 		<p>.cols-last は古いIE対策。IE9以降は不要？。</p>
 	</div></div>
 </div><!-- / .cols -->
+
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;cols unit&quot;&gt;
+	&lt;div class=&quot;cols-col cols-w25per&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
+		&lt;p&gt;カラム&lt;/p&gt;
+		&lt;p&gt;カラム cols-w25per&lt;/p&gt;
+	&lt;/div&gt;&lt;/div&gt;
+	&lt;div class=&quot;cols-col cols-w50per&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
+		&lt;p&gt;cols には unit を一緒につけます。&lt;/p&gt;
+		&lt;p&gt;カラム cols-w50per&lt;/p&gt;
+		&lt;p&gt;カラム&lt;/p&gt;
+		&lt;p&gt;カラム&lt;/p&gt;
+		&lt;p&gt;カラム&lt;/p&gt;
+		&lt;p&gt;カラム&lt;/p&gt;
+	&lt;/div&gt;&lt;/div&gt;
+	&lt;div class=&quot;cols-col cols-w25per cols-last&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
+		&lt;p&gt;カラム cols-w25per&lt;/p&gt;
+		&lt;p&gt;カラム&lt;/p&gt;
+		&lt;p&gt;.cols-last は古いIE対策。IE9以降は不要？。&lt;/p&gt;
+	&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;!-- / .cols --&gt;
+</textarea></div>
+</div><!-- /.unit -->
 
 
 
