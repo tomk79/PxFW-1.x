@@ -55,6 +55,7 @@ class px_bases_pxcommand{
 		$src .= '<li><a href="?PX=sitemap_definition">sitemap_definition</a></li>'."\n";
 		$src .= '<li><a href="?PX=sitemap">sitemap</a></li>'."\n";
 		$src .= '<li><a href="?PX=pageinfo">pageinfo</a></li>'."\n";
+		$src .= '<li><a href="?PX=edit">edit</a></li>'."\n";
 		$src .= '<li><a href="?PX=search">search</a></li>'."\n";
 		$src .= '<li><a href="?PX=publish">publish</a></li>'."\n";
 		$src .= '</ul>'."\n";
