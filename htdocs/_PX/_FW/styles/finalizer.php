@@ -52,8 +52,10 @@ class px_styles_finalizer{
 
 		//属性値を復元
 		$attr = '';
-		foreach( $dom['attributes'] as $key=>$val ){
-			$attr .= ' '.$key.'="'.$val.'"';
+		if( is_array($dom['attributes']) ){
+			foreach( $dom['attributes'] as $key=>$val ){
+				$attr .= ' '.$key.'="'.$val.'"';
+			}
 		}
 
 		// 入れ子の span を追加するサンプル

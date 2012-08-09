@@ -76,7 +76,7 @@ class px_cores_theme{
 
 		//  autoindex
 		if( is_array( $this->func_data_memos['autoindex'] ) ){
-			$content = $this->pull_content('');
+			$content = $this->pull_content('',false);
 			$content = $this->apply_autoindex( $content );
 			$this->replace_content($content,'');
 		}
@@ -250,17 +250,22 @@ class px_cores_theme{
 
 	/**
 	 * コンテンツキャビネットからコンテンツを引き出す
+	 * @param string $content_name : キャビネット上のコンテンツ名
+	 * @param bool $do_finalize : ファイナライズ処理を有効にするか(default: true)
 	 */
-	public function pull_content( $content_name = '' ){
+	public function pull_content( $content_name = '', $do_finalize = true ){
 		if( !strlen($content_name) ){ $content_name = ''; }
 		if( !is_string($content_name) ){ return false; }
 
-		//  コンテンツソースのファイナライズ
-		$class_name = $this->px->load_pxclass('/styles/finalizer.php');
-		$obj_finalizer = new $class_name( &$this->px );
-		unset($class_name);
 		$content = $this->contents_cabinet[$content_name];
-		$content = $obj_finalizer->finalize_contents( $content );
+
+		//  コンテンツソースのファイナライズ
+		if( $do_finalize === true ){
+			$class_name = $this->px->load_pxclass('/styles/finalizer.php');
+			$obj_finalizer = new $class_name( &$this->px );
+			unset($class_name);
+			$content = $obj_finalizer->finalize_contents( $content );
+		}
 
 		return $content;
 	}
