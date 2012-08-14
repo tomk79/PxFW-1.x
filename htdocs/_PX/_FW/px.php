@@ -140,7 +140,9 @@ class px_px{
 	 */
 	public function get_local_resource_dir( $path_content = null ){
 		if( !strlen( $path_content ) ){
-			$path_content = $this->req()->get_request_file_path();
+			$tmp_page_info = $this->site()->get_page_info($this->req()->get_request_file_path());
+			$path_content = $tmp_page_info['content'];
+			unset($tmp_page_info);
 		}
 		$rtn = $this->dbh()->get_realpath($this->get_install_path().$path_content);
 		$rtn = $this->dbh()->trim_extension($rtn).'.files/';
