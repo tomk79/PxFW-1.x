@@ -6,6 +6,9 @@ class px_cores_site{
 	private $sitemap_id_map = array();
 	private $sitemap_dynamic_paths = array();
 
+	/**
+	 * コンストラクタ
+	 */
 	public function __construct( &$px ){
 		$this->px = &$px;
 
@@ -95,7 +98,7 @@ class px_cores_site{
 					unset($tmp_id);
 				}
 
-				if( preg_match( '/\{\$[a-zA-Z0-9\_\-]+\}/s' , $tmp_array['path'] ) ){
+				if($this->get_path_type( $tmp_array['path'] ) == 'dynamic'){
 					//ダイナミックパスのインデックス作成
 					$preg_pattern = preg_quote($tmp_array['path'],'/');
 					$preg_pattern = preg_replace('/'.preg_quote(preg_quote('{$','/'),'/').'[a-zA-Z0-9\-\_]+'.preg_quote(preg_quote('}','/'),'/').'/s','([a-zA-Z0-9\-\_]+?)',$preg_pattern);
@@ -326,6 +329,17 @@ class px_cores_site{
 		}
 		$page_info = $this->get_page_info( $path );
 		$rtn = array();
+
+		$current_layer = '';
+		if( strlen( trim($page_info['id']) ) ){
+			$tmp_breadcrumb = explode( '>', $page_info['logical_path'].'>'.$page_info['id'] );
+			foreach( $tmp_breadcrumb as $tmp_path ){
+				if( !strlen($tmp_path) ){continue;}
+				$tmp_page_info = $this->get_page_info( trim($tmp_path) );
+				$current_layer .= '>'.$tmp_page_info['id'];
+			}
+		}
+		unset($tmp_breadcrumb,$tmp_path,$tmp_page_info);
 		foreach( $this->get_sitemap() as $row ){
 			if( !strlen($row['id']) ){
 				continue;
@@ -333,7 +347,19 @@ class px_cores_site{
 			if( !$row['list_flg'] ){
 				continue;
 			}
-			if( ($page_info['logical_path']?$page_info['logical_path'].'>':'').$page_info['id'] == $row['logical_path'] ){
+
+			$target_layer = '';
+			if( strlen( trim($row['id']) ) ){
+				$tmp_breadcrumb = explode( '>', $row['logical_path'] );
+				foreach( $tmp_breadcrumb as $tmp_path ){
+					if( !strlen($tmp_path) ){continue;}
+					$tmp_page_info = $this->get_page_info( trim($tmp_path) );
+					$target_layer .= '>'.$tmp_page_info['id'];
+				}
+				unset($tmp_breadcrumb,$tmp_path,$tmp_page_info);
+			}
+
+			if( $current_layer == $target_layer ){
 				array_push( $rtn , $row['id'] );
 			}
 		}
@@ -369,7 +395,7 @@ class px_cores_site{
 			//  alias と : の間に、後から連番を降られる。
 			//  このため、数字が含まれている場合を考慮した。(@tomk79)
 			$path_type = 'alias';
-		} else if( preg_match( '/\{\$([a-zA-Z0-9\_\-]+)\}/' , $path ) ) {
+		} else if( preg_match( '/\{(?:\$)(?:[a-zA-Z0-9\_\-]+)\}/' , $path ) ) {
 			//  {$xxxx}を含む場合(ダイナミックパス)
 			$path_type = 'dynamic';
 		} else if( preg_match( '/^\//' , $path ) ) {
