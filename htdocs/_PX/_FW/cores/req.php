@@ -21,7 +21,7 @@ class px_cores_req{
 	}//__construct()
 
 	/**
-	 *	$_POSTと$_GETで受け取った情報を、ハッシュ$inに結合する。
+	 *	入力パラメータを解析する。
 	 */
 	private function parse_input(){
 		if( !array_key_exists( 'REMOTE_ADDR' , $_SERVER ) ){

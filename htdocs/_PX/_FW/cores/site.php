@@ -100,17 +100,32 @@ class px_cores_site{
 
 				if($this->get_path_type( $tmp_array['path'] ) == 'dynamic'){
 					//ダイナミックパスのインデックス作成
-					$preg_pattern = preg_quote($tmp_array['path'],'/');
-					$preg_pattern = preg_replace('/'.preg_quote(preg_quote('{$','/'),'/').'[a-zA-Z0-9\-\_]+'.preg_quote(preg_quote('}','/'),'/').'/s','([a-zA-Z0-9\-\_]+?)',$preg_pattern);
-					preg_match_all('/\{\$([a-zA-Z0-9\-\_]+)\}/',$tmp_array['path'],$pattern_map);
+					$tmp_preg_pattern = $tmp_array['path'];
+					$preg_pattern = '';
+					while(1){
+						if( !preg_match('/^(.*?)\{(\$|\*)([a-zA-Z0-9\-\_]*)\}(.*)$/s',$tmp_preg_pattern,$tmp_matched) ){
+							$preg_pattern .= preg_quote($tmp_preg_pattern,'/');
+							break;
+						}
+						$preg_pattern .= preg_quote($tmp_matched[1],'/');
+						switch( $tmp_matched[2] ){
+							case '$':
+								$preg_pattern .= '([a-zA-Z0-9\-\_]+)';break;
+							case '*':
+								$preg_pattern .= '(.*?)';break;
+						}
+						$tmp_preg_pattern = $tmp_matched[4];
+						continue;
+					}
+					preg_match_all('/\{(\$|\*)([a-zA-Z0-9\-\_]*)\}/',$tmp_array['path'],$pattern_map);
 					$tmp_path_original = $tmp_array['path'];
-					$tmp_array['path'] = preg_replace('/'.preg_quote('{$','/').'([a-zA-Z0-9\-\_]+)'.preg_quote('}','/').'/s','$1',$tmp_array['path']);
+					$tmp_array['path'] = preg_replace('/'.preg_quote('{','/').'(\$|\*)([a-zA-Z0-9\-\_]*)'.preg_quote('}','/').'/s','$2',$tmp_array['path']);
 					array_push( $this->sitemap_dynamic_paths, array(
 						'path'=>$tmp_array['path'],
 						'path_original'=>$tmp_path_original,
 						'id'=>$tmp_array['id'],
 						'preg'=>'/^'.$preg_pattern.'$/s',
-						'pattern_map'=>$pattern_map[1],
+						'pattern_map'=>$pattern_map[2],
 					) );
 					$tmp_array['path'] = $tmp_path_original;
 					unset($preg_pattern);
@@ -302,17 +317,19 @@ class px_cores_site{
 	public function bind_dynamic_path_param( $dynamic_path , $params = array() ){
 		$path = '';
 		while( 1 ){
-			if( !preg_match( '/^(.*?)(?:\{\$([a-zA-Z0-9\_\-]+)\})(.*)$/s' , $dynamic_path , $tmp_matched ) ){
+			if( !preg_match( '/^(.*?)\{(\$|\*)([a-zA-Z0-9\_\-]*)\}(.*)$/s' , $dynamic_path , $tmp_matched ) ){
 				$path .= $dynamic_path;
 				break;
 			}
 			$path .= $tmp_matched[1];
-			if( !is_null( $params[$tmp_matched[2]] ) ){
-				$path .= $params[$tmp_matched[2]];
+			if(!strlen($tmp_matched[3])){
+				//無名のパラメータはバインドしない。
+			}elseif( !is_null( $params[$tmp_matched[3]] ) ){
+				$path .= $params[$tmp_matched[3]];
 			}else{
-				$path .= $tmp_matched[2];
+				$path .= $tmp_matched[3];
 			}
-			$dynamic_path = $tmp_matched[3];
+			$dynamic_path = $tmp_matched[4];
 			continue;
 		}
 		unset($dynamic_path , $tmp_matched);
@@ -395,7 +412,7 @@ class px_cores_site{
 			//  alias と : の間に、後から連番を降られる。
 			//  このため、数字が含まれている場合を考慮した。(@tomk79)
 			$path_type = 'alias';
-		} else if( preg_match( '/\{(?:\$)(?:[a-zA-Z0-9\_\-]+)\}/' , $path ) ) {
+		} else if( preg_match( '/\{(?:\$|\*)(?:[a-zA-Z0-9\_\-]*)\}/' , $path ) ) {
 			//  {$xxxx}を含む場合(ダイナミックパス)
 			$path_type = 'dynamic';
 		} else if( preg_match( '/^\//' , $path ) ) {

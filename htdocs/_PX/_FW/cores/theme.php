@@ -126,17 +126,19 @@ class px_cores_theme{
 			$tmp_path = $sitemap_dynamic_path['path_original'];
 			$path = '';
 			while( 1 ){
-				if( !preg_match( '/^(.*?)(?:\{\$([a-zA-Z0-9\_\-]+)\})(.*)$/s' , $tmp_path , $tmp_matched ) ){
+				if( !preg_match( '/^(.*?)\{(\$|\*)([a-zA-Z0-9\_\-]*)\}(.*)$/s' , $tmp_path , $tmp_matched ) ){
 					$path .= $tmp_path;
 					break;
 				}
 				$path .= $tmp_matched[1];
-				if( !is_null( $this->px->req()->get_path_param($tmp_matched[2]) ) ){
-					$path .= $this->px->req()->get_path_param($tmp_matched[2]);
+				if(!strlen($tmp_matched[3])){
+					//無名のパラメータはバインドしない。
+				}elseif( !is_null( $this->px->req()->get_path_param($tmp_matched[3]) ) ){
+					$path .= $this->px->req()->get_path_param($tmp_matched[3]);
 				}else{
-					$path .= $tmp_matched[2];
+					$path .= $tmp_matched[3];
 				}
-				$tmp_path = $tmp_matched[3];
+				$tmp_path = $tmp_matched[4];
 				continue;
 			}
 			unset($tmp_path , $tmp_matched);
