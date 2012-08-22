@@ -393,5 +393,106 @@ class px_cores_theme{
 		return $content;
 	}//apply_autoindex();
 
+	/**
+	 * ページャー情報を計算して答える
+	 */
+	public function get_pager_info( $total_count , $current_page_num , $display_per_page = 10 , $option = array() ){
+		#	Pickles Framework 0.1.3 で追加
+
+		#	総件数
+		$total_count = intval( $total_count );
+		if( $total_count <= 0 ){ return false; }
+
+		#	現在のページ番号
+		$current_page_num = intval( $current_page_num );
+		if( $current_page_num <= 0 ){ $current_page_num = 1; }
+
+		#	ページ当たりの表示件数
+		$display_per_page = intval( $display_per_page );
+		if( $display_per_page <= 0 ){ $display_per_page = 10; }
+
+		#	インデックスの範囲
+		$index_size = 0;
+		if( !is_null( $option['index_size'] ) ){
+			$index_size = intval( $option['index_size'] );
+		}
+		if( $index_size < 1 ){
+			$index_size = 5;
+		}
+
+		$RTN = array(
+			'tc'=>$total_count,
+			'dpp'=>$display_per_page,
+			'current'=>$current_page_num,
+			'total_page_count'=>null,
+			'first'=>null,
+			'prev'=>null,
+			'next'=>null,
+			'last'=>null,
+			'limit'=>$display_per_page,
+			'offset'=>0,
+			'index_start'=>0,
+			'index_end'=>0,
+			'errors'=>array(),
+		);
+
+		if( $total_count%$display_per_page ){
+			$RTN['total_page_count'] = intval($total_count/$display_per_page) + 1;
+		}else{
+			$RTN['total_page_count'] = intval($total_count/$display_per_page);
+		}
+
+		if( $RTN['total_page_count'] != $current_page_num ){
+			$RTN['last'] = $RTN['total_page_count'];
+		}
+		if( 1 != $current_page_num ){
+			$RTN['first'] = 1;
+		}
+
+		if( $RTN['total_page_count'] > $current_page_num ){
+			$RTN['next'] = intval($current_page_num) + 1;
+		}
+		if( 1 < $current_page_num ){
+			$RTN['prev'] = intval($current_page_num) - 1;
+		}
+
+		$RTN['offset'] = ($RTN['current']-1)*$RTN['dpp'];
+
+		if( $current_page_num > $RTN['total_page_count'] ){
+			array_push( $RTN['errors'] , 'Current page num ['.$current_page_num.'] is over the Total page count ['.$RTN['total_page_count'].'].' );
+		}
+
+		#	インデックスの範囲
+		#		23:50 2007/08/29 Pickles Framework 0.1.8 追加
+		$RTN['index_start'] = 1;
+		$RTN['index_end'] = $RTN['total_page_count'];
+		if( ( $index_size*2+1 ) >= $RTN['total_page_count'] ){
+			#	範囲のふり幅全開にしたときに、
+			#	総ページ数よりも多かったら、常に全部出す。
+			$RTN['index_start'] = 1;
+			$RTN['index_end'] = $RTN['total_page_count'];
+		}elseif( ( $index_size < $RTN['current'] ) && ( $index_size < ( $RTN['total_page_count']-$RTN['current'] ) ) ){
+			#	範囲のふり幅全開にしたときに、
+			#	すっぽり収まるようなら、前後に $index_size 分だけ出す。
+			$RTN['index_start'] = $RTN['current']-$index_size;
+			$RTN['index_end'] = $RTN['current']+$index_size;
+		}elseif( $index_size >= $RTN['current'] ){
+			#	前方が収まらない場合は、
+			#	あまった分を後方に回す
+			$surplus = ( $index_size - $RTN['current'] + 1 );
+			$RTN['index_start'] = 1;
+			$RTN['index_end'] = $RTN['current']+$index_size+$surplus;
+		}elseif( $index_size >= ( $RTN['total_page_count']-$RTN['current'] ) ){
+			#	後方が収まらない場合は、
+			#	あまった分を前方に回す
+			$surplus = ( $index_size - ($RTN['total_page_count']-$RTN['current']) );
+			$RTN['index_start'] = $RTN['current']-$index_size-$surplus;
+			$RTN['index_end'] = $RTN['total_page_count'];
+		}
+
+		return	$RTN;
+	}
+
 }
+
 ?>
