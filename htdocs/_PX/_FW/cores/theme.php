@@ -116,7 +116,8 @@ class px_cores_theme{
 	 * @return string href属性値
 	 */
 	public function href( $linkto ){
-		$path = $this->px->site()->get_page_info($linkto,'path');
+//		$path = $this->px->site()->get_page_info($linkto,'path');
+		$path = $linkto;
 		if( preg_match( '/^alias[0-9]*\:(.+)/' , $path , $tmp_matched ) ){
 			//  エイリアスを解決
 			$path = $tmp_matched[1];
@@ -144,8 +145,13 @@ class px_cores_theme{
 			unset($tmp_path , $tmp_matched);
 		}
 		$path = preg_replace('/\/index\.html$/si','/',$path); // index.htmlを省略
-		$path = preg_replace( '/^\/+/' , '' , $path );
-		return $this->px->get_install_path().$path;
+		if( preg_match( '/^\//' , $path ) ){
+			//  スラッシュから始まる絶対パスの場合、
+			//  インストールパスを起点としたパスに書き変えて返す。
+			$path = preg_replace( '/^\/+/' , '' , $path );
+			$path = $this->px->get_install_path().$path;
+		}
+		return $path;
 	}//href()
 
 	/**
@@ -158,8 +164,8 @@ class px_cores_theme{
 		$args = func_get_args();
 		$href = $this->href($linkto);
 		$hrefc = $this->href($this->px->req()->get_request_file_path());
-		$label = $this->px->site()->get_page_info($linkto,'title_label');
-		$page_id = $this->px->site()->get_page_info($linkto,'id');
+		$label = $this->px->site()->get_page_info($href,'title_label');
+		$page_id = $this->px->site()->get_page_info($href,'id');
 		if( is_string($args[1]) ){
 			//  第2引数が文字列なら
 			//  リンクのラベルとして採用
@@ -187,6 +193,7 @@ class px_cores_theme{
 			}
 		}
 		$href = preg_replace('/\/index\.html$/si','/',$href); // index.htmlを省略
+		$label = (!is_null($label)?$label:$href); // labelがnullの場合、リンク先をラベルとする
 
 		$rtn = '<a href="'.t::h($href).'"'.($is_current?' class="current"':'').'>'.t::h($label).'</a>';
 		return $rtn;

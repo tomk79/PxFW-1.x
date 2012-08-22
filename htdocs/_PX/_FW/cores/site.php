@@ -322,9 +322,8 @@ class px_cores_site{
 				break;
 			}
 			$path .= $tmp_matched[1];
-			if(!strlen($tmp_matched[3])){
-				//無名のパラメータはバインドしない。
-			}elseif( !is_null( $params[$tmp_matched[3]] ) ){
+				// ※注意: このメソッドでは、無名のパラメータもバインドする。(明示的に使用されるメソッドなので)
+			if( !is_null( $params[$tmp_matched[3]] ) ){
 				$path .= $params[$tmp_matched[3]];
 			}else{
 				$path .= $tmp_matched[3];
