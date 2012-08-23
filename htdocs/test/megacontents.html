@@ -10,6 +10,70 @@
 ?>
 
 
+<h2>[parts]リスト</h2>
+
+<h3>通常のリスト</h3>
+<ul>
+	<li>リスト内容</li>
+	<li>リスト内容</li>
+</ul>
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;ul&gt;
+	&lt;li&gt;リスト内容&lt;/li&gt;
+	&lt;li&gt;リスト内容&lt;/li&gt;
+&lt;/ul&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+<h3>注釈リスト .notes</h3>
+
+<ul class="notes">
+	<li>※リスト内容</li>
+	<li>※リスト内容</li>
+</ul>
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;ul class=&quot;notes&quot;&gt;
+	&lt;li&gt;※リスト内容&lt;/li&gt;
+	&lt;li&gt;※リスト内容&lt;/li&gt;
+&lt;/ul&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+
+<h3>リストマークがないリスト .nomark</h3>
+<ul class="nomark">
+	<li>リスト内容</li>
+	<li>リスト内容</li>
+</ul>
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;ul class=&quot;nomark&quot;&gt;
+	&lt;li&gt;リスト内容&lt;/li&gt;
+	&lt;li&gt;リスト内容&lt;/li&gt;
+&lt;/ul&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+
+
+<h2>[parts]数字リスト</h2>
+
+<ol>
+	<li>リスト内容</li>
+	<li>リスト内容</li>
+</ol>
+
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;ol&gt;
+	&lt;li&gt;リスト内容&lt;/li&gt;
+	&lt;li&gt;リスト内容&lt;/li&gt;
+&lt;/ol&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+
+
+
+
 <h2>[parts] ソースコード(コピペ用) .code</h2>
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;h2&gt;ああああ&lt;/h2&gt;
@@ -66,17 +130,10 @@
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;cols unit&quot;&gt;
 	&lt;div class=&quot;cols-col cols-w50per&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
-		&lt;p&gt;cols には unit を一緒につけます。&lt;/p&gt;
-		&lt;p&gt;カラム cols-w50per&lt;/p&gt;
-		&lt;p&gt;カラム&lt;/p&gt;
-		&lt;p&gt;カラム&lt;/p&gt;
-		&lt;p&gt;カラム&lt;/p&gt;
-		&lt;p&gt;カラム&lt;/p&gt;
+		&lt;!-- insert parts modules --&gt;
 	&lt;/div&gt;&lt;/div&gt;
 	&lt;div class=&quot;cols-col cols-w50per cols-last&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
-		&lt;p&gt;最後のカラムには、&lt;code&gt;.cols-last&lt;/code&gt; を併記します。&lt;/p&gt;
-		&lt;p&gt;カラム cols-w50per&lt;/p&gt;
-		&lt;p&gt;.cols-last は古いIE対策。IE9以降は不要？。&lt;/p&gt;
+		&lt;!-- insert parts modules --&gt;
 	&lt;/div&gt;&lt;/div&gt;
 &lt;/div&gt;&lt;!-- / .cols --&gt;
 </textarea></div>
@@ -111,25 +168,13 @@
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;cols unit&quot;&gt;
 	&lt;div class=&quot;cols-col cols-w33per&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
-		&lt;p&gt;cols には unit を一緒につけます。&lt;/p&gt;
-		&lt;p&gt;カラム cols-w33per&lt;/p&gt;
-		&lt;p&gt;カラム&lt;/p&gt;
-		&lt;p&gt;カラム&lt;/p&gt;
-		&lt;p&gt;カラム&lt;/p&gt;
-		&lt;p&gt;カラム&lt;/p&gt;
+		&lt;!-- insert parts modules --&gt;
 	&lt;/div&gt;&lt;/div&gt;
 	&lt;div class=&quot;cols-col cols-w33per&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
-		&lt;p&gt;cols には unit を一緒につけます。&lt;/p&gt;
-		&lt;p&gt;カラム cols-w33per&lt;/p&gt;
-		&lt;p&gt;カラム&lt;/p&gt;
-		&lt;p&gt;カラム&lt;/p&gt;
-		&lt;p&gt;カラム&lt;/p&gt;
-		&lt;p&gt;カラム&lt;/p&gt;
+		&lt;!-- insert parts modules --&gt;
 	&lt;/div&gt;&lt;/div&gt;
 	&lt;div class=&quot;cols-col cols-w33per cols-last&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
-		&lt;p&gt;最後のカラムには、&lt;code&gt;.cols-last&lt;/code&gt; を併記します。&lt;/p&gt;
-		&lt;p&gt;カラム cols-w33per&lt;/p&gt;
-		&lt;p&gt;.cols-last は古いIE対策。IE9以降は不要？。&lt;/p&gt;
+		&lt;!-- insert parts modules --&gt;
 	&lt;/div&gt;&lt;/div&gt;
 &lt;/div&gt;&lt;!-- / .cols --&gt;
 </textarea></div>
@@ -173,35 +218,16 @@
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;cols unit&quot;&gt;
 	&lt;div class=&quot;cols-col cols-w25per&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
-		&lt;p&gt;cols には unit を一緒につけます。&lt;/p&gt;
-		&lt;p&gt;カラム cols-w25per&lt;/p&gt;
-		&lt;p&gt;カラム&lt;/p&gt;
-		&lt;p&gt;カラム&lt;/p&gt;
-		&lt;p&gt;カラム&lt;/p&gt;
-		&lt;p&gt;カラム&lt;/p&gt;
+		&lt;!-- insert parts modules --&gt;
 	&lt;/div&gt;&lt;/div&gt;
 	&lt;div class=&quot;cols-col cols-w25per&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
-		&lt;p&gt;cols には unit を一緒につけます。&lt;/p&gt;
-		&lt;p&gt;カラム cols-w25per&lt;/p&gt;
-		&lt;p&gt;カラム&lt;/p&gt;
-		&lt;p&gt;カラム&lt;/p&gt;
-		&lt;p&gt;カラム&lt;/p&gt;
-		&lt;p&gt;カラム&lt;/p&gt;
-		&lt;p&gt;カラム&lt;/p&gt;
+		&lt;!-- insert parts modules --&gt;
 	&lt;/div&gt;&lt;/div&gt;
 	&lt;div class=&quot;cols-col cols-w25per&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
-		&lt;p&gt;cols には unit を一緒につけます。&lt;/p&gt;
-		&lt;p&gt;カラム cols-w25per&lt;/p&gt;
-		&lt;p&gt;カラム&lt;/p&gt;
-		&lt;p&gt;カラム&lt;/p&gt;
-		&lt;p&gt;カラム&lt;/p&gt;
-		&lt;p&gt;カラム&lt;/p&gt;
-		&lt;p&gt;カラム&lt;/p&gt;
+		&lt;!-- insert parts modules --&gt;
 	&lt;/div&gt;&lt;/div&gt;
 	&lt;div class=&quot;cols-col cols-w25per cols-last&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
-		&lt;p&gt;カラム cols-w25per&lt;/p&gt;
-		&lt;p&gt;最後のカラムには、&lt;code&gt;.cols-last&lt;/code&gt; を併記します。&lt;/p&gt;
-		&lt;p&gt;.cols-last は古いIE対策。IE9以降は不要？。&lt;/p&gt;
+		&lt;!-- insert parts modules --&gt;
 	&lt;/div&gt;&lt;/div&gt;
 &lt;/div&gt;&lt;!-- / .cols --&gt;
 </textarea></div>
@@ -225,15 +251,10 @@
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;cols unit&quot;&gt;
 	&lt;div class=&quot;cols-col cols-w75per&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
-		&lt;p&gt;cols には unit を一緒につけます。cols には unit を一緒につけます。cols には unit を一緒につけます。cols には unit を一緒につけます。cols には unit を一緒につけます。cols には unit を一緒につけます。cols には unit を一緒につけます。cols には unit を一緒につけます。&lt;/p&gt;
-		&lt;p&gt;カラム cols-w75per&lt;/p&gt;
-		&lt;p&gt;カラム&lt;/p&gt;
-		&lt;p&gt;カラム&lt;/p&gt;
+		&lt;!-- insert parts modules --&gt;
 	&lt;/div&gt;&lt;/div&gt;
 	&lt;div class=&quot;cols-col cols-w25per cols-last&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
-		&lt;p&gt;最後のカラムには、&lt;code&gt;.cols-last&lt;/code&gt; を併記します。&lt;/p&gt;
-		&lt;p&gt;.cols-last は古いIE対策。IE9以降は不要？。&lt;/p&gt;
-		&lt;p&gt;カラム cols-w25per&lt;/p&gt;
+		&lt;!-- insert parts modules --&gt;
 	&lt;/div&gt;&lt;/div&gt;
 &lt;/div&gt;&lt;!-- / .cols --&gt;
 </textarea></div>
@@ -263,21 +284,13 @@
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;cols unit&quot;&gt;
 	&lt;div class=&quot;cols-col cols-w25per&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
-		&lt;p&gt;カラム&lt;/p&gt;
-		&lt;p&gt;カラム cols-w25per&lt;/p&gt;
+		&lt;!-- insert parts modules --&gt;
 	&lt;/div&gt;&lt;/div&gt;
 	&lt;div class=&quot;cols-col cols-w50per&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
-		&lt;p&gt;cols には unit を一緒につけます。&lt;/p&gt;
-		&lt;p&gt;カラム cols-w50per&lt;/p&gt;
-		&lt;p&gt;カラム&lt;/p&gt;
-		&lt;p&gt;カラム&lt;/p&gt;
-		&lt;p&gt;カラム&lt;/p&gt;
-		&lt;p&gt;カラム&lt;/p&gt;
+		&lt;!-- insert parts modules --&gt;
 	&lt;/div&gt;&lt;/div&gt;
 	&lt;div class=&quot;cols-col cols-w25per cols-last&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
-		&lt;p&gt;カラム cols-w25per&lt;/p&gt;
-		&lt;p&gt;カラム&lt;/p&gt;
-		&lt;p&gt;.cols-last は古いIE対策。IE9以降は不要？。&lt;/p&gt;
+		&lt;!-- insert parts modules --&gt;
 	&lt;/div&gt;&lt;/div&gt;
 &lt;/div&gt;&lt;!-- / .cols --&gt;
 </textarea></div>
@@ -290,7 +303,7 @@
 
 
 
-<?php for($i = 0; $i<5; $i++){ ?>
+<?php for($i = 0; $i<3; $i++){ ?>
 
 <h2>これはテストページ1</h2>
 <p>このページのタイトルは、<strong><?php print t::h( $page_info['title'] ); ?></strong> です。</p>
