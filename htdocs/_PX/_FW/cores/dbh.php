@@ -34,6 +34,16 @@ class px_cores_dbh{
 
 	private $default_permission = array('dir'=>0775,'file'=>0775);
 
+	private $db_conf = array(
+		'dbms'=>null ,           //RDBMSの種類。mysql|postgresql|sqlite
+		'host'=>null ,           //接続先ホスト名
+		'port'=>null ,           //接続先ポート番号
+		'database_name'=>null ,  //データベース名。(sqliteの場合はDBファイルのパス)
+		'user'=>null ,           //ユーザー名
+		'password'=>null ,       //パスワード
+		'charset'=>null ,        //文字セット
+	);
+
 	/**
 	 * コンストラクタ
 	 */
@@ -46,20 +56,37 @@ class px_cores_dbh{
 	#	anch: allabout_dbhandle
 
 	/**
+	 * データベースを設定する。
+	 */
+	public function set_db_conf( $db_conf ){
+		foreach( $db_conf as $key=>$val ){
+			$this->db_conf[$key] = $val;
+		}
+		return true;
+	}
+
+	/**
+	 * データベース設定取り出す。
+	 */
+	public function get_db_conf( $key ){
+		return $this->db_conf[$key];
+	}
+
+	/**
 	 * データベースコネクションを確立する
 	 */
 	public function connect(){
 		if( $this->check_connection() ){ return true; }
 
-		if( $this->px->get_conf('dbms.dbms') == 'mysql' ){
+		if( $this->get_db_conf('dbms') == 'mysql' ){
 			#--------------------------------------
 			#	【 MySQL 】
-			$server = $this->px->get_conf('dbms.host');
-			if( strlen( $this->px->get_conf('dbms.port') ) ){
-				$server .= ':'.$this->px->get_conf('dbms.port');
+			$server = $this->get_db_conf('host');
+			if( strlen( $this->get_db_conf('port') ) ){
+				$server .= ':'.$this->get_db_conf('port');
 			}
 			$try_counter = 0;
-			while( $res = @mysql_connect( $server , $this->px->get_conf('dbms.user') , $this->px->get_conf('dbms.password') , true ) ){
+			while( $res = @mysql_connect( $server , $this->get_db_conf('user') , $this->get_db_conf('password') , true ) ){
 				$try_counter ++;
 				if( is_resource( $res ) ){
 					break;
@@ -71,36 +98,36 @@ class px_cores_dbh{
 			}
 			if( is_resource( $res ) ){
 				$this->res_connection = &$res;
-				mysql_select_db( $this->px->get_conf('dbms.database_name') , $this->res_connection );
-				if( strlen( $this->px->get_conf('dbms.charset') ) ){
+				mysql_select_db( $this->get_db_conf('database_name') , $this->res_connection );
+				if( strlen( $this->get_db_conf('charset') ) ){
 					#	DB文字コードの指定があれば、
 					#	SET NAMES を発行。
-					@mysql_query( 'SET NAMES '.addslashes( $this->px->get_conf('dbms.charset') ).';' , $this->res_connection );
+					@mysql_query( 'SET NAMES '.addslashes( $this->get_db_conf('charset') ).';' , $this->res_connection );
 				}
 				return	true;
 			}else{
-				$this->add_error( 'DB connect was faild. DB Type of ['.$this->px->get_conf('dbms.dbms').'] Server ['.$this->px->get_conf('dbms.host').']' , null , __FILE__ , __LINE__ );
+				$this->add_error( 'DB connect was faild. DB Type of ['.$this->get_db_conf('dbms').'] Server ['.$this->get_db_conf('host').']' , null , __FILE__ , __LINE__ );
 				$this->eventhdl_connection_error( 'Database Connection Error.' , __FILE__ , __LINE__ );	//	DB接続エラー時のコールバック関数
 				return	false;
 			}
-		}elseif( $this->px->get_conf('dbms.dbms') == 'postgresql' ){
+		}elseif( $this->get_db_conf('dbms') == 'postgresql' ){
 			#--------------------------------------
 			#	【 PostgreSQL 】
 			$pg_connect_string = '';
-			if( strlen( $this->px->get_conf('dbms.host') ) ){
-				$pg_connect_string .= 'host='.$this->px->get_conf('dbms.host').' ';
+			if( strlen( $this->get_db_conf('host') ) ){
+				$pg_connect_string .= 'host='.$this->get_db_conf('host').' ';
 			}
-			if( strlen( $this->px->get_conf('dbms.port') ) ){
-				$pg_connect_string .= 'port='.$this->px->get_conf('dbms.port').' ';
+			if( strlen( $this->get_db_conf('port') ) ){
+				$pg_connect_string .= 'port='.$this->get_db_conf('port').' ';
 			}
-			if( strlen( $this->px->get_conf('dbms.user') ) ){
-				$pg_connect_string .= 'user='.$this->px->get_conf('dbms.user').' ';
+			if( strlen( $this->get_db_conf('user') ) ){
+				$pg_connect_string .= 'user='.$this->get_db_conf('user').' ';
 			}
-			if( strlen( $this->px->get_conf('dbms.password') ) ){
-				$pg_connect_string .= 'password='.$this->px->get_conf('dbms.password').' ';
+			if( strlen( $this->get_db_conf('password') ) ){
+				$pg_connect_string .= 'password='.$this->get_db_conf('password').' ';
 			}
-			if( strlen( $this->px->get_conf('dbms.database_name') ) ){
-				$pg_connect_string .= 'dbname='.$this->px->get_conf('dbms.database_name').' ';
+			if( strlen( $this->get_db_conf('database_name') ) ){
+				$pg_connect_string .= 'dbname='.$this->get_db_conf('database_name').' ';
 			}
 
 			$try_counter = 0;
@@ -118,27 +145,27 @@ class px_cores_dbh{
 				$this->res_connection = &$res;
 				return	true;
 			}else{
-				$this->add_error( 'DB connect was faild. DB Type of ['.$this->px->get_conf('dbms.dbms').'] Server ['.$this->px->get_conf('dbms.host').']' , null , __FILE__ , __LINE__ );
+				$this->add_error( 'DB connect was faild. DB Type of ['.$this->get_db_conf('dbms').'] Server ['.$this->get_db_conf('host').']' , null , __FILE__ , __LINE__ );
 				$this->eventhdl_connection_error( 'Database Connection Error. ' , __FILE__ , __LINE__ );	//	DB接続エラー時のコールバック関数
 				return	false;
 			}
 
-		}elseif( $this->px->get_conf('dbms.dbms') == 'sqlite' ){
+		}elseif( $this->get_db_conf('dbms') == 'sqlite' ){
 			#--------------------------------------
 			#	【 SQLite 】
-			$res = sqlite_open( $this->px->get_conf('dbms.database_name') , 0666 , $sqlite_error_msg );
+			$res = sqlite_open( $this->get_db_conf('database_name') , 0666 , $sqlite_error_msg );
 			if( is_resource( $res ) ){
 				$this->res_connection = &$res;
 				return	true;
 			}else{
-				$this->add_error( 'DB connect was faild. Because:['.$sqlite_error_msg.']. DB Type of ['.$this->px->get_conf('dbms.dbms').'] DB ['.$this->px->get_conf('dbms.database_name').']' , null , __FILE__ , __LINE__ );
+				$this->add_error( 'DB connect was faild. Because:['.$sqlite_error_msg.']. DB Type of ['.$this->get_db_conf('dbms').'] DB ['.$this->get_db_conf('database_name').']' , null , __FILE__ , __LINE__ );
 				$this->eventhdl_connection_error( 'Database Connection Error. ' , __FILE__ , __LINE__ );	//	DB接続エラー時のコールバック関数
 				return	false;
 			}
 
 		}
-		$this->add_error( 'Pickles Framework は、現在 '.$this->px->get_conf('dbms.dbms').' をサポートしていません。' , 'connect' , __FILE__ , __LINE__ );
-		$this->eventhdl_connection_error( 'Database Connection Error. Unknown DB Type ['.$this->px->get_conf('dbms.dbms').'] ' , __FILE__ , __LINE__ );	//	DB接続エラー時のコールバック関数
+		$this->add_error( 'Pickles Framework は、現在 '.$this->get_db_conf('dbms').' をサポートしていません。' , 'connect' , __FILE__ , __LINE__ );
+		$this->eventhdl_connection_error( 'Database Connection Error. Unknown DB Type ['.$this->get_db_conf('dbms').'] ' , __FILE__ , __LINE__ );	//	DB接続エラー時のコールバック関数
 		return false;
 	}//connect()
 
@@ -164,7 +191,7 @@ class px_cores_dbh{
 		}
 		if( !is_resource( $con ) ){ return false; }
 
-		if( $this->px->get_conf('dbms.dbms') == 'mysql' ){
+		if( $this->get_db_conf('dbms') == 'mysql' ){
 			#--------------------------------------
 			#	【 MySQL 】
 			if( !@mysql_ping( $con ) ){
@@ -172,7 +199,7 @@ class px_cores_dbh{
 			}
 			return true;
 
-		}elseif( $this->px->get_conf('dbms.dbms') == 'postgresql' ){
+		}elseif( $this->get_db_conf('dbms') == 'postgresql' ){
 			#--------------------------------------
 			#	【 PostgreSQL 】
 			if( !@pg_ping( $con ) ){
@@ -180,7 +207,7 @@ class px_cores_dbh{
 			}
 			return true;
 
-		}elseif( $this->px->get_conf('dbms.dbms') == 'sqlite' ){
+		}elseif( $this->get_db_conf('dbms') == 'sqlite' ){
 			#--------------------------------------
 			#	【 SQLite 】
 			if( !is_resource( $con ) ){
@@ -211,7 +238,7 @@ class px_cores_dbh{
 			return false;
 		}
 
-		if( $this->px->get_conf('dbms.dbms') == 'mysql' ){
+		if( $this->get_db_conf('dbms') == 'mysql' ){
 			#--------------------------------------
 			#	【 MySQL 】
 			if( !is_resource( $res ) ){
@@ -221,7 +248,7 @@ class px_cores_dbh{
 			}
 			return @mysql_affected_rows( $res );
 
-		}elseif( $this->px->get_conf('dbms.dbms') == 'postgresql' ){
+		}elseif( $this->get_db_conf('dbms') == 'postgresql' ){
 			#--------------------------------------
 			#	【 PostgreSQL 】
 			if( !is_resource( $res ) ){
@@ -230,7 +257,7 @@ class px_cores_dbh{
 			}
 			return @pg_affected_rows( $res );
 
-		}elseif( $this->px->get_conf('dbms.dbms') == 'sqlite' ){
+		}elseif( $this->get_db_conf('dbms') == 'sqlite' ){
 			#--------------------------------------
 			#	【 SQLite 】
 			if( !is_resource( $res ) ){
@@ -252,7 +279,7 @@ class px_cores_dbh{
 		if( !$this->is_transaction() ){
 			$this->transaction_flg = true;
 			$sql = 'START TRANSACTION;';
-			if( $this->px->get_conf('dbms.dbms') == 'sqlite' ){
+			if( $this->get_db_conf('dbms') == 'sqlite' ){
 				$sql = 'BEGIN TRANSACTION;';
 			}
 			$result = $this->execute_send_query( $sql , &$this->res_connection );
@@ -271,7 +298,7 @@ class px_cores_dbh{
 			return true;
 		}
 		$this->transaction_flg = false;
-		if( $this->px->get_conf('dbms.dbms') == 'sqlite' ){
+		if( $this->get_db_conf('dbms') == 'sqlite' ){
 			#	SQLiteの処理
 			return $this->execute_send_query( 'COMMIT TRANSACTION;' , &$this->res_connection );
 		}
@@ -288,7 +315,7 @@ class px_cores_dbh{
 			return true;
 		}
 		$this->transaction_flg = false;
-		if( $this->px->get_conf('dbms.dbms') == 'sqlite' ){
+		if( $this->get_db_conf('dbms') == 'sqlite' ){
 			#	SQLiteの処理
 			return $this->execute_send_query( 'ROLLBACK TRANSACTION;' , &$this->res_connection );
 		}
@@ -325,17 +352,17 @@ class px_cores_dbh{
 		list( $microtime , $time ) = explode( ' ' , microtime() ); 
 		$start_mtime = ( floatval( $time ) + floatval( $microtime ) );
 
-		if( $this->px->get_conf('dbms.dbms') == 'mysql' ){
+		if( $this->get_db_conf('dbms') == 'mysql' ){
 			#--------------------------------------
 			#	【 MySQL 】
 			$RTN = @mysql_query( $querystring , &$this->res_connection );	//クエリを投げる。
 
-		}elseif( $this->px->get_conf('dbms.dbms') == 'postgresql' ){
+		}elseif( $this->get_db_conf('dbms') == 'postgresql' ){
 			#--------------------------------------
 			#	【 PostgreSQL 】
 			$RTN = @pg_query( &$this->res_connection , $querystring );	//クエリを投げる。
 
-		}elseif( $this->px->get_conf('dbms.dbms') == 'sqlite' ){
+		}elseif( $this->get_db_conf('dbms') == 'sqlite' ){
 			#--------------------------------------
 			#	【 SQLite 】
 			$RTN = @sqlite_query( &$this->res_connection , $querystring );	//クエリを投げる。
@@ -347,8 +374,8 @@ class px_cores_dbh{
 			$LINE = $debug[1]['line'];
 
 			$SQL2ErrorMessage = preg_replace( '/(?:\r\n|\r|\n|\t| )+/i' , ' ' , $querystring );
-			$this->add_error( '['.$this->px->get_conf('dbms.dbms').']は、未対応のデータベースです。 SQL[ '.$SQL2ErrorMessage.' ]' , 'sendQuery' , $FILE , $LINE );
-			$this->eventhdl_query_error( 'DB Query Error. ['.$this->px->get_conf('dbms.dbms').']は、未対応のデータベースです。 SQL[ '.$SQL2ErrorMessage.' ]' , $FILE , $LINE );	//	クエリエラー時のコールバック関数
+			$this->add_error( '['.$this->get_db_conf('dbms').']は、未対応のデータベースです。 SQL[ '.$SQL2ErrorMessage.' ]' , 'sendQuery' , $FILE , $LINE );
+			$this->eventhdl_query_error( 'DB Query Error. ['.$this->get_db_conf('dbms').']は、未対応のデータベースです。 SQL[ '.$SQL2ErrorMessage.' ]' , $FILE , $LINE );	//	クエリエラー時のコールバック関数
 
 			return false;
 		}
@@ -361,7 +388,7 @@ class px_cores_dbh{
 			$debug = debug_backtrace();
 			$FILE = $debug[1]['file'];
 			$LINE = $debug[1]['line'];
-			$this->add_error( ''.$this->px->get_conf('dbms.dbms').' Heavy Query ['.$exec_time.'] sec. on SQL[ '.preg_replace( '/(?:\r\n|\r|\n|\t| )+/i' , ' ' , $querystring ).' ]' , 'sendQuery' , $FILE , $LINE );
+			$this->add_error( ''.$this->get_db_conf('dbms').' Heavy Query ['.$exec_time.'] sec. on SQL[ '.preg_replace( '/(?:\r\n|\r|\n|\t| )+/i' , ' ' , $querystring ).' ]' , 'sendQuery' , $FILE , $LINE );
 		}
 
 		if( $RTN === false ){
@@ -373,8 +400,8 @@ class px_cores_dbh{
 			$SQL2ErrorMessage = preg_replace( '/(?:\r\n|\r|\n|\t| )+/i' , ' ' , $querystring );
 			$error_report = $this->get_sql_error();
 			$DB_ERRORMSG = $error_report['message'];
-			$this->add_error( ''.$this->px->get_conf('dbms.dbms').' Query Error! ['.$DB_ERRORMSG.'] on SQL[ '.$SQL2ErrorMessage.' ]' , 'sendQuery' , $FILE , $LINE );
-			$this->eventhdl_query_error( ''.$this->px->get_conf('dbms.dbms').' Query Error. ['.$DB_ERRORMSG.'] on SQL[ '.$SQL2ErrorMessage.' ]' , $FILE , $LINE );	//	クエリエラー時のコールバック関数
+			$this->add_error( ''.$this->get_db_conf('dbms').' Query Error! ['.$DB_ERRORMSG.'] on SQL[ '.$SQL2ErrorMessage.' ]' , 'sendQuery' , $FILE , $LINE );
+			$this->eventhdl_query_error( ''.$this->get_db_conf('dbms').' Query Error. ['.$DB_ERRORMSG.'] on SQL[ '.$SQL2ErrorMessage.' ]' , $FILE , $LINE );	//	クエリエラー時のコールバック関数
 
 		}
 
@@ -417,7 +444,7 @@ class px_cores_dbh{
 						$RTN .= intval( $value );
 						break;
 					case 's':
-						if( $this->px->get_conf('dbms.dbms') == 'sqlite' ){
+						if( $this->get_db_conf('dbms') == 'sqlite' ){
 							#	SQLiteの場合は、エスケープにバックスラッシュを使用せず、
 							#	シングルクオートを重ねる仕様になっているらしい。
 							#	よって、addslashes() では対応できない。
@@ -451,23 +478,23 @@ class px_cores_dbh{
 		if( is_bool( $res ) ){ return $res; }
 		if( !is_resource( $res ) ){ return array(); }
 
-		if( $this->px->get_conf('dbms.dbms') == 'mysql' ){
+		if( $this->get_db_conf('dbms') == 'mysql' ){
 			#--------------------------------------
 			#	【 MySQL 】
 			while( $Line = mysql_fetch_assoc( $res )){ array_push( $RTN , $Line ); }
 			return $RTN;
-		}elseif( $this->px->get_conf('dbms.dbms') == 'postgresql' ){
+		}elseif( $this->get_db_conf('dbms') == 'postgresql' ){
 			#--------------------------------------
 			#	【 PostgreSQL 】
 			while( $Line = pg_fetch_assoc( $res )){ array_push( $RTN , $Line ); }
 			return $RTN;
-		}elseif( $this->px->get_conf('dbms.dbms') == 'sqlite' ){
+		}elseif( $this->get_db_conf('dbms') == 'sqlite' ){
 			#--------------------------------------
 			#	【 SQLite 】
 			while( $Line = sqlite_fetch_array( $res , SQLITE_ASSOC )){ array_push( $RTN , $Line ); }
 			return $RTN;
 		}
-		$this->add_error( $this->px->get_conf('dbms.dbms').'は、未対応のデータベースです。' , 'get_results' , __FILE__ , __LINE__ );
+		$this->add_error( $this->get_db_conf('dbms').'は、未対応のデータベースです。' , 'get_results' , __FILE__ , __LINE__ );
 		return null;
 	}//get_results()
 
@@ -479,44 +506,44 @@ class px_cores_dbh{
 		if( is_bool( $res ) ){ return $res; }
 		if( !is_resource( $res ) ){ return array(); }
 
-		if( $this->px->get_conf('dbms.dbms') == 'mysql' ){
+		if( $this->get_db_conf('dbms') == 'mysql' ){
 			#--------------------------------------
 			#	【 MySQL 】
 			$RTN = mysql_fetch_assoc( $res );
 			return	$RTN;
-		}elseif( $this->px->get_conf('dbms.dbms') == 'postgresql' ){
+		}elseif( $this->get_db_conf('dbms') == 'postgresql' ){
 			#--------------------------------------
 			#	【 PostgreSQL 】
 			$RTN = pg_fetch_assoc( $res );
 			return	$RTN;
-		}elseif( $this->px->get_conf('dbms.dbms') == 'sqlite' ){
+		}elseif( $this->get_db_conf('dbms') == 'sqlite' ){
 			#--------------------------------------
 			#	【 SQLite 】
 			$RTN = sqlite_fetch_array( $res , SQLITE_ASSOC );
 			return	$RTN;
 		}
-		$this->add_error( $this->px->get_conf('dbms.dbms').'は、未対応のデータベースです。' , 'fetch_assoc' , __FILE__ , __LINE__ );
+		$this->add_error( $this->get_db_conf('dbms').'は、未対応のデータベースです。' , 'fetch_assoc' , __FILE__ , __LINE__ );
 		return	null;
 	}
 
 	#--------------------------------------
 	#	直前のクエリのエラー報告を受ける
 	function get_sql_error(){
-		if( $this->px->get_conf('dbms.dbms') == 'mysql' ){
+		if( $this->get_db_conf('dbms') == 'mysql' ){
 			#--------------------------------------
 			#	【 MySQL 】
 			$errornum = mysql_errno( &$this->res_connection );
 			$errormsg = mysql_error( &$this->res_connection );
 			return	array( 'message'=>$errormsg , 'number'=>$errornum );
 
-		}elseif( $this->px->get_conf('dbms.dbms') == 'postgresql' ){
+		}elseif( $this->get_db_conf('dbms') == 'postgresql' ){
 			#--------------------------------------
 			#	【 PostgreSQL 】
 			$errormsg = pg_last_error( &$this->res_connection );
 			$result_error = pg_result_error( &$this->result );
 			return	array( 'message'=>$errormsg , 'number'=>null , 'result_error'=>$result_error );
 
-		}elseif( $this->px->get_conf('dbms.dbms') == 'sqlite' ){
+		}elseif( $this->get_db_conf('dbms') == 'sqlite' ){
 			#--------------------------------------
 			#	【 SQLite 】
 			$error_cd = sqlite_last_error( &$this->res_connection );
@@ -524,8 +551,8 @@ class px_cores_dbh{
 			return	array( 'message'=>$errormsg , 'number'=>$error_cd );
 
 		}
-		$this->add_error( $this->px->get_conf('dbms.dbms').'は、未対応のデータベースです。' , 'get_sql_error' , __FILE__ , __LINE__ );
-		return	array( 'message'=>$this->px->get_conf('dbms.dbms').'は、未対応のデータベースです。' );
+		$this->add_error( $this->get_db_conf('dbms').'は、未対応のデータベースです。' , 'get_sql_error' , __FILE__ , __LINE__ );
+		return	array( 'message'=>$this->get_db_conf('dbms').'は、未対応のデータベースです。' );
 	}
 
 	#--------------------------------------
@@ -537,14 +564,14 @@ class px_cores_dbh{
 		#	省略した場合は、自動的に選択します。
 		#--------------------------------------
 
-		if( $this->px->get_conf('dbms.dbms') == 'mysql' ){
+		if( $this->get_db_conf('dbms') == 'mysql' ){
 			#--------------------------------------
 			#	【 MySQL 】
 			if( !$res ){ $res = &$this->res_connection; }
 			$RTN = mysql_insert_id( $res );
 			return	$RTN;
 
-		}elseif( $this->px->get_conf('dbms.dbms') == 'postgresql' ){
+		}elseif( $this->get_db_conf('dbms') == 'postgresql' ){
 			#--------------------------------------
 			#	【 PostgreSQL 】
 			if( !strlen( $seq_table_name ) ){ return false; }//PostgreSQLでは必須
@@ -555,7 +582,7 @@ class px_cores_dbh{
 			$RTN = intval( $data['seq'] );
 			return	$RTN;
 
-		}elseif( $this->px->get_conf('dbms.dbms') == 'sqlite' ){
+		}elseif( $this->get_db_conf('dbms') == 'sqlite' ){
 			#--------------------------------------
 			#	【 SQLite 】
 			if( !$res ){ $res = &$this->res_connection; }
@@ -563,8 +590,8 @@ class px_cores_dbh{
 			return	$RTN;
 
 		}
-		$this->add_error( $this->px->get_conf('dbms.dbms').'は、未対応のデータベースです。' , 'get_last_insert_id' , __FILE__ , __LINE__ );
-		return	array( 'message'=>$this->px->get_conf('dbms.dbms').'は、未対応のデータベースです。' );
+		$this->add_error( $this->get_db_conf('dbms').'は、未対応のデータベースです。' , 'get_last_insert_id' , __FILE__ , __LINE__ );
+		return	array( 'message'=>$this->get_db_conf('dbms').'は、未対応のデータベースです。' );
 	}
 
 	#******************************************************************************************************************
@@ -574,17 +601,17 @@ class px_cores_dbh{
 	#	データベースの文字エンコードタイプを取得
 	function get_db_encoding(){
 		$this->connect();
-		if( $this->px->get_conf('dbms.dbms') == 'mysql' ){
+		if( $this->get_db_conf('dbms') == 'mysql' ){
 			#--------------------------------------
 			#	【 MySQL 】
 			return	mysql_client_encoding( $this->res_connection );
 
-		}elseif( $this->px->get_conf('dbms.dbms') == 'postgresql' ){
+		}elseif( $this->get_db_conf('dbms') == 'postgresql' ){
 			#--------------------------------------
 			#	【 PostgreSQL 】
 			return	pg_client_encoding( $this->res_connection );
 
-		}elseif( $this->px->get_conf('dbms.dbms') == 'sqlite' ){
+		}elseif( $this->get_db_conf('dbms') == 'sqlite' ){
 			#--------------------------------------
 			#	【 SQLite 】
 			return	sqlite_libencoding();
@@ -614,12 +641,12 @@ class px_cores_dbh{
 	function translateencoding_php2db( $php_encoding ){
 		$php_encoding = strtolower( $php_encoding );
 		if( preg_match( '/utf/i' , $php_encoding ) ){
-			if( $this->px->get_conf('dbms.dbms') == 'postgresql' ){
+			if( $this->get_db_conf('dbms') == 'postgresql' ){
 				return	'UNICODE';
 			}
 			return	'utf8_unicode_ci';
 		}elseif( preg_match( '/euc/i' , $php_encoding ) ){
-			if( $this->px->get_conf('dbms.dbms') == 'postgresql' ){
+			if( $this->get_db_conf('dbms') == 'postgresql' ){
 				return	'EUC_JP';
 			}
 			return	'ujis_japanese_ci';
@@ -632,10 +659,10 @@ class px_cores_dbh{
 	#--------------------------------------
 	#	テーブルの一覧を得る
 	function get_tablelist( $dbname = null ){
-		if( !$dbname ){ $dbname = $this->px->get_conf('dbms.database_name'); }
+		if( !$dbname ){ $dbname = $this->get_db_conf('database_name'); }
 		$this->connect();
 
-		if( $this->px->get_conf('dbms.dbms') == 'mysql' ){
+		if( $this->get_db_conf('dbms') == 'mysql' ){
 			#--------------------------------------
 			#	【 MySQL 】
 			$tablelist = $this->get_results( mysql_list_tables( $dbname ) );
@@ -650,7 +677,7 @@ class px_cores_dbh{
 			}
 			return	$result;
 
-		}elseif( $this->px->get_conf('dbms.dbms') == 'postgresql' ){
+		}elseif( $this->get_db_conf('dbms') == 'postgresql' ){
 			#--------------------------------------
 			#	【 PostgreSQL 】
 			ob_start();?>
@@ -674,7 +701,7 @@ ORDER BY 1;
 			}
 			return	$result;
 
-		}elseif( $this->px->get_conf('dbms.dbms') == 'sqlite' ){
+		}elseif( $this->get_db_conf('dbms') == 'sqlite' ){
 			#--------------------------------------
 			#	【 SQLite 】
 			ob_start();?>
@@ -704,7 +731,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	#	テーブルの定義を知る
 	function get_table_definition( $tablename ){
 		$this->connect();
-		if( $this->px->get_conf('dbms.dbms') == 'mysql' ){
+		if( $this->get_db_conf('dbms') == 'mysql' ){
 			#--------------------------------------
 			#	【 MySQL 】
 			$sql = 'SHOW COLUMNS FROM :D:table_name;';
@@ -726,7 +753,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 			}
 			return	$RTN;
 
-		}elseif( $this->px->get_conf('dbms.dbms') == 'postgresql' ){
+		}elseif( $this->get_db_conf('dbms') == 'postgresql' ){
 			#--------------------------------------
 			#	【 PostgreSQL 】
 			if( !is_callable( 'pg_meta_data' ) ){ return false; }
@@ -744,7 +771,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 			}
 			return	$RTN;
 
-		}elseif( $this->px->get_conf('dbms.dbms') == 'sqlite' ){
+		}elseif( $this->get_db_conf('dbms') == 'sqlite' ){
 			#--------------------------------------
 			#	【 SQLite 】
 			if( !is_callable( 'sqlite_fetch_column_types' ) ){ return false; }
@@ -848,7 +875,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	#	SQLのLIMIT句を作成する
 	function mk_sql_limit( $limit , $offset = 0 ){
 		$sql = '';
-		if( $this->px->get_conf('dbms.dbms') == 'postgresql' ){
+		if( $this->get_db_conf('dbms') == 'postgresql' ){
 			#	【 PostgreSQL 】
 			$sql .= ' OFFSET '.intval( $offset ).' LIMIT '.intval( $limit ).' ';
 		}else{
@@ -1969,7 +1996,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 			}
 		}
 
-		if( $this->px->get_conf('dbms.dbms') == 'mysql' ){
+		if( $this->get_db_conf('dbms') == 'mysql' ){
 			#--------------------------------------
 			#	【 MySQL 】
 			if( mysql_close( $this->res_connection ) ){
@@ -1980,7 +2007,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 				return	false;
 			}
 
-		}elseif( $this->px->get_conf('dbms.dbms') == 'postgresql' ){
+		}elseif( $this->get_db_conf('dbms') == 'postgresql' ){
 			#--------------------------------------
 			#	【 PostgreSQL 】
 			if( pg_close( $this->res_connection ) ){
@@ -1991,7 +2018,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 				return	false;
 			}
 
-		}elseif( $this->px->get_conf('dbms.dbms') == 'sqlite' ){
+		}elseif( $this->get_db_conf('dbms') == 'sqlite' ){
 			#--------------------------------------
 			#	【 SQLite 】
 			sqlite_close( $this->res_connection );

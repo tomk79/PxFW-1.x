@@ -25,7 +25,7 @@ class px_px{
 		$this->php_setup();
 
 		//  コンフィグ値のロード
-		$this->conf = $this->load_config( $path_mainconf );
+		$this->conf = $this->load_conf( $path_mainconf );
 
 		//  コアライブラリのインスタンス生成
 		$this->create_core_instances();
@@ -237,7 +237,7 @@ class px_px{
 	/**
 	 * コンフィグ値のロード。
 	 */
-	private function load_config( $path_mainconf ){
+	private function load_conf( $path_mainconf ){
 		$conf = array();
 		$tmp_conf = parse_ini_file( $path_mainconf , true );
 		foreach ($tmp_conf as $key1=>$row1) {
@@ -247,7 +247,7 @@ class px_px{
 		}
 		unset( $tmp_conf , $key1 , $row1 , $key2 , $val );
 		return $conf;
-	}//load_config()
+	}//load_conf()
 
 	/**
 	 * コンフィグ値を出力。
@@ -277,6 +277,16 @@ class px_px{
 		$this->obj_error = new px_cores_error( &$this );
 		require_once( $this->get_conf('paths.px_dir').'_FW/cores/dbh.php' );
 		$this->obj_dbh = new px_cores_dbh( &$this );
+		$this->obj_dbh->set_db_conf( array(
+			'dbms'         =>$this->get_conf('dbms.dbms'         ) ,
+			'host'         =>$this->get_conf('dbms.host'         ) ,
+			'port'         =>$this->get_conf('dbms.port'         ) ,
+			'database_name'=>$this->get_conf('dbms.database_name') ,
+			'user'         =>$this->get_conf('dbms.user'         ) ,
+			'password'     =>$this->get_conf('dbms.password'     ) ,
+			'charset'      =>$this->get_conf('dbms.charset'      ) ,
+		) );
+
 		require_once( $this->get_conf('paths.px_dir').'_FW/cores/req.php' );
 		$this->obj_req = new px_cores_req( &$this );
 		require_once( $this->get_conf('paths.px_dir').'_FW/cores/site.php' );
