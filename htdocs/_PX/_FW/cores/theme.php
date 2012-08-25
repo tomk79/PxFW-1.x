@@ -164,8 +164,8 @@ class px_cores_theme{
 		$args = func_get_args();
 		$href = $this->href($linkto);
 		$hrefc = $this->href($this->px->req()->get_request_file_path());
-		$label = $this->px->site()->get_page_info($href,'title_label');
-		$page_id = $this->px->site()->get_page_info($href,'id');
+		$label = $this->px->site()->get_page_info($linkto,'title_label');
+		$page_id = $this->px->site()->get_page_info($linkto,'id');
 		if( is_string($args[1]) ){
 			//  第2引数が文字列なら
 			//  リンクのラベルとして採用
