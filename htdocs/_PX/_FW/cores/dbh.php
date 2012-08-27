@@ -498,9 +498,10 @@ class px_cores_dbh{
 		return null;
 	}//get_results()
 
-	#--------------------------------------
-	#	クエリの実行結果を1行ずつ得る
-	function fetch_assoc( $res = null ){
+	/**
+	 * クエリの実行結果を1行ずつ得る
+	 */
+	public function fetch_assoc( $res = null ){
 		$RTN = array();
 		if( !$res ){ $res = &$this->result; }
 		if( is_bool( $res ) ){ return $res; }
@@ -526,9 +527,10 @@ class px_cores_dbh{
 		return	null;
 	}
 
-	#--------------------------------------
-	#	直前のクエリのエラー報告を受ける
-	function get_sql_error(){
+	/**
+	 * 直前のクエリのエラー報告を受ける
+	 */
+	public function get_sql_error(){
 		if( $this->get_db_conf('dbms') == 'mysql' ){
 			#--------------------------------------
 			#	【 MySQL 】
@@ -555,9 +557,10 @@ class px_cores_dbh{
 		return	array( 'message'=>$this->get_db_conf('dbms').'は、未対応のデータベースです。' );
 	}
 
-	#--------------------------------------
-	#	直前のクエリ(INSERT)で挿入されたレコードのIDを得る
-	function get_last_insert_id( $res = null , $seq_table_name = null ){
+	/**
+	 * 直前のクエリ(INSERT)で挿入されたレコードのIDを得る
+	 */
+	public function get_last_insert_id( $res = null , $seq_table_name = null ){
 		#--------------------------------------
 		#	$res のリソース型は、データベースによって異なります。
 		#	これを判断するのは、呼び出し元の責任となります。
@@ -597,9 +600,10 @@ class px_cores_dbh{
 	#******************************************************************************************************************
 	#	その他DB関連
 
-	#--------------------------------------
-	#	データベースの文字エンコードタイプを取得
-	function get_db_encoding(){
+	/**
+	 * データベースの文字エンコードタイプを取得
+	 */
+	public function get_db_encoding(){
 		$this->connect();
 		if( $this->get_db_conf('dbms') == 'mysql' ){
 			#--------------------------------------
@@ -656,9 +660,10 @@ class px_cores_dbh{
 		return	$php_encoding;
 	}
 
-	#--------------------------------------
-	#	テーブルの一覧を得る
-	function get_tablelist( $dbname = null ){
+	/**
+	 * テーブルの一覧を得る
+	 */
+	public function get_tablelist( $dbname = null ){
 		if( !$dbname ){ $dbname = $this->get_db_conf('database_name'); }
 		$this->connect();
 
@@ -727,9 +732,10 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 		return	false;
 	}
 
-	#--------------------------------------
-	#	テーブルの定義を知る
-	function get_table_definition( $tablename ){
+	/**
+	 * テーブルの定義を知る
+	 */
+	public function get_table_definition( $tablename ){
 		$this->connect();
 		if( $this->get_db_conf('dbms') == 'mysql' ){
 			#--------------------------------------
@@ -794,38 +800,43 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	#******************************************************************************************************************
 	#	DB関連データ変換
 
-	#--------------------------------------
-	#	date型の値を、time()形式に変換
-	function date2int( $time ){
+	/**
+	 * date型の値を、time()形式に変換
+	 */
+	public function date2int( $time ){
 		if( !preg_match( '/^([0-9]+)-([0-9]+)-([0-9]+)(?: (?:[0-9]+):(?:[0-9]+):(?:[0-9]+))?$/' , $time , $res ) ){
 			return	false;
 		}
 		return	mktime( 0 , 0 , 0 , intval($res[2]) , intval($res[3]) , intval($res[1]) );
 	}
-	#--------------------------------------
-	#	datetime型の値を、time()形式に変換
-	function datetime2int( $time ){
+	/**
+	 * datetime型の値を、time()形式に変換
+	 */
+	public function datetime2int( $time ){
 		#	このメソッドは、PostgreSQLのtimestamp型文字列を吸収します。
 		if( !preg_match( '/^([0-9]+)-([0-9]+)-([0-9]+)(?: ([0-9]+):([0-9]+):([0-9]+)(?:\.[0-9]+?)?)?$/' , $time , $res ) ){
 			return	false;
 		}
 		return	mktime( intval($res[4]) , intval($res[5]) , intval($res[6]) , intval($res[2]) , intval($res[3]) , intval($res[1]) );
 	}
-	#--------------------------------------
-	#	time()形式の値を、date型に変換
-	function int2date( $time ){
+	/**
+	 * time()形式の値を、date型に変換
+	 */
+	public function int2date( $time ){
 		return	date( 'Y-m-d' , $time );
 	}
-	#--------------------------------------
-	#	time()形式の値を、datetime型に変換
-	function int2datetime( $time ){
+	/**
+	 * time()形式の値を、datetime型に変換
+	 */
+	public function int2datetime( $time ){
 		return	date( 'Y-m-d H:i:s' , $time );
 	}
 
 
-	#--------------------------------------
-	#	DBコネクションに失敗した時に実行されるメソッド
-	function eventhdl_connection_error( $errorMessage = null , $FILE = null , $LINE = null ){
+	/**
+	 * DBコネクションに失敗した時に実行されるメソッド
+	 */
+	private function eventhdl_connection_error( $errorMessage = null , $FILE = null , $LINE = null ){
 		$method = &$this->method_eventhdl_connection_error;
 		if( is_array( $method ) ){
 			#	配列を受けていたら
@@ -842,14 +853,18 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 		}
 		return	true;
 	}
-	function set_eventhdl_connection_error( $method ){
-		$this->eventhdl_connection_error = $method;
+	/**
+	 * DBコネクション失敗時のイベントハンドラをセットする。
+	 */
+	public function set_eventhdl_connection_error( $method ){
+		$this->method_eventhdl_connection_error = $method;
 		return	true;
 	}
 
-	#--------------------------------------
-	#	SQLエラー時に実行されるメソッド
-	function eventhdl_query_error( $errorMessage = null , $FILE = null , $LINE = null ){
+	/**
+	 * SQLエラー時に実行されるメソッド
+	 */
+	private function eventhdl_query_error( $errorMessage = null , $FILE = null , $LINE = null ){
 		$method = &$this->method_eventhdl_query_error;
 		if( is_array( $method ) ){
 			#	配列を受けていたら
@@ -866,14 +881,18 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 		}
 		return	true;
 	}
-	function set_eventhdl_query_error( $method ){
+	/**
+	 * SQLエラー時のイベントハンドラをセットする。
+	 */
+	public function set_eventhdl_query_error( $method ){
 		$this->method_eventhdl_query_error = $method;
 		return	true;
 	}
 
-	#--------------------------------------
-	#	SQLのLIMIT句を作成する
-	function mk_sql_limit( $limit , $offset = 0 ){
+	/**
+	 * SQLのLIMIT句を作成する
+	 */
+	public function mk_sql_limit( $limit , $offset = 0 ){
 		$sql = '';
 		if( $this->get_db_conf('dbms') == 'postgresql' ){
 			#	【 PostgreSQL 】
@@ -885,9 +904,10 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 		return $sql;
 	}
 
-	#--------------------------------------
-	#	配列からINSERT文を生成する
-	function mk_sql_insert( $table_name , $insert_values , $column_define = null ){
+	/**
+	 * 配列からINSERT文を生成する
+	 */
+	public function mk_sql_insert( $table_name , $insert_values , $column_define = null ){
 		if( !strlen( $table_name ) ){ return false; }
 		if( !is_array( $insert_values ) ){ return false; }
 		if( !count( $insert_values ) ){ return false; }
