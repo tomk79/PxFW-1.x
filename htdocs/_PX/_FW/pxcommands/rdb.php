@@ -49,28 +49,30 @@ function contExecSQL(formElm){
 			sql: sql
 		} ,
 		success: function( data ){
-			console.debug(data);
+//			if(console){console.debug(data);}
 			var SRC = '';
 			if( data.value === false ){
 				SRC += '<p class="center">検索エラー。検索結果に false を受け取りました。</p>';
-			}else if(data.value.length){
+			}else{
 				SRC += '<p class="center">'+(data.value.length)+'件の検索結果。</p>';
 				SRC += '<table class="def">';
 				SRC += '<tr>';
-				for(var key2 in data.value[0]){
+				for(var key2 in data.define){
 					SRC += '<th>';
-					SRC += key2;
+					SRC += data.define[key2];
 					SRC += '</th>';
 				}
 				SRC += '</tr>';
-				for(var key1 in data.value){
-					SRC += '<tr>';
-					for(var key2 in data.value[key1]){
-						SRC += '<td>';
-						SRC += data.value[key1][key2];
-						SRC += '</td>';
+				if(data.value.length){
+					for(var key1 in data.value){
+						SRC += '<tr>';
+						for(var key2 in data.value[key1]){
+							SRC += '<td>';
+							SRC += data.value[key1][key2];
+							SRC += '</td>';
+						}
+						SRC += '</tr>';
 					}
-					SRC += '</tr>';
 				}
 				SRC += '</table>';
 			}
@@ -124,12 +126,18 @@ function contExecSQL(formElm){
 				break;
 		}
 
+		$define = array();
+		if( is_array($value[0]) ){
+			$define = array_keys($value[0]);
+			    //↑メモ：テーブル名が分かる場合は、$dbh->get_table_definition() から取得したい。
+		}
 
 		switch( $this->command[2] ){
 			case 'json':
 				$data = array();
 				$data['sql'] = $sql;
 				$data['value'] = $value;
+				$data['define'] = $define;
 				$data['affected_rows'] = $affected_rows;
 				$data['last_insert_id'] = $last_insert_id;
 				$data['message'] = $message;
