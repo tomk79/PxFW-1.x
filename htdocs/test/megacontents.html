@@ -2,12 +2,141 @@
 	$page_info = $px->site()->get_current_page_info();
 ?>
 
+<?php ob_start(); ?>
+<style type="text/css">
+
+	/**
+	 * 注釈定義リスト
+	 * (検討中の定義)
+	 */
+	dl.notes{
+		padding:0px 0px 0px 0px;
+		margin-left:0px;
+		margin-right:0px;
+	}
+	dl.notes dt{
+		padding:0px 0px 0px 0px;
+		margin:0px 0px 0px 0px;
+		float:left;
+		clear:left;
+		border:0px none;
+		font-weight:normal;
+	}
+	dl.notes dd{
+		padding:0px 0px 0px 5px;
+		margin:0px 0px 0px 0px;
+		float:none;
+		font-weight:normal;
+		display:block;
+		overflow:hidden;
+		zoom:100%;
+	}
+
+</style>
+<?php $px->theme()->send_content( ob_get_clean(), 'head' ); ?>
+
+
+
 
 <p>test/megacontents.html のHTMLソースコードです。</p>
+<p>一時的に、CSSモジュール集として使っています。</p>
 
 <?php
 	print( $px->theme()->autoindex() );
 ?>
+
+
+<h2>[parts]見出し</h2>
+
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;h2&gt;[parts]見出し&lt;/h2&gt;
+&lt;h3&gt;[parts]見出し&lt;/h3&gt;
+&lt;h4&gt;[parts]見出し&lt;/h4&gt;
+&lt;h5&gt;[parts]見出し&lt;/h5&gt;
+&lt;h6&gt;[parts]見出し&lt;/h6&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+
+<h2>[parts]リンク</h2>
+
+
+<h3>通常のインラインリンク</h3>
+
+<p><a href="./">通常のインラインリンク</a></p>
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;a href=&quot;./&quot;&gt;通常のインラインリンク&lt;/a&gt;</textarea></div>
+</div><!-- /.unit -->
+
+
+<h3>アイコン付きリンク</h3>
+
+<p><a href="./" class="icon">アイコン付きリンク</a></p>
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;a href=&quot;./&quot; class=&quot;icon&quot;&gt;サイト内リンク&lt;/a&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+
+
+<h3>別ウィンドウリンク</h3>
+
+<p><a href="./" class="blank" target="_blank">別ウィンドウリンク</a></p>
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;a href=&quot;./&quot; class=&quot;blank&quot; target=&quot;_blank&quot;&gt;別ウィンドウリンク&lt;/a&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+<h3>ページ内リンク</h3>
+<h4>下向き</h4>
+
+<p><a href="#" class="down">ページ内リンク(下向き)</a></p>
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;a href=&quot;#&quot; class=&quot;down&quot;&gt;ページ内リンク(下向き)&lt;/a&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+<h4>上向き</h4>
+
+<p><a href="#" class="up">ページ内リンク(上向き)</a></p>
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;a href=&quot;#&quot; class=&quot;up&quot;&gt;ページ内リンク(上向き)&lt;/a&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+<h3>戻るリンク</h3>
+
+<p><a href="./" class="back">戻るリンク</a></p>
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;a href=&quot;./&quot; class=&quot;back&quot;&gt;戻るリンク&lt;/a&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+<h3>ダウンロードリンク</h3>
+
+<p><a href="./" class="download">ダウンロードリンク</a></p>
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;a href=&quot;./&quot; class=&quot;download&quot;&gt;ダウンロードリンク&lt;/a&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+<h3>PDF</h3>
+
+<p><a href="./" class="pdf">PDFファイル名</a></p>
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;a href=&quot;./&quot; class=&quot;pdf&quot;&gt;PDFファイル名&lt;/a&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+
+<h3>複数のアイコンを付ける場合</h3>
+<p><a href="./" class="icon blank" target="_blank">アイコンリンクかつ別ウィンドウ</a></p>
+
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;a href=&quot;./&quot; class=&quot;icon blank&quot; target=&quot;_blank&quot;&gt;アイコンリンクかつ別ウィンドウ&lt;/a&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
 
 
 <h2>[parts]リスト</h2>
@@ -67,6 +196,55 @@
 	&lt;li&gt;リスト内容&lt;/li&gt;
 	&lt;li&gt;リスト内容&lt;/li&gt;
 &lt;/ol&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+
+<h2>[parts] 定義リスト</h2>
+
+<h3>通常の定義リスト</h3>
+
+<dl>
+	<dt>定義語句</dt>
+		<dd>説明や解説テキスト。説明や解説テキスト。説明や解説テキスト。説明や解説テキスト。</dd>
+	<dt>定義語句</dt>
+		<dd>説明や解説テキスト。説明や解説テキスト。説明や解説テキスト。説明や解説テキスト。</dd>
+	<dt>定義語句</dt>
+		<dd>説明や解説テキスト。説明や解説テキスト。説明や解説テキスト。説明や解説テキスト。</dd>
+</dl>
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;dl&gt;
+	&lt;dt&gt;定義語句&lt;/dt&gt;
+		&lt;dd&gt;説明や解説テキスト。説明や解説テキスト。説明や解説テキスト。説明や解説テキスト。&lt;/dd&gt;
+	&lt;dt&gt;定義語句&lt;/dt&gt;
+		&lt;dd&gt;説明や解説テキスト。説明や解説テキスト。説明や解説テキスト。説明や解説テキスト。&lt;/dd&gt;
+	&lt;dt&gt;定義語句&lt;/dt&gt;
+		&lt;dd&gt;説明や解説テキスト。説明や解説テキスト。説明や解説テキスト。説明や解説テキスト。&lt;/dd&gt;
+&lt;/dl&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+
+<h3>注釈定義リスト .notes</h3>
+
+<dl class="notes">
+	<dt>※1 語句</dt>
+		<dd>説明や解説テキスト。説明や解説テキスト。説明や解説テキスト。説明や解説テキスト。</dd>
+	<dt>※2 語句</dt>
+		<dd>説明や解説テキスト。説明や解説テキスト。説明や解説テキスト。説明や解説テキスト。</dd>
+	<dt>※3 語句</dt>
+		<dd>説明や解説テキスト。説明や解説テキスト。説明や解説テキスト。説明や解説テキスト。</dd>
+</dl>
+
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;dl class=&quot;notes&quot;&gt;
+	&lt;dt&gt;※1 語句&lt;/dt&gt;
+		&lt;dd&gt;説明や解説テキスト。説明や解説テキスト。説明や解説テキスト。説明や解説テキスト。&lt;/dd&gt;
+	&lt;dt&gt;※2 語句&lt;/dt&gt;
+		&lt;dd&gt;説明や解説テキスト。説明や解説テキスト。説明や解説テキスト。説明や解説テキスト。&lt;/dd&gt;
+	&lt;dt&gt;※3 語句&lt;/dt&gt;
+		&lt;dd&gt;説明や解説テキスト。説明や解説テキスト。説明や解説テキスト。説明や解説テキスト。&lt;/dd&gt;
+&lt;/dl&gt;
 </textarea></div>
 </div><!-- /.unit -->
 
@@ -300,11 +478,32 @@
 
 
 
+<h2>&lt;head&gt;領域にJavaScriptやCSSを書くには</h2>
+
+<p>コンテンツキャビネット &quot;head&quot; にソースを送ります。</p>
+
+<?php ob_start(); ?>
+
+<!-- このソースは、テーマのキャビネット "head" に送られます。 -->
+
+<?php $px->theme()->send_content( ob_get_clean(), 'head' ); ?>
+
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;?php ob_start(); ?&gt;
+
+&lt;!-- このソースは、テーマのキャビネット &quot;head&quot; に送られます。 --&gt;
+
+&lt;?php $px-&gt;theme()-&gt;send_content( ob_get_clean(), 'head' ); ?&gt;
+</textarea></div>
+</div><!-- /.unit -->
 
 
 
-<?php for($i = 0; $i<3; $i++){ ?>
 
+
+
+<?php for($i = 0; $i<0; $i++){ ?>
+<?php /**
 <h2>これはテストページ1</h2>
 <p>このページのタイトルは、<strong><?php print t::h( $page_info['title'] ); ?></strong> です。</p>
 <p>長いページを作ってみるテストです。</p>
@@ -320,6 +519,6 @@
 <h3>This is a test page. 4</h3>
 <p>このページのタイトルは、<strong><?php print t::h( $page_info['title'] ); ?></strong> です。</p>
 <p>長いページを作ってみるテストです。</p>
-
+/**/ ?>
 <?php } ?>
 

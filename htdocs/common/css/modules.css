@@ -74,6 +74,55 @@
 }
 
 /**
+ * [parts] リンク
+ */
+a{
+}
+
+/**
+ * [parts] アイコン付きリンク
+ */
+a.icon:before{
+	content:"⇒ ";
+}
+/**
+ * [parts] 別ウィンドウリンク
+ */
+a.blank:after{
+	content:" □";
+}
+/**
+ * [parts] ページ内リンク(下向き)
+ */
+a.down:before{
+	content:"↓ ";
+}
+/**
+ * [parts] ページ内リンク(上向き)
+ */
+a.up:before{
+	content:"↑ ";
+}
+/**
+ * [parts] 戻るリンク
+ */
+a.back:before{
+	content:"← ";
+}
+/**
+ * [parts] ダウンロードリンク
+ */
+a.download:after{
+	content:" [↓]";
+}
+/**
+ * [parts] PDFリンク
+ */
+a.pdf:after{
+	content:" (PDF)";
+}
+
+/**
  * [static] カレントページ
  */
 .current{
