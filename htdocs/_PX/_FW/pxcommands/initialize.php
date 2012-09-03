@@ -1,5 +1,5 @@
 <?php
-$this->load_pxclass('/bases/pxcommand.php');
+$this->load_px_class('/bases/pxcommand.php');
 
 /**
  * PX Command: initializeを表示する
@@ -48,7 +48,7 @@ class px_pxcommands_initialize extends px_bases_pxcommand{
 		@header('Content-type: text/plain');
 		print ''.$command[0].' | Pickles Framework'."\n";
 		print '------'."\n";
-		$class_name_dao_init = $this->px->load_pxclass('/daos/initialize.php');
+		$class_name_dao_init = $this->px->load_px_class('/daos/initialize.php');
 		$dao_init = new $class_name_dao_init( &$this->px );
 
 		print '[init user tables]'."\n";

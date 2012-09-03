@@ -1,5 +1,5 @@
 <?php
-$this->load_pxclass('/bases/dao.php');
+$this->load_px_class('/bases/dao.php');
 
 /**
  * 初期化処理のDAO

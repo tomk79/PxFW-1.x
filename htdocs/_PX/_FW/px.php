@@ -49,7 +49,7 @@ class px_px{
 			$this->theme()->set_theme_id( $this->req()->get_param('THEME') );
 		}
 
-		$tmp_px_class_name = $this->load_pxclass( 'pxcommands/'.$this->pxcommand[0].'.php' );
+		$tmp_px_class_name = $this->load_px_class( 'pxcommands/'.$this->pxcommand[0].'.php' );
 		if( $tmp_px_class_name ){
 			$obj_pxcommands = new $tmp_px_class_name( $this->pxcommand , &$this );
 		}
@@ -91,7 +91,7 @@ class px_px{
 			if( strlen($page_info['extension']) ){
 				$extension = $page_info['extension'];
 			}
-			$class_name = $this->load_pxclass( 'extensions/'.$extension.'.php' );
+			$class_name = $this->load_px_class( 'extensions/'.$extension.'.php' );
 			if( $class_name ){
 				$obj_extension = new $class_name( &$this );
 				$obj_extension->execute( $path_content );
@@ -347,7 +347,7 @@ class px_px{
 	 * PxFWのクラスファイルをロードする。
 	 * 
 	 */
-	public function load_pxclass($path){
+	public function load_px_class($path){
 		//戻り値は、ロードしたクラス名
 		$path = preg_replace( '/^\/+/si' , '' , $path );
 		$class_name = 'px_'.preg_replace(  '/\//si' , '_' , $path  );
@@ -359,14 +359,39 @@ class px_px{
 
 		$lib_realpath = $this->get_conf('paths.px_dir').'_FW/'.$path;
 		if( !is_file( $lib_realpath ) || !is_readable( $lib_realpath ) ){ return false; }
-		if( !@include_once( $this->get_conf('paths.px_dir').'_FW/'.$path ) ){
+		if( !@include_once( $lib_realpath ) ){
 			return false;
 		}
 		if( !class_exists( $class_name ) ){
 			return false;
 		}
 		return $class_name;
-	}//load_pxclass()
+	}//load_px_class()
+
+	/**
+	 * PxFWのテーマが定義するクラスファイルをロードする。
+	 */
+	public function load_pxtheme_class($path){
+		//戻り値は、ロードしたクラス名
+		$path = preg_replace( '/^\/+/si' , '' , $path );
+		$class_name = 'pxtheme_'.preg_replace(  '/\//si' , '_' , $path  );
+		$class_name = preg_replace(  '/\.php$/si' , '' , $class_name  );
+		if( class_exists( $class_name ) ){
+			//ロード済みならそのまま返す
+			return $class_name;
+		}
+
+		$theme_id = 'default';
+		$lib_realpath = $this->get_conf('paths.px_dir').'themes/'.$theme_id.'/_FW/'.$path;
+		if( !is_file( $lib_realpath ) || !is_readable( $lib_realpath ) ){ return false; }
+		if( !@include_once( $lib_realpath ) ){
+			return false;
+		}
+		if( !class_exists( $class_name ) ){
+			return false;
+		}
+		return $class_name;
+	}//load_pxtheme_class()
 
 	/**
 	 * リダイレクトする

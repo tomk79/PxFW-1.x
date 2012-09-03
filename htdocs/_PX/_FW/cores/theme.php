@@ -270,10 +270,23 @@ class px_cores_theme{
 
 		//  コンテンツソースのファイナライズ
 		if( $do_finalize === true ){
-			$class_name = $this->px->load_pxclass('/styles/finalizer.php');
-			$obj_finalizer = new $class_name( &$this->px );
+			//  テーマ個別のfinalizer処理
+			$class_name = $this->px->load_pxtheme_class('/styles/finalizer.php');
+			if( $class_name !== false ){
+				$obj_finalizer = new $class_name( &$this->px );
+				$content = $obj_finalizer->finalize_contents( $content );
+			}
 			unset($class_name);
-			$content = $obj_finalizer->finalize_contents( $content );
+			unset($obj_finalizer);
+
+			//  共通のfinalizer処理
+			$class_name = $this->px->load_px_class('/styles/finalizer.php');
+			if( $class_name !== false ){
+				$obj_finalizer = new $class_name( &$this->px );
+				$content = $obj_finalizer->finalize_contents( $content );
+			}
+			unset($class_name);
+			unset($obj_finalizer);
 		}
 
 		return $content;

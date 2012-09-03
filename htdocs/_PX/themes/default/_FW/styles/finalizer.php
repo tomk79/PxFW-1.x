@@ -3,7 +3,7 @@
 /**
  * コンテンツの仕上げ処理を施す。
  **/
-class px_styles_finalizer{
+class pxtheme_styles_finalizer{
 
 	private $px;
 
@@ -47,7 +47,7 @@ class px_styles_finalizer{
 	 * callback: h2タグを置き換える。(サンプルコード)
 	 * このメソッドはサンプルコードです。
 	 * finalize_contents() 内からコールバックメソッドとして登録されるものです。
-	 *
+	 */
 	public function replace_dom_h2_sample( $dom , $num ){
 
 		//属性値を復元
@@ -73,7 +73,6 @@ class px_styles_finalizer{
 
 		return $rtn;
 	}//replace_dom_h2_sample()
-	 */
 
 }
 

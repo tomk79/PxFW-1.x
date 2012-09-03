@@ -1,5 +1,5 @@
 <?php
-$this->load_pxclass('/bases/pxcommand.php');
+$this->load_px_class('/bases/pxcommand.php');
 
 /**
  * PX Command: publishを実行する
