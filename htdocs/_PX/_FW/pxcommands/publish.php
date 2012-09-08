@@ -341,7 +341,13 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 				$this->scan_dirs( $path.'/'.$filename );
 			}elseif( is_file( $current_original_path ) ){
 				//  対象がファイルだったら
+				$tmp_extension = $this->px->dbh()->get_extension( $path.'/'.$filename );
+				if( strtolower($tmp_extension) == 'php' ){
+					//PHPスクリプトファイルはスキャンしない
+					continue;
+				}
 				$this->add_queue( $this->px->dbh()->get_realpath($this->px->get_install_path().$path.'/'.$filename) );
+				unset($tmp_extension);
 			}
 
 		}
@@ -361,6 +367,8 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 		$extension = $this->px->dbh()->get_extension( $path );
 		switch( strtolower($extension) ){
 			case 'html':
+			case 'css':
+			case 'js':
 				$url = 'http'.($this->px->req()->is_ssl()?'s':'').'://'.$_SERVER['HTTP_HOST'].$this->px->dbh()->get_realpath($path);
 
 				$httpaccess = $this->factory_httpaccess();
@@ -395,6 +403,24 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 				if($result!=200){
 					$this->publish_error_log( array(
 						'error'=>'[ERROR] Publishing HTML was FAILED.(status='.$result.')',
+						'path'=>$this->px->dbh()->get_realpath($path),
+					) );
+				}
+				break;
+			case 'inc':
+				$tmp_src = $this->px->dbh()->file_get_contents( $_SERVER['DOCUMENT_ROOT'].$path );
+				if( strlen($this->px->get_conf('system.output_encoding')) ){
+					$tmp_src = t::convert_encoding( $tmp_src , $this->px->get_conf('system.output_encoding'), 'utf-8' );
+				}
+				$result = $this->px->dbh()->file_overwrite( $this->path_tmppublish_dir.'/htdocs/'.$path , $tmp_src );
+				$this->publish_log( array(
+					'result'=>($result?true:false),
+					'message'=>'copy'.(strlen($this->px->get_conf('system.output_encoding'))?'(and convert encoding)':''),
+					'path'=>$this->px->dbh()->get_realpath($path),
+				) );
+				if(!$result){
+					$this->publish_error_log( array(
+						'error'=>'[ERROR] Copying file was FAILED.',
 						'path'=>$this->px->dbh()->get_realpath($path),
 					) );
 				}

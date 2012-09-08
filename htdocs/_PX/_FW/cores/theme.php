@@ -84,7 +84,9 @@ class px_cores_theme{
 		//  / コンテンツソースの事後加工処理
 		//------------
 
-		@header('Content-type: text/html; charset=UTF-8');//デフォルトのヘッダー
+		$output_encoding = $this->px->get_conf('system.output_encoding');
+		if(!strlen($output_encoding)){ $output_encoding = 'UTF-8'; }
+		@header('Content-type: text/html; charset='.$output_encoding);//デフォルトのヘッダー
 
 		$template_path = $this->px->dbh()->get_realpath($this->px->get_conf('paths.px_dir').'themes/'.$this->get_theme_id()).'/';
 		$path_px_dir = $this->px->get_conf('paths.px_dir');
@@ -107,6 +109,13 @@ class px_cores_theme{
 		ob_start();
 		@include( $path_template_file );
 		$src = ob_get_clean();
+
+		if(strlen($this->px->get_conf('system.output_encoding'))){
+			//出力ソースの文字コード変換
+			$src = preg_replace('/<meta\s+charset\="[a-zA-Z0-9\_\-\.]+"\s*\/?'.'>/si','<meta charset="'.t::h($output_encoding).'" />',$src);
+			$src = preg_replace('/<meta\s+http\-equiv\="Content-Type"\s+content\="text\/html\;\s+charset\=[a-zA-Z0-9\_\-\.]+"\s*\/?'.'>/si','<meta http-equiv="Content-Type" content="text/html; charset='.t::h($output_encoding).'" />',$src);
+			$src = t::convert_encoding($src,$this->px->get_conf('system.output_encoding'),'utf-8');
+		}
 
 		return $src;
 	}//bind_contents();

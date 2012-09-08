@@ -1,14 +1,8 @@
 # for PxFW 1.X
 RewriteEngine on
 RewriteCond %{REQUEST_URI} !^.*?/_px_execute.php/
-RewriteCond %{REQUEST_URI} /(.*?\.html)?$
+RewriteCond %{REQUEST_URI} /(.*?\.(?:html|css|js))?$
 RewriteRule ^(.*)$ _px_execute.php/$1 [L]
 
 Options -MultiViews +FollowSymLinks
 
-## for PxFW EZmode.
-#RewriteEngine on
-#RewriteRule ^(.*)\.html$ /px1x/_px_execute.php/$1.pxhtml
-#RewriteRule ^(.*)/$ /px1x/_px_execute.php/$1/index.pxhtml
-#
-#Options -MultiViews

@@ -55,7 +55,7 @@ class px_px{
 		}
 		unset( $tmp_px_class_name );
 
-		@header('Content-type: text/html; charset=UTF-8');//←デフォルトのContent-type。$theme->bind_contents() 内で必要があれば上書き可能。
+		@header('Content-type: text/html; charset='.(strlen($this->get_conf('system.output_encoding'))?$this->get_conf('system.output_encoding'):'UTF-8'));//←デフォルトのContent-type。$theme->bind_contents() 内で必要があれば上書き可能。
 
 		$this->user()->update_login_status( $this->req()->get_param('ID') , $this->req()->get_param('PW') );//←ユーザーログイン処理
 

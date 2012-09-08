@@ -1048,7 +1048,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	/**
 	 * ファイルを保存する
 	 */
-	public function save_file( $filepath , $CONTENT , $perm = null ){
+	public function save_file( $filepath , $content , $perm = null ){
 		#	このメソッドは、$filepathにデータを保存します。
 		#	もともと保存されていた内容は破棄され、新しいデータで上書きします。
 		#
@@ -1076,7 +1076,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 			$this->fopen( $filepath , 'w' );
 		}
 
-		if( !strlen( $CONTENT ) ){
+		if( !strlen( $content ) ){
 			#	空白のファイルで上書きしたい場合
 			if( @is_file( $filepath ) ){
 				@unlink( $filepath );
@@ -1089,7 +1089,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 
 		$res = &$this->file[$filepath]['res'];
 		if( !is_resource( $res ) ){ return false; }
-		fwrite( $res , $CONTENT );
+		fwrite( $res , $content );
 		$this->chmod( $filepath , $perm );
 		clearstatcache();
 		return @is_file( $filepath );
@@ -1098,7 +1098,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	/**
 	 * ファイルを上書き保存して閉じる
 	 */
-	public function file_overwrite( $filepath , $CONTENT , $perm = null ){
+	public function file_overwrite( $filepath , $content , $perm = null ){
 		if( $this->is_file_open( $filepath ) ){
 			#	既に開いているファイルだったら、一旦閉じる。
 			$this->fclose( $filepath );
@@ -1110,7 +1110,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 		}
 
 		#	ファイルを上書き保存
-		$result = $this->save_file( $filepath , $CONTENT , $perm );
+		$result = $this->save_file( $filepath , $content , $perm );
 
 		#	ファイルを閉じる
 		$this->fclose( $filepath );

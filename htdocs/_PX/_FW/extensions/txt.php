@@ -11,7 +11,7 @@ class px_extensions_txt extends px_bases_extension{
 		$src = htmlspecialchars($src);
 		$src = preg_replace('/\r\n|\r|\n/','<br />'."\r\n",$src);
 		print $this->px->theme()->bind_contents( $src );
-		return $src;
+		return true;
 	}
 
 }

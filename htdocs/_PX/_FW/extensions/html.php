@@ -7,10 +7,9 @@ class px_extensions_html extends px_bases_extension{
 	 * @return string 出力ソース
 	 */
 	public function execute( $path_content ){
-		@header('Content-type: text/html; charset=UTF-8');
-
 		$src = $this->execute_content($path_content);
-		print $this->px->theme()->bind_contents( $src );
+		$src = $this->px->theme()->bind_contents( $src );
+		print $src;
 		return true;
 	}
 
@@ -18,7 +17,6 @@ class px_extensions_html extends px_bases_extension{
 	 * コンテンツを実行し、出力ソースを返す
 	 */
 	private function execute_content( $path_content ){
-		$path_px_dir = $this->px->get_conf('paths.px_dir');
 
 		$px = &$this->px;
 		ob_start();
@@ -27,7 +25,6 @@ class px_extensions_html extends px_bases_extension{
 
 		return $src;
 	}
-
 
 }
 ?>
