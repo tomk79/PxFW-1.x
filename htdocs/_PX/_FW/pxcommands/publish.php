@@ -412,6 +412,17 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 				if( strlen($this->px->get_conf('system.output_encoding')) ){
 					$tmp_src = t::convert_encoding( $tmp_src , $this->px->get_conf('system.output_encoding'), 'utf-8' );
 				}
+				if(strlen($this->px->get_conf('system.output_eof_coding'))){
+					//出力ソースの改行コード変換
+					$eof_code = "\r\n";
+					switch( strtolower( $this->px->get_conf('system.output_eof_coding') ) ){
+						case 'cr':     $eof_code = "\r"; break;
+						case 'lf':     $eof_code = "\n"; break;
+						case 'crlf':
+						default:       $eof_code = "\r\n"; break;
+					}
+					$tmp_src = preg_replace('/\r\n|\r|\n/si',$eof_code,$tmp_src);
+				}
 				$result = $this->px->dbh()->file_overwrite( $this->path_tmppublish_dir.'/htdocs/'.$path , $tmp_src );
 				$this->publish_log( array(
 					'result'=>($result?true:false),

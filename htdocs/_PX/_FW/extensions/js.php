@@ -16,6 +16,17 @@ class px_extensions_js extends px_bases_extension{
 			//出力ソースの文字コード変換
 			$src = t::convert_encoding($src,$this->px->get_conf('system.output_encoding'),'utf-8');
 		}
+		if(strlen($this->px->get_conf('system.output_eof_coding'))){
+			//出力ソースの改行コード変換
+			$eof_code = "\r\n";
+			switch( strtolower( $this->px->get_conf('system.output_eof_coding') ) ){
+				case 'cr':     $eof_code = "\r"; break;
+				case 'lf':     $eof_code = "\n"; break;
+				case 'crlf':
+				default:       $eof_code = "\r\n"; break;
+			}
+			$src = preg_replace('/\r\n|\r|\n/si',$eof_code,$src);
+		}
 		print $src;
 		return true;
 	}
