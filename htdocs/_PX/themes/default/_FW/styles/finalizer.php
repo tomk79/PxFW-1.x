@@ -10,8 +10,8 @@ class pxtheme_styles_finalizer{
 	/**
 	 * コンストラクタ
 	 */
-	public function __construct( &$px ){
-		$this->px = &$px;
+	public function __construct( $px ){
+		$this->px = $px;
 	}//__construct()
 
 	/**
@@ -34,7 +34,7 @@ class pxtheme_styles_finalizer{
 		$obj->select( 'h2' );
 
 		//選択したタグ(例:h2)を置き換えるためのコールバックメソッドを実行
-		$obj->replace( array( &$this , 'replace_dom_h2_sample' ) );
+		$obj->replace( array( $this , 'replace_dom_h2_sample' ) );
 
 		//変換後のソースを取得し、$srcを置き換える。
 		$src = $obj->get_src();

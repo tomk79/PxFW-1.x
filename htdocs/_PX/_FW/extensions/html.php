@@ -18,7 +18,7 @@ class px_extensions_html extends px_bases_extension{
 	 */
 	private function execute_content( $path_content ){
 
-		$px = &$this->px;
+		$px = $this->px;
 		ob_start();
 		@include( $path_content );
 		$src = ob_get_clean();

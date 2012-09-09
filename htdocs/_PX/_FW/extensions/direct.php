@@ -8,7 +8,7 @@ class px_extensions_direct extends px_bases_extension{
 	 */
 	public function execute( $path_content ){
 		ob_start();
-		$px = &$this->px;
+		$px = $this->px;
 		@include( $path_content );
 		$rtn = ob_get_clean();
 		return $rtn;

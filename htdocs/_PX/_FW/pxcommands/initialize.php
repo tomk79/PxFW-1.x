@@ -9,8 +9,8 @@ class px_pxcommands_initialize extends px_bases_pxcommand{
 	/**
 	 * コンストラクタ
 	 */
-	public function __construct( $command , &$px ){
-		parent::__construct( $command , &$px );
+	public function __construct( $command , $px ){
+		parent::__construct( $command , $px );
 
 		$command = $this->get_command();
 
@@ -49,7 +49,7 @@ class px_pxcommands_initialize extends px_bases_pxcommand{
 		print ''.$command[0].' | Pickles Framework'."\n";
 		print '------'."\n";
 		$class_name_dao_init = $this->px->load_px_class('/daos/initialize.php');
-		$dao_init = new $class_name_dao_init( &$this->px );
+		$dao_init = new $class_name_dao_init( $this->px );
 
 		print '[init user tables]'."\n";
 		if( $dao_init->create_user_tables() ){

@@ -7,8 +7,8 @@ class px_cores_user{
 	/**
 	 * コンストラクタ
 	 */
-	public function __construct( &$px ){
-		$this->px = &$px;
+	public function __construct( $px ){
+		$this->px = $px;
 	}
 
 	/**
@@ -19,7 +19,7 @@ class px_cores_user{
 		if( !$class_name_dao_user ){
 			return false;
 		}
-		$dao_user = new $class_name_dao_user( &$this->px );
+		$dao_user = new $class_name_dao_user( $this->px );
 		return $dao_user;
 	}
 
@@ -30,7 +30,7 @@ class px_cores_user{
 	public function update_login_status( $user_account , $user_pw ){
 		$is_login = false;
 		$is_starting = false;
-		$dao_user = &$this->factory_dao_user();
+		$dao_user = $this->factory_dao_user();
 
 		//  ログイン判定
 		if( strlen( $user_account ) && strlen( $user_pw ) ){

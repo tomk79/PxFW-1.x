@@ -51,7 +51,7 @@ class px_px{
 
 		$tmp_px_class_name = $this->load_px_class( 'pxcommands/'.$this->pxcommand[0].'.php' );
 		if( $tmp_px_class_name ){
-			$obj_pxcommands = new $tmp_px_class_name( $this->pxcommand , &$this );
+			$obj_pxcommands = new $tmp_px_class_name( $this->pxcommand , $this );
 		}
 		unset( $tmp_px_class_name );
 
@@ -93,7 +93,7 @@ class px_px{
 			}
 			$class_name = $this->load_px_class( 'extensions/'.$extension.'.php' );
 			if( $class_name ){
-				$obj_extension = new $class_name( &$this );
+				$obj_extension = new $class_name( $this );
 				$obj_extension->execute( $path_content );
 			}else{
 				print $this->theme()->bind_contents( '<p>Unknow extension.</p>' );
@@ -274,9 +274,9 @@ class px_px{
 
 		//  コアオブジェクトのインスタンス生成
 		require_once( $this->get_conf('paths.px_dir').'_FW/cores/error.php' );
-		$this->obj_error = new px_cores_error( &$this );
+		$this->obj_error = new px_cores_error( $this );
 		require_once( $this->get_conf('paths.px_dir').'_FW/cores/dbh.php' );
-		$this->obj_dbh = new px_cores_dbh( &$this );
+		$this->obj_dbh = new px_cores_dbh( $this );
 		$this->obj_dbh->set_db_conf( array(
 			'dbms'         =>$this->get_conf('dbms.dbms'         ) ,
 			'host'         =>$this->get_conf('dbms.host'         ) ,
@@ -288,13 +288,13 @@ class px_px{
 		) );
 
 		require_once( $this->get_conf('paths.px_dir').'_FW/cores/req.php' );
-		$this->obj_req = new px_cores_req( &$this );
+		$this->obj_req = new px_cores_req( $this );
 		require_once( $this->get_conf('paths.px_dir').'_FW/cores/site.php' );
-		$this->obj_site = new px_cores_site( &$this );
+		$this->obj_site = new px_cores_site( $this );
 		require_once( $this->get_conf('paths.px_dir').'_FW/cores/user.php' );
-		$this->obj_user = new px_cores_user( &$this );
+		$this->obj_user = new px_cores_user( $this );
 		require_once( $this->get_conf('paths.px_dir').'_FW/cores/theme.php' );
-		$this->obj_theme = new px_cores_theme( &$this );
+		$this->obj_theme = new px_cores_theme( $this );
 
 		return true;
 	}//create_core_instances()

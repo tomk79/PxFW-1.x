@@ -19,8 +19,8 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 	/**
 	 * コンストラクタ
 	 */
-	public function __construct( $command , &$px ){
-		parent::__construct( $command , &$px );
+	public function __construct( $command , $px ){
+		parent::__construct( $command , $px );
 
 		$this->path_target = $this->px->dbh()->get_realpath( $this->px->get_install_path() ).$_SERVER['PATH_INFO'];
 		$this->path_target = preg_replace('/^\/+/s','/',$this->path_target);

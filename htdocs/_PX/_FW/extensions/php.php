@@ -8,7 +8,7 @@ class px_extensions_php extends px_bases_extension{
 	 */
 	public function execute( $path_content ){
 		ob_start();
-		$px = &$this->px;
+		$px = $this->px;
 		@include( $path_content );
 		$src = ob_get_clean();
 		print $this->px->theme()->bind_contents( $src );

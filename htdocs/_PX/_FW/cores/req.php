@@ -10,8 +10,8 @@ class px_cores_req{
 	/**
 	 *  初期化
 	 */
-	public function __construct( &$px ){
-		$this->px = &$px;
+	public function __construct( $px ){
+		$this->px = $px;
 		$this->parse_input();
 		$this->request_file_path = $_SERVER['PATH_INFO'];
 		if (preg_match('/\/$/', $this->request_file_path)) {

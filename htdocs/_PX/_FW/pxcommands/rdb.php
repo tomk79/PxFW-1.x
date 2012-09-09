@@ -9,8 +9,8 @@ class px_pxcommands_rdb extends px_bases_pxcommand{
 	private $command = array();
 	private $pageinfo = null;
 
-	public function __construct( $command , &$px ){
-		parent::__construct( $command , &$px );
+	public function __construct( $command , $px ){
+		parent::__construct( $command , $px );
 
 		$this->command = $command;
 

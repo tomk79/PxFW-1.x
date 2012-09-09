@@ -6,8 +6,8 @@ class px_bases_pxcommand{
 	/**
 	 * コンストラクタ
 	 */
-	public function __construct( $pxcommand_name , &$px ){
-		$this->px = &$px;
+	public function __construct( $pxcommand_name , $px ){
+		$this->px = $px;
 		$this->pxcommand_name = $pxcommand_name;
 	}//__construct()
 

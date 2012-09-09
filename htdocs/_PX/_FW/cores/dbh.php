@@ -47,8 +47,8 @@ class px_cores_dbh{
 	/**
 	 * コンストラクタ
 	 */
-	public function __construct( &$px ){
-		$this->px = &$px;
+	public function __construct( $px ){
+		$this->px = $px;
 	}
 
 	#******************************************************************************************************************
@@ -97,7 +97,7 @@ class px_cores_dbh{
 				sleep(1);
 			}
 			if( is_resource( $res ) ){
-				$this->res_connection = &$res;
+				$this->res_connection = $res;
 				mysql_select_db( $this->get_db_conf('database_name') , $this->res_connection );
 				if( strlen( $this->get_db_conf('charset') ) ){
 					#	DB文字コードの指定があれば、
@@ -142,7 +142,7 @@ class px_cores_dbh{
 				sleep(1);
 			}
 			if( is_resource( $res ) ){
-				$this->res_connection = &$res;
+				$this->res_connection = $res;
 				return	true;
 			}else{
 				$this->add_error( 'DB connect was faild. DB Type of ['.$this->get_db_conf('dbms').'] Server ['.$this->get_db_conf('host').']' , null , __FILE__ , __LINE__ );
@@ -155,7 +155,7 @@ class px_cores_dbh{
 			#	【 SQLite 】
 			$res = sqlite_open( $this->get_db_conf('database_name') , 0666 , $sqlite_error_msg );
 			if( is_resource( $res ) ){
-				$this->res_connection = &$res;
+				$this->res_connection = $res;
 				return	true;
 			}else{
 				$this->add_error( 'DB connect was faild. Because:['.$sqlite_error_msg.']. DB Type of ['.$this->get_db_conf('dbms').'] DB ['.$this->get_db_conf('database_name').']' , null , __FILE__ , __LINE__ );
@@ -172,13 +172,13 @@ class px_cores_dbh{
 	/**
 	 * すでに確立されたデータベース接続情報を外部から受け入れる
 	 */
-	public function set_connection( &$con ){
+	public function set_connection( $con ){
 		if( $this->check_connection() ){
 			#	内部の接続が有効であれば、
 			#	外部からの接続情報は受け入れない
 			return false;
 		}
-		$this->res_connection = &$con;
+		$this->res_connection = $con;
 		return true;
 	}
 
@@ -187,7 +187,7 @@ class px_cores_dbh{
 	 */
 	public function check_connection( $con = null ){
 		if( !is_resource( $con ) ){
-			$con = &$this->res_connection;
+			$con = $this->res_connection;
 		}
 		if( !is_resource( $con ) ){ return false; }
 
@@ -244,7 +244,7 @@ class px_cores_dbh{
 			if( !is_resource( $res ) ){
 				#	MySQLは、接続リソースをとる。
 				#	ゆえに、直前のクエリの結果しか知れない。
-				$res = &$this->res_connection;
+				$res = $this->res_connection;
 			}
 			return @mysql_affected_rows( $res );
 
@@ -253,7 +253,7 @@ class px_cores_dbh{
 			#	【 PostgreSQL 】
 			if( !is_resource( $res ) ){
 				#	PostgreSQLは、リクエストの結果のリソースをとる。
-				$res = &$this->result;
+				$res = $this->result;
 			}
 			return @pg_affected_rows( $res );
 
@@ -263,7 +263,7 @@ class px_cores_dbh{
 			if( !is_resource( $res ) ){
 				#	SQLiteは、接続リソースをとる。
 				#	ゆえに、直前のクエリの結果しか知れない。
-				$res = &$this->res_connection;
+				$res = $this->res_connection;
 			}
 			return	@sqlite_changes( $res );
 
@@ -282,7 +282,7 @@ class px_cores_dbh{
 			if( $this->get_db_conf('dbms') == 'sqlite' ){
 				$sql = 'BEGIN TRANSACTION;';
 			}
-			$result = $this->execute_send_query( $sql , &$this->res_connection );
+			$result = $this->execute_send_query( $sql , $this->res_connection );
 			return $result;
 		}
 		return null;
@@ -300,9 +300,9 @@ class px_cores_dbh{
 		$this->transaction_flg = false;
 		if( $this->get_db_conf('dbms') == 'sqlite' ){
 			#	SQLiteの処理
-			return $this->execute_send_query( 'COMMIT TRANSACTION;' , &$this->res_connection );
+			return $this->execute_send_query( 'COMMIT TRANSACTION;' , $this->res_connection );
 		}
-		return $this->execute_send_query( 'COMMIT;' , &$this->res_connection );
+		return $this->execute_send_query( 'COMMIT;' , $this->res_connection );
 	}
 
 	/**
@@ -317,9 +317,9 @@ class px_cores_dbh{
 		$this->transaction_flg = false;
 		if( $this->get_db_conf('dbms') == 'sqlite' ){
 			#	SQLiteの処理
-			return $this->execute_send_query( 'ROLLBACK TRANSACTION;' , &$this->res_connection );
+			return $this->execute_send_query( 'ROLLBACK TRANSACTION;' , $this->res_connection );
 		}
-		return $this->execute_send_query( 'ROLLBACK;' , &$this->res_connection );
+		return $this->execute_send_query( 'ROLLBACK;' , $this->res_connection );
 	}
 
 	/**
@@ -338,7 +338,7 @@ class px_cores_dbh{
 		if( $this->auto_transaction_flg ){
 			$this->start_transaction();
 		}
-		$this->result = &$this->execute_send_query( $querystring );
+		$this->result = $this->execute_send_query( $querystring );
 		return	$this->result;
 	}//send_query()
 	
@@ -355,17 +355,17 @@ class px_cores_dbh{
 		if( $this->get_db_conf('dbms') == 'mysql' ){
 			#--------------------------------------
 			#	【 MySQL 】
-			$RTN = @mysql_query( $querystring , &$this->res_connection );	//クエリを投げる。
+			$RTN = @mysql_query( $querystring , $this->res_connection );	//クエリを投げる。
 
 		}elseif( $this->get_db_conf('dbms') == 'postgresql' ){
 			#--------------------------------------
 			#	【 PostgreSQL 】
-			$RTN = @pg_query( &$this->res_connection , $querystring );	//クエリを投げる。
+			$RTN = @pg_query( $this->res_connection , $querystring );	//クエリを投げる。
 
 		}elseif( $this->get_db_conf('dbms') == 'sqlite' ){
 			#--------------------------------------
 			#	【 SQLite 】
-			$RTN = @sqlite_query( &$this->res_connection , $querystring );	//クエリを投げる。
+			$RTN = @sqlite_query( $this->res_connection , $querystring );	//クエリを投げる。
 
 		}else{
 			#	【 想定外のDB 】
@@ -474,7 +474,7 @@ class px_cores_dbh{
 	 */
 	public function get_results( $res = null ){
 		$RTN = array();
-		if( !$res ){ $res = &$this->result; }
+		if( !$res ){ $res = $this->result; }
 		if( is_bool( $res ) ){ return $res; }
 		if( !is_resource( $res ) ){ return array(); }
 
@@ -503,7 +503,7 @@ class px_cores_dbh{
 	 */
 	public function fetch_assoc( $res = null ){
 		$RTN = array();
-		if( !$res ){ $res = &$this->result; }
+		if( !$res ){ $res = $this->result; }
 		if( is_bool( $res ) ){ return $res; }
 		if( !is_resource( $res ) ){ return array(); }
 
@@ -534,21 +534,21 @@ class px_cores_dbh{
 		if( $this->get_db_conf('dbms') == 'mysql' ){
 			#--------------------------------------
 			#	【 MySQL 】
-			$errornum = mysql_errno( &$this->res_connection );
-			$errormsg = mysql_error( &$this->res_connection );
+			$errornum = mysql_errno( $this->res_connection );
+			$errormsg = mysql_error( $this->res_connection );
 			return	array( 'message'=>$errormsg , 'number'=>$errornum );
 
 		}elseif( $this->get_db_conf('dbms') == 'postgresql' ){
 			#--------------------------------------
 			#	【 PostgreSQL 】
-			$errormsg = pg_last_error( &$this->res_connection );
-			$result_error = pg_result_error( &$this->result );
+			$errormsg = pg_last_error( $this->res_connection );
+			$result_error = pg_result_error( $this->result );
 			return	array( 'message'=>$errormsg , 'number'=>null , 'result_error'=>$result_error );
 
 		}elseif( $this->get_db_conf('dbms') == 'sqlite' ){
 			#--------------------------------------
 			#	【 SQLite 】
-			$error_cd = sqlite_last_error( &$this->res_connection );
+			$error_cd = sqlite_last_error( $this->res_connection );
 			$errormsg = sqlite_error_string( $error_cd );
 			return	array( 'message'=>$errormsg , 'number'=>$error_cd );
 
@@ -570,7 +570,7 @@ class px_cores_dbh{
 		if( $this->get_db_conf('dbms') == 'mysql' ){
 			#--------------------------------------
 			#	【 MySQL 】
-			if( !$res ){ $res = &$this->res_connection; }
+			if( !$res ){ $res = $this->res_connection; }
 			$RTN = mysql_insert_id( $res );
 			return	$RTN;
 
@@ -578,9 +578,9 @@ class px_cores_dbh{
 			#--------------------------------------
 			#	【 PostgreSQL 】
 			if( !strlen( $seq_table_name ) ){ return false; }//PostgreSQLでは必須
-			if( !$res ){ $res = &$this->result; }
+			if( !$res ){ $res = $this->result; }
 
-			$result = @pg_query( &$this->res_connection , 'SELECT CURRVAL(\''.addslashes($seq_table_name).'\') AS seq' );
+			$result = @pg_query( $this->res_connection , 'SELECT CURRVAL(\''.addslashes($seq_table_name).'\') AS seq' );
 			$data = @pg_fetch_assoc( $result );
 			$RTN = intval( $data['seq'] );
 			return	$RTN;
@@ -588,7 +588,7 @@ class px_cores_dbh{
 		}elseif( $this->get_db_conf('dbms') == 'sqlite' ){
 			#--------------------------------------
 			#	【 SQLite 】
-			if( !$res ){ $res = &$this->res_connection; }
+			if( !$res ){ $res = $this->res_connection; }
 			$RTN = sqlite_last_insert_rowid( $res );
 			return	$RTN;
 
@@ -742,8 +742,8 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 			#	【 MySQL 】
 			$sql = 'SHOW COLUMNS FROM :D:table_name;';
 			$sql = $this->bind( $sql , array( 'table_name'=>$tablename ) );
-			$res = &$this->send_query( $sql );
-			$VALUE = $this->get_results( &$res );
+			$res = $this->send_query( $sql );
+			$VALUE = $this->get_results( $res );
 			if( !is_array( $VALUE ) ){ return false; }
 			$RTN = array();
 			$i = 0;
@@ -837,7 +837,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	 * DBコネクションに失敗した時に実行されるメソッド
 	 */
 	private function eventhdl_connection_error( $errorMessage = null , $FILE = null , $LINE = null ){
-		$method = &$this->method_eventhdl_connection_error;
+		$method = $this->method_eventhdl_connection_error;
 		if( is_array( $method ) ){
 			#	配列を受けていたら
 			if( is_object( $method[0] ) && is_string( $method[1] ) ){
@@ -865,7 +865,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	 * SQLエラー時に実行されるメソッド
 	 */
 	private function eventhdl_query_error( $errorMessage = null , $FILE = null , $LINE = null ){
-		$method = &$this->method_eventhdl_query_error;
+		$method = $this->method_eventhdl_query_error;
 		if( is_array( $method ) ){
 			#	配列を受けていたら
 			if( is_object( $method[0] ) && is_string( $method[1] ) ){
@@ -1087,7 +1087,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 			return @is_file( $filepath );
 		}
 
-		$res = &$this->file[$filepath]['res'];
+		$res = $this->file[$filepath]['res'];
 		if( !is_resource( $res ) ){ return false; }
 		fwrite( $res , $content );
 		$this->chmod( $filepath , $perm );
@@ -1405,7 +1405,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 
 		$RTN = array();
 		if( !$this->fopen($path,'r') ){ return false; }
-		$filelink = &$this->get_file_resource($path);
+		$filelink = $this->get_file_resource($path);
 		if( !is_resource( $filelink ) || !is_null( $this->file[$path]['contents'] ) ){
 			return $this->file[$path]['contents'];
 		}
@@ -1616,7 +1616,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 			$filepath = t::realpath( $filepath );
 		}
 		$this->file[$filepath]['filepath'] = $filepath;
-		$this->file[$filepath]['res'] = &$res;
+		$this->file[$filepath]['res'] = $res;
 		$this->file[$filepath]['mode'] = $mode;
 		$this->file[$filepath]['flock'] = $flock;
 		return	$res;

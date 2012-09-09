@@ -10,8 +10,8 @@ class px_pxcommands_edit extends px_bases_pxcommand{
 	private $path_content_src = null;
 	private $pageinfo = null;
 
-	public function __construct( $command , &$px ){
-		parent::__construct( $command , &$px );
+	public function __construct( $command , $px ){
+		parent::__construct( $command , $px );
 
 		$this->command = $command;
 		$this->pageinfo = $this->px->site()->get_current_page_info();

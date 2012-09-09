@@ -9,7 +9,7 @@ class px_extensions_download extends px_bases_extension{
 	public function execute( $path_content ){
 		@header('Content-type: application/x-download');
 		ob_start();
-		$px = &$this->px;
+		$px = $this->px;
 		@include( $path_content );
 		$rtn = ob_get_clean();
 		print $rtn;

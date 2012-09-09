@@ -2,8 +2,8 @@
 class px_bases_extension{
 	protected $px;
 
-	public function __construct( &$px ){
-		$this->px = &$px;
+	public function __construct( $px ){
+		$this->px = $px;
 	}//__construct()
 
 	/**

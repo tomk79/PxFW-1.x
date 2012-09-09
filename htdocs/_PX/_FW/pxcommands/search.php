@@ -11,8 +11,8 @@ class px_pxcommands_search extends px_bases_pxcommand{
 	/**
 	 * コンストラクタ
 	 */
-	public function __construct( $command , &$px ){
-		parent::__construct( $command , &$px );
+	public function __construct( $command , $px ){
+		parent::__construct( $command , $px );
 
 		$command = $this->get_command();
 		$this->search_keyword = $this->px->req()->get_param('KEY');

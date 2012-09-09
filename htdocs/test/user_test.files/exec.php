@@ -5,8 +5,8 @@ class cont_exec{
 	/**
 	 * コンストラクタ
 	 */
-	public function __construct( &$px ){
-		$this->px = &$px;
+	public function __construct( $px ){
+		$this->px = $px;
 	}
 
 	/**
@@ -36,7 +36,7 @@ class cont_exec{
 		if( !$class_name_dao_user ){
 			return false;
 		}
-		$dao_user = new $class_name_dao_user( &$this->px );
+		$dao_user = new $class_name_dao_user( $this->px );
 		return $dao_user;
 	}
 

@@ -15,8 +15,8 @@ class px_cores_theme{
 	/**
 	 * コンストラクタ
 	 */
-	public function __construct( &$px ){
-		$this->px = &$px;
+	public function __construct( $px ){
+		$this->px = $px;
 		if( strlen( $this->px->req()->get_session('THEME') ) ){
 			$this->theme_id = $this->px->req()->get_session('THEME');
 		}
@@ -105,7 +105,7 @@ class px_cores_theme{
 			$path_template_file = $template_path.'default.html';
 		}
 
-		$px = &$this->px;
+		$px = $this->px;
 		ob_start();
 		@include( $path_template_file );
 		$src = ob_get_clean();
@@ -293,7 +293,7 @@ class px_cores_theme{
 			//  テーマ個別のfinalizer処理
 			$class_name = $this->px->load_pxtheme_class('/styles/finalizer.php');
 			if( $class_name !== false ){
-				$obj_finalizer = new $class_name( &$this->px );
+				$obj_finalizer = new $class_name( $this->px );
 				$content = $obj_finalizer->finalize_contents( $content );
 			}
 			unset($class_name);
@@ -302,7 +302,7 @@ class px_cores_theme{
 			//  共通のfinalizer処理
 			$class_name = $this->px->load_px_class('/styles/finalizer.php');
 			if( $class_name !== false ){
-				$obj_finalizer = new $class_name( &$this->px );
+				$obj_finalizer = new $class_name( $this->px );
 				$content = $obj_finalizer->finalize_contents( $content );
 			}
 			unset($class_name);

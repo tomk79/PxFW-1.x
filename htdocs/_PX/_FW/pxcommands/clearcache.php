@@ -9,8 +9,8 @@ class px_pxcommands_clearcache extends px_bases_pxcommand{
 
 	private $paths_cache_dir = array();
 
-	public function __construct( $command , &$px ){
-		parent::__construct( $command , &$px );
+	public function __construct( $command , $px ){
+		parent::__construct( $command , $px );
 		$this->execute();
 	}//__construct()
 

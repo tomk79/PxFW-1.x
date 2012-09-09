@@ -2,8 +2,8 @@
 class px_cores_error{
 	private $px;
 
-	public function __construct( &$px ){
-		$this->px = &$px;
+	public function __construct( $px ){
+		$this->px = $px;
 	}
 
 	//--------------------------------------

@@ -9,8 +9,8 @@ class px_cores_site{
 	/**
 	 * コンストラクタ
 	 */
-	public function __construct( &$px ){
-		$this->px = &$px;
+	public function __construct( $px ){
+		$this->px = $px;
 
 		//サイトマップCSVを読み込む
 		$this->load_sitemap_csv();
