@@ -63,6 +63,9 @@ class px_px{
 		$localpath_current_content = $this->site()->get_page_info( $this->req()->get_request_file_path() , 'content' );
 		if( !strlen($localpath_current_content) ){
 			$localpath_current_content = $_SERVER['PATH_INFO'];
+			if( preg_match('/\/$/s',$localpath_current_content) ){
+				$localpath_current_content .= 'index.html';
+			}
 		}
 		$path_content = $this->dbh()->get_realpath( dirname($_SERVER['SCRIPT_FILENAME']).$localpath_current_content );
 
