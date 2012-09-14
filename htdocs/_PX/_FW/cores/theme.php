@@ -136,7 +136,11 @@ class px_cores_theme{
 	 * @return string href属性値
 	 */
 	public function href( $linkto ){
-//		$path = $this->px->site()->get_page_info($linkto,'path');
+		$tmp_page_info_by_id = $this->px->site()->get_page_info_by_id($linkto);
+		if( $tmp_page_info_by_id['path'] ){
+			$linkto = $tmp_page_info_by_id['path'];
+		}
+		unset($tmp_page_info_by_id);
 		$path = $linkto;
 		if( preg_match( '/^alias[0-9]*\:(.+)/' , $path , $tmp_matched ) ){
 			//  エイリアスを解決
