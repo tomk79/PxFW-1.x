@@ -1,0 +1,90 @@
+<?php
+	$page_info = $px->site()->get_current_page_info();
+?>
+
+<p>スタティックモジュールの一覧です。</p>
+
+<p>スタティックモジュールは、端末の状態(スクリーンの幅など)に影響されず、常に固定の効果を提供します。主に特に基本的でシンプルなショートハンド的なモジュールが含まれます。</p>
+
+<?php
+	print( $px->theme()->autoindex() );
+?>
+
+<h2>文字サイズ</h2>
+
+<div class="unit">
+<table class="def">
+	<thead>
+		<tr><th>モジュール名称</th><th>用途</th><th>サンプル</th></tr>
+	</thead>
+	<tbody>
+		<tr><th>.xxlarge</th><td>文字を最大サイズにする。</td><td>&lt;p class=&quot;xxlarge&quot;&gt;文字&lt;/p&gt;</td></tr>
+		<tr><th>.xlarge</th><td>文字をさらに大きいサイズにする。</td><td>&lt;p class=&quot;xlarge&quot;&gt;文字&lt;/p&gt;</td></tr>
+		<tr><th>.large</th><td>文字を大きいサイズにする。</td><td>&lt;p class=&quot;large&quot;&gt;文字&lt;/p&gt;</td></tr>
+		<tr><th>.medium</th><td>文字を標準サイズにする。</td><td>&lt;p class=&quot;medium&quot;&gt;文字&lt;/p&gt;</td></tr>
+		<tr><th>.small</th><td>文字を小さいサイズにする。</td><td>&lt;p class=&quot;small&quot;&gt;文字&lt;/p&gt;</td></tr>
+		<tr><th>.xsmall</th><td>文字をさらに小さいサイズにする。</td><td>&lt;p class=&quot;xsmall&quot;&gt;文字&lt;/p&gt;</td></tr>
+		<tr><th>.xxsmall</th><td>文字を最小サイズにする。</td><td>&lt;p class=&quot;xxsmall&quot;&gt;文字&lt;/p&gt;</td></tr>
+	</tbody>
+</table>
+</div><!-- /.unit -->
+
+
+
+<h2>文字組み</h2>
+
+<div class="unit">
+<table class="def">
+	<thead>
+		<tr><th>モジュール名称</th><th>用途</th><th>サンプル</th></tr>
+	</thead>
+	<tbody>
+		<tr><th>.center</th><td>センターぞろえにする。</td><td>&lt;p class=&quot;center&quot;&gt;文字&lt;/p&gt;</td></tr>
+		<tr><th>.left</th><td>左揃えにする。</td><td>&lt;p class=&quot;left&quot;&gt;文字&lt;/p&gt;</td></tr>
+		<tr><th>.right</th><td>右揃えにする。</td><td>&lt;p class=&quot;right&quot;&gt;文字&lt;/p&gt;</td></tr>
+	</tbody>
+</table>
+</div><!-- /.unit -->
+
+
+<h2>回り込み制御</h2>
+
+<div class="unit">
+<table class="def">
+	<thead>
+		<tr><th>モジュール名称</th><th>用途</th><th>サンプル</th></tr>
+	</thead>
+	<tbody>
+		<tr><th>.fl</th><td>左に回り込ませる。</td><td>&lt;p class=&quot;fl&quot;&gt;文字&lt;/p&gt;</td></tr>
+		<tr><th>.fr</th><td>右に回り込ませる。</td><td>&lt;p class=&quot;fr&quot;&gt;文字&lt;/p&gt;</td></tr>
+		<tr><th>.fc</th><td>回り込みを解除する。</td><td>&lt;p class=&quot;fc&quot;&gt;文字&lt;/p&gt;</td></tr>
+		<tr><th>.clearfix</th><td>親要素を回り込みに対してフィットさせる。</td><td>&lt;div class=&quot;clearfix&quot;&gt;<br />
+  &lt;div class=&quot;fl&quot;&gt;回り込み&lt;/div&gt;<br />
+  &lt;div class=&quot;fr&quot;&gt;回り込み&lt;/div&gt;<br />
+&lt;/div&gt;</td></tr>
+	</tbody>
+</table>
+</div><!-- /.unit -->
+
+
+<h2>画像置換 .imagereplace</h2>
+
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;a href=&quot;***&quot; class=&quot;imagereplace&quot;&gt;リンクラベル&lt;span class=&quot;imagereplace-panel&quot;&gt;&lt;/span&gt;&lt;/a&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+<h2>その他</h2>
+
+<div class="unit">
+<table class="def">
+	<thead>
+		<tr><th>モジュール名称</th><th>用途</th><th>サンプル</th></tr>
+	</thead>
+	<tbody>
+		<tr><th>.current</th><td>カレントページを示すリンクに適用する。</td><td>&lt;a href=&quot;***&quot; class=&quot;current&quot;&gt;カレントページ&lt;/a&gt;</td></tr>
+	</tbody>
+</table>
+</div><!-- /.unit -->
+
+

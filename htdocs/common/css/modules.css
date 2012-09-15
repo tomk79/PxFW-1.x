@@ -25,26 +25,27 @@
  * [static] 文字サイズ
  */
 .xxlarge{
-	font-size:xx-large;
+	font-size:150%;
 }
 .xlarge{
-	font-size:x-large;
+	font-size:123%;
 }
 .large{
-	font-size:large;
+	font-size:108%;
 }
 .medium{
-	font-size:medium;
+	font-size:100%;
 }
 .small{
-	font-size:small;
+	font-size: 85%;
 }
 .xsmall{
-	font-size:x-small;
+	font-size: 77%;
 }
 .xxsmall{
-	font-size:xx-small;
+	font-size: 60%;
 }
+
 
 /**
  * [static] 文字組み
@@ -86,12 +87,6 @@ a.icon:before{
 	content:"⇒ ";
 }
 /**
- * [parts] 別ウィンドウリンク
- */
-a.blank:after{
-	content:" □";
-}
-/**
  * [parts] ページ内リンク(下向き)
  */
 a.down:before{
@@ -110,15 +105,21 @@ a.back:before{
 	content:"← ";
 }
 /**
- * [parts] ダウンロードリンク
+ * [parts] 付加リンクモジュール：別ウィンドウリンク
  */
-a.download:after{
+a span.blank:after{
+	content:" □";
+}
+/**
+ * [parts] 付加リンクモジュール：ダウンロードリンク
+ */
+a span.download:after{
 	content:" [↓]";
 }
 /**
- * [parts] PDFリンク
+ * [parts] 付加リンクモジュール：PDF
  */
-a.pdf:after{
+a span.pdf:after{
 	content:" (PDF)";
 }
 
@@ -228,12 +229,21 @@ table.def {
 }
 table.def th,
 table.def td {
-	border: 1px solid #d6d6d6;
+	border: 1px solid #999999;
 	padding: 10px;
 }
 table.def th {
 	background: #e7e7e7;
 }
+table.def thead th,
+table.def tfoot th{
+	background: #d9d9d9;
+}
+table.def thead td,
+table.def tfoot td{
+	background: #eeeeee;
+}
+
 
 /**
  * [parts] ソースコード

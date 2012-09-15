@@ -1,0 +1,355 @@
+<?php ob_start(); ?>
+<style type="text/css">
+
+	/**
+	 * 注釈定義リスト
+	 * (検討中の定義)
+	 */
+	dl.notes{
+		padding:0px 0px 0px 0px;
+		margin-left:0px;
+		margin-right:0px;
+	}
+	dl.notes dt{
+		padding:0px 0px 0px 0px;
+		margin:0px 0px 0px 0px;
+		float:left;
+		clear:left;
+		border:0px none;
+		font-weight:normal;
+	}
+	dl.notes dd{
+		padding:0px 0px 0px 5px;
+		margin:0px 0px 0px 0px;
+		float:none;
+		font-weight:normal;
+		display:block;
+		overflow:hidden;
+		zoom:100%;
+	}
+
+</style>
+<?php $px->theme()->send_content( ob_get_clean(), 'head' ); ?>
+
+
+
+
+<p>パーツモジュールの一覧です。</p>
+
+<p>
+	パーツモジュールは、ユニットモジュール内に入れ込んで使うことができます。端末の状態(スクリーンの幅など)に合わせて、スタイルが変化する場合があります。<br />
+	スタティックモジュールと異なり、ある程度複雑な構造のパーツが含まれます。<br />
+</p>
+
+<?php
+	print( $px->theme()->autoindex() );
+?>
+
+
+<h2>見出し</h2>
+
+<p>
+	見出しタグ &lt;h2&gt;～&lt;h6&gt;要素のデフォルトスタイルは、素の状態で定義されます。デザインによっては、装飾用に&lt;span&gt;要素等の階層を追加する必要がある場合も想定されますが、学習しやすさのために <q>可能な限り、素のHTMLの構造のままでマークアップできるように設計する</q> コンセプトに従い、素のままのタグとされました。装飾用のタグを追加する必要がある場合は、出力前にDOM変換を行う実装を、テーマコレクション内の <code>_FW/styles/finalizer.php</code> に実装することを推奨します。<br />
+</p>
+
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;h2&gt;見出し&lt;/h2&gt;
+&lt;h3&gt;見出し&lt;/h3&gt;
+&lt;h4&gt;見出し&lt;/h4&gt;
+&lt;h5&gt;見出し&lt;/h5&gt;
+&lt;h6&gt;見出し&lt;/h6&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+
+<h2>リンク</h2>
+
+
+<h3>通常のインラインリンク</h3>
+
+<p><a href="./">通常のインラインリンク</a></p>
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;a href=&quot;./&quot;&gt;通常のインラインリンク&lt;/a&gt;</textarea></div>
+</div><!-- /.unit -->
+
+
+<h3>アイコン付きリンク</h3>
+
+<p><a href="./" class="icon">アイコン付きリンク</a></p>
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;a href=&quot;./&quot; class=&quot;icon&quot;&gt;サイト内リンク&lt;/a&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+<h3>ページ内リンク(下向き)</h3>
+
+<p><a href="#" class="down">ページ内リンク(下向き)</a></p>
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;a href=&quot;#&quot; class=&quot;down&quot;&gt;ページ内リンク(下向き)&lt;/a&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+<h3>ページ内リンク(上向き)</h3>
+
+<p><a href="#" class="up">ページ内リンク(上向き)</a></p>
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;a href=&quot;#&quot; class=&quot;up&quot;&gt;ページ内リンク(上向き)&lt;/a&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+<h3>戻るリンク</h3>
+
+<p><a href="./" class="back">戻るリンク</a></p>
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;a href=&quot;./&quot; class=&quot;back&quot;&gt;戻るリンク&lt;/a&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+<h3>付加リンクモジュール</h3>
+
+<p>リンクモジュールには、任意の付加リンクモジュールを組み合わせて使用することができます。</p>
+<p>付加リンクモジュールは、&lt;a&gt;要素の内側に&lt;span&gt;要素を組み込んで使用します。付加リンク単体での使用(=&lt;a&gt;要素に直接クラスを指定しての使用)はできません。</p>
+<p>次に示す例は、<q>通常のインラインリンク</q> に付加した場合の実装を示しています。</p>
+
+<h4>別ウィンドウリンク</h4>
+
+<p><a href="./" target="_blank"><span class="blank">別ウィンドウリンク</span></a></p>
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;p&gt;&lt;a href=&quot;./&quot; target=&quot;_blank&quot;&gt;&lt;span class=&quot;blank&quot;&gt;別ウィンドウリンク&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+
+<h4>ダウンロードリンク</h4>
+
+<p><a href="./"><span class="download">ダウンロードリンク</span></a></p>
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;p&gt;&lt;a href=&quot;./&quot;&gt;&lt;span class=&quot;download&quot;&gt;ダウンロードリンク&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+<h4>PDF</h4>
+
+<p><a href="./"><span class="pdf">PDFファイル名</span></a></p>
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;p&gt;&lt;a href=&quot;./&quot;&gt;&lt;span class=&quot;pdf&quot;&gt;PDFファイル名&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+
+
+<h2>リスト</h2>
+
+<h3>通常のリスト</h3>
+<ul>
+	<li>リスト内容</li>
+	<li>リスト内容</li>
+</ul>
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;ul&gt;
+	&lt;li&gt;リスト内容&lt;/li&gt;
+	&lt;li&gt;リスト内容&lt;/li&gt;
+&lt;/ul&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+<h3>注釈リスト .notes</h3>
+
+<ul class="notes">
+	<li>※リスト内容</li>
+	<li>※リスト内容</li>
+</ul>
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;ul class=&quot;notes&quot;&gt;
+	&lt;li&gt;※リスト内容&lt;/li&gt;
+	&lt;li&gt;※リスト内容&lt;/li&gt;
+&lt;/ul&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+
+<h3>リストマークがないリスト .nomark</h3>
+<ul class="nomark">
+	<li>リスト内容</li>
+	<li>リスト内容</li>
+</ul>
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;ul class=&quot;nomark&quot;&gt;
+	&lt;li&gt;リスト内容&lt;/li&gt;
+	&lt;li&gt;リスト内容&lt;/li&gt;
+&lt;/ul&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+
+
+<h2>数字リスト</h2>
+
+<ol>
+	<li>リスト内容</li>
+	<li>リスト内容</li>
+</ol>
+
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;ol&gt;
+	&lt;li&gt;リスト内容&lt;/li&gt;
+	&lt;li&gt;リスト内容&lt;/li&gt;
+&lt;/ol&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+
+<h2> 定義リスト</h2>
+
+<h3>通常の定義リスト</h3>
+
+<dl>
+	<dt>定義語句</dt>
+		<dd>説明や解説テキスト。説明や解説テキスト。説明や解説テキスト。説明や解説テキスト。</dd>
+	<dt>定義語句</dt>
+		<dd>説明や解説テキスト。説明や解説テキスト。説明や解説テキスト。説明や解説テキスト。</dd>
+	<dt>定義語句</dt>
+		<dd>説明や解説テキスト。説明や解説テキスト。説明や解説テキスト。説明や解説テキスト。</dd>
+</dl>
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;dl&gt;
+	&lt;dt&gt;定義語句&lt;/dt&gt;
+		&lt;dd&gt;説明や解説テキスト。説明や解説テキスト。説明や解説テキスト。説明や解説テキスト。&lt;/dd&gt;
+	&lt;dt&gt;定義語句&lt;/dt&gt;
+		&lt;dd&gt;説明や解説テキスト。説明や解説テキスト。説明や解説テキスト。説明や解説テキスト。&lt;/dd&gt;
+	&lt;dt&gt;定義語句&lt;/dt&gt;
+		&lt;dd&gt;説明や解説テキスト。説明や解説テキスト。説明や解説テキスト。説明や解説テキスト。&lt;/dd&gt;
+&lt;/dl&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+
+<h3>注釈定義リスト .notes</h3>
+
+<dl class="notes">
+	<dt>※1 語句</dt>
+		<dd>説明や解説テキスト。説明や解説テキスト。説明や解説テキスト。説明や解説テキスト。</dd>
+	<dt>※2 語句</dt>
+		<dd>説明や解説テキスト。説明や解説テキスト。説明や解説テキスト。説明や解説テキスト。</dd>
+	<dt>※3 語句</dt>
+		<dd>説明や解説テキスト。説明や解説テキスト。説明や解説テキスト。説明や解説テキスト。</dd>
+</dl>
+
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;dl class=&quot;notes&quot;&gt;
+	&lt;dt&gt;※1 語句&lt;/dt&gt;
+		&lt;dd&gt;説明や解説テキスト。説明や解説テキスト。説明や解説テキスト。説明や解説テキスト。&lt;/dd&gt;
+	&lt;dt&gt;※2 語句&lt;/dt&gt;
+		&lt;dd&gt;説明や解説テキスト。説明や解説テキスト。説明や解説テキスト。説明や解説テキスト。&lt;/dd&gt;
+	&lt;dt&gt;※3 語句&lt;/dt&gt;
+		&lt;dd&gt;説明や解説テキスト。説明や解説テキスト。説明や解説テキスト。説明や解説テキスト。&lt;/dd&gt;
+&lt;/dl&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+
+
+<h2>テーブル table.def</h2>
+
+<p>
+	学習しやすさのために <q>可能な限り、素のHTMLの構造のままでマークアップできるように設計する</q> コンセプトに従うならば、本来はクラス名なしの素のHTMLがデフォルトのテーブルスタイルになるべきです。しかし、テーブルに限っては、素のデザインにはボーダーが表示されず、一見して表だと分かるスタイルは適用されません。これをデフォルトとしてボーダーをつけるように変更するのは混乱を招く元となるおそれがあるので、例外的に、デフォルトスタイルにクラス名 .def を定義しています。<br />
+</p>
+
+<table class="def" width="100%">
+	<thead>
+		<tr>
+			<th>thead ヘッダセル</th>
+			<td>thead セル</td>
+			<td>thead セル</td>
+		</tr>
+	</thead>
+	<tfoot>
+		<tr>
+			<th>tfoot ヘッダセル</th>
+			<td>tfoot セル</td>
+			<td>tfoot セル</td>
+		</tr>
+	</tfoot>
+	<tbody>
+		<tr>
+			<th>tbody ヘッダセル</th>
+			<td>tbody セル</td>
+			<td>tbody セル</td>
+		</tr>
+		<tr>
+			<th>tbody ヘッダセル</th>
+			<td>tbody セル</td>
+			<td>tbody セル</td>
+		</tr>
+	</tbody>
+</table>
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;table class=&quot;def&quot; width=&quot;100%&quot;&gt;
+	&lt;thead&gt;
+		&lt;tr&gt;
+			&lt;th&gt;thead ヘッダセル&lt;/th&gt;
+			&lt;td&gt;thead セル&lt;/td&gt;
+			&lt;td&gt;thead セル&lt;/td&gt;
+		&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tfoot&gt;
+		&lt;tr&gt;
+			&lt;th&gt;tfoot ヘッダセル&lt;/th&gt;
+			&lt;td&gt;tfoot セル&lt;/td&gt;
+			&lt;td&gt;tfoot セル&lt;/td&gt;
+		&lt;/tr&gt;
+	&lt;/tfoot&gt;
+	&lt;tbody&gt;
+		&lt;tr&gt;
+			&lt;th&gt;tbody ヘッダセル&lt;/th&gt;
+			&lt;td&gt;tbody セル&lt;/td&gt;
+			&lt;td&gt;tbody セル&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;th&gt;tbody ヘッダセル&lt;/th&gt;
+			&lt;td&gt;tbody セル&lt;/td&gt;
+			&lt;td&gt;tbody セル&lt;/td&gt;
+		&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+
+<h2> ソースコード(コピペ用) .code</h2>
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;h2&gt;ああああ&lt;/h2&gt;
+</textarea></div>
+</div>
+
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;unit&quot;&gt;
+	&lt;div class=&quot;code&quot;&gt;&lt;textarea readonly=&quot;readonly&quot;&gt;&amp;lt;h2&amp;gt;ああああ&amp;lt;/h2&amp;gt;
+&lt;/textarea&gt;&lt;/div&gt;
+&lt;/div&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+
+
+<h2> ソースコード(見てるだけ用) .code</h2>
+<div class="unit">
+	<div class="code"><pre><code>&lt;h2&gt;ああああ&lt;/h2&gt;
+</code></pre></div>
+</div>
+
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;unit&quot;&gt;
+	&lt;div class=&quot;code&quot;&gt;&lt;pre&gt;&lt;code&gt;&amp;lt;h2&amp;gt;ああああ&amp;lt;/h2&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+
+
+
+
+
+
+

@@ -15,7 +15,7 @@ body > .outline > .header{
 body > .outline > .header > .logo{
 }
 body > .outline > .header > .logo a{
-	font-size:xx-large;
+	font-size:150%;
 	font-weight:bold;
 }
 
@@ -47,7 +47,7 @@ body > .outline > .footer{
 	list-style-type: none;
 	margin:0px;
 	padding:0px;
-	font-size:small;
+	font-size: 85%;
 }
 
 

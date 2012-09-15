@@ -1,0 +1,74 @@
+<?php
+	$page_info = $px->site()->get_current_page_info();
+?>
+
+<p>Pickles Framework 標準のモジュール集です。</p>
+
+<?php
+	print( $px->theme()->autoindex() );
+?>
+
+<h2>概要</h2>
+
+<p>
+	このドキュメントは、コンテンツを構成モジュール定義の一覧を示すものです。<br />
+</p>
+<p>
+	モジュールは、構成要素単位で構造化されたHTMLとCSSのセットであり、サイト全体の管理者により定義され、コンテンツ個別の制作者に配布されるものです。<br />
+</p>
+<p>
+	ここで定義されるモジュールは、サイト全体の管理者により、将来の環境や要件の変化を想定して設計されたものであり、コンテンツ制作者には、そのルールに従ってコンテンツを構築することが求められます。<br />
+</p>
+<p>
+	コンテンツ制作者は、ここに定義されていないモジュールを独自に開発することができるが(独自モジュール開発のルールについてはマニュアル参照)、これは通常推奨されません。独自モジュールを多く開発すると、サイト全体のルールが次第に崩れてくる恐れがあり、管理効率が著しく低下するためです。極力、このドキュメントに定義された、管理者によって設計、提供されたモジュールのみを使ってコンテンツを構築するようにしてください。<br />
+</p>
+
+
+<h3>モジュール設計方針</h3>
+<p>
+	モジュールの設計について、次の方針を定めます。<br />
+</p>
+<ul>
+	<li>学習しやすさを重視し、可能な限り、素のHTMLの構造のままでマークアップできるように設計する。</li>
+</ul>
+
+
+
+<h2>基本モジュール</h2>
+<ul>
+	<li><a href="./statics/">スタティックモジュール</a></li>
+	<li><a href="./parts/">パーツモジュール</a></li>
+	<li><a href="./units/">ユニットモジュール</a></li>
+</ul>
+
+
+
+<h2>&lt;head&gt;領域にJavaScriptやCSSを書くには</h2>
+
+<p>
+	<code>$px-&gt;theme()-&gt;send_content()</code> を通じて、コンテンツキャビネット <code>head</code> にソースを送ります。<br />
+</p>
+
+<?php ob_start(); ?>
+
+<!-- このソースは、テーマのキャビネット "head" に送られます。 -->
+
+<?php $px->theme()->send_content( ob_get_clean(), 'head' ); ?>
+
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;?php ob_start(); ?&gt;
+
+&lt;!-- このソースは、テーマのキャビネット &quot;head&quot; に送られます。 --&gt;
+&lt;style type=&quot;text/css&quot;&gt;
+	.cont_sample{
+		color:#ff0000;
+	}
+&lt;/style&gt;
+
+&lt;?php $px-&gt;theme()-&gt;send_content( ob_get_clean(), 'head' ); ?&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+
+
+

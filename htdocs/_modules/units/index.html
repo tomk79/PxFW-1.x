@@ -1,0 +1,224 @@
+<?php
+	$page_info = $px->site()->get_current_page_info();
+?>
+
+
+
+<p>ユニットモジュールの一覧です。</p>
+
+<p>
+	ユニットモジュールは、水平貫通の矩形ブロックで、上下に適切なマージンを与えられた概念です。パーツモジュールを内包する入れ物のような役割を果たします(ただし、ユニットモジュール内にユニットモジュールを配置することはできません)。端末の状態(スクリーンの幅など)に合わせて、スタイルが変化する場合があります。<br />
+</p>
+
+<?php
+	print( $px->theme()->autoindex() );
+?>
+
+
+<h2>ユニット .unit</h2>
+
+<p>すべてのユニットモジュールの基本となるユニットです。レイアウト上のまとまり1つ分をくくるコンテナで、標準仕様では、前後に一定のマージンが与えられ、回り込みが解除されます。</p>
+<p>ユニットの共通仕様を共有するため、他のユニットモジュールは .unit を併記する前提で設計されます。(例：&lt;div class=&quot;cols unit&quot;&gt;～～～&lt;/div&gt;)</p>
+<p>.unit は、それ単体でも使用することができますが、パーツモジュールは必ずしもユニットモジュールに収められている必要はありません。</p>
+
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;unit&quot;&gt;
+	&lt;p&gt;この領域は、パーツモジュールを組み合わせて作成します。&lt;/p&gt;
+&lt;/div&gt;&lt;!-- /.unit --&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+<h2>カラムレイアウト .cols</h2>
+
+<p>
+	カラムレイアウトは、.cols モジュールで、2分割、3分割、4分割のレイアウトを吸収します。.cols をコンテナとして、カラム要素 .cols-w50per(2分割)、.cols-w33per(3分割)、.cols-w25per(4分割)を組み合わせて入れ子にして表現します。異なる幅のカラムを組み合わせて使用することもできます。例えば、.cols-w25per, .cols-w50per, .cols-w25per の順に入れ子にする、などです。幅の合計がおよそ100%になるように調整されていればよいだけです。<br />
+</p>
+
+<h3>2分割</h3>
+<div class="cols unit">
+	<div class="cols-col cols-w50per"><div class="cols-pad">
+		<p>cols には unit を一緒につけます。</p>
+		<p>カラム cols-w50per</p>
+		<p>カラム</p>
+		<p>カラム</p>
+		<p>カラム</p>
+		<p>カラム</p>
+	</div></div>
+	<div class="cols-col cols-w50per cols-last"><div class="cols-pad">
+		<p>最後のカラムには、<code>.cols-last</code> を併記します。</p>
+		<p>カラム cols-w50per</p>
+		<p>.cols-last は古いIE対策。IE9以降は不要？。</p>
+	</div></div>
+</div><!-- / .cols -->
+
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;cols unit&quot;&gt;
+	&lt;div class=&quot;cols-col cols-w50per&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
+		&lt;!-- insert parts modules --&gt;
+	&lt;/div&gt;&lt;/div&gt;
+	&lt;div class=&quot;cols-col cols-w50per cols-last&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
+		&lt;!-- insert parts modules --&gt;
+	&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;!-- / .cols --&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+
+<h3>3分割</h3>
+<div class="cols unit">
+	<div class="cols-col cols-w33per"><div class="cols-pad">
+		<p>cols には unit を一緒につけます。</p>
+		<p>カラム cols-w33per</p>
+		<p>カラム</p>
+		<p>カラム</p>
+		<p>カラム</p>
+		<p>カラム</p>
+	</div></div>
+	<div class="cols-col cols-w33per"><div class="cols-pad">
+		<p>cols には unit を一緒につけます。</p>
+		<p>カラム cols-w33per</p>
+		<p>カラム</p>
+		<p>カラム</p>
+		<p>カラム</p>
+		<p>カラム</p>
+	</div></div>
+	<div class="cols-col cols-w33per cols-last"><div class="cols-pad">
+		<p>最後のカラムには、<code>.cols-last</code> を併記します。</p>
+		<p>カラム cols-w33per</p>
+		<p>.cols-last は古いIE対策。IE9以降は不要？。</p>
+	</div></div>
+</div><!-- / .cols -->
+
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;cols unit&quot;&gt;
+	&lt;div class=&quot;cols-col cols-w33per&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
+		&lt;!-- insert parts modules --&gt;
+	&lt;/div&gt;&lt;/div&gt;
+	&lt;div class=&quot;cols-col cols-w33per&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
+		&lt;!-- insert parts modules --&gt;
+	&lt;/div&gt;&lt;/div&gt;
+	&lt;div class=&quot;cols-col cols-w33per cols-last&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
+		&lt;!-- insert parts modules --&gt;
+	&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;!-- / .cols --&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+<h3>4分割</h3>
+<div class="cols unit">
+	<div class="cols-col cols-w25per"><div class="cols-pad">
+		<p>cols には unit を一緒につけます。</p>
+		<p>カラム cols-w25per</p>
+		<p>カラム</p>
+		<p>カラム</p>
+		<p>カラム</p>
+		<p>カラム</p>
+	</div></div>
+	<div class="cols-col cols-w25per"><div class="cols-pad">
+		<p>cols には unit を一緒につけます。</p>
+		<p>カラム cols-w25per</p>
+		<p>カラム</p>
+		<p>カラム</p>
+		<p>カラム</p>
+		<p>カラム</p>
+		<p>カラム</p>
+	</div></div>
+	<div class="cols-col cols-w25per"><div class="cols-pad">
+		<p>cols には unit を一緒につけます。</p>
+		<p>カラム cols-w25per</p>
+		<p>カラム</p>
+		<p>カラム</p>
+		<p>カラム</p>
+		<p>カラム</p>
+		<p>カラム</p>
+	</div></div>
+	<div class="cols-col cols-w25per cols-last"><div class="cols-pad">
+		<p>カラム cols-w25per</p>
+		<p>最後のカラムには、<code>.cols-last</code> を併記します。</p>
+		<p>.cols-last は古いIE対策。IE9以降は不要？。</p>
+	</div></div>
+</div><!-- / .cols -->
+
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;cols unit&quot;&gt;
+	&lt;div class=&quot;cols-col cols-w25per&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
+		&lt;!-- insert parts modules --&gt;
+	&lt;/div&gt;&lt;/div&gt;
+	&lt;div class=&quot;cols-col cols-w25per&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
+		&lt;!-- insert parts modules --&gt;
+	&lt;/div&gt;&lt;/div&gt;
+	&lt;div class=&quot;cols-col cols-w25per&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
+		&lt;!-- insert parts modules --&gt;
+	&lt;/div&gt;&lt;/div&gt;
+	&lt;div class=&quot;cols-col cols-w25per cols-last&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
+		&lt;!-- insert parts modules --&gt;
+	&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;!-- / .cols --&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+<h3>変則4分割</h3>
+<div class="cols unit">
+	<div class="cols-col cols-w75per"><div class="cols-pad">
+		<p>cols には unit を一緒につけます。cols には unit を一緒につけます。cols には unit を一緒につけます。cols には unit を一緒につけます。cols には unit を一緒につけます。cols には unit を一緒につけます。cols には unit を一緒につけます。cols には unit を一緒につけます。</p>
+		<p>カラム cols-w75per</p>
+		<p>カラム</p>
+		<p>カラム</p>
+	</div></div>
+	<div class="cols-col cols-w25per cols-last"><div class="cols-pad">
+		<p>最後のカラムには、<code>.cols-last</code> を併記します。</p>
+		<p>.cols-last は古いIE対策。IE9以降は不要？。</p>
+		<p>カラム cols-w25per</p>
+	</div></div>
+</div><!-- / .cols -->
+
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;cols unit&quot;&gt;
+	&lt;div class=&quot;cols-col cols-w75per&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
+		&lt;!-- insert parts modules --&gt;
+	&lt;/div&gt;&lt;/div&gt;
+	&lt;div class=&quot;cols-col cols-w25per cols-last&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
+		&lt;!-- insert parts modules --&gt;
+	&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;!-- / .cols --&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+<h3>変則4分割</h3>
+<div class="cols unit">
+	<div class="cols-col cols-w25per"><div class="cols-pad">
+		<p>カラム</p>
+		<p>カラム cols-w25per</p>
+	</div></div>
+	<div class="cols-col cols-w50per"><div class="cols-pad">
+		<p>cols には unit を一緒につけます。</p>
+		<p>カラム cols-w50per</p>
+		<p>カラム</p>
+		<p>カラム</p>
+		<p>カラム</p>
+		<p>カラム</p>
+	</div></div>
+	<div class="cols-col cols-w25per cols-last"><div class="cols-pad">
+		<p>カラム cols-w25per</p>
+		<p>カラム</p>
+		<p>.cols-last は古いIE対策。IE9以降は不要？。</p>
+	</div></div>
+</div><!-- / .cols -->
+
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;cols unit&quot;&gt;
+	&lt;div class=&quot;cols-col cols-w25per&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
+		&lt;!-- insert parts modules --&gt;
+	&lt;/div&gt;&lt;/div&gt;
+	&lt;div class=&quot;cols-col cols-w50per&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
+		&lt;!-- insert parts modules --&gt;
+	&lt;/div&gt;&lt;/div&gt;
+	&lt;div class=&quot;cols-col cols-w25per cols-last&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
+		&lt;!-- insert parts modules --&gt;
+	&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;!-- / .cols --&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+
+
