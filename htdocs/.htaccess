@@ -6,3 +6,5 @@ RewriteRule ^(.*)$ _px_execute.php/$1 [L]
 
 Options -MultiViews +FollowSymLinks
 
+php_value error_reporting 4
+php_flag display_errors Off
