@@ -400,6 +400,29 @@ class px_px{
 	}//load_pxtheme_class()
 
 	/**
+	 * 現在のアドレスへのhrefを得る
+	 * @param array|string $params GETパラメータとして付加する値。連想配列(例：array('key'=>'val','key2'=>'val2'))または文字列(例:'key=val&key2=val2')で指定。
+	 */
+	public function href_self( $params = null ){
+		$rtn = $this->theme()->href($this->req()->get_request_file_path());
+		if( is_array($params) && count($params) ){
+			$tmp_params = array();
+			foreach( $params as $key=>$val ){
+				array_push($tmp_params, urlencode($key).'='.urlencode($val));
+			}
+			$params = implode('&',$tmp_params);
+		}
+		if( is_string($params) && strlen($params) ){
+			if( preg_match('/\?/',$rtn) ){
+				$rtn .= '&'.$params;
+			}else{
+				$rtn .= '?'.$params;
+			}
+		}
+		return $rtn;
+	}
+
+	/**
 	 * リダイレクトする
 	 */
 	function redirect( $redirect_to , $options = array() ){
