@@ -14,6 +14,9 @@ class px_cores_req{
 		$this->px = $px;
 		$this->parse_input();
 		$this->request_file_path = $_SERVER['PATH_INFO'];
+		if (!strlen($this->request_file_path)) {
+			$this->request_file_path = '/';
+		}
 		if (preg_match('/\/$/', $this->request_file_path)) {
 			$this->request_file_path .= 'index.html';
 		}
