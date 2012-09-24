@@ -219,6 +219,33 @@ ul.nomark li{
 	padding-left:0;
 }
 
+
+/**
+ * 注釈定義リスト
+ */
+dl.notes{
+	padding:0px 0px 0px 0px;
+	margin-left:0px;
+	margin-right:0px;
+}
+dl.notes dt{
+	padding:0px 0px 0px 0px;
+	margin:0px 0px 0px 0px;
+	float:left;
+	clear:left;
+	border:0px none;
+	font-weight:normal;
+}
+dl.notes dd{
+	padding:0px 0px 0px 5px;
+	margin:0px 0px 0px 0px;
+	float:none;
+	font-weight:normal;
+	display:block;
+	overflow:hidden;
+	zoom:100%;
+}
+
 /**
  * [parts] デフォルトテーブルスタイル
  */
