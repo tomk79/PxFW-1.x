@@ -167,6 +167,26 @@ class px_px{
 	}//get_local_resource_dir_realpath()
 
 	/**
+	 * テーマリソースディレクトリのパスを得る
+	 * @return string ローカルリソースディレクトリのパス(スラッシュ閉じ)
+	 */
+	public function get_theme_resource_dir(){
+		//UTODO：リソースをキャッシュディレクトリにコピーする機能が必要
+		$rtn = $this->get_install_path().'_caches/themes/'.$this->theme()->get_theme_id().'/';
+		return $rtn;
+	}//get_theme_resource_dir()
+
+	/**
+	 * テーマリソースディレクトリのサーバー内部パスを得る
+	 * @return string ローカルリソースディレクトリのサーバー内部パス(スラッシュ閉じ)
+	 */
+	public function get_theme_resource_dir_realpath(){
+		$lib_realpath = $this->get_conf('paths.px_dir').'themes/'.$this->theme()->get_theme_id().'/theme.files/';
+		$rtn = $this->dbh()->get_realpath( $lib_realpath ).'/';
+		return $rtn;
+	}//get_theme_resource_dir_realpath()
+
+	/**
 	 * 外部ソースをインクルードする(ServerSideInclude)
 	 */
 	public function ssi( $path_incfile ){
@@ -387,7 +407,7 @@ class px_px{
 			return $class_name;
 		}
 
-		$theme_id = 'default';
+		$theme_id = $this->theme()->get_theme_id();
 		$lib_realpath = $this->get_conf('paths.px_dir').'themes/'.$theme_id.'/_FW/'.$path;
 		if( !is_file( $lib_realpath ) || !is_readable( $lib_realpath ) ){ return false; }
 		if( !@include_once( $lib_realpath ) ){

@@ -1,15 +1,30 @@
-
-<h2>Welcome to Pickles Framework 1.X</h2>
-<p>これはトップページのHTMLソースです。</p>
-<ul>
-	<li><a href="test/">./test/</a></li>
-	<li><a href="test/abc.html">./test/abc.html</a></li>
-</ul>
-
-
-
 <?php ob_start(); ?>
 <!-- このソースは、テーマのキャビネット "head" に送られます。 -->
+<style type="text/css">
+	/*
+		コンテンツ独自のローカルCSSはここに実装します。
+	*/
+</style>
+<!--
+または、次のように、外部のCSSを読み込むこともできます。
+---
+<link rel="stylesheet" href="./index.files/contents.css" type="text/css" />
+-->
 <?php $px->theme()->send_content( ob_get_clean(), 'head' ); ?>
+
+
+<h2>Welcome to Pickles Framework 1.x</h2>
+<p>これはトップページのHTMLソースです。</p>
+<ul>
+	<li><a href="./_docs/test/">./test/</a></li>
+	<li><a href="./_docs/test/abc.html">./test/abc.html</a></li>
+</ul>
+
+<p>
+	Pickles Framework 1.x 系 標準のCSSモジュール定義については、次のページを参照してください。<br />
+</p>
+<ul>
+	<li><a href="./_docs/modules/">Pickles Framework 1.x 系 標準 CSSモジュール定義</a></li>
+</ul>
 
 

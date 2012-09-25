@@ -1,0 +1,40 @@
+
+<p>test/megacontents.html のHTMLソースコードです。</p>
+
+<?php
+	print( $px->theme()->autoindex() );
+?>
+
+
+
+<h2>テーマの制作時によく使う関数</h2>
+
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;?php
+	print $px-&gt;theme()-&gt;pull_content();
+?&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+
+
+<?php for($i = 0; $i<0; $i++){ ?>
+<?php /**
+<h2>これはテストページ1</h2>
+<p>このページのタイトルは、<strong><?php print t::h( $page_info['title'] ); ?></strong> です。</p>
+<p>長いページを作ってみるテストです。</p>
+
+<h3>これはテストページ2</h3>
+<p>このページのタイトルは、<strong><?php print t::h( $page_info['title'] ); ?></strong> です。</p>
+<p>長いページを作ってみるテストです。</p>
+
+<h3>これはテストページ3</h3>
+<p>このページのタイトルは、<strong><?php print t::h( $page_info['title'] ); ?></strong> です。</p>
+<p>長いページを作ってみるテストです。</p>
+
+<h3>This is a test page. 4</h3>
+<p>このページのタイトルは、<strong><?php print t::h( $page_info['title'] ); ?></strong> です。</p>
+<p>長いページを作ってみるテストです。</p>
+/**/ ?>
+<?php } ?>
+
