@@ -1,4 +1,6 @@
-<!doctype html>
+<?php
+	$page_info = $this->px->site()->get_current_page_info();
+?><!doctype html>
 <html>
 <head>
 <meta charset="UTF-8" />
@@ -9,9 +11,11 @@
 ?>
 </head>
 <body>
-<div class="theme_outline" id="pagetop">
+<div id="pagetop">
+<div class="theme_outline">
 <div class="theme_header">
 	<div class="logo"><a href="<?php print t::h( $px->get_install_path() ); ?>"><?php print t::h($px->get_conf('project.name')); ?></a></div>
+	<div class="breadcrumb"><?php print $px->theme()->mk_breadcrumb(); ?></div>
 </div><!-- /.theme_header -->
 <div class="theme_middle">
 <div class="theme_column1">
@@ -63,5 +67,6 @@
 	<div class="center">[<?php print $px->theme()->mk_link('/'); ?>]</div>
 </div><!-- /.theme_footer -->
 </div><!-- /.theme_outline -->
+</div><!-- /#pagetop -->
 </body>
 </html>

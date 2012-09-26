@@ -89,7 +89,6 @@ class px_cores_theme{
 		@header('Content-type: text/html; charset='.$output_encoding);//デフォルトのヘッダー
 
 		$template_path = $this->px->dbh()->get_realpath($this->px->get_conf('paths.px_dir').'themes/'.$this->get_theme_id()).'/';
-		$path_px_dir = $this->px->get_conf('paths.px_dir');
 		$page_info = $this->px->site()->get_current_page_info();
 		if( is_null( $page_info ) ){
 			$page_info = array(
@@ -105,6 +104,8 @@ class px_cores_theme{
 			$path_template_file = $template_path.'default.html';
 		}
 
+		unset($template_path);
+		unset($page_info);
 		$px = $this->px;
 		ob_start();
 		@include( $path_template_file );
@@ -216,10 +217,14 @@ class px_cores_theme{
 				}
 			}
 		}
+		$is_popup = false;
+		if( $this->px->site()->get_page_info($linkto,'layout') == 'popup' ){
+			$is_popup = true;
+		}
 		$href = preg_replace('/\/index\.html$/si','/',$href); // index.htmlを省略
 		$label = (!is_null($label)?$label:$href); // labelがnullの場合、リンク先をラベルとする
 
-		$rtn = '<a href="'.t::h($href).'"'.($is_current?' class="current"':'').'>'.t::h($label).'</a>';
+		$rtn = '<a href="'.t::h($href).'"'.($is_current?' class="current"':'').''.($is_popup?' onclick="window.open(this.href);return false;"':'').'>'.t::h($label).'</a>';
 		return $rtn;
 	}
 

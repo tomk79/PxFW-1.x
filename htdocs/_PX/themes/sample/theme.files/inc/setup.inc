@@ -12,6 +12,7 @@ body{
 	padding:0px 0px 0px 0px;
 	margin:0px 0px 0px 0px;
 	background-color:#dddddd;
+	font-size:small;
 }
 body .theme_outline{
 	text-align:left;
@@ -20,8 +21,16 @@ body .theme_outline{
 	margin:20px auto;
 	background-color:#fff;
 	padding:20px;
+	border-radius:10px;
 }
+
+/**
+ * ヘッダー
+ */
 body .theme_outline .theme_header{
+	padding:10px;
+	border-bottom:1px solid #dddddd;
+	margin-bottom:5px;
 }
 body .theme_outline .theme_header .logo{
 }
@@ -30,6 +39,9 @@ body .theme_outline .theme_header .logo a{
 	font-weight:bold;
 }
 
+/**
+ * 中段
+ */
 body .theme_outline .theme_middle{
 	clear:both;
 }
@@ -43,8 +55,32 @@ body .theme_outline .theme_middle .theme_column2{
 	float:right;
 }
 
+/**
+ * ローカルナビ
+ */
+body .theme_outline .theme_middle .theme_localnavi{
+	padding:10px;
+	background-color:#eeeeee;
+	border-radius:10px;
+}
+body .theme_outline .theme_middle .theme_localnavi ul{
+	margin:5px 0;
+	padding:0;
+}
+body .theme_outline .theme_middle .theme_localnavi ul li{
+	list-style-type:none;
+	margin:5px 0;
+	padding:0 0 0 10px;
+}
+
+/**
+ * フッター
+ */
 body .theme_outline .theme_footer{
+	padding:10px;
 	clear:both;
+	border-top:1px solid #dddddd;
+	margin-top:5px;
 }
 
 /**
@@ -59,6 +95,22 @@ body .theme_outline .theme_footer{
 	margin:0px;
 	padding:0px;
 	font-size: 85%;
+}
+
+/**
+ * コンテンツモジュール
+ */
+.contents h2{
+	border-left:8px solid #999999;
+	padding-left:15px;
+}
+
+code{
+	color:#0066dd;
+}
+
+.code code{
+	color:#333333;
 }
 
 </style>

@@ -1,0 +1,178 @@
+
+
+
+<p>テーマの制作時によく使う関数の一覧を列挙しています。</p>
+
+
+<?php
+	print( $px->theme()->autoindex() );
+?>
+
+
+
+<h2>テキスト処理</h2>
+
+<h3>HTMLエンティティ変換</h3>
+<p><code>t::h()</code> は、PHPの htmlspecialchars() のエイリアスです。</p>
+
+<div class="unit">
+	<div class="code"><pre><code>&lt;?php
+	print t::h('&lt;strong&gt;ここはHTMLエンティティが変換されます。&lt;/strong&gt;');
+?&gt;</code></pre></div>
+</div><!-- /.unit -->
+
+
+<h3>テストプリント</h3>
+<p><code>test::var_dump()</code> は、値の構造を可視化する関数です。PHPの <code>var_dump()</code> と同じですが、着色された読みやすいHTMLとして表示します。</p>
+
+<div class="unit">
+	<div class="code"><pre><code>&lt;?php
+	test::var_dump( $vars );
+?&gt;</code></pre></div>
+</div><!-- /.unit -->
+
+
+<h2>コンテンツソースの出力</h2>
+
+<h3>メインコンテンツエリア出力</h3>
+<div class="unit">
+	<div class="code"><pre><code>&lt;?php
+	print $px-&gt;theme()-&gt;pull_content();
+?&gt;
+</code></pre></div>
+</div><!-- /.unit -->
+
+<h3>headセクションへの出力</h3>
+<div class="unit">
+	<div class="code"><pre><code>&lt;?php
+	print $px-&gt;theme()-&gt;pull_content('head');
+?&gt;
+</code></pre></div>
+</div><!-- /.unit -->
+
+<h2>サイト情報出力</h2>
+
+<h3>サイトタイトル出力</h3>
+
+<div class="unit">
+	<div class="code"><pre><code>&lt;?php print t::h($px-&gt;get_conf('project.name')); ?&gt;
+</code></pre></div>
+</div><!-- /.unit -->
+
+<h2>ページ情報出力</h2>
+
+<h3>ページタイトル</h3>
+
+<div class="unit">
+	<div class="code"><pre><code>&lt;?php
+	$page_info = $this-&gt;px-&gt;site()-&gt;get_current_page_info();
+	print t::h($page_info['title']);
+?&gt;</code></pre></div>
+</div><!-- /.unit -->
+
+
+<h3>メタタグ(keywords, description)</h3>
+
+<div class="unit">
+	<div class="code"><pre><code>&lt;?php
+	$page_info = $this-&gt;px-&gt;site()-&gt;get_current_page_info();
+?&gt;
+&lt;meta name=&quot;keywords&quot; content=&quot;&lt;?php print t::h($page_info['keywords']); ?&gt;&quot; /&gt;
+&lt;meta name=&quot;description&quot; content=&quot;&lt;?php print t::h($page_info['description']); ?&gt;&quot; /&gt;</code></pre></div>
+</div><!-- /.unit -->
+
+
+<h3>その他のカレントページの情報</h3>
+
+<p><code>$site->get_current_page_info()</code> が返す連想配列には、ページに関するすべての情報が含まれています。取り出したいカラムの名前をキーにしてアクセスします。</p>
+
+<div class="unit">
+	<div class="code"><pre><code>&lt;?php
+	$page_info = $this-&gt;px-&gt;site()-&gt;get_current_page_info();
+	$key = 'title_h1';//←例：H1見出しラベルの場合
+	print $page_info[$key];
+?&gt;</code></pre></div>
+</div><!-- /.unit -->
+
+
+<h2>サイトマップ操作</h2>
+
+<h3>親ページのページID取得</h3>
+
+<div class="unit">
+	<div class="code"><pre><code>&lt;?php
+	$page_id = $px-&gt;site()-&gt;get_parent();
+?&gt;
+</code></pre></div>
+</div><!-- /.unit -->
+
+
+<h3>兄弟ページ一覧の取得</h3>
+
+<div class="unit">
+	<div class="code"><pre><code>&lt;?php
+	$bros = $px-&gt;site()-&gt;get_bros();
+?&gt;</code></pre></div>
+</div><!-- /.unit -->
+
+<p>指定ページの兄弟を取得する場合は、引数に、対象ページのパス(またはページID)を指定します。</p>
+
+<div class="unit">
+	<div class="code"><pre><code>&lt;?php
+	$bros = $px-&gt;site()-&gt;get_bros( '/_docs/modules/' );
+?&gt;</code></pre></div>
+</div><!-- /.unit -->
+
+
+<h3>子ページ一覧の取得</h3>
+
+<div class="unit">
+	<div class="code"><pre><code>&lt;?php
+	$children = $px-&gt;site()-&gt;get_children();
+?&gt;</code></pre></div>
+</div><!-- /.unit -->
+
+<p>指定ページの兄弟を取得する場合は、引数に、対象ページのパス(またはページID)を指定します。</p>
+
+<div class="unit">
+	<div class="code"><pre><code>&lt;?php
+	$children = $px-&gt;site()-&gt;get_children( '/_docs/modules/' );
+?&gt;</code></pre></div>
+</div><!-- /.unit -->
+
+
+<h2>リンク</h2>
+
+<h3>リンクパス先を取得する</h3>
+<p>
+	<code>$px-&gt;theme()-&gt;href()</code> は、第1引数に受け取ったパス(またはページID)のページへのパスを返します。ドキュメントルート直下にインストールされていない場合でも成立するように整形されたパスとして取得することができます。<br />
+	次の例では、HTMLに出力するために <code>t::h()</code> でHTMLエンティティ変換をかけて出力しています。<br />
+</p>
+<div class="unit">
+	<div class="code"><pre><code>&lt;?php
+	print '&lt;a href=&quot;'.t::h($px-&gt;theme()-&gt;href('/_docs/modules/')).'&quot;&gt;モジュール集&lt;/a&gt;';
+?&gt;</code></pre></div>
+</div><!-- /.unit -->
+
+<h3>リンクタグを生成する</h3>
+<p>
+	<code>$px-&gt;theme()-&gt;href()</code> をさらにラップする関数に、<code>$px-&gt;theme()-&gt;mk_link()</code> があります。<br />
+	この関数は、パス(またはページID)に対するリンクタグを生成して返します。リンクラベルはサイトマップ情報から自動的に取得して設定され、カレントページへのリンクには自動的にCSSクラス <code>.current</code> を付加します。<br />
+</p>
+<div class="unit">
+	<div class="code"><pre><code>&lt;?php
+	print $px-&gt;theme()-&gt;mk_link('/_docs/modules/');
+?&gt;</code></pre></div>
+</div><!-- /.unit -->
+
+
+
+<h2>インクルードファイルを埋め込む</h2>
+
+<div class="unit">
+	<div class="code"><pre><code>&lt;?php
+	print $px-&gt;ssi('/common/inc/sample.inc');
+?&gt;</code></pre></div>
+</div><!-- /.unit -->
+
+

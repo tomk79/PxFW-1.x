@@ -31,11 +31,7 @@ class px_cores_site{
 	 * サイトマップCSVを読み込む
 	 */
 	private function load_sitemap_csv(){
-		$path_sitemap_definition = $this->px->get_conf('paths.px_dir').'configs/sitemap_definition.csv';
-		$path_sitemap_dir = $this->px->get_conf('paths.px_dir').'sitemaps/';
-		$ary_sitemap_files = $this->px->dbh()->ls( $path_sitemap_dir );
 		$path_sitemap_cache_dir = $this->px->get_conf('paths.px_dir').'_sys/caches/sitemaps/';
-
 		if( $this->is_sitemap_cache() ){
 			//  サイトマップキャッシュが存在する場合、キャッシュからロードする。
 			$this->sitemap_definition    = @include($path_sitemap_cache_dir.'sitemap_definition.array');
@@ -44,6 +40,11 @@ class px_cores_site{
 			$this->sitemap_dynamic_paths = @include($path_sitemap_cache_dir.'sitemap_dynamic_paths.array');
 			return true;
 		}
+
+		$path_sitemap_definition = $this->px->get_conf('paths.px_dir').'configs/sitemap_definition.csv';
+		$path_sitemap_dir = $this->px->get_conf('paths.px_dir').'sitemaps/';
+		$ary_sitemap_files = $this->px->dbh()->ls( $path_sitemap_dir );
+		sort($ary_sitemap_files);
 
 		//  サイトマップ定義をロード
 		$tmp_sitemap_definition = $this->px->dbh()->read_csv_utf8( $path_sitemap_definition );

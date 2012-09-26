@@ -68,11 +68,26 @@
 
 
 <h2>画像置換 .imagereplace</h2>
+<p>
+	<code>.imagereplace</code> には <code>width</code> および <code>height</code> を、<code>.imagereplace-panel</code> には <code>background-image</code> 、必要に応じて <code>background-position</code> を上書きして使用します。<br />
+</p>
 
 <div class="unit">
-	<div class="code"><textarea readonly="readonly">&lt;a href=&quot;***&quot; class=&quot;imagereplace&quot;&gt;リンクラベル&lt;span class=&quot;imagereplace-panel&quot;&gt;&lt;/span&gt;&lt;/a&gt;
-</textarea></div>
+	<div class="code"><textarea readonly="readonly">&lt;?php ob_start(); ?&gt;
+&lt;style type=&quot;text/css&quot;&gt;
+	.cont_sample{
+		width:130px;
+		height:86px;
+	}
+	.cont_sample .imagereplace-panel{
+		background-image:url(&quot;./sample.files/sample_image.png&quot;);
+	}
+&lt;/style&gt;
+&lt;?php $px-&gt;theme()-&gt;send_content( ob_get_clean(), 'head' ); ?&gt;
+&lt;a href=&quot;***&quot; class=&quot;imagereplace cont_sample&quot;&gt;リンクラベル&lt;span class=&quot;imagereplace-panel&quot;&gt;&lt;/span&gt;&lt;/a&gt;</textarea></div>
 </div><!-- /.unit -->
+
+
 
 <h2>その他</h2>
 

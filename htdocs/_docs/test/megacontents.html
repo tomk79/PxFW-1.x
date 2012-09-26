@@ -7,20 +7,12 @@
 
 
 
-<h2>テーマの制作時によく使う関数</h2>
+<?php
+	set_time_limit(0);
+?>
+<?php for($i = 0; $i<100; $i++){ ?>
 
-<div class="unit">
-	<div class="code"><textarea readonly="readonly">&lt;?php
-	print $px-&gt;theme()-&gt;pull_content();
-?&gt;
-</textarea></div>
-</div><!-- /.unit -->
-
-
-
-<?php for($i = 0; $i<0; $i++){ ?>
-<?php /**
-<h2>これはテストページ1</h2>
+<h2>これはテストページ<?php print intval($i+1); ?>-1</h2>
 <p>このページのタイトルは、<strong><?php print t::h( $page_info['title'] ); ?></strong> です。</p>
 <p>長いページを作ってみるテストです。</p>
 
@@ -28,13 +20,16 @@
 <p>このページのタイトルは、<strong><?php print t::h( $page_info['title'] ); ?></strong> です。</p>
 <p>長いページを作ってみるテストです。</p>
 
-<h3>これはテストページ3</h3>
+<h4>これはテストページ3</h4>
 <p>このページのタイトルは、<strong><?php print t::h( $page_info['title'] ); ?></strong> です。</p>
 <p>長いページを作ってみるテストです。</p>
 
 <h3>This is a test page. 4</h3>
 <p>このページのタイトルは、<strong><?php print t::h( $page_info['title'] ); ?></strong> です。</p>
 <p>長いページを作ってみるテストです。</p>
-/**/ ?>
+
 <?php } ?>
 
+<?php
+	set_time_limit(30);
+?>

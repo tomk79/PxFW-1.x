@@ -1,0 +1,13 @@
+
+<ul>
+<?php
+	$filelist = $px->dbh()->ls( $px->get_conf('paths.px_dir').'_FW/pxcommands');
+	foreach( $filelist as $basename ){
+		print '<li>PX='.t::h(preg_replace('/\.php$/si','',$basename)).'</li>'."\n";
+	}
+?>
+</ul>
+
+
+
+
