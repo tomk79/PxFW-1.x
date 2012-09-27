@@ -1,6 +1,3 @@
-<?php
-	$page_info = $px->site()->get_current_page_info();
-?>
 
 <p>Pickles Framework 標準のモジュール集です。</p>
 
@@ -20,13 +17,13 @@
 	ここで定義されるモジュールは、サイト全体の管理者により、将来の環境や要件の変化を想定して設計されたものであり、コンテンツ制作者には、そのルールに従ってコンテンツを構築することが求められます。<br />
 </p>
 <p>
-	コンテンツ制作者は、ここに定義されていないモジュールを独自に開発することができるが(独自モジュール開発のルールについてはマニュアル参照)、これは通常推奨されません。独自モジュールを多く開発すると、サイト全体のルールが次第に崩れてくる恐れがあり、管理効率が著しく低下するためです。極力、このドキュメントに定義された、管理者によって設計、提供されたモジュールのみを使ってコンテンツを構築するようにしてください。<br />
+	コンテンツ制作者は、ここに定義されていないモジュールを独自に開発することができます(独自モジュール設計規則については<a href="./contents_custom.html">コンテンツ独自モジュールの定義</a>を参照)が、これは通常推奨されません。独自モジュールを多く開発すると、サイト全体のルールが次第に崩れてくる恐れがあり、管理効率が著しく低下するためです。極力、このドキュメントに定義された、管理者によって設計、提供されたモジュールのみを使ってコンテンツを構築するようにしてください。<br />
 </p>
 
 
 <h3>モジュール設計方針</h3>
 <p>
-	モジュールの設計について、次の方針を定めます。<br />
+	モジュールの設計について次のように方針を定めます。<br />
 </p>
 <ul>
 	<li>学習しやすさを重視し、可能な限り、素のHTMLの構造のままでマークアップできるように設計する。</li>
@@ -34,12 +31,15 @@
 
 
 
-<h2>基本モジュール</h2>
-<ul>
-	<li><a href="./statics/">スタティックモジュール</a></li>
-	<li><a href="./parts/">パーツモジュール</a></li>
-	<li><a href="./units/">ユニットモジュール</a></li>
-</ul>
+<h2>共通モジュール</h2>
+<dl>
+	<dt><a href="./statics/">スタティックモジュール</a></dt>
+		<dd>スタティックモジュールは、端末の状態(スクリーンの幅など)に影響されず、常に固定の効果を提供します。主に特に基本的でシンプルなショートハンド的なモジュールが含まれます。</dd>
+	<dt><a href="./parts/">パーツモジュール</a></dt>
+		<dd>パーツモジュールは、ユニットモジュール内に入れ込んで使うことができます。端末の状態(スクリーンの幅など)に合わせて、スタイルが変化する場合があります。スタティックモジュールと異なり、ある程度複雑な構造のパーツが含まれます。</dd>
+	<dt><a href="./units/">ユニットモジュール</a></dt>
+		<dd>ユニットモジュールは、水平貫通の矩形ブロックで、上下に適切なマージンを与えられた概念です。パーツモジュールを内包する入れ物のような役割を果たします(ただし、ユニットモジュール内にユニットモジュールを配置することはできません)。端末の状態(スクリーンの幅など)に合わせて、スタイルが変化する場合があります。</dd>
+</dl>
 
 
 
@@ -49,25 +49,78 @@
 	<code>$px-&gt;theme()-&gt;send_content()</code> を通じて、コンテンツキャビネット <code>head</code> にソースを送ります。<br />
 </p>
 
-<?php ob_start(); ?>
-
-<!-- このソースは、テーマのキャビネット "head" に送られます。 -->
-
-<?php $px->theme()->send_content( ob_get_clean(), 'head' ); ?>
-
 <div class="unit">
-	<div class="code"><textarea readonly="readonly">&lt;?php ob_start(); ?&gt;
-
+	<div class="code"><pre><code>&lt;?php ob_start(); ?&gt;
 &lt;!-- このソースは、テーマのキャビネット &quot;head&quot; に送られます。 --&gt;
 &lt;style type=&quot;text/css&quot;&gt;
-	.cont_sample{
-		color:#ff0000;
-	}
+	/*
+		コンテンツ独自のローカルCSSはここに実装します。
+	*/
 &lt;/style&gt;
-
-&lt;?php $px-&gt;theme()-&gt;send_content( ob_get_clean(), 'head' ); ?&gt;
-</textarea></div>
+&lt;!--
+または、次のように、外部のCSSを読み込むこともできます。
+---
+&lt;link rel=&quot;stylesheet&quot; href=&quot;./index.files/contents.css&quot; type=&quot;text/css&quot; /&gt;
+--&gt;
+&lt;?php $px-&gt;theme()-&gt;send_content( ob_get_clean(), 'head' ); ?&gt;</code></pre></div>
 </div><!-- /.unit -->
+
+
+
+<h2>命名規則</h2>
+
+<p>Pickles Framework では次の命名規則を規定としています。</p>
+
+<?php ob_start(); ?>
+<style type="text/css">
+.cont_exam{
+	font-size:90%;
+	color:#999999;
+}
+</style>
+<?php $px->theme()->send_content( ob_get_clean(), 'head' ); ?>
+<dl>
+	<dt>PHP</dt>
+		<dd>
+			アンダースコア記法で統一する。<br />
+			すべて小文字を使用する。<br />
+			<span class="cont_exam">例: get_page_info()</span><br />
+		</dd>
+	<dt>CSS</dt>
+		<dd>
+			アンダースコア記法を基本とする。<br />
+			すべて小文字を使用する。<br />
+			<span class="cont_exam">例: module_name</span><br />
+			<p>
+				ただし、サブモジュール(モジュールの一部として使用されることが前提となるクラス)については、属するモジュール名の後ろにハイフンでサブモジュール名を付加するように命名します。この場合、サブモジュール名は1つだけ指定できます(ハイフンは1度しか使えません)。<br />
+				<span class="cont_exam">例：モジュール module_name に属するサブモジュール module_name-sub1, module_name-sub2 など</span><br />
+			</p>
+		</dd>
+	<dt>JavaScript</dt>
+		<dd>
+			キャメル記法に統一する。<br />
+			<span class="cont_exam">例:hogeHoge()</span><br />
+		</dd>
+</dl>
+
+<h3>接頭辞 cont について</h3>
+<p>
+	接頭辞 cont は、テーマ設計者とコンテンツ制作者の名前領域を分ける目的で、コンテンツ独自のモジュールに対してつける予約語です。<br />
+</p>
+<p>
+	<span class="cont_exam">
+	PHPの例: cont_get_page_info()<br />
+	CSSの例: cont_module_name<br />
+	JavaScriptの例: contHogeHoge()<br />
+	</span>
+</p>
+
+<h2 id="cont_contents_css">コンテンツ独自モジュールを定義する場合の規則</h2>
+
+<p>
+	Pickles Frameworkでは、サイト全体(テーマ)で一元的に管理されているモジュールと干渉しあわないように、いくつかの規則が用意されています。<br />
+	詳しくは、<a href="./contents_custom.html">コンテンツ独自モジュールの定義</a> のページを参照してください。<br />
+</p>
 
 
 

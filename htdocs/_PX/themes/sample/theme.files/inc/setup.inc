@@ -13,10 +13,11 @@ body{
 	margin:0px 0px 0px 0px;
 	background-color:#dddddd;
 	font-size:small;
+	font-family:"メイリオ", sans-serif;
 }
 body .theme_outline{
 	text-align:left;
-	max-width:800px;
+	max-width:850px;
 	width:auto;
 	margin:20px auto;
 	background-color:#fff;
@@ -113,6 +114,28 @@ code{
 	color:#333333;
 }
 
+dl{
+	margin-left:20px;
+}
+dl dt{
+	font-weight:bold;
+}
+</style>
+
+<style type="text/css" media="all and (max-width:390px)">
+body{
+	font-size:medium;
+}
+body .theme_outline .theme_middle .theme_column1,
+body .theme_outline .theme_middle .theme_column2{
+	float:none;
+	clear:both;
+	width:auto;
+}
+body .theme_outline{
+	margin-left:5px;
+	margin-right:5px;
+}
 </style>
 <script src="<?php print t::h($px->get_install_path()); ?>common/js/jquery-1.7.2.min.js" type="text/javascript"></script>
 <!-- / インクルードエリア -->
