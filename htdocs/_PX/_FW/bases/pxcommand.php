@@ -212,7 +212,7 @@ div.unit{
 }
 
 /**
- * デフォルトテーブルスタイル
+ * [parts] デフォルトテーブルスタイル
  */
 table.def {
 	border:none;
@@ -221,11 +221,20 @@ table.def {
 }
 table.def th,
 table.def td {
-	border: 1px solid #d6d6d6;
+	border: 1px solid #999999;
 	padding: 10px;
 }
 table.def th {
 	background: #e7e7e7;
+}
+table.def thead th,
+table.def tfoot th{
+	background: #d9d9d9;
+	text-align:center;
+}
+table.def thead td,
+table.def tfoot td{
+	background: #eeeeee;
 }
 
 /**

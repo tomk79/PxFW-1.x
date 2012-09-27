@@ -265,6 +265,7 @@ table.def th {
 table.def thead th,
 table.def tfoot th{
 	background: #d9d9d9;
+	text-align:center;
 }
 table.def thead td,
 table.def tfoot td{
