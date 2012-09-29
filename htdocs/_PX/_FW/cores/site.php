@@ -333,6 +333,7 @@ class px_cores_site{
 			continue;
 		}
 		unset($dynamic_path , $tmp_matched);
+		$path = preg_replace('/\/$/si','/index.html',$path); // index.htmlをつける
 		return $path;
 	}//bind_dynamic_path_param()
 
