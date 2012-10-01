@@ -2,27 +2,27 @@
 	$page_info = $this->px->site()->get_current_page_info();
 ?><!doctype html>
 <html>
-<head>
-<meta charset="UTF-8" />
-<title><?php print t::h($page_info['title']); ?> | <?php print t::h($px->get_conf('project.name')); ?></title>
-<meta name="keywords" content="<?php print t::h($page_info['keywords']); ?>" />
-<meta name="description" content="<?php print t::h($page_info['description']); ?>" />
-<script src="<?php print t::h($px->get_install_path()); ?>common/js/jquery-1.7.2.min.js" type="text/javascript"></script>
+	<head>
+		<meta charset="UTF-8" />
+		<title><?php print t::h($page_info['title']); ?> | <?php print t::h($px->get_conf('project.name')); ?></title>
+		<meta name="keywords" content="<?php print t::h($page_info['keywords']); ?>" />
+		<meta name="description" content="<?php print t::h($page_info['description']); ?>" />
+		<script src="<?php print t::h($px->get_install_path()); ?>common/js/jquery-1.7.2.min.js" type="text/javascript"></script>
 <?php
 	print $px->ssi(implode('/',array($px->get_install_path(),'/common/inc/common_setup.inc')));
 ?>
-<link rel="stylesheet" href="<?php print t::h($px->get_install_path()); ?>common/css/common.css" type="text/css" />
+		<link rel="stylesheet" href="<?php print t::h($px->get_install_path()); ?>common/css/common.css" type="text/css" />
 <?php
 	print $px->theme()->pull_content('head');
 ?>
-</head>
-<body>
-<div id="content" class="contents">
+	</head>
+	<body>
+		<div id="content" class="contents">
 
 <?php
 	print $px->theme()->pull_content();
 ?>
 
-</div><!-- /#content -->
-</body>
+		</div><!-- /#content -->
+	</body>
 </html>
