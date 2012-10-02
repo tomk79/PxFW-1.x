@@ -142,6 +142,9 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 				$dynamic_path_info = $this->px->site()->get_dynamic_path_info( $page_info['path'] );
 				$page_info['path'] = $this->px->site()->bind_dynamic_path_param( $page_info['path'] , array() );
 			}
+			if($this->is_ignore_path($this->px->dbh()->get_realpath($this->px->get_install_path().$page_info['path']))){
+				continue;
+			}
 			$this->add_queue( $this->px->dbh()->get_realpath($this->px->get_install_path().$page_info['path']) );
 		}
 		flush();
@@ -201,6 +204,13 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 		array_push( $this->paths_ignore , t::realpath($this->px->get_conf('paths.px_dir')) );
 		array_push( $this->paths_ignore , t::realpath($this->path_docroot_dir.'/.htaccess') );
 		array_push( $this->paths_ignore , t::realpath($this->path_docroot_dir.'/_px_execute.php') );
+
+		$conf_paths_ignore = preg_split('/\r\n|\r|\n/',$this->px->get_conf('publish.paths_ignore'));
+		foreach( $conf_paths_ignore as $row ){
+			$row = trim( $row );
+			if(!strlen($row)){ continue; }
+			array_push( $this->paths_ignore , t::realpath($this->path_docroot_dir.'/'.$row) );
+		}
 
 		return true;
 	}
