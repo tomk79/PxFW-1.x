@@ -246,18 +246,59 @@ class px_cores_site{
 	/**
 	 * ページ情報をセットする。
 	 */
-	public function set_page_info( $page_info ){
+	public function set_page_info( $path , $page_info ){
 		static $num_auto_pid = 0;
-		$tmp_array = $page_info;
-		if( !strlen( $tmp_array['path'] ) ){
-			return false;
+
+		$before_page_info = $this->get_page_info( $path );
+		if(!is_array($before_page_info)){
+			//まったく新しいページだったら
+			$before_page_info = $this->get_current_page_info();
+			if( is_string( $this->get_path_type($path) ) ){
+				//  パスでの指定だった場合
+				$before_page_info['path'] = $path;
+				if(!strlen($page_info['id'])){
+					//ページIDを動的に発行
+					$before_page_info['id'] = ':live_auto_page_id.'.($num_auto_pid++);
+				}
+			}else{
+				//  ページIDでの指定だった場合
+				$before_page_info['id'] = $path;
+				$page_info['id'] = $path;
+			}
+		}elseif(!is_null($this->sitemap_id_map[$path])){
+			//既存ページをページIDで指定されていたら
+			$before_page_info['id'] = $path;
+		}else{
+			//既存ページをパスで指定されていたら
+			$before_page_info['path'] = $path;
+			if(!strlen($page_info['id'])){
+				//ページIDを動的に発行
+				$before_page_info['id'] = ':live_auto_page_id.'.($num_auto_pid++);
+			}
 		}
+		$tmp_array = $before_page_info;
+
+		if( strlen($page_info['title']) && $page_info['title']!=$tmp_array['title'] ){
+			//タイトルの指定があったら
+			//タイトル系オプション値も自動で振りたいので、あえて消す。
+			unset( $tmp_array['title_breadcrumb'] );
+			unset( $tmp_array['title_h1'] );
+			unset( $tmp_array['title_label'] );
+		}
+
+		//  指定値を反映
+		foreach( $page_info as $key=>$val ){
+			$tmp_array[$key] = $val;
+		}
+
 		if( !strlen( $tmp_array['title'] ) ){
 			$tmp_array['title'] = $tmp_array['path'];
 		}
 		if( is_null( $tmp_array['id'] ) ){
 			$tmp_array['id'] = ':live_auto_page_id.'.($num_auto_pid++);
 		}
+
+		//  サイトマップに登録
 		$this->sitemap_array[$tmp_array['path']] = $tmp_array;
 		$this->sitemap_id_map[$tmp_array['id']] = $tmp_array['path'];
 
@@ -265,7 +306,7 @@ class px_cores_site{
 		$this->px->add_relatedlink( $this->px->theme()->href($tmp_array['path']) );
 
 		return true;
-	}
+	}//set_page_info()
 
 	/**
 	 * ページIDからページ情報を得る

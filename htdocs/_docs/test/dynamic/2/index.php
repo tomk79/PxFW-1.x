@@ -39,7 +39,7 @@
 				$dynamic_path_info_c['path_original'] ,
 				array('test_a'=>$param['a'],'test_b'=>$param['b'],'test_c'=>$c_val)
 			);
-			$px->site()->set_page_info( $tmp_page_info_c );
+			$px->site()->set_page_info( $tmp_page_info_c['path'] , $tmp_page_info_c );
 		}
 	}
 
