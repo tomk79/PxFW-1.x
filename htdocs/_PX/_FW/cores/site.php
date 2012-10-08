@@ -248,12 +248,17 @@ class px_cores_site{
 	 */
 	public function set_page_info( $path , $page_info ){
 		static $num_auto_pid = 0;
+		$path_type = $this->get_path_type($path);
+		if( is_string( $path_type ) ){
+			//
+			$path = preg_replace( '/\/$/si' , '/index.html' , $path );
+		}
 
 		$before_page_info = $this->get_page_info( $path );
-		if(!is_array($before_page_info)){
+		if(!is_array($before_page_info) || ( $before_page_info['path'] != $path && $before_page_info['id'] != $path ) ){
 			//まったく新しいページだったら
 			$before_page_info = $this->get_current_page_info();
-			if( is_string( $this->get_path_type($path) ) ){
+			if( is_string( $path_type ) ){
 				//  パスでの指定だった場合
 				$before_page_info['path'] = $path;
 				if(!strlen($page_info['id'])){
@@ -364,7 +369,8 @@ class px_cores_site{
 				break;
 			}
 			$path .= $tmp_matched[1];
-				// ※注意: このメソッドでは、無名のパラメータもバインドする。(明示的に使用されるメソッドなので)
+				// ※注意: このメソッドでは、無名のパラメータもバインドする。
+				//   (明示的に使用されるメソッドなので)
 			if( !is_null( $params[$tmp_matched[3]] ) ){
 				$path .= $params[$tmp_matched[3]];
 			}else{
