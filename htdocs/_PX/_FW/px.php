@@ -330,7 +330,12 @@ class px_px{
 	 * @return array
 	 */
 	private function get_extensions_list(){
-		return array( 'html','php','wiki','txt','direct','download' );
+		$ary = $this->dbh()->ls( $this->get_conf('paths.px_dir').'_FW/extensions/' );
+		$rtn = array();
+		foreach( $ary as $row ){
+			array_push( $rtn , t::trimext($row) );
+		}
+		return $rtn;
 	}
 
 	/**
