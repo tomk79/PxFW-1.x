@@ -6,8 +6,8 @@
 
 <?php
 
-	$path_resource_dir = $px->get_local_resource_dir();
-	$realpath_resource_dir = $px->get_local_resource_dir_realpath();
+	$path_resource_dir = $px->path_files();
+	$realpath_resource_dir = $px->realpath_files();
 	require_once( $realpath_resource_dir.'exec.php' );
 	$cont_exec = new cont_exec($px);
 

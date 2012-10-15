@@ -141,7 +141,7 @@ class px_px{
 	 * @param $path_content コンテンツのパス。省略時、カレントコンテンツを採用。
 	 * @return string ローカルリソースディレクトリのパス(スラッシュ閉じ)
 	 */
-	public function get_local_resource_dir( $path_content = null ){
+	public function path_files( $path_content = null ){
 		if( !strlen( $path_content ) ){
 			$tmp_page_info = $this->site()->get_page_info($this->req()->get_request_file_path());
 			$path_content = $tmp_page_info['content'];
@@ -153,18 +153,18 @@ class px_px{
 		$rtn = $this->dbh()->get_realpath($this->get_install_path().$path_content);
 		$rtn = $this->dbh()->trim_extension($rtn).'.files/';
 		return $rtn;
-	}//get_local_resource_dir()
+	}//path_files()
 
 	/**
 	 * ローカルリソースディレクトリのサーバー内部パスを得る
 	 * @param $path_content コンテンツのパス。省略時、カレントコンテンツを採用。
 	 * @return string ローカルリソースディレクトリのサーバー内部パス(スラッシュ閉じ)
 	 */
-	public function get_local_resource_dir_realpath( $path_content = null ){
-		$rtn = $this->get_local_resource_dir( $path_content );
+	public function realpath_files( $path_content = null ){
+		$rtn = $this->path_files( $path_content );
 		$rtn = $this->dbh()->get_realpath( $_SERVER['DOCUMENT_ROOT'].$rtn ).'/';
 		return $rtn;
-	}//get_local_resource_dir_realpath()
+	}//realpath_files()
 
 	/**
 	 * テーマリソースディレクトリのパスを得る
