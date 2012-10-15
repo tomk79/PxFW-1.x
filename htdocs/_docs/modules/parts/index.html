@@ -223,6 +223,84 @@
 
 
 
+
+
+<h2>日付入りリスト .date_list</h2>
+<p>
+	決定事項：【１】クラス名 .date_list、【２】基礎構造はtable要素を使う、【３】.date_list-flag はオプションとなる要素。<br />
+</p>
+<p>
+	課題：実運用に際し、デザイン・構成が決まる前段階の仮コーディングのための構造として、実用に耐えうるか？<br />
+	⇒1サイト内にそれほど沢山使われるものではないので、このレベルの粒度で仕様化してよい。<br />
+</p>
+
+
+<div class="unit">
+	<div class="date_list">
+		<table>
+			<thead>
+				<tr>
+					<th>日付</th>
+					<th class="date_list-flag">フラグ</th>
+					<th>内容</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th>2012年9月24日</th>
+					<td class="date_list-flag">[NEW!][CATEGORY]</td>
+					<td><a href="#">新着ニュースへのリンク</a></td>
+				</tr>
+				<tr>
+					<th>2012年9月24日</th>
+					<td class="date_list-flag">[NEW!][CATEGORY]</td>
+					<td><a href="#">新着ニュースへのリンク新着ニュースへのリンク新着ニュースへのリンク新着ニュースへのリンク</a></td>
+				</tr>
+				<tr>
+					<th>2012年9月24日</th>
+					<td class="date_list-flag">[NEW!][CATEGORY]</td>
+					<td><a href="#">新着ニュースへのリンク</a></td>
+				</tr>
+			</tbody>
+		</table>
+
+	</div><!-- /.date_list -->
+</div><!-- /.unit -->
+
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;date_list&quot;&gt;
+	&lt;table&gt;
+		&lt;thead&gt;
+			&lt;tr&gt;
+				&lt;th&gt;日付&lt;/th&gt;
+				&lt;th class=&quot;date_list-flag&quot;&gt;フラグ&lt;/th&gt;
+				&lt;th&gt;内容&lt;/th&gt;
+			&lt;/tr&gt;
+		&lt;/thead&gt;
+		&lt;tbody&gt;
+			&lt;tr&gt;
+				&lt;th&gt;2012年9月24日&lt;/th&gt;
+				&lt;td class=&quot;date_list-flag&quot;&gt;[NEW!][CATEGORY]&lt;/td&gt;
+				&lt;td&gt;&lt;a href=&quot;#&quot;&gt;新着ニュースへのリンク&lt;/a&gt;&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+				&lt;th&gt;2012年9月24日&lt;/th&gt;
+				&lt;td class=&quot;date_list-flag&quot;&gt;[NEW!][CATEGORY]&lt;/td&gt;
+				&lt;td&gt;&lt;a href=&quot;#&quot;&gt;新着ニュースへのリンク新着ニュースへのリンク新着ニュースへのリンク新着ニュースへのリンク&lt;/a&gt;&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+				&lt;th&gt;2012年9月24日&lt;/th&gt;
+				&lt;td class=&quot;date_list-flag&quot;&gt;[NEW!][CATEGORY]&lt;/td&gt;
+				&lt;td&gt;&lt;a href=&quot;#&quot;&gt;新着ニュースへのリンク&lt;/a&gt;&lt;/td&gt;
+			&lt;/tr&gt;
+		&lt;/tbody&gt;
+	&lt;/table&gt;
+
+&lt;/div&gt;&lt;!-- /.date_list --&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+
 <h2>テーブル table.def</h2>
 
 <p>
@@ -324,116 +402,4 @@
 
 
 
-
-<h2>(策定中)日付入りリスト .date_list</h2>
-<p>
-	決定事項：【１】クラス名 .date_list、【２】基礎構造はtable要素を使う、【３】.date_list-flag はオプションとなる要素。<br />
-</p>
-<p>
-	課題：実運用に際し、デザイン・構成が決まる前段階の仮コーディングのための構造として、実用に耐えうるか？<br />
-</p>
-
-<?php ob_start(); ?>
-<style type="text/css">
-/**
- * 日付入りリスト .date_list
- */
-.date_list{
-}
-.date_list table{
-	width:100%;
-	border:none;
-	border-collapse: collapse;
-}
-.date_list table th,
-.date_list table td {
-	border-top: 1px solid #999999;
-	border-bottom: 1px solid #999999;
-	padding: 10px;
-}
-.date_list table th {
-	background: #e7e7e7;
-}
-.date_list table thead th,
-.date_list table tfoot th{
-	background: #d9d9d9;
-}
-.date_list table thead td,
-.date_list table tfoot td{
-	background: #eeeeee;
-}
-.date_list table th{
-	white-space:nowrap;
-}
-.date_list table thead{
-	text-align:center;
-}
-
-</style>
-<?php $px->theme()->send_content( ob_get_clean(), 'head' ); ?>
-
-<div class="unit">
-	<div class="date_list">
-		<table>
-			<thead>
-				<tr>
-					<th>日付</th>
-					<th class="date_list-flag">フラグ</th>
-					<th>内容</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<th>2012年9月24日</th>
-					<td class="date_list-flag">[NEW!][CATEGORY]</td>
-					<td><a href="#">新着ニュースへのリンク</a></td>
-				</tr>
-				<tr>
-					<th>2012年9月24日</th>
-					<td class="date_list-flag">[NEW!][CATEGORY]</td>
-					<td><a href="#">新着ニュースへのリンク新着ニュースへのリンク新着ニュースへのリンク新着ニュースへのリンク</a></td>
-				</tr>
-				<tr>
-					<th>2012年9月24日</th>
-					<td class="date_list-flag">[NEW!][CATEGORY]</td>
-					<td><a href="#">新着ニュースへのリンク</a></td>
-				</tr>
-			</tbody>
-		</table>
-
-	</div><!-- /.date_list -->
-</div><!-- /.unit -->
-
-<div class="unit">
-	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;date_list&quot;&gt;
-	&lt;table&gt;
-		&lt;thead&gt;
-			&lt;tr&gt;
-				&lt;th&gt;日付&lt;/th&gt;
-				&lt;th class=&quot;date_list-flag&quot;&gt;フラグ&lt;/th&gt;
-				&lt;th&gt;内容&lt;/th&gt;
-			&lt;/tr&gt;
-		&lt;/thead&gt;
-		&lt;tbody&gt;
-			&lt;tr&gt;
-				&lt;th&gt;2012年9月24日&lt;/th&gt;
-				&lt;td class=&quot;date_list-flag&quot;&gt;[NEW!][CATEGORY]&lt;/td&gt;
-				&lt;td&gt;&lt;a href=&quot;#&quot;&gt;新着ニュースへのリンク&lt;/a&gt;&lt;/td&gt;
-			&lt;/tr&gt;
-			&lt;tr&gt;
-				&lt;th&gt;2012年9月24日&lt;/th&gt;
-				&lt;td class=&quot;date_list-flag&quot;&gt;[NEW!][CATEGORY]&lt;/td&gt;
-				&lt;td&gt;&lt;a href=&quot;#&quot;&gt;新着ニュースへのリンク新着ニュースへのリンク新着ニュースへのリンク新着ニュースへのリンク&lt;/a&gt;&lt;/td&gt;
-			&lt;/tr&gt;
-			&lt;tr&gt;
-				&lt;th&gt;2012年9月24日&lt;/th&gt;
-				&lt;td class=&quot;date_list-flag&quot;&gt;[NEW!][CATEGORY]&lt;/td&gt;
-				&lt;td&gt;&lt;a href=&quot;#&quot;&gt;新着ニュースへのリンク&lt;/a&gt;&lt;/td&gt;
-			&lt;/tr&gt;
-		&lt;/tbody&gt;
-	&lt;/table&gt;
-
-&lt;/div&gt;&lt;!-- /.date_list --&gt;
-</textarea></div>
-</div><!-- /.unit -->
 
