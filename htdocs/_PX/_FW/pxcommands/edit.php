@@ -17,6 +17,16 @@ class px_pxcommands_edit extends px_bases_pxcommand{
 		$this->pageinfo = $this->px->site()->get_current_page_info();
 
 		$this->path_content_src = $this->px->dbh()->get_realpath( $_SERVER['DOCUMENT_ROOT'].$this->px->get_install_path().$this->pageinfo['content'] );
+		if( !is_file($this->path_content_src) ){
+			//  拡張子違いを検索
+			$ext_list = $this->px->get_extensions_list();
+			foreach( $ext_list as $ext ){
+				if( is_file($this->path_content_src.'.'.$ext) ){
+					$this->path_content_src = $this->path_content_src.'.'.$ext;
+					break;
+				}
+			}
+		}
 
 		switch( $command[1] ){
 			case 'update':

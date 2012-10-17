@@ -329,14 +329,14 @@ class px_px{
 	 * extensionsの一覧を取得する。
 	 * @return array
 	 */
-	private function get_extensions_list(){
+	public function get_extensions_list(){
 		$ary = $this->dbh()->ls( $this->get_conf('paths.px_dir').'_FW/extensions/' );
 		$rtn = array();
 		foreach( $ary as $row ){
 			array_push( $rtn , t::trimext($row) );
 		}
 		return $rtn;
-	}
+	}//get_extensions_list()
 
 	/**
 	 * コアオブジェクト $dbh にアクセスする。
