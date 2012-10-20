@@ -474,6 +474,121 @@ class px_px{
 	}//redirect()
 
 	/**
+	 * ダウンロードファイルを出力する
+	 */
+	public function download( $bin , $option = array() ){
+		if( is_bool( $bin ) ){ $bin = 'bool( '.text::data2text( $bin ).' )'; }
+		if( is_resource( $bin ) ){ $bin = 'A Resource.'; }
+		if( is_array( $bin ) ){ $bin = 'An Array.'; }
+		if( is_object( $bin ) ){ $bin = 'An Object.'; }
+		if( !strlen( $bin ) ){ $bin = ''; }
+
+		#	出力バッファをすべてクリア
+		while( @ob_end_clean() );
+
+		if( strpos( $_SERVER['HTTP_USER_AGENT'] , 'MSIE' ) ){
+			#	MSIE対策
+			#	→こんな問題 http://support.microsoft.com/kb/323308/ja
+			@header( 'Cache-Control: public' );
+			@header( 'Pragma: public' );
+		}
+
+		if( strlen( $option['content-type'] ) ){
+			$contenttype = $option['content-type'];
+		}else{
+			$contenttype = 'x-download/download';
+		}
+		if( strlen( $contenttype ) ){
+			if( strlen( $option['charset'] ) ){
+				$contenttype .= '; charset='.$option['charset'];
+			}
+			@header( 'Content-type: '.$contenttype );
+		}
+
+		if( strlen( $bin ) ){
+			#	ダウンロードの容量
+			@header( 'Content-Length: '.strlen( $bin ) );
+		}
+
+		if( strlen( $option['filename'] ) ){
+			#	ダウンロードファイル名
+			@header( 'Content-Disposition: attachment; filename='.$option['filename'] );
+		}
+
+		print $bin;
+		exit();
+	}//download()
+
+	/**
+	 * ディスク上のファイルを標準出力する
+	 */
+	public function flush_file( $filepath , $option = array() ){
+		#--------------------------------------
+		#	$filepath => 出力するファイルのパス
+		#	$option => オプションを示す連想配列
+		#		'content-type'=>Content-type ヘッダー文字列。(第二引数よりも弱い。ほか関数との互換性のため実装)
+		#		'charset'=>Content-type ヘッダー文字列に、文字コード文字列を追加
+		#		'filename'=>ダウンロードさせるファイル名。
+		#--------------------------------------
+
+		if( !$this->dbh()->is_file( $filepath ) ){
+			#	対象のファイルがなければfalseを返す。
+			return	false;
+		}
+		if( !$this->dbh()->is_readable( $filepath ) ){
+			#	対象のファイルに読み込み権限がなければfalseを返す。
+			return	false;
+		}
+
+		#	絶対パスに変換
+		$filepath = @realpath( $filepath );
+
+		#	出力バッファをすべてクリア
+		while( @ob_end_clean() );
+
+		if( strpos( $_SERVER['HTTP_USER_AGENT'] , 'MSIE' ) ){
+			#	MSIE対策
+			#	→こんな問題 http://support.microsoft.com/kb/323308/ja
+			@header( 'Cache-Control: public' );
+			@header( 'Pragma: public' );
+		}
+
+		if( strlen( $option['content-type'] ) ){
+			$contenttype = $option['content-type'];
+		}else{
+			$contenttype = 'x-download/download';
+		}
+		if( strlen( $contenttype ) ){
+			if( strlen( $option['charset'] ) ){
+				$contenttype .= '; charset='.$option['charset'];
+			}
+			@header( 'Content-type: '.$contenttype );
+		}
+
+		#	ダウンロードの容量
+		@header( 'Content-Length: '.filesize( $filepath ) );
+
+		if( strlen( $option['filename'] ) ){
+			#	ダウンロードファイル名
+			@header( 'Content-Disposition: attachment; filename='.$option['filename'] );
+		}
+
+		#	ファイルを出力
+		if( !@readfile( $filepath ) ){
+			$this->errors->error_log( 'Disable to readfile( [ '.$filepath.' ] )' , __FILE__ , __LINE__ );
+			return	false;
+		}
+
+		if( $option['delete'] ){
+			#	deleteオプションが指定されていたら、
+			#	ダウンロード後のファイルを削除する。
+			$this->dbh()->rmdir_all( $filepath );
+		}
+
+		exit();
+	}//flush_file()
+
+	/**
 	 * アクセスログを記録する。
 	 */
 	private function access_log(){
@@ -487,7 +602,7 @@ class px_px{
 			.'	'.$_SERVER['HTTP_USER_AGENT']
 			.'	'.$_SERVER['HTTP_REFERER']
 			."\r\n" , 3 , $this->get_conf('paths.access_log') );
-	}
+	}//access_log()
 
 }
 
