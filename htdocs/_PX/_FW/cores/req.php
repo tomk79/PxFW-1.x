@@ -252,6 +252,62 @@ class px_cores_req{
 		return true;
 	}//delete_session()
 
+
+	/**
+	 * アップロードされたファイルをセッションに保存
+	 */
+	public function save_uploadfile( $key , $ulfileinfo ){
+		#	base64でエンコードして、バイナリデータを持ちます
+		$fileinfo = array();
+		$fileinfo['name'] = $ulfileinfo['name'];
+		$fileinfo['type'] = $ulfileinfo['type'];
+
+		if( $ulfileinfo['content'] ){
+			$fileinfo['content'] = base64_encode( $ulfileinfo['content'] );
+		}else{
+			$filepath = '';
+			if( @is_file( $ulfileinfo['tmp_name'] ) ){
+				$filepath = $ulfileinfo['tmp_name'];
+			}elseif( @is_file( $ulfileinfo['path'] ) ){
+				$filepath = $ulfileinfo['path'];
+			}
+			$fileinfo['content'] = base64_encode( file_get_contents( $filepath ) );
+		}
+		$_SESSION['FILE'][$key] = $fileinfo;
+		return	false;
+	}
+	/**
+	 * セッションに保存されたファイル情報を取得
+	 */
+	public function get_uploadfile( $key , $option = array() ){
+		$RTN = $_SESSION['FILE'][$key];
+		if( is_null( $RTN ) ){
+			return	null;
+		}
+		$RTN['content'] = base64_decode( $RTN['content'] );
+		return	$RTN;
+	}
+	/**
+	 * セッションに保存されたファイル情報の一覧を取得
+	 */
+	public function get_uploadfile_list(){
+		return	array_keys( $_SESSION['FILE'] );
+	}
+	/**
+	 * セッションに保存されたファイルを削除
+	 */
+	public function delete_uploadfile( $key ){
+		unset( $_SESSION['FILE'][$key] );
+		return	true;
+	}
+	/**
+	 * セッションに保存されたファイルを全て削除
+	 */
+	public function delete_uploadfile_all(){
+		return	$this->delete_session( 'FILE' );
+	}
+
+
 	/**
 	 * リクエストパスを取得する
 	 */

@@ -888,6 +888,12 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 		$this->method_eventhdl_query_error = $method;
 		return	true;
 	}
+	/**
+	 * SQLエラー時のイベントハンドラを取得する。
+	 */
+	public function get_eventhdl_query_error(){
+		return $this->method_eventhdl_query_error;
+	}
 
 	/**
 	 * SQLのLIMIT句を作成する
