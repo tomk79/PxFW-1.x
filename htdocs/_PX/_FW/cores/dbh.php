@@ -2087,7 +2087,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 			if( $lockfile_expire > 0 ){
 				$file_bin = $this->file_get_contents( $lockfilepath );
 				$file_bin_ary = explode( '::' , $file_bin );
-				$file_time = time::datetime2int( $file_bin_ary[1] );
+				$file_time = $this->datetime2int( $file_bin_ary[1] );
 				if( ( time() - $file_time ) > $lockfile_expire ){
 					#	有効期限を過ぎていたら、ロックは成立する。(PxFW0.6.4 追加仕様)
 					break;

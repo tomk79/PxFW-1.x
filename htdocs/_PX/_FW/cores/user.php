@@ -76,6 +76,14 @@ class px_cores_user{
 	}//is_login()
 
 	/**
+	 * ログインユーザーのIDを取得する
+	 * @return string
+	 */
+	public function get_login_user_id(){
+		return $this->login_user_info['id'];
+	}//get_login_user_id()
+
+	/**
 	 * ログインユーザーのアカウント名を取得する
 	 * @return string
 	 */
