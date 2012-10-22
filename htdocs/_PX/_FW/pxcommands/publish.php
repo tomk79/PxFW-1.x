@@ -142,7 +142,7 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 				$dynamic_path_info = $this->px->site()->get_dynamic_path_info( $page_info['path'] );
 				$page_info['path'] = $this->px->site()->bind_dynamic_path_param( $page_info['path'] , array() );
 			}
-			if($this->is_ignore_path($this->px->dbh()->get_realpath($this->px->get_install_path().$page_info['path']))){
+			if($this->is_ignore_path($this->px->dbh()->get_realpath($_SERVER['DOCUMENT_ROOT'].'/'.$this->px->get_install_path().$page_info['path']))){
 				continue;
 			}
 			$this->add_queue( $this->px->dbh()->get_realpath($this->px->get_install_path().$page_info['path']) );
@@ -477,7 +477,7 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 	 */
 	private function is_ignore_path( $path ){
 		$path = t::realpath( $path );
-		if( !file_exists($path) ){ return true; }
+		//if( !file_exists($path) ){ return true; }
 		foreach( $this->paths_ignore as $row ){
 			if( t::realpath($row) == $path ){
 				return true;
