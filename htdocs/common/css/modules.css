@@ -124,6 +124,13 @@ a span.pdf:after{
 }
 
 /**
+ * [parts] エラー表示
+ */
+.error{
+	color:#ff0000;
+}
+
+/**
  * [static] カレントページ
  */
 .current{

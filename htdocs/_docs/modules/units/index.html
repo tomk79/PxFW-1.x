@@ -215,3 +215,505 @@
 
 
 
+<h2>回り込み画像 .float_image (仮)</h2>
+<?php ob_start(); ?>
+<style type="text/css">
+/**
+ * 回り込み画像
+ */
+.float_image{
+}
+.float_image .float_image-r50per{
+	float:right;
+	width:50%;
+	margin-left:20px;
+	margin-bottom:20px;
+}
+.float_image .float_image-l50per{
+	float:left;
+	width:50%;
+	margin-right:20px;
+	margin-bottom:20px;
+}
+.float_image .float_image-r33per{
+	float:right;
+	width:33%;
+	margin-left:20px;
+	margin-bottom:20px;
+}
+.float_image .float_image-l33per{
+	float:left;
+	width:33%;
+	margin-right:20px;
+	margin-bottom:20px;
+}
+.float_image .float_image-r25per{
+	float:right;
+	width:25%;
+	margin-left:20px;
+	margin-bottom:20px;
+}
+.float_image .float_image-l25per{
+	float:left;
+	width:25%;
+	margin-right:20px;
+	margin-bottom:20px;
+}
+.float_image .float_image-l50per img,
+.float_image .float_image-l33per img,
+.float_image .float_image-l25per img,
+.float_image .float_image-r50per img,
+.float_image .float_image-r33per img,
+.float_image .float_image-r25per img{
+	width:100%;
+	height:auto;
+}
+.float_image .float_image-image{
+	margin-top:0px;
+}
+.float_image .float_image-caption{
+	font-size:86%;
+}
+.float_image .float_image-body{
+}
+.float_image .float_image-body_rect{
+	overflow:hidden;
+}
+.float_image .float_image-body_rect *:first-child{
+	margin-top:0px;
+}
+</style>
+<?php $px->theme()->send_content( ob_get_clean(), 'head' ); ?>
+<div class="unit float_image">
+	<div class="float_image-r50per">
+		<p class="float_image-image"><img src="XXXX" alt="" /></p>
+		<p class="float_image-caption">キャプションテキスト。キャプションテキスト。キャプションテキスト。</p>
+	</div>
+	<div class="float_image-body">
+		<p>
+			ここは本文ブロックです。このサンプルは、半分の幅で右に回りこむ画像をレイアウトするものです。<br />
+		</p>
+		<p>
+			ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。<br />
+		</p>
+		<p>
+			ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。<br />
+		</p>
+		<p>
+			ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。<br />
+		</p>
+	</div>
+</div><!-- /.float_image -->
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;unit float_image&quot;&gt;
+	&lt;div class=&quot;float_image-r50per&quot;&gt;
+		&lt;p class=&quot;float_image-image&quot;&gt;&lt;img src=&quot;XXXX&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+		&lt;p class=&quot;float_image-caption&quot;&gt;キャプションテキスト。キャプションテキスト。キャプションテキスト。&lt;/p&gt;
+	&lt;/div&gt;
+	&lt;div class=&quot;float_image-body&quot;&gt;
+		&lt;p&gt;
+			ここは本文ブロックです。このサンプルは、半分の幅で右に回りこむ画像をレイアウトするものです。&lt;br /&gt;
+		&lt;/p&gt;
+		&lt;p&gt;
+			ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。&lt;br /&gt;
+		&lt;/p&gt;
+		&lt;p&gt;
+			ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。&lt;br /&gt;
+		&lt;/p&gt;
+		&lt;p&gt;
+			ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。&lt;br /&gt;
+		&lt;/p&gt;
+	&lt;/div&gt;
+&lt;/div&gt;&lt;!-- /.float_image --&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+<div class="unit float_image">
+	<div class="float_image-r33per">
+		<p class="float_image-image"><img src="XXXX" alt="" /></p>
+		<p class="float_image-caption">キャプションテキスト。キャプションテキスト。キャプションテキスト。</p>
+	</div>
+	<div class="float_image-body">
+		<p>
+			ここは本文ブロックです。このサンプルは、33%の幅で右に回りこむ画像をレイアウトするものです。<br />
+		</p>
+		<p>
+			ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。<br />
+		</p>
+		<p>
+			ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。<br />
+		</p>
+		<p>
+			ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。<br />
+		</p>
+	</div>
+</div><!-- /.float_image -->
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;unit float_image&quot;&gt;
+	&lt;div class=&quot;float_image-r33per&quot;&gt;
+		&lt;p class=&quot;float_image-image&quot;&gt;&lt;img src=&quot;XXXX&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+		&lt;p class=&quot;float_image-caption&quot;&gt;キャプションテキスト。キャプションテキスト。キャプションテキスト。&lt;/p&gt;
+	&lt;/div&gt;
+	&lt;div class=&quot;float_image-body&quot;&gt;
+		&lt;p&gt;
+			ここは本文ブロックです。このサンプルは、33%の幅で右に回りこむ画像をレイアウトするものです。&lt;br /&gt;
+		&lt;/p&gt;
+		&lt;p&gt;
+			ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。&lt;br /&gt;
+		&lt;/p&gt;
+		&lt;p&gt;
+			ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。&lt;br /&gt;
+		&lt;/p&gt;
+		&lt;p&gt;
+			ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。&lt;br /&gt;
+		&lt;/p&gt;
+	&lt;/div&gt;
+&lt;/div&gt;&lt;!-- /.float_image --&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+<div class="unit float_image">
+	<div class="float_image-r25per">
+		<p class="float_image-image"><img src="XXXX" alt="" /></p>
+		<p class="float_image-caption">キャプションテキスト。キャプションテキスト。キャプションテキスト。</p>
+	</div>
+	<div class="float_image-body">
+		<p>
+			ここは本文ブロックです。このサンプルは、25%の幅で右に回りこむ画像をレイアウトするものです。<br />
+		</p>
+		<p>
+			ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。<br />
+		</p>
+		<p>
+			ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。<br />
+		</p>
+		<p>
+			ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。<br />
+		</p>
+	</div>
+</div><!-- /.float_image -->
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;unit float_image&quot;&gt;
+	&lt;div class=&quot;float_image-r25per&quot;&gt;
+		&lt;p class=&quot;float_image-image&quot;&gt;&lt;img src=&quot;XXXX&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+		&lt;p class=&quot;float_image-caption&quot;&gt;キャプションテキスト。キャプションテキスト。キャプションテキスト。&lt;/p&gt;
+	&lt;/div&gt;
+	&lt;div class=&quot;float_image-body&quot;&gt;
+		&lt;p&gt;
+			ここは本文ブロックです。このサンプルは、25%の幅で右に回りこむ画像をレイアウトするものです。&lt;br /&gt;
+		&lt;/p&gt;
+		&lt;p&gt;
+			ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。&lt;br /&gt;
+		&lt;/p&gt;
+		&lt;p&gt;
+			ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。&lt;br /&gt;
+		&lt;/p&gt;
+		&lt;p&gt;
+			ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。&lt;br /&gt;
+		&lt;/p&gt;
+	&lt;/div&gt;
+&lt;/div&gt;&lt;!-- /.float_image --&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+<div class="unit float_image">
+	<div class="float_image-l50per">
+		<p class="float_image-image"><img src="XXXX" alt="" /></p>
+		<p class="float_image-caption">キャプションテキスト。キャプションテキスト。キャプションテキスト。</p>
+	</div>
+	<div class="float_image-body">
+		<p>
+			ここは本文ブロックです。このサンプルは、半分の幅で左に回りこむ画像をレイアウトするものです。<br />
+		</p>
+		<p>
+			ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。<br />
+		</p>
+		<p>
+			ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。<br />
+		</p>
+		<p>
+			ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。<br />
+		</p>
+	</div>
+</div><!-- /.float_image -->
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;unit float_image&quot;&gt;
+	&lt;div class=&quot;float_image-l50per&quot;&gt;
+		&lt;p class=&quot;float_image-image&quot;&gt;&lt;img src=&quot;XXXX&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+		&lt;p class=&quot;float_image-caption&quot;&gt;キャプションテキスト。キャプションテキスト。キャプションテキスト。&lt;/p&gt;
+	&lt;/div&gt;
+	&lt;div class=&quot;float_image-body&quot;&gt;
+		&lt;p&gt;
+			ここは本文ブロックです。このサンプルは、半分の幅で左に回りこむ画像をレイアウトするものです。&lt;br /&gt;
+		&lt;/p&gt;
+		&lt;p&gt;
+			ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。&lt;br /&gt;
+		&lt;/p&gt;
+		&lt;p&gt;
+			ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。&lt;br /&gt;
+		&lt;/p&gt;
+		&lt;p&gt;
+			ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。&lt;br /&gt;
+		&lt;/p&gt;
+	&lt;/div&gt;
+&lt;/div&gt;&lt;!-- /.float_image --&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+<div class="unit float_image">
+	<div class="float_image-l33per">
+		<p class="float_image-image"><img src="XXXX" alt="" /></p>
+		<p class="float_image-caption">キャプションテキスト。キャプションテキスト。キャプションテキスト。</p>
+	</div>
+	<div class="float_image-body">
+		<p>
+			ここは本文ブロックです。このサンプルは、33%の幅で左に回りこむ画像をレイアウトするものです。<br />
+		</p>
+		<p>
+			ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。<br />
+		</p>
+		<p>
+			ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。<br />
+		</p>
+		<p>
+			ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。<br />
+		</p>
+	</div>
+</div><!-- /.float_image -->
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;unit float_image&quot;&gt;
+	&lt;div class=&quot;float_image-l33per&quot;&gt;
+		&lt;p class=&quot;float_image-image&quot;&gt;&lt;img src=&quot;XXXX&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+		&lt;p class=&quot;float_image-caption&quot;&gt;キャプションテキスト。キャプションテキスト。キャプションテキスト。&lt;/p&gt;
+	&lt;/div&gt;
+	&lt;div class=&quot;float_image-body&quot;&gt;
+		&lt;p&gt;
+			ここは本文ブロックです。このサンプルは、33%の幅で左に回りこむ画像をレイアウトするものです。&lt;br /&gt;
+		&lt;/p&gt;
+		&lt;p&gt;
+			ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。&lt;br /&gt;
+		&lt;/p&gt;
+		&lt;p&gt;
+			ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。&lt;br /&gt;
+		&lt;/p&gt;
+		&lt;p&gt;
+			ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。&lt;br /&gt;
+		&lt;/p&gt;
+	&lt;/div&gt;
+&lt;/div&gt;&lt;!-- /.float_image --&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+<div class="unit float_image">
+	<div class="float_image-l25per">
+		<p class="float_image-image"><img src="XXXX" alt="" /></p>
+		<p class="float_image-caption">キャプションテキスト。キャプションテキスト。キャプションテキスト。</p>
+	</div>
+	<div class="float_image-body">
+		<p>
+			ここは本文ブロックです。このサンプルは、25%の幅で左に回りこむ画像をレイアウトするものです。<br />
+		</p>
+		<p>
+			ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。<br />
+		</p>
+		<p>
+			ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。<br />
+		</p>
+		<p>
+			ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。<br />
+		</p>
+	</div>
+</div><!-- /.float_image -->
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;unit float_image&quot;&gt;
+	&lt;div class=&quot;float_image-l25per&quot;&gt;
+		&lt;p class=&quot;float_image-image&quot;&gt;&lt;img src=&quot;XXXX&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+		&lt;p class=&quot;float_image-caption&quot;&gt;キャプションテキスト。キャプションテキスト。キャプションテキスト。&lt;/p&gt;
+	&lt;/div&gt;
+	&lt;div class=&quot;float_image-body&quot;&gt;
+		&lt;p&gt;
+			ここは本文ブロックです。このサンプルは、25%の幅で左に回りこむ画像をレイアウトするものです。&lt;br /&gt;
+		&lt;/p&gt;
+		&lt;p&gt;
+			ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。&lt;br /&gt;
+		&lt;/p&gt;
+		&lt;p&gt;
+			ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。&lt;br /&gt;
+		&lt;/p&gt;
+		&lt;p&gt;
+			ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。&lt;br /&gt;
+		&lt;/p&gt;
+	&lt;/div&gt;
+&lt;/div&gt;&lt;!-- /.float_image --&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+
+<div class="unit float_image">
+	<div class="float_image-l25per">
+		<p class="float_image-image"><img src="XXXX" alt="" /></p>
+		<p class="float_image-caption">キャプションテキスト。キャプションテキスト。キャプションテキスト。</p>
+	</div>
+	<div class="float_image-body_rect">
+		<p>
+			ここは本文ブロックです。このサンプルは、25%の幅で左に回りこむ画像をレイアウトするものです。本文部分を矩形に保ちたい場合(画像を回り込ませたくない場合)は、ボディ部分の暮らすを、 .float_image-body から .float_image-body_rect に変更します。<br />
+		</p>
+		<p>
+			ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。<br />
+		</p>
+		<p>
+			ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。<br />
+		</p>
+		<p>
+			ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。<br />
+		</p>
+	</div>
+</div><!-- /.float_image -->
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;unit float_image&quot;&gt;
+	&lt;div class=&quot;float_image-l25per&quot;&gt;
+		&lt;p class=&quot;float_image-image&quot;&gt;&lt;img src=&quot;XXXX&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+		&lt;p class=&quot;float_image-caption&quot;&gt;キャプションテキスト。キャプションテキスト。キャプションテキスト。&lt;/p&gt;
+	&lt;/div&gt;
+	&lt;div class=&quot;float_image-body_rect&quot;&gt;
+		&lt;p&gt;
+			ここは本文ブロックです。このサンプルは、25%の幅で左に回りこむ画像をレイアウトするものです。本文部分を矩形に保ちたい場合(画像を回り込ませたくない場合)は、ボディ部分の暮らすを、 .float_image-body から .float_image-body_rect に変更します。&lt;br /&gt;
+		&lt;/p&gt;
+		&lt;p&gt;
+			ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。&lt;br /&gt;
+		&lt;/p&gt;
+		&lt;p&gt;
+			ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。&lt;br /&gt;
+		&lt;/p&gt;
+		&lt;p&gt;
+			ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。&lt;br /&gt;
+		&lt;/p&gt;
+	&lt;/div&gt;
+&lt;/div&gt;&lt;!-- /.float_image --&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+
+
+
+<h2>サムネイルリスト .thumb_list (仮)</h2>
+<?php ob_start(); ?>
+<style type="text/css">
+/**
+ * サムネイルリスト
+ */
+.thumb_list{
+}
+.thumb_list ul{
+	text-align:center;
+	padding:0px;
+	margin:0px;
+}
+.thumb_list ul li{
+	float:left;
+	display:block;
+	list-style-type:none;
+	width:23%;
+	margin:0px 0px 10px 0px;
+	padding:0px 2% 0px 0px;
+}
+.thumb_list ul li a{
+	display:block;
+	width:100%;
+	height:100%;
+}
+.thumb_list ul li img{
+	width:100%;
+	height:auto;
+}
+.thumb_list ul li:nth-child(4n+1){
+	clear:left;
+}
+
+</style>
+<?php $px->theme()->send_content( ob_get_clean(), 'head' ); ?>
+<div class="unit thumb_list">
+	<ul>
+		<li><a href="#"><img src="XXXX" alt="" /><br />サムネイルラベル</a></li>
+		<li><a href="#"><img src="XXXX" alt="" /><br />サムネイルラベル</a></li>
+		<li><a href="#"><img src="XXXX" alt="" /><br />サムネイルラベルサムネイルラベルサムネイルラベルサムネイルラベル</a></li>
+		<li><a href="#"><img src="XXXX" alt="" /><br />サムネイルラベル</a></li>
+		<li><a href="#"><img src="XXXX" alt="" /><br />サムネイルラベル</a></li>
+		<li><a href="#"><img src="XXXX" alt="" /><br />サムネイルラベルサムネイルラベルサムネイルラベルサムネイルラベル</a></li>
+		<li><a href="#"><img src="XXXX" alt="" /><br />サムネイルラベル</a></li>
+		<li><a href="#"><img src="XXXX" alt="" /><br />サムネイルラベル</a></li>
+		<li><a href="#"><img src="XXXX" alt="" /><br />サムネイルラベル</a></li>
+		<li><a href="#"><img src="XXXX" alt="" /><br />サムネイルラベル</a></li>
+	</ul>
+</div><!-- /.thumb_list -->
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;unit thumb_list&quot;&gt;
+	&lt;ul&gt;
+		&lt;li&gt;&lt;a href=&quot;#&quot;&gt;&lt;img src=&quot;XXXX&quot; alt=&quot;&quot; /&gt;&lt;br /&gt;サムネイルラベル&lt;/a&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;a href=&quot;#&quot;&gt;&lt;img src=&quot;XXXX&quot; alt=&quot;&quot; /&gt;&lt;br /&gt;サムネイルラベル&lt;/a&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;a href=&quot;#&quot;&gt;&lt;img src=&quot;XXXX&quot; alt=&quot;&quot; /&gt;&lt;br /&gt;サムネイルラベルサムネイルラベルサムネイルラベルサムネイルラベル&lt;/a&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;a href=&quot;#&quot;&gt;&lt;img src=&quot;XXXX&quot; alt=&quot;&quot; /&gt;&lt;br /&gt;サムネイルラベル&lt;/a&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;a href=&quot;#&quot;&gt;&lt;img src=&quot;XXXX&quot; alt=&quot;&quot; /&gt;&lt;br /&gt;サムネイルラベル&lt;/a&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;a href=&quot;#&quot;&gt;&lt;img src=&quot;XXXX&quot; alt=&quot;&quot; /&gt;&lt;br /&gt;サムネイルラベルサムネイルラベルサムネイルラベルサムネイルラベル&lt;/a&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;a href=&quot;#&quot;&gt;&lt;img src=&quot;XXXX&quot; alt=&quot;&quot; /&gt;&lt;br /&gt;サムネイルラベル&lt;/a&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;a href=&quot;#&quot;&gt;&lt;img src=&quot;XXXX&quot; alt=&quot;&quot; /&gt;&lt;br /&gt;サムネイルラベル&lt;/a&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;a href=&quot;#&quot;&gt;&lt;img src=&quot;XXXX&quot; alt=&quot;&quot; /&gt;&lt;br /&gt;サムネイルラベル&lt;/a&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;a href=&quot;#&quot;&gt;&lt;img src=&quot;XXXX&quot; alt=&quot;&quot; /&gt;&lt;br /&gt;サムネイルラベル&lt;/a&gt;&lt;/li&gt;
+	&lt;/ul&gt;
+&lt;/div&gt;&lt;!-- /.thumb_list --&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+
+
+<h2>ページャー .pager (仮)</h2>
+<?php ob_start(); ?>
+<style type="text/css">
+/**
+ * ページャー
+ */
+.pager{
+}
+.pager ul{
+	text-align:center;
+	padding:0px;
+	margin:0px;
+}
+.pager ul li{
+	display:inline;
+	list-style-type:none;
+	padding:0px 5px 0px 5px;
+}
+</style>
+<?php $px->theme()->send_content( ob_get_clean(), 'head' ); ?>
+
+<div class="unit pager">
+	<ul>
+		<li>&lt;&lt;最初</li>
+		<li>&lt;前へ</li>
+		<li><strong>1</strong></li>
+		<li><a href="#">2</a></li>
+		<li><a href="#">3</a></li>
+		<li><a href="#">4</a></li>
+		<li><a href="#">次へ&gt;</a></li>
+		<li><a href="#">最後&gt;&gt;</a></li>
+	</ul>
+</div><!-- /.pager -->
+
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;unit pager&quot;&gt;
+	&lt;ul&gt;
+		&lt;li&gt;&amp;lt;&amp;lt;最初&lt;/li&gt;
+		&lt;li&gt;&amp;lt;前へ&lt;/li&gt;
+		&lt;li&gt;&lt;strong&gt;1&lt;/strong&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;a href=&quot;#&quot;&gt;2&lt;/a&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;a href=&quot;#&quot;&gt;3&lt;/a&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;a href=&quot;#&quot;&gt;4&lt;/a&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;a href=&quot;#&quot;&gt;次へ&amp;gt;&lt;/a&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;a href=&quot;#&quot;&gt;最後&amp;gt;&amp;gt;&lt;/a&gt;&lt;/li&gt;
+	&lt;/ul&gt;
+&lt;/div&gt;&lt;!-- /.pager --&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+
