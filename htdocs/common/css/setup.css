@@ -39,6 +39,9 @@ address{
 	font-style:normal;
 	text-decoration:none;
 }
+form{
+	display:inline;
+}
 span{
 	display:inline;
 	padding:0px;
