@@ -215,7 +215,7 @@
 
 
 
-<h2>回り込み画像 .float_image (仮)</h2>
+<h2>回り込み画像 .float_image (策定中)</h2>
 <?php ob_start(); ?>
 <style type="text/css">
 /**
@@ -284,6 +284,8 @@
 }
 </style>
 <?php $px->theme()->send_content( ob_get_clean(), 'head' ); ?>
+
+<h3>1/2画像右回り込み</h3>
 <div class="unit float_image">
 	<div class="float_image-r50per">
 		<p class="float_image-image"><img src="index.files/sampleimage.png" alt="サンプル画像" /></p>
@@ -328,6 +330,7 @@
 </textarea></div>
 </div><!-- /.unit -->
 
+<h3>1/3画像右回り込み</h3>
 <div class="unit float_image">
 	<div class="float_image-r33per">
 		<p class="float_image-image"><img src="index.files/sampleimage.png" alt="サンプル画像" /></p>
@@ -372,6 +375,7 @@
 </textarea></div>
 </div><!-- /.unit -->
 
+<h3>1/4画像右回り込み</h3>
 <div class="unit float_image">
 	<div class="float_image-r25per">
 		<p class="float_image-image"><img src="index.files/sampleimage.png" alt="サンプル画像" /></p>
@@ -416,6 +420,7 @@
 </textarea></div>
 </div><!-- /.unit -->
 
+<h3>1/2画像左回り込み</h3>
 <div class="unit float_image">
 	<div class="float_image-l50per">
 		<p class="float_image-image"><img src="index.files/sampleimage.png" alt="サンプル画像" /></p>
@@ -460,6 +465,7 @@
 </textarea></div>
 </div><!-- /.unit -->
 
+<h3>1/3画像左回り込み</h3>
 <div class="unit float_image">
 	<div class="float_image-l33per">
 		<p class="float_image-image"><img src="index.files/sampleimage.png" alt="サンプル画像" /></p>
@@ -504,6 +510,7 @@
 </textarea></div>
 </div><!-- /.unit -->
 
+<h3>1/4画像左回り込み</h3>
 <div class="unit float_image">
 	<div class="float_image-l25per">
 		<p class="float_image-image"><img src="index.files/sampleimage.png" alt="サンプル画像" /></p>
@@ -549,6 +556,7 @@
 </div><!-- /.unit -->
 
 
+<h3>本文部分を矩形に保つ</h3>
 <div class="unit float_image">
 	<div class="float_image-l25per">
 		<p class="float_image-image"><img src="index.files/sampleimage.png" alt="サンプル画像" /></p>
@@ -556,7 +564,7 @@
 	</div>
 	<div class="float_image-body_rect">
 		<p>
-			ここは本文ブロックです。このサンプルは、25%の幅で左に回りこむ画像をレイアウトするものです。本文部分を矩形に保ちたい場合(画像を回り込ませたくない場合)は、ボディ部分の暮らすを、 .float_image-body から .float_image-body_rect に変更します。<br />
+			ここは本文ブロックです。このサンプルは、25%の幅で左に回りこむ画像をレイアウトするものです。本文部分を矩形に保ちたい場合(画像を回り込ませたくない場合)は、本文部分のサブクラスを、 .float_image-body から .float_image-body_rect に変更します。<br />
 		</p>
 		<p>
 			ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。<br />
@@ -596,7 +604,7 @@
 
 
 
-<h2>サムネイルリスト .thumb_list (仮)</h2>
+<h2>サムネイルリスト .thumb_list (策定中)</h2>
 <?php ob_start(); ?>
 <style type="text/css">
 /**
@@ -666,7 +674,7 @@
 
 
 
-<h2>ページャー .pager (仮)</h2>
+<h2>ページャー .pager (策定中)</h2>
 <?php ob_start(); ?>
 <style type="text/css">
 /**
@@ -717,7 +725,7 @@
 </div><!-- /.unit -->
 
 
-<h2>注意喚起ユニット .attention (仮)</h2>
+<h2>注意喚起ユニット .attention (策定中)</h2>
 <?php ob_start(); ?>
 <style type="text/css">
 /**
@@ -762,7 +770,7 @@
 
 
 
-<h2>フォーム (仮)</h2>
+<h2>フォーム (策定中)</h2>
 <p>
 	フォームエレメント系のモジュールは、パーツモジュールとして設計されています。<br />
 	<a href="../parts/">パーツモジュールのページ</a>を参照してください。<br />
@@ -777,11 +785,15 @@
  */
 .form_buttons {
 	position:relative;
+	text-align:center;
 }
 .form_buttons ul ,
 .form_buttons ul li{
 	margin:0; padding:0;
 	list-style-type:none;
+}
+.form_buttons ul li.form_buttons-revise{
+	position:absolute; right:0px; bottom:0px;
 }
 </style>
 <?php $px->theme()->send_content( ob_get_clean(), 'head' ); ?>
@@ -791,6 +803,14 @@
 	<ul>
 		<li class="form_buttons-submit"><input type="submit" name="" value="確認する" /></li>
 	</ul>
+</div><!-- /.form_buttons -->
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;unit form_buttons&quot;&gt;
+	&lt;ul&gt;
+		&lt;li class=&quot;form_buttons-submit&quot;&gt;&lt;input type=&quot;submit&quot; name=&quot;&quot; value=&quot;確認する&quot; /&gt;&lt;/li&gt;
+	&lt;/ul&gt;
+&lt;/div&gt;&lt;!-- /.form_buttons --&gt;
+</textarea></div>
 </div><!-- /.unit -->
 </form>
 
@@ -800,6 +820,15 @@
 		<li class="form_buttons-submit"><input type="submit" name="" value="送信する" /></li>
 		<li class="form_buttons-revise"><input type="submit" name="" value="修正する" /></li>
 	</ul>
+</div><!-- /.form_buttons -->
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;unit form_buttons&quot;&gt;
+	&lt;ul&gt;
+		&lt;li class=&quot;form_buttons-submit&quot;&gt;&lt;input type=&quot;submit&quot; name=&quot;&quot; value=&quot;送信する&quot; /&gt;&lt;/li&gt;
+		&lt;li class=&quot;form_buttons-revise&quot;&gt;&lt;input type=&quot;submit&quot; name=&quot;&quot; value=&quot;修正する&quot; /&gt;&lt;/li&gt;
+	&lt;/ul&gt;
+&lt;/div&gt;&lt;!-- /.form_buttons --&gt;
+</textarea></div>
 </div><!-- /.unit -->
 </form>
 
@@ -810,6 +839,14 @@
 	<ul>
 		<li class="form_buttons-cancel"><input type="submit" name="" value="キャンセル" /></li>
 	</ul>
+</div><!-- /.form_buttons -->
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;unit form_buttons&quot;&gt;
+	&lt;ul&gt;
+		&lt;li class=&quot;form_buttons-cancel&quot;&gt;&lt;input type=&quot;submit&quot; name=&quot;&quot; value=&quot;キャンセル&quot; /&gt;&lt;/li&gt;
+	&lt;/ul&gt;
+&lt;/div&gt;&lt;!-- /.form_buttons --&gt;
+</textarea></div>
 </div><!-- /.unit -->
 </form>
 

@@ -113,7 +113,7 @@
 
 <h2>その他のインライン要素</h2>
 
-<h3>エラー表示 .error (仮)</h3>
+<h3>エラー表示 .error (策定中)</h3>
 <p><span class="error">この文言はエラー表示です。</span></p>
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;span class=&quot;error&quot;&gt;この文言はエラー表示です。&lt;/span&gt;
@@ -406,7 +406,7 @@
 </div><!-- /.unit -->
 
 
-<h2>フォーム (仮)</h2>
+<h2>フォーム (策定中)</h2>
 
 
 <?php ob_start(); ?>
@@ -474,97 +474,191 @@ table.form_elements .form_elements-list_horizontal li{
 <form action="#" method="post">
 <h3>フォーム要素</h3>
 <div class="unit">
-	<table class="form_elements">
-		<thead>
-			<tr>
-				<th>入力項目名</th>
-				<th>入力フィールド</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<th>テキスト入力</th>
-				<td>
-					<ul class="form_elements-notes">
-						<li>全角カナで入力してください。</li>
-						<li>8文字以上入力してください。</li>
-					</ul>
-					<input type="text" name="" value="" />
-				</td>
-			</tr>
-			<tr>
-				<th>テキストエリア入力</th>
-				<td>
-					<ul class="form_elements-notes">
-						<li>複数行の入力ができます。</li>
-					</ul>
-					<textarea name=""></textarea>
-				</td>
-			</tr>
-			<tr>
-				<th>パスワード入力</th>
-				<td>
-					<ul class="form_elements-notes">
-						<li>8文字以上入力してください。</li>
-					</ul>
-					<input type="password" name="" value="" />
-				</td>
-			</tr>
-			<tr>
-				<th>ラジオボタン入力</th>
-				<td>
-					<ul class="form_elements-notes">
-						<li>一つだけ選択してください。</li>
-					</ul>
-					<ul class="form_elements-list">
-						<li><label><input type="radio" name="radio1" value="" /> 選択肢1</label></li>
-						<li><label><input type="radio" name="radio1" value="" /> 選択肢2</label></li>
-						<li><label><input type="radio" name="radio1" value="" /> 選択肢3</label></li>
-					</ul>
-				</td>
-			</tr>
-			<tr>
-				<th>チェックボックス入力</th>
-				<td>
-					<ul class="form_elements-notes">
-						<li>複数選択が可能です。</li>
-					</ul>
-					<ul class="form_elements-list">
-						<li><label><input type="checkbox" name="" value="" /> 選択肢1</label></li>
-						<li><label><input type="checkbox" name="" value="" /> 選択肢2</label></li>
-						<li><label><input type="checkbox" name="" value="" /> 選択肢3</label></li>
-					</ul>
-				</td>
-			</tr>
-			<tr>
-				<th>リストを水平に並べるサンプル</th>
-				<td>
-					<ul class="form_elements-notes">
-						<li>この項目は、リストを水平に並べています。(.form_elements-list_horizontal を使用)</li>
-					</ul>
-					<ul class="form_elements-list_horizontal">
-						<li><label><input type="checkbox" name="" value="" /> 選択肢1</label></li>
-						<li><label><input type="checkbox" name="" value="" /> 選択肢2</label></li>
-						<li><label><input type="checkbox" name="" value="" /> 選択肢3</label></li>
-					</ul>
-				</td>
-			</tr>
-			<tr>
-				<th>プルダウン選択入力</th>
-				<td>
-					<ul class="form_elements-notes">
-						<li>１つだけ選択してください。</li>
-					</ul>
-					<select name="">
-						<option value="">選択してください</option>
-						<option value="">選択肢1</option>
-						<option value="">選択肢2</option>
-						<option value="">選択肢3</option>
-					</select>
-				</td>
-			</tr>
-		</tbody>
-	</table>
+<table class="form_elements">
+	<thead>
+		<tr>
+			<th>入力項目名</th>
+			<th>入力フィールド</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<th>テキスト入力</th>
+			<td>
+				<ul class="form_elements-notes">
+					<li>全角カナで入力してください。</li>
+					<li>8文字以上入力してください。</li>
+				</ul>
+				<input type="text" name="" value="" />
+			</td>
+		</tr>
+		<tr>
+			<th>テキストエリア入力</th>
+			<td>
+				<ul class="form_elements-notes">
+					<li>複数行の入力ができます。</li>
+				</ul>
+				<textarea name=""></textarea>
+			</td>
+		</tr>
+		<tr>
+			<th>パスワード入力</th>
+			<td>
+				<ul class="form_elements-notes">
+					<li>8文字以上入力してください。</li>
+				</ul>
+				<input type="password" name="" value="" />
+			</td>
+		</tr>
+		<tr>
+			<th>ラジオボタン入力</th>
+			<td>
+				<ul class="form_elements-notes">
+					<li>一つだけ選択してください。</li>
+				</ul>
+				<ul class="form_elements-list">
+					<li><label><input type="radio" name="radio1" value="" /> 選択肢1</label></li>
+					<li><label><input type="radio" name="radio1" value="" /> 選択肢2</label></li>
+					<li><label><input type="radio" name="radio1" value="" /> 選択肢3</label></li>
+				</ul>
+			</td>
+		</tr>
+		<tr>
+			<th>チェックボックス入力</th>
+			<td>
+				<ul class="form_elements-notes">
+					<li>複数選択が可能です。</li>
+				</ul>
+				<ul class="form_elements-list">
+					<li><label><input type="checkbox" name="" value="" /> 選択肢1</label></li>
+					<li><label><input type="checkbox" name="" value="" /> 選択肢2</label></li>
+					<li><label><input type="checkbox" name="" value="" /> 選択肢3</label></li>
+				</ul>
+			</td>
+		</tr>
+		<tr>
+			<th>リストを水平に並べるサンプル</th>
+			<td>
+				<ul class="form_elements-notes">
+					<li>この項目は、リストを水平に並べています。(.form_elements-list_horizontal を使用)</li>
+				</ul>
+				<ul class="form_elements-list_horizontal">
+					<li><label><input type="checkbox" name="" value="" /> 選択肢1</label></li>
+					<li><label><input type="checkbox" name="" value="" /> 選択肢2</label></li>
+					<li><label><input type="checkbox" name="" value="" /> 選択肢3</label></li>
+				</ul>
+			</td>
+		</tr>
+		<tr>
+			<th>プルダウン選択入力</th>
+			<td>
+				<ul class="form_elements-notes">
+					<li>１つだけ選択してください。</li>
+				</ul>
+				<select name="">
+					<option value="">選択してください</option>
+					<option value="">選択肢1</option>
+					<option value="">選択肢2</option>
+					<option value="">選択肢3</option>
+				</select>
+			</td>
+		</tr>
+	</tbody>
+</table>
+</div><!-- /.unit -->
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;table class=&quot;form_elements&quot;&gt;
+	&lt;thead&gt;
+		&lt;tr&gt;
+			&lt;th&gt;入力項目名&lt;/th&gt;
+			&lt;th&gt;入力フィールド&lt;/th&gt;
+		&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+		&lt;tr&gt;
+			&lt;th&gt;テキスト入力&lt;/th&gt;
+			&lt;td&gt;
+				&lt;ul class=&quot;form_elements-notes&quot;&gt;
+					&lt;li&gt;全角カナで入力してください。&lt;/li&gt;
+					&lt;li&gt;8文字以上入力してください。&lt;/li&gt;
+				&lt;/ul&gt;
+				&lt;input type=&quot;text&quot; name=&quot;&quot; value=&quot;&quot; /&gt;
+			&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;th&gt;テキストエリア入力&lt;/th&gt;
+			&lt;td&gt;
+				&lt;ul class=&quot;form_elements-notes&quot;&gt;
+					&lt;li&gt;複数行の入力ができます。&lt;/li&gt;
+				&lt;/ul&gt;
+				&lt;textarea name=&quot;&quot;&gt;&lt;/textarea&gt;
+			&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;th&gt;パスワード入力&lt;/th&gt;
+			&lt;td&gt;
+				&lt;ul class=&quot;form_elements-notes&quot;&gt;
+					&lt;li&gt;8文字以上入力してください。&lt;/li&gt;
+				&lt;/ul&gt;
+				&lt;input type=&quot;password&quot; name=&quot;&quot; value=&quot;&quot; /&gt;
+			&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;th&gt;ラジオボタン入力&lt;/th&gt;
+			&lt;td&gt;
+				&lt;ul class=&quot;form_elements-notes&quot;&gt;
+					&lt;li&gt;一つだけ選択してください。&lt;/li&gt;
+				&lt;/ul&gt;
+				&lt;ul class=&quot;form_elements-list&quot;&gt;
+					&lt;li&gt;&lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;radio1&quot; value=&quot;&quot; /&gt; 選択肢1&lt;/label&gt;&lt;/li&gt;
+					&lt;li&gt;&lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;radio1&quot; value=&quot;&quot; /&gt; 選択肢2&lt;/label&gt;&lt;/li&gt;
+					&lt;li&gt;&lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;radio1&quot; value=&quot;&quot; /&gt; 選択肢3&lt;/label&gt;&lt;/li&gt;
+				&lt;/ul&gt;
+			&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;th&gt;チェックボックス入力&lt;/th&gt;
+			&lt;td&gt;
+				&lt;ul class=&quot;form_elements-notes&quot;&gt;
+					&lt;li&gt;複数選択が可能です。&lt;/li&gt;
+				&lt;/ul&gt;
+				&lt;ul class=&quot;form_elements-list&quot;&gt;
+					&lt;li&gt;&lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;&quot; value=&quot;&quot; /&gt; 選択肢1&lt;/label&gt;&lt;/li&gt;
+					&lt;li&gt;&lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;&quot; value=&quot;&quot; /&gt; 選択肢2&lt;/label&gt;&lt;/li&gt;
+					&lt;li&gt;&lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;&quot; value=&quot;&quot; /&gt; 選択肢3&lt;/label&gt;&lt;/li&gt;
+				&lt;/ul&gt;
+			&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;th&gt;リストを水平に並べるサンプル&lt;/th&gt;
+			&lt;td&gt;
+				&lt;ul class=&quot;form_elements-notes&quot;&gt;
+					&lt;li&gt;この項目は、リストを水平に並べています。(.form_elements-list_horizontal を使用)&lt;/li&gt;
+				&lt;/ul&gt;
+				&lt;ul class=&quot;form_elements-list_horizontal&quot;&gt;
+					&lt;li&gt;&lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;&quot; value=&quot;&quot; /&gt; 選択肢1&lt;/label&gt;&lt;/li&gt;
+					&lt;li&gt;&lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;&quot; value=&quot;&quot; /&gt; 選択肢2&lt;/label&gt;&lt;/li&gt;
+					&lt;li&gt;&lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;&quot; value=&quot;&quot; /&gt; 選択肢3&lt;/label&gt;&lt;/li&gt;
+				&lt;/ul&gt;
+			&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;th&gt;プルダウン選択入力&lt;/th&gt;
+			&lt;td&gt;
+				&lt;ul class=&quot;form_elements-notes&quot;&gt;
+					&lt;li&gt;１つだけ選択してください。&lt;/li&gt;
+				&lt;/ul&gt;
+				&lt;select name=&quot;&quot;&gt;
+					&lt;option value=&quot;&quot;&gt;選択してください&lt;/option&gt;
+					&lt;option value=&quot;&quot;&gt;選択肢1&lt;/option&gt;
+					&lt;option value=&quot;&quot;&gt;選択肢2&lt;/option&gt;
+					&lt;option value=&quot;&quot;&gt;選択肢3&lt;/option&gt;
+				&lt;/select&gt;
+			&lt;/td&gt;
+		&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+</textarea></div>
 </div><!-- /.unit -->
 
 <h3>必須項目</h3>
@@ -583,26 +677,49 @@ table.form_elements .form_elements-must{
 </style>
 <?php $px->theme()->send_content( ob_get_clean(), 'head' ); ?>
 <div class="unit">
-	<table class="form_elements">
-		<thead>
-			<tr>
-				<th>入力項目名</th>
-				<th>入力フィールド</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<th>テキスト入力<span class="form_elements-must">必須</span></th>
-				<td>
-					<ul class="form_elements-notes">
-						<li>全角カナで入力してください。</li>
-						<li>8文字以上入力してください。</li>
-					</ul>
-					<input type="text" name="" value="" />
-				</td>
-			</tr>
-		</tbody>
-	</table>
+<table class="form_elements">
+	<thead>
+		<tr>
+			<th>入力項目名</th>
+			<th>入力フィールド</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<th>テキスト入力<span class="form_elements-must">必須</span></th>
+			<td>
+				<ul class="form_elements-notes">
+					<li>全角カナで入力してください。</li>
+					<li>8文字以上入力してください。</li>
+				</ul>
+				<input type="text" name="" value="" />
+			</td>
+		</tr>
+	</tbody>
+</table>
+</div><!-- /.unit -->
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;table class=&quot;form_elements&quot;&gt;
+	&lt;thead&gt;
+		&lt;tr&gt;
+			&lt;th&gt;入力項目名&lt;/th&gt;
+			&lt;th&gt;入力フィールド&lt;/th&gt;
+		&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+		&lt;tr&gt;
+			&lt;th&gt;テキスト入力&lt;span class=&quot;form_elements-must&quot;&gt;必須&lt;/span&gt;&lt;/th&gt;
+			&lt;td&gt;
+				&lt;ul class=&quot;form_elements-notes&quot;&gt;
+					&lt;li&gt;全角カナで入力してください。&lt;/li&gt;
+					&lt;li&gt;8文字以上入力してください。&lt;/li&gt;
+				&lt;/ul&gt;
+				&lt;input type=&quot;text&quot; name=&quot;&quot; value=&quot;&quot; /&gt;
+			&lt;/td&gt;
+		&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+</textarea></div>
 </div><!-- /.unit -->
 
 
@@ -636,30 +753,57 @@ table.form_elements ul.form_elements-errors li{
 </style>
 <?php $px->theme()->send_content( ob_get_clean(), 'head' ); ?>
 <div class="unit">
-	<table class="form_elements">
-		<thead>
-			<tr>
-				<th>入力項目名</th>
-				<th>入力フィールド</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr class="form_elements-error">
-				<th>テキスト入力<span>必須</span></th>
-				<td>
-					<ul class="form_elements-notes">
-						<li>全角カナで入力してください。</li>
-						<li>8文字以上入力してください。</li>
-					</ul>
-					<ul class="form_elements-errors">
-						<li>全角カナで入力してください。</li>
-						<li>8文字以上入力してください。</li>
-					</ul>
-					<input type="text" name="" value="" />
-				</td>
-			</tr>
-		</tbody>
-	</table>
+<table class="form_elements">
+	<thead>
+		<tr>
+			<th>入力項目名</th>
+			<th>入力フィールド</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr class="form_elements-error">
+			<th>テキスト入力<span>必須</span></th>
+			<td>
+				<ul class="form_elements-notes">
+					<li>全角カナで入力してください。</li>
+					<li>8文字以上入力してください。</li>
+				</ul>
+				<ul class="form_elements-errors">
+					<li>全角カナで入力してください。</li>
+					<li>8文字以上入力してください。</li>
+				</ul>
+				<input type="text" name="" value="" />
+			</td>
+		</tr>
+	</tbody>
+</table>
+</div><!-- /.unit -->
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;table class=&quot;form_elements&quot;&gt;
+	&lt;thead&gt;
+		&lt;tr&gt;
+			&lt;th&gt;入力項目名&lt;/th&gt;
+			&lt;th&gt;入力フィールド&lt;/th&gt;
+		&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+		&lt;tr class=&quot;form_elements-error&quot;&gt;
+			&lt;th&gt;テキスト入力&lt;span&gt;必須&lt;/span&gt;&lt;/th&gt;
+			&lt;td&gt;
+				&lt;ul class=&quot;form_elements-notes&quot;&gt;
+					&lt;li&gt;全角カナで入力してください。&lt;/li&gt;
+					&lt;li&gt;8文字以上入力してください。&lt;/li&gt;
+				&lt;/ul&gt;
+				&lt;ul class=&quot;form_elements-errors&quot;&gt;
+					&lt;li&gt;全角カナで入力してください。&lt;/li&gt;
+					&lt;li&gt;8文字以上入力してください。&lt;/li&gt;
+				&lt;/ul&gt;
+				&lt;input type=&quot;text&quot; name=&quot;&quot; value=&quot;&quot; /&gt;
+			&lt;/td&gt;
+		&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+</textarea></div>
 </div><!-- /.unit -->
 
 
