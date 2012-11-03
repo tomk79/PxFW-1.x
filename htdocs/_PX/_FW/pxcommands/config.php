@@ -15,8 +15,23 @@ class px_pxcommands_config extends px_bases_pxcommand{
 	 * Execute PX Command "config".
 	 */
 	private function execute(){
+		$src = '';
+
+		$src .= '<div class="unit">'."\n";
+		$src .= '	<p>'."\n";
+		$src .= '		コンフィグに設定された内容を表示します。<br />'."\n";
+		$src .= '		コンフィグは、次のファイルを編集すると変更することができます。<br />'."\n";
+		$src .= '	</p>'."\n";
+		$src .= '	<ul>'."\n";
+		$src .= '		<li>'.t::h( realpath( $this->px->get_conf('paths.px_dir').'configs/mainconf.ini' ) ).'</li>'."\n";
+		$src .= '	</ul>'."\n";
+		$src .= '</div><!-- /.unit -->'."\n";
+		$src .= '<div class="unit">'."\n";
 		$config = $this->px->get_conf_all();
-		print $this->html_template($this->mk_ary_table($config));
+		$src .= $this->mk_ary_table($config);
+		$src .= '</div><!-- /.unit -->'."\n";
+
+		print $this->html_template($src);
 		exit;
 	}
 
