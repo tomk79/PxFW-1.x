@@ -59,12 +59,12 @@ class px_bases_pxcommand{
 		$src .= '<li><a href="?PX=rdb">rdb</a></li>'."\n";
 		$src .= '<li><a href="?PX=search">search</a></li>'."\n";
 		$src .= '<li><a href="?PX=publish">publish</a></li>'."\n";
+		$src .= '<li><a href="?PX=initialize">initialize</a></li>'."\n";
+		$src .= '<li><a href="?PX=fillcontents">fillcontents</a></li>'."\n";
 		$src .= '</ul>'."\n";
 		$src .= '<ul>'."\n";
 		$src .= '<li><a href="?PX=clearcache">clearcache</a></li>'."\n";
 		$src .= '<li><a href="?PX=phpinfo">phpinfo</a></li>'."\n";
-		$src .= '<li><a href="?PX=initialize">initialize</a></li>'."\n";
-		$src .= '<li><a href="?PX=fillcontents">fillcontents</a></li>'."\n";
 		$src .= '</ul>'."\n";
 		$src .= '</div>'."\n";
 		$src .= '</div>'."\n";
@@ -222,6 +222,7 @@ table.def {
 table.def th,
 table.def td {
 	border: 1px solid #999999;
+	background: #ffffff;
 	padding: 10px;
 }
 table.def th {

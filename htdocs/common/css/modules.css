@@ -264,6 +264,7 @@ table.def {
 table.def th,
 table.def td {
 	border: 1px solid #999999;
+	background: #ffffff;
 	padding: 10px;
 }
 table.def th {

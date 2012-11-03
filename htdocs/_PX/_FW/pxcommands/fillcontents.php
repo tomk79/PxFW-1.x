@@ -6,10 +6,40 @@ $this->load_px_class('/bases/pxcommand.php');
  **/
 class px_pxcommands_fillcontents extends px_bases_pxcommand{
 
+	/**
+	 * コンストラクタ
+	 */
 	public function __construct( $command , $px ){
 		parent::__construct( $command , $px );
-		$this->execute();
+
+		$command = $this->get_command();
+
+		switch( $command[1] ){
+			case 'run':
+				$this->execute();
+				break;
+			default:
+				$this->homepage();
+				break;
+		}
 	}//__construct()
+
+
+	/**
+	 * ホームページを表示する。
+	 */
+	private function homepage(){
+		$command = $this->get_command();
+		$src = '';
+		$src .= '<p>サイトマップCSVの内容に従って、コンテンツファイルを生成します。</p>'."\n";
+		$src .= '<p>この操作は、サイトのセットアップ時に<strong>1度だけ実行します</strong>。すでに1度実行している場合は、この操作は行わないでください。</p>'."\n";
+		$src .= '<form action="?" method="get" target="_blank">'."\n";
+		$src .= '<p class="center"><button>fillcontentsを実行する</button></p>'."\n";
+		$src .= '<div><input type="hidden" name="PX" value="'.t::h($command[0]).'.run" /></div>'."\n";
+		$src .= '</form>'."\n";
+		print $this->html_template($src);
+		exit;
+	}
 
 	/**
 	 * Execute PX Command "fillcontents".
@@ -17,8 +47,12 @@ class px_pxcommands_fillcontents extends px_bases_pxcommand{
 	private function execute(){
 		$command = $this->get_command();
 
-		$dir_perm = 0777;//←8進数指定
-		$page_perm = 0666;//←8進数指定
+		@header('Content-type: text/plain');
+		print $command[0].' | Pickles Framework'."\n";
+		print "\n";
+		print '* start fillcontents.'."\n";
+		print "\n";
+
 		$CONTENT = 'empty contents';
 
 		$sitemap = $this->px->site()->get_sitemap();
@@ -26,17 +60,21 @@ class px_pxcommands_fillcontents extends px_bases_pxcommand{
 
 		//sitemapからcontent_pathの配列を抽出
 		foreach ($sitemap as $key => $val ) {
-			foreach ($val as $key2 => $val2 ) {
-				if( $key2 == 'content' ) {
-					//document_rootを付与
-					array_push( $content_path, $val2);
-				}
+			if( !strlen($val['content']) ){
+				//コンテンツのパスが指定されていない場合は作成しない
+				continue;
 			}
+			if( !preg_match('/^\//si',$val['content']) ){
+				//コンテンツのパスがスラッシュから始まっていない場合は作成しない
+				continue;
+			}
+			$tmp_path_type = $this->px->site()->get_path_type($val['path']);
+			if( $tmp_path_type == 'alias' ){
+				//エイリアスのコンテンツは作成しない
+				continue;
+			}
+			array_push( $content_path, $val['content']);
 		}
-
-		@header('Content-type: text/plain');
-		print $command[0].' | Pickles Framework'."\n\n";
-		print '* start fillcontents.'."\n\n";
 
 		foreach($content_path as $val) {
 			if( !strlen($val) ){continue;}
@@ -55,7 +93,7 @@ class px_pxcommands_fillcontents extends px_bases_pxcommand{
 
 			//ディレクトリ生成
 			if(!$this->px->dbh()->is_dir($dir_realpath)) {
-				$success_dir = $this->px->dbh()->mkdir_all( $dir_realpath , $dir_perm );
+				$success_dir = $this->px->dbh()->mkdir_all( $dir_realpath );
 
 				if($success_dir) {
 					print 'success make Directory : ' . $dir_path . "\n";
@@ -67,15 +105,15 @@ class px_pxcommands_fillcontents extends px_bases_pxcommand{
 			}
 
 			//ファイル生成
-			if(!$this->px->dbh()->is_file($file_realpath)) {
-				$success_file = $this->px->dbh()->save_file( $file_realpath , $CONTENT , $page_perm );
+			if(!$this->is_content_file($file_realpath)) {
+				$success_file = $this->px->dbh()->save_file( $file_realpath , $CONTENT );
 				if($success_file) {
 					print 'success make File: ' . $file_path . "\n";
 				} else {
 					print 'ERROR make File FAILED: ' . $file_path . "\n";
 				}
 			} else {
-				print 'exists File: ' . $file_path . "\n";
+				print 'File exists: ' . $file_path . "\n";
 			}
 
 		}
@@ -85,6 +123,22 @@ class px_pxcommands_fillcontents extends px_bases_pxcommand{
 		print date('Y-m-d H:i:s')."\n\n";
 		print 'exit.'."\n";
 		exit;
+	}
+
+	/**
+	 * コンテンツファイルがすでに存在するか確認する。
+	 */
+	private function is_content_file($file_realpath){
+		if( $this->px->dbh()->is_file($file_realpath) ){
+			return true;
+		}
+		$extensions = $this->px->get_extensions_list();
+		foreach( $extensions as $ext ){
+			if( $this->px->dbh()->is_file($file_realpath.'.'.$ext) ){
+				return true;
+			}
+		}
+		return false;
 	}
 
 }
