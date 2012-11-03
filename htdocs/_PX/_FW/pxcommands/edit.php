@@ -47,7 +47,8 @@ class px_pxcommands_edit extends px_bases_pxcommand{
 	private function home(){
 
 		$src = '';
-		$src .= '<p>コンテンツファイル '.$this->px->dbh()->get_realpath( $this->px->get_install_path().$this->pageinfo['content'] ).' を編集します。</p>'."\n";
+		$src .= '<p>次のコンテンツファイルを編集します。</p>'."\n";
+		$src .= '<p>'.realpath( $this->path_content_src ).'</p>'."\n";
 
 		$src .= '<form action="?PX='.t::h( implode('.',$this->command) ).'.update" method="post" onsubmit="return confirm(\'編集した内容でファイルを上書き保存します。よろしいですか？\');">'."\n";
 		$src .= '<p><textarea name="src" style="width:100%; height:260px;">';
