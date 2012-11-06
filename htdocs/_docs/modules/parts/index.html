@@ -310,8 +310,11 @@
 <p>
 	学習しやすさのために <q>可能な限り、素のHTMLの構造のままでマークアップできるように設計する</q> コンセプトに従うならば、本来はクラス名なしの素のHTMLがデフォルトのテーブルスタイルになるべきです。しかし、テーブルに限っては、素のデザインにはボーダーが表示されず、一見して表だと分かるスタイルは適用されません。これをデフォルトとしてボーダーをつけるように変更するのは混乱を招く元となるおそれがあるので、例外的に、デフォルトスタイルにクラス名 .def を定義しています。<br />
 </p>
+<p>
+	コンテンツ制作者は、table要素の幅、高さ、行や列の幅、高さ を上書きして変更できます。<br />
+</p>
 
-<table class="def" width="100%">
+<table class="def" style="width:100%;">
 	<thead>
 		<tr>
 			<th>thead ヘッダセル</th>
@@ -340,7 +343,7 @@
 	</tbody>
 </table>
 <div class="unit">
-	<div class="code"><textarea readonly="readonly">&lt;table class=&quot;def&quot; width=&quot;100%&quot;&gt;
+	<div class="code"><textarea readonly="readonly">&lt;table class=&quot;def&quot; style=&quot;width:100%;&quot;&gt;
 	&lt;thead&gt;
 		&lt;tr&gt;
 			&lt;th&gt;thead ヘッダセル&lt;/th&gt;
