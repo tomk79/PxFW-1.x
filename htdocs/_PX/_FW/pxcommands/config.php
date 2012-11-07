@@ -5,6 +5,7 @@ $this->load_px_class('/bases/pxcommand.php');
  * PX Command: configを表示する
  **/
 class px_pxcommands_config extends px_bases_pxcommand{
+	private $config_ary = array();
 
 	public function __construct( $command , $px ){
 		parent::__construct( $command , $px );
@@ -20,19 +21,121 @@ class px_pxcommands_config extends px_bases_pxcommand{
 		$src .= '<div class="unit">'."\n";
 		$src .= '	<p>'."\n";
 		$src .= '		コンフィグに設定された内容を表示します。<br />'."\n";
-		$src .= '		コンフィグは、次のファイルを編集すると変更することができます。<br />'."\n";
+		$src .= '	</p>'."\n";
+		$src .= '</div><!-- /.unit -->'."\n";
+
+		$this->config_ary = $this->px->get_conf_all();
+		$src .= '<div class="unit">'."\n";
+
+		$src .= '<h2>project</h2>'."\n";
+		$src .= '<table class="def" style="width:100%;">' . "\n";
+		$src .= '<colgroup><col width="30%" /><col width="30%" /><col width="40%" /></colgroup>' . "\n";
+		$src .= $this->mk_config_unit('project.id','プロジェクトID');
+		$src .= $this->mk_config_unit('project.name','プロジェクト名');
+		$src .= $this->mk_config_unit('project.auth_type','認証形式');
+		$src .= $this->mk_config_unit('project.auth_name','認証ユーザーID');
+		$src .= $this->mk_config_unit('project.auth_password','認証パスワード');
+		$src .= '</table>' . "\n";
+
+		$src .= '<h2>paths</h2>'."\n";
+		$src .= '<table class="def" style="width:100%;">' . "\n";
+		$src .= '<colgroup><col width="30%" /><col width="30%" /><col width="40%" /></colgroup>' . "\n";
+		$src .= $this->mk_config_unit('paths.px_dir','Pickles Framework のディレクトリパス','realpath',true);
+		$src .= $this->mk_config_unit('paths.access_log','アクセスログ出力先ファイルパス','realpath');
+		$src .= $this->mk_config_unit('paths.error_log','エラーログ出力先ファイルパス','realpath');
+		$src .= '</table>' . "\n";
+
+		$src .= '<h2>publish</h2>'."\n";
+		$src .= '<table class="def" style="width:100%;">' . "\n";
+		$src .= '<colgroup><col width="30%" /><col width="30%" /><col width="40%" /></colgroup>' . "\n";
+		$src .= $this->mk_config_unit('publish.path_publish_dir','パブリッシュ先ディレクトリパス','realpath');
+		$src .= $this->mk_config_unit('publish.paths_ignore','パブリッシュ対象外パスの一覧');
+		$src .= '</table>' . "\n";
+
+		$src .= '<h2>dbms</h2>'."\n";
+		$src .= '<table class="def" style="width:100%;">' . "\n";
+		$src .= '<colgroup><col width="30%" /><col width="30%" /><col width="40%" /></colgroup>' . "\n";
+		$src .= $this->mk_config_unit('dbms.prefix','テーブル名の接頭辞');
+		$src .= $this->mk_config_unit('dbms.dbms','DBMS名');
+		$src .= $this->mk_config_unit('dbms.host','接続先ホスト名');
+		$src .= $this->mk_config_unit('dbms.port','接続先ポート番号');
+		$src .= $this->mk_config_unit('dbms.database_name','データベース名(SQLiteの場合は、データベースのパス)');
+		$src .= $this->mk_config_unit('dbms.user','ユーザー名');
+		$src .= $this->mk_config_unit('dbms.password','パスワード');
+		$src .= $this->mk_config_unit('dbms.charset','文字セット');
+		$src .= '</table>' . "\n";
+
+		$src .= '<h2>system</h2>'."\n";
+		$src .= '<table class="def" style="width:100%;">' . "\n";
+		$src .= '<colgroup><col width="30%" /><col width="30%" /><col width="40%" /></colgroup>' . "\n";
+		$src .= $this->mk_config_unit('system.allow_pxcommands','PX Commands の実行を許可するフラグ(1=許可, 0=不許可)','bool');
+		$src .= $this->mk_config_unit('system.session_name','セッションID');
+		$src .= $this->mk_config_unit('system.filesystem_encoding','ファイル名の文字エンコード');
+		$src .= $this->mk_config_unit('system.output_encoding','出力エンコード');
+		$src .= $this->mk_config_unit('system.output_eof_coding',' 出力改行コード("CR"|"LF"|"CRLF")');
+		$src .= '</table>' . "\n";
+
+		$src .= '</div><!-- /.unit -->'."\n";
+
+		if( count($this->config_ary) ){
+			$src .= '<div class="unit">'."\n";
+			$src .= '<h2>その他の値</h2>'."\n";
+			$src .= $this->mk_ary_table($this->config_ary);
+			$src .= '</div><!-- /.unit -->'."\n";
+		}
+
+		$src .= '<div class="unit">'."\n";
+		$src .= '<h2>コンフィグの変更</h2>'."\n";
+		$src .= '	<p>'."\n";
+		$src .= '		コンフィグは、次のファイルを編集して変更することができます。<br />'."\n";
 		$src .= '	</p>'."\n";
 		$src .= '	<ul>'."\n";
 		$src .= '		<li>'.t::h( realpath( $this->px->get_conf('paths.px_dir').'configs/mainconf.ini' ) ).'</li>'."\n";
 		$src .= '	</ul>'."\n";
 		$src .= '</div><!-- /.unit -->'."\n";
-		$src .= '<div class="unit">'."\n";
-		$config = $this->px->get_conf_all();
-		$src .= $this->mk_ary_table($config);
-		$src .= '</div><!-- /.unit -->'."\n";
 
 		print $this->html_template($src);
 		exit;
+	}
+
+	/**
+	 * コンフィグ項目1件の出力
+	 */
+	private function mk_config_unit($key,$label,$type='string',$must = false){
+		$src = '';
+		$src .= '	<tr>'."\n";
+		$src .= '		<th>'.t::h( $key ).'</th>'."\n";
+		$src .= '		<th>'.t::h( $label ).'</th>'."\n";
+		$src .= '		<td>';
+		if(is_null($this->config_ary[$key])){
+			$src .= '<span style="font-style:italic; color:#aaaaaa; background-color:#ffffff;">null</span>';
+		}else{
+			switch(strtolower($type)){
+				case 'bool':
+					$src .= ($this->config_ary[$key]?'<span style="font-style:italic; color:#0033dd; background-color:#ffffff;">true</span>':'<span style="font-style:italic; color:#0033dd; background-color:#ffffff;">false</span>');
+					break;
+				case 'realpath':
+					$src .= $this->h( realpath( $this->config_ary[$key] ) ).'<br />(<q>'.$this->h( $this->config_ary[$key] ).'</q>)';
+					break;
+				case 'string':
+				default:
+					$src .= $this->h( $this->config_ary[$key] );
+					break;
+			}
+		}
+		$src .= '</td>'."\n";
+		$src .= '	</tr>'."\n";
+		unset($this->config_ary[$key]);
+		return $src;
+	}
+
+	/**
+	 * HTML特殊文字の変換
+	 */
+	private function h($txt){
+		$txt = t::h($txt);
+		$txt = preg_replace('/\r\n|\r|\n/','<br />',$txt);
+		return $txt;
 	}
 
 	/**
@@ -42,8 +145,8 @@ class px_pxcommands_config extends px_bases_pxcommand{
 		if(is_array($ary)) {
 			if($this->is_hash($ary)) {
 				$html = '';
-				$html .= '<table class="def">' . "\n";
-				$html .= '<colgroup><col width="30%" /><col width="70%" /></colgroup>' . "\n";
+				$html .= '<table class="def" style="width:100%;">' . "\n";
+				$html .= '<colgroup><col width="40%" /><col width="60%" /></colgroup>' . "\n";
 				foreach ($ary as $key => $val) {
 					$html .= '<tr>' . "\n";
 					$html .= '<th>' .t::h( $key ). '</th>' . "\n";
