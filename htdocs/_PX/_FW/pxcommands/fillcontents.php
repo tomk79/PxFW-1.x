@@ -53,7 +53,8 @@ class px_pxcommands_fillcontents extends px_bases_pxcommand{
 		print '* start fillcontents.'."\n";
 		print "\n";
 
-		$CONTENT = 'empty contents';
+		//  ダミーのコンテンツソースを生成
+		$CONTENT = $this->mk_dummy_contents_src();
 
 		$sitemap = $this->px->site()->get_sitemap();
 		$content_path = array();
@@ -139,6 +140,18 @@ class px_pxcommands_fillcontents extends px_bases_pxcommand{
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * ダミーのコンテンツソース
+	 */
+	private function mk_dummy_contents_src(){
+		$command = $this->get_command();
+		$src = '';
+		$src .= '<h2>Dummy content</h2>'."\r\n";
+		$src .= '<p>このコンテンツファイルは、PX='.t::h($command[0]).' によって自動生成されたダミーファイルです。</p>'."\r\n";
+		$src .= "\r\n";
+		return $src;
 	}
 
 }
