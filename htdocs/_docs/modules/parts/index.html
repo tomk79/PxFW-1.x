@@ -113,7 +113,7 @@
 
 <h2>その他のインライン要素</h2>
 
-<h3>エラー表示 .error (策定中)</h3>
+<h3>エラー表示 .error</h3>
 <p><span class="error">この文言はエラー表示です。</span></p>
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;span class=&quot;error&quot;&gt;この文言はエラー表示です。&lt;/span&gt;
@@ -376,9 +376,9 @@
 
 
 
-<h2>ソースコード</h2>
+<h2>ソースコード .code</h2>
 
-<h3>コピペ用ソースコード .code</h3>
+<h3>コピペ用ソースコード</h3>
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;h2&gt;ああああ&lt;/h2&gt;
 </textarea></div>
@@ -394,7 +394,7 @@
 
 
 
-<h3>見てるだけ用ソースコード .code</h3>
+<h3>見てるだけ用ソースコード</h3>
 <div class="unit">
 	<div class="code"><pre><code>&lt;h2&gt;ああああ&lt;/h2&gt;
 </code></pre></div>
@@ -409,70 +409,7 @@
 </div><!-- /.unit -->
 
 
-<h2>フォーム (策定中)</h2>
-
-
-<?php ob_start(); ?>
-<style type="text/css">
-/**
- * [parts] フォーム要素
- */
-table.form_elements {
-	border:none;
-	border-collapse: collapse;
-	text-align: left;
-	width:100%;
-}
-table.form_elements th,
-table.form_elements td {
-	border: 1px solid #999999;
-	padding: 10px;
-}
-table.form_elements th {
-	background: #e7e7e7;
-}
-table.form_elements thead th,
-table.form_elements tfoot th{
-	background: #d9d9d9;
-	text-align:center;
-}
-table.form_elements thead td,
-table.form_elements tfoot td{
-	background: #eeeeee;
-}
-table.form_elements tbody th {
-	width:30%;
-}
-table.form_elements tbody td {
-	width:70%;
-}
-table.form_elements .form_elements-notes {
-	font-size:86%;
-	color:#999999;
-	margin:0px; padding:0px;
-}
-table.form_elements .form_elements-notes li{
-	list-style-type:none;
-	margin:0px;
-}
-table.form_elements .form_elements-list{
-	margin:0px; padding:0px;
-}
-table.form_elements .form_elements-list li{
-	margin:0px; padding:0px;
-	list-style-type:none;
-}
-table.form_elements .form_elements-list_horizontal{
-	margin:0px; padding:0px;
-}
-table.form_elements .form_elements-list_horizontal li{
-	margin:0px; padding:0px;
-	list-style-type:none;
-	display:inline;
-}
-</style>
-<?php $px->theme()->send_content( ob_get_clean(), 'head' ); ?>
-
+<h2>フォーム .form_elements</h2>
 
 <form action="#" method="post">
 <h3>フォーム要素</h3>
@@ -664,21 +601,9 @@ table.form_elements .form_elements-list_horizontal li{
 </textarea></div>
 </div><!-- /.unit -->
 
+
 <h3>必須項目</h3>
-<?php ob_start(); ?>
-<style type="text/css">
-/**
- * [parts] フォーム要素
- */
-table.form_elements {
-}
-table.form_elements .form_elements-must{
-	color:#ff0000;
-	font-weight:bold;
-	display:block;
-}
-</style>
-<?php $px->theme()->send_content( ob_get_clean(), 'head' ); ?>
+
 <div class="unit">
 <table class="form_elements">
 	<thead>
@@ -727,34 +652,7 @@ table.form_elements .form_elements-must{
 
 
 <h3>エラー表示</h3>
-<?php ob_start(); ?>
-<style type="text/css">
-/**
- * [parts] フォーム要素
- */
-table.form_elements {
-}
-table.form_elements thead{
-	display:none;
-}
-table.form_elements .form_elements-error{
-}
-table.form_elements .form_elements-error th{
-	background-color:#ffcccc;
-}
-table.form_elements .form_elements-error td{
-	background-color:#fff2f2;
-}
-table.form_elements ul.form_elements-errors{
-	color:#ff0000;
-	margin:0px; padding:0px;
-}
-table.form_elements ul.form_elements-errors li{
-	list-style-type:none;
-	margin:0px;
-}
-</style>
-<?php $px->theme()->send_content( ob_get_clean(), 'head' ); ?>
+
 <div class="unit">
 <table class="form_elements">
 	<thead>
