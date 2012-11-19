@@ -90,7 +90,7 @@ class px_pxcommands_config extends px_bases_pxcommand{
 		$src .= '		コンフィグは、次のファイルを編集して変更することができます。<br />'."\n";
 		$src .= '	</p>'."\n";
 		$src .= '	<ul>'."\n";
-		$src .= '		<li>'.t::h( realpath( $this->px->get_conf('paths.px_dir').'configs/mainconf.ini' ) ).'</li>'."\n";
+		$src .= '		<li>'.t::h( realpath( $this->px->get_path_conf() ) ).'</li>'."\n";
 		$src .= '	</ul>'."\n";
 		$src .= '</div><!-- /.unit -->'."\n";
 

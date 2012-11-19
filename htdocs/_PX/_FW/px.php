@@ -15,11 +15,13 @@ class px_px{
 
 	private $pxcommand;
 	private $relatedlinks = array();
+	private $path_mainconf;
 
 	/**
 	 * $pxオブジェクトの初期化。
 	 */
 	public function __construct( $path_mainconf ){
+		$this->path_mainconf = $path_mainconf;
 
 		//  PHP設定のチューニング
 		$this->php_setup();
@@ -281,6 +283,14 @@ class px_px{
 	public function get_conf( $key ){
 		return $this->conf[$key];
 	}//get_conf()
+
+	/**
+	 * コンフィグファイルのパスを取得する
+	 */
+	public function get_path_conf(){
+		return $this->path_mainconf;
+	}
+
 	/**
 	 * 全てのコンフィグ値を出力。
 	 * @return すべての値が入ったコンフィグの連想配列
