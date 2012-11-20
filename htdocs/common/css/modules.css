@@ -346,7 +346,6 @@ table.def tfoot td{
 	text-align:center;
 }
 
-
 /**
  * [parts] フォーム要素
  */
@@ -458,5 +457,142 @@ table.form_elements ul.form_elements-errors li{
 }
 .form_error_box a{
 	color:#ff0000;
+}
+
+/**
+ * [unit] 注意喚起ユニット
+ */
+.attention {
+	border:1px solid #999999;
+	padding:0 20px;
+	margin-left:20px;
+	margin-right:20px;
+	border-radius:10px;
+	background-color:#f9f9f9;
+}
+.attention .attention-heading{
+	font-weight:bold;
+	margin:1em 0;
+	font-size:120%;
+}
+
+/**
+ * [unit] ページャー
+ */
+.pager{
+}
+.pager ul{
+	text-align:center;
+	padding:0px;
+	margin:0px;
+}
+.pager ul li{
+	display:inline;
+	list-style-type:none;
+	padding:0px 5px 0px 5px;
+}
+
+/**
+ * [unit] サムネイルリスト
+ */
+.thumb_list{
+}
+.thumb_list ul{
+	text-align:left;
+	padding:0px;
+	margin:0px;
+	font-size:0px;
+	margin-left:-10px; zoom:1;
+}
+.thumb_list ul li{
+	display:inline-block;
+	>display:inline; zoom:1;
+	list-style-type:none;
+	width:25%;
+	>width:24.9%;
+	margin:0px;
+	padding:0px;
+	vertical-align:top;
+	font-size:small;
+}
+.thumb_list ul li .thumb_list-pad{
+	margin-left:10px;
+}
+.thumb_list ul li a{
+	display:block;
+	width:100%;
+	height:100%;
+}
+.thumb_list ul li img{
+	width:100%;
+	height:auto;
+}
+.thumb_list ul li:nth-child(4n+1){
+	clear:left;
+}
+
+/**
+ * [unit] 回り込み画像
+ */
+.float_image{
+}
+.float_image .float_image-r50per{
+	float:right;
+	width:50%;
+	margin-left:20px;
+	margin-bottom:20px;
+}
+.float_image .float_image-l50per{
+	float:left;
+	width:50%;
+	margin-right:20px;
+	margin-bottom:20px;
+}
+.float_image .float_image-r33per{
+	float:right;
+	width:33%;
+	margin-left:20px;
+	margin-bottom:20px;
+}
+.float_image .float_image-l33per{
+	float:left;
+	width:33%;
+	margin-right:20px;
+	margin-bottom:20px;
+}
+.float_image .float_image-r25per{
+	float:right;
+	width:25%;
+	margin-left:20px;
+	margin-bottom:20px;
+}
+.float_image .float_image-l25per{
+	float:left;
+	width:25%;
+	margin-right:20px;
+	margin-bottom:20px;
+}
+.float_image .float_image-l50per img,
+.float_image .float_image-l33per img,
+.float_image .float_image-l25per img,
+.float_image .float_image-r50per img,
+.float_image .float_image-r33per img,
+.float_image .float_image-r25per img{
+	width:100%;
+	height:auto;
+}
+.float_image .float_image-image{
+	margin-top:0px;
+}
+.float_image .float_image-caption{
+	font-size:86%;
+}
+.float_image .float_image-body{
+}
+.float_image .float_image-body_rect{
+	overflow:hidden;
+}
+.float_image .float_image-body_rect *:first-child{
+	margin-top:0px;
 }
 

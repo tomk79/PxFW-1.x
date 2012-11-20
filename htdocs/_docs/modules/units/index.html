@@ -215,76 +215,7 @@
 
 
 
-<h2>回り込み画像 .float_image (策定中)</h2>
-<?php ob_start(); ?>
-<style type="text/css">
-/**
- * 回り込み画像
- */
-.float_image{
-}
-.float_image .float_image-r50per{
-	float:right;
-	width:50%;
-	margin-left:20px;
-	margin-bottom:20px;
-}
-.float_image .float_image-l50per{
-	float:left;
-	width:50%;
-	margin-right:20px;
-	margin-bottom:20px;
-}
-.float_image .float_image-r33per{
-	float:right;
-	width:33%;
-	margin-left:20px;
-	margin-bottom:20px;
-}
-.float_image .float_image-l33per{
-	float:left;
-	width:33%;
-	margin-right:20px;
-	margin-bottom:20px;
-}
-.float_image .float_image-r25per{
-	float:right;
-	width:25%;
-	margin-left:20px;
-	margin-bottom:20px;
-}
-.float_image .float_image-l25per{
-	float:left;
-	width:25%;
-	margin-right:20px;
-	margin-bottom:20px;
-}
-.float_image .float_image-l50per img,
-.float_image .float_image-l33per img,
-.float_image .float_image-l25per img,
-.float_image .float_image-r50per img,
-.float_image .float_image-r33per img,
-.float_image .float_image-r25per img{
-	width:100%;
-	height:auto;
-}
-.float_image .float_image-image{
-	margin-top:0px;
-}
-.float_image .float_image-caption{
-	font-size:86%;
-}
-.float_image .float_image-body{
-}
-.float_image .float_image-body_rect{
-	overflow:hidden;
-}
-.float_image .float_image-body_rect *:first-child{
-	margin-top:0px;
-}
-</style>
-<?php $px->theme()->send_content( ob_get_clean(), 'head' ); ?>
-
+<h2>回り込み画像 .float_image</h2>
 <h3>1/2画像右回り込み</h3>
 <div class="unit float_image">
 	<div class="float_image-r50per">
@@ -527,70 +458,34 @@
 
 
 
-<h2>サムネイルリスト .thumb_list (策定中)</h2>
-<p>【課題】:nth-child()が使えないブラウザ(～IE8)に対しては、どのように対応するべきか？</p>
-<?php ob_start(); ?>
-<style type="text/css">
-/**
- * サムネイルリスト
- */
-.thumb_list{
-}
-.thumb_list ul{
-	text-align:center;
-	padding:0px;
-	margin:0px;
-}
-.thumb_list ul li{
-	float:left;
-	display:block;
-	list-style-type:none;
-	width:23%;
-	margin:0px 0px 10px 0px;
-	padding:0px 2% 0px 0px;
-}
-.thumb_list ul li a{
-	display:block;
-	width:100%;
-	height:100%;
-}
-.thumb_list ul li img{
-	width:100%;
-	height:auto;
-}
-.thumb_list ul li:nth-child(4n+1){
-	clear:left;
-}
-
-</style>
-<?php $px->theme()->send_content( ob_get_clean(), 'head' ); ?>
+<h2>サムネイルリスト .thumb_list</h2>
 <div class="unit thumb_list">
 	<ul>
-		<li><a href="#"><img src="index.files/sampleimage.png" alt="サンプル画像" /><br />サムネイルラベル</a></li>
-		<li><a href="#"><img src="index.files/sampleimage.png" alt="サンプル画像" /><br />サムネイルラベル</a></li>
-		<li><a href="#"><img src="index.files/sampleimage.png" alt="サンプル画像" /><br />サムネイルラベルサムネイルラベルサムネイルラベルサムネイルラベル</a></li>
-		<li><a href="#"><img src="index.files/sampleimage.png" alt="サンプル画像" /><br />サムネイルラベル</a></li>
-		<li><a href="#"><img src="index.files/sampleimage.png" alt="サンプル画像" /><br />サムネイルラベル</a></li>
-		<li><a href="#"><img src="index.files/sampleimage.png" alt="サンプル画像" /><br />サムネイルラベルサムネイルラベルサムネイルラベルサムネイルラベル</a></li>
-		<li><a href="#"><img src="index.files/sampleimage.png" alt="サンプル画像" /><br />サムネイルラベル</a></li>
-		<li><a href="#"><img src="index.files/sampleimage.png" alt="サンプル画像" /><br />サムネイルラベル</a></li>
-		<li><a href="#"><img src="index.files/sampleimage.png" alt="サンプル画像" /><br />サムネイルラベル</a></li>
-		<li><a href="#"><img src="index.files/sampleimage.png" alt="サンプル画像" /><br />サムネイルラベル</a></li>
+		<li><div class="thumb_list-pad"><a href="#"><img src="index.files/sampleimage.png" alt="サンプル画像" /><span class="thumb_list-caption">サムネイルラベル</span></a></div></li>
+		<li><div class="thumb_list-pad"><a href="#"><img src="index.files/sampleimage.png" alt="サンプル画像" /><span class="thumb_list-caption">サムネイルラベル</span></a></div></li>
+		<li><div class="thumb_list-pad"><a href="#"><img src="index.files/sampleimage.png" alt="サンプル画像" /><span class="thumb_list-caption">サムネイルラベルサムネイルラベルサムネイルラベルサムネイルラベル</span></a></div></li>
+		<li><div class="thumb_list-pad"><a href="#"><img src="index.files/sampleimage.png" alt="サンプル画像" /><span class="thumb_list-caption">サムネイルラベル</span></a></div></li>
+		<li><div class="thumb_list-pad"><a href="#"><img src="index.files/sampleimage.png" alt="サンプル画像" /><span class="thumb_list-caption">サムネイルラベル</span></a></div></li>
+		<li><div class="thumb_list-pad"><a href="#"><img src="index.files/sampleimage.png" alt="サンプル画像" /><span class="thumb_list-caption">サムネイルラベルサムネイルラベルサムネイルラベルサムネイルラベル</span></a></div></li>
+		<li><div class="thumb_list-pad"><a href="#"><img src="index.files/sampleimage.png" alt="サンプル画像" /><span class="thumb_list-caption">サムネイルラベル</span></a></div></li>
+		<li><div class="thumb_list-pad"><a href="#"><img src="index.files/sampleimage.png" alt="サンプル画像" /><span class="thumb_list-caption">サムネイルラベル</span></a></div></li>
+		<li><div class="thumb_list-pad"><a href="#"><img src="index.files/sampleimage.png" alt="サンプル画像" /><span class="thumb_list-caption">サムネイルラベル</span></a></div></li>
+		<li><div class="thumb_list-pad"><img src="index.files/sampleimage.png" alt="サンプル画像" /><span class="thumb_list-caption">サムネイルラベル(リンクしない場合の例)</span></div></li>
 	</ul>
 </div><!-- /.thumb_list -->
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;unit thumb_list&quot;&gt;
 	&lt;ul&gt;
-		&lt;li&gt;&lt;a href=&quot;#&quot;&gt;&lt;img src=&quot;XXXX&quot; alt=&quot;&quot; /&gt;&lt;br /&gt;サムネイルラベル&lt;/a&gt;&lt;/li&gt;
-		&lt;li&gt;&lt;a href=&quot;#&quot;&gt;&lt;img src=&quot;XXXX&quot; alt=&quot;&quot; /&gt;&lt;br /&gt;サムネイルラベル&lt;/a&gt;&lt;/li&gt;
-		&lt;li&gt;&lt;a href=&quot;#&quot;&gt;&lt;img src=&quot;XXXX&quot; alt=&quot;&quot; /&gt;&lt;br /&gt;サムネイルラベルサムネイルラベルサムネイルラベルサムネイルラベル&lt;/a&gt;&lt;/li&gt;
-		&lt;li&gt;&lt;a href=&quot;#&quot;&gt;&lt;img src=&quot;XXXX&quot; alt=&quot;&quot; /&gt;&lt;br /&gt;サムネイルラベル&lt;/a&gt;&lt;/li&gt;
-		&lt;li&gt;&lt;a href=&quot;#&quot;&gt;&lt;img src=&quot;XXXX&quot; alt=&quot;&quot; /&gt;&lt;br /&gt;サムネイルラベル&lt;/a&gt;&lt;/li&gt;
-		&lt;li&gt;&lt;a href=&quot;#&quot;&gt;&lt;img src=&quot;XXXX&quot; alt=&quot;&quot; /&gt;&lt;br /&gt;サムネイルラベルサムネイルラベルサムネイルラベルサムネイルラベル&lt;/a&gt;&lt;/li&gt;
-		&lt;li&gt;&lt;a href=&quot;#&quot;&gt;&lt;img src=&quot;XXXX&quot; alt=&quot;&quot; /&gt;&lt;br /&gt;サムネイルラベル&lt;/a&gt;&lt;/li&gt;
-		&lt;li&gt;&lt;a href=&quot;#&quot;&gt;&lt;img src=&quot;XXXX&quot; alt=&quot;&quot; /&gt;&lt;br /&gt;サムネイルラベル&lt;/a&gt;&lt;/li&gt;
-		&lt;li&gt;&lt;a href=&quot;#&quot;&gt;&lt;img src=&quot;XXXX&quot; alt=&quot;&quot; /&gt;&lt;br /&gt;サムネイルラベル&lt;/a&gt;&lt;/li&gt;
-		&lt;li&gt;&lt;a href=&quot;#&quot;&gt;&lt;img src=&quot;XXXX&quot; alt=&quot;&quot; /&gt;&lt;br /&gt;サムネイルラベル&lt;/a&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;div class=&quot;thumb_list-pad&quot;&gt;&lt;a href=&quot;#&quot;&gt;&lt;img src=&quot;index.files/sampleimage.png&quot; alt=&quot;サンプル画像&quot; /&gt;&lt;span class=&quot;thumb_list-caption&quot;&gt;サムネイルラベル&lt;/span&gt;&lt;/a&gt;&lt;/div&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;div class=&quot;thumb_list-pad&quot;&gt;&lt;a href=&quot;#&quot;&gt;&lt;img src=&quot;index.files/sampleimage.png&quot; alt=&quot;サンプル画像&quot; /&gt;&lt;span class=&quot;thumb_list-caption&quot;&gt;サムネイルラベル&lt;/span&gt;&lt;/a&gt;&lt;/div&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;div class=&quot;thumb_list-pad&quot;&gt;&lt;a href=&quot;#&quot;&gt;&lt;img src=&quot;index.files/sampleimage.png&quot; alt=&quot;サンプル画像&quot; /&gt;&lt;span class=&quot;thumb_list-caption&quot;&gt;サムネイルラベルサムネイルラベルサムネイルラベルサムネイルラベル&lt;/span&gt;&lt;/a&gt;&lt;/div&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;div class=&quot;thumb_list-pad&quot;&gt;&lt;a href=&quot;#&quot;&gt;&lt;img src=&quot;index.files/sampleimage.png&quot; alt=&quot;サンプル画像&quot; /&gt;&lt;span class=&quot;thumb_list-caption&quot;&gt;サムネイルラベル&lt;/span&gt;&lt;/a&gt;&lt;/div&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;div class=&quot;thumb_list-pad&quot;&gt;&lt;a href=&quot;#&quot;&gt;&lt;img src=&quot;index.files/sampleimage.png&quot; alt=&quot;サンプル画像&quot; /&gt;&lt;span class=&quot;thumb_list-caption&quot;&gt;サムネイルラベル&lt;/span&gt;&lt;/a&gt;&lt;/div&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;div class=&quot;thumb_list-pad&quot;&gt;&lt;a href=&quot;#&quot;&gt;&lt;img src=&quot;index.files/sampleimage.png&quot; alt=&quot;サンプル画像&quot; /&gt;&lt;span class=&quot;thumb_list-caption&quot;&gt;サムネイルラベルサムネイルラベルサムネイルラベルサムネイルラベル&lt;/span&gt;&lt;/a&gt;&lt;/div&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;div class=&quot;thumb_list-pad&quot;&gt;&lt;a href=&quot;#&quot;&gt;&lt;img src=&quot;index.files/sampleimage.png&quot; alt=&quot;サンプル画像&quot; /&gt;&lt;span class=&quot;thumb_list-caption&quot;&gt;サムネイルラベル&lt;/span&gt;&lt;/a&gt;&lt;/div&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;div class=&quot;thumb_list-pad&quot;&gt;&lt;a href=&quot;#&quot;&gt;&lt;img src=&quot;index.files/sampleimage.png&quot; alt=&quot;サンプル画像&quot; /&gt;&lt;span class=&quot;thumb_list-caption&quot;&gt;サムネイルラベル&lt;/span&gt;&lt;/a&gt;&lt;/div&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;div class=&quot;thumb_list-pad&quot;&gt;&lt;a href=&quot;#&quot;&gt;&lt;img src=&quot;index.files/sampleimage.png&quot; alt=&quot;サンプル画像&quot; /&gt;&lt;span class=&quot;thumb_list-caption&quot;&gt;サムネイルラベル&lt;/span&gt;&lt;/a&gt;&lt;/div&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;div class=&quot;thumb_list-pad&quot;&gt;&lt;img src=&quot;index.files/sampleimage.png&quot; alt=&quot;サンプル画像&quot; /&gt;&lt;span class=&quot;thumb_list-caption&quot;&gt;サムネイルラベル(リンクしない場合の例)&lt;/span&gt;&lt;/div&gt;&lt;/li&gt;
 	&lt;/ul&gt;
 &lt;/div&gt;&lt;!-- /.thumb_list --&gt;
 </textarea></div>
@@ -598,79 +493,44 @@
 
 
 
-<h2>ページャー .pager (策定中)</h2>
-<p>【課題】一般的に、スマートフォン向けのUIデザインに求められる要求を満たすことができるか？</p>
-<?php ob_start(); ?>
-<style type="text/css">
-/**
- * ページャー
- */
-.pager{
-}
-.pager ul{
-	text-align:center;
-	padding:0px;
-	margin:0px;
-}
-.pager ul li{
-	display:inline;
-	list-style-type:none;
-	padding:0px 5px 0px 5px;
-}
-</style>
-<?php $px->theme()->send_content( ob_get_clean(), 'head' ); ?>
-
+<h2>ページャー .pager</h2>
 <div class="unit pager">
 	<ul>
-		<li>&lt;&lt;最初</li>
-		<li>&lt;前へ</li>
-		<li><strong>1</strong></li>
+		<li class="pager-first"><span>&lt;&lt;最初</span></li>
+		<li class="pager-prev"><span>&lt;前へ</span></li>
+		<li><span class="current">1</span></li>
 		<li><a href="#">2</a></li>
 		<li><a href="#">3</a></li>
 		<li><a href="#">4</a></li>
-		<li><a href="#">次へ&gt;</a></li>
-		<li><a href="#">最後&gt;&gt;</a></li>
+		<li><a href="#">5</a></li>
+		<li><a href="#">6</a></li>
+		<li><a href="#">7</a></li>
+		<li class="pager-next"><a href="#">次へ&gt;</a></li>
+		<li class="pager-last"><a href="#">最後&gt;&gt;</a></li>
 	</ul>
 </div><!-- /.pager -->
 
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;unit pager&quot;&gt;
 	&lt;ul&gt;
-		&lt;li&gt;&amp;lt;&amp;lt;最初&lt;/li&gt;
-		&lt;li&gt;&amp;lt;前へ&lt;/li&gt;
-		&lt;li&gt;&lt;strong&gt;1&lt;/strong&gt;&lt;/li&gt;
+		&lt;li class=&quot;pager-first&quot;&gt;&lt;span&gt;&amp;lt;&amp;lt;最初&lt;/span&gt;&lt;/li&gt;
+		&lt;li class=&quot;pager-prev&quot;&gt;&lt;span&gt;&amp;lt;前へ&lt;/span&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;span class=&quot;current&quot;&gt;1&lt;/span&gt;&lt;/li&gt;
 		&lt;li&gt;&lt;a href=&quot;#&quot;&gt;2&lt;/a&gt;&lt;/li&gt;
 		&lt;li&gt;&lt;a href=&quot;#&quot;&gt;3&lt;/a&gt;&lt;/li&gt;
 		&lt;li&gt;&lt;a href=&quot;#&quot;&gt;4&lt;/a&gt;&lt;/li&gt;
-		&lt;li&gt;&lt;a href=&quot;#&quot;&gt;次へ&amp;gt;&lt;/a&gt;&lt;/li&gt;
-		&lt;li&gt;&lt;a href=&quot;#&quot;&gt;最後&amp;gt;&amp;gt;&lt;/a&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;a href=&quot;#&quot;&gt;5&lt;/a&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;a href=&quot;#&quot;&gt;6&lt;/a&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;a href=&quot;#&quot;&gt;7&lt;/a&gt;&lt;/li&gt;
+		&lt;li class=&quot;pager-next&quot;&gt;&lt;a href=&quot;#&quot;&gt;次へ&amp;gt;&lt;/a&gt;&lt;/li&gt;
+		&lt;li class=&quot;pager-last&quot;&gt;&lt;a href=&quot;#&quot;&gt;最後&amp;gt;&amp;gt;&lt;/a&gt;&lt;/li&gt;
 	&lt;/ul&gt;
 &lt;/div&gt;&lt;!-- /.pager --&gt;
 </textarea></div>
 </div><!-- /.unit -->
 
 
-<h2>注意喚起ユニット .attention (策定中)</h2>
-<?php ob_start(); ?>
-<style type="text/css">
-/**
- * [unit] 注意喚起ユニット
- */
-.attention {
-	border:1px solid #999999;
-	padding:0 20px;
-	margin-left:20px;
-	margin-right:20px;
-	border-radius:10px;
-	background-color:#f9f9f9;
-}
-.attention .attention-heading{
-	font-weight:bold;
-	margin:1em 0;
-	font-size:120%;
-}
-</style>
-<?php $px->theme()->send_content( ob_get_clean(), 'head' ); ?>
+<h2>注意喚起ユニット .attention</h2>
 <div class="unit attention">
 	<p class="attention-heading">ご注意ください</p>
 	<p>次のポイントにご注意ください。</p>
