@@ -92,9 +92,32 @@ class px_pxcommands_api extends px_bases_pxcommand{
 	 */
 	private function get_target_file_path(){
 		$rtn = null;
+
+		$is_path = true;
+		if( !strlen( $this->px->req()->get_param('path') ) ){
+			$is_path = false;
+		}
+		if( preg_match( '/(?:\/|^)\.\.(?:\/|$)/si', $this->px->req()->get_param('path') ) ){
+			$is_path = false;
+		}
+
 		switch( $this->command[2] ){
 			case 'config':
 				$rtn = $this->px->get_path_conf();
+				break;
+			case 'sitemap_definition':
+				$rtn = $this->px->get_conf('paths.px_dir').'configs/sitemap_definition.csv';
+				break;
+			case 'content':
+				if(!$is_path){ return null; }
+				$rtn = './'.$this->px->req()->get_param('path');
+				break;
+			case 'sitemap':
+				if(!$is_path){ return null; }
+				$rtn = $this->px->get_conf('paths.px_dir').'sitemaps/'.$this->px->req()->get_param('path');
+				break;
+			case 'theme':
+				$rtn = $this->px->get_conf('paths.px_dir').'themes/'.$this->command[3].'/'.$this->px->req()->get_param('path');
 				break;
 		}
 		return $rtn;

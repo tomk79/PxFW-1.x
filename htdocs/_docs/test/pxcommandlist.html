@@ -1,4 +1,6 @@
 
+<h2>PxCommands一覧</h2>
+
 <ul>
 <?php
 	$filelist = $px->dbh()->ls( $px->get_conf('paths.px_dir').'_FW/pxcommands');
@@ -9,5 +11,42 @@
 </ul>
 
 
+
+
+<h2>PX=api</h2>
+
+<dl>
+	<dt>api.dlfile.config</dt>
+		<dd>コンフィグファイル(mainconfig.ini) をダウンロードする。</dd>
+	<dt>api.dlfile.sitemap_definition</dt>
+		<dd>サイトマップ構造定義ファイル(sitemap_definition.csv) をダウンロードする。</dd>
+	<dt>api.dlfile.content</dt>
+		<dd>コンテンツディレクトリ内の任意のファイルをダウンロードする。対象とするファイルのパスは、pathパラメータに指示する。</dd>
+	<dt>api.dlfile.sitemap</dt>
+		<dd>サイトマップディレクトリ内の任意のファイルをダウンロードする。対象とするファイルのパスは、pathパラメータに指示する。</dd>
+	<dt>api.dlfile.theme.(テーマID)</dt>
+		<dd>指定のテーマIDのディレクトリ内の任意のファイルをダウンロードする。対象とするファイルのパスは、pathパラメータに指示する。</dd>
+
+	<dt>api.ulfile.config</dt>
+		<dd>コンフィグファイル(mainconfig.ini) をアップロードする。</dd>
+	<dt>api.ulfile.sitemap_definition</dt>
+		<dd>サイトマップ構造定義ファイル(sitemap_definition.csv) をアップロードする。</dd>
+	<dt>api.ulfile.content</dt>
+		<dd>コンテンツディレクトリ内の任意のファイルをアップロードする。対象とするファイルのパスは、pathパラメータに指示する。</dd>
+	<dt>api.ulfile.sitemap</dt>
+		<dd>サイトマップディレクトリ内の任意のファイルをアップロードする。対象とするファイルのパスは、pathパラメータに指示する。</dd>
+	<dt>api.ulfile.theme.(テーマID)</dt>
+		<dd>指定のテーマIDのディレクトリ内の任意のファイルをアップロードする。対象とするファイルのパスは、pathパラメータに指示する。</dd>
+</dl>
+
+<p>
+	アップロード(ulfile)時、ダウンロード(dlfile)時のパラメータは下記のように共通です。<br />
+</p>
+<dl>
+	<dt>bin</dt>
+		<dd>アップロードするファイルの内容。アップロード時のみ。</dd>
+	<dt>path</dt>
+		<dd>アップロードするファイルのパス。コンテンツやサイトマップなど、複数のファイルや階層の概念を持った対象の場合に付加します。</dd>
+</dl>
 
 
