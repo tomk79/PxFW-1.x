@@ -15,6 +15,10 @@ class px_pxcommands_api extends px_bases_pxcommand{
 		$this->command = $this->get_command();
 
 		switch( $this->command[1] ){
+			case 'get':
+				//各種情報の取得
+				$this->api_get();
+				break;
 			case 'dlfile':
 				//ファイルダウンロード
 				$this->api_dlfile();
@@ -54,24 +58,6 @@ class px_pxcommands_api extends px_bases_pxcommand{
 
 
 	/**
-	 * [API] api.ulfile.*
-	 */
-	private function api_ulfile(){
-		header('Content-type: text/json; charset=UTF-8');
-		$path = $this->get_target_file_path();
-		if( is_null($path) || !is_file($path) ){
-			print '{result:0}';
-			exit;
-		}
-		if( !$this->px->dbh()->save_file( $path, $this->px->req()->get_param('bin') ) ){
-			print '{result:0}';
-			exit;
-		}
-		print '{result:1}';
-		exit;
-	}
-
-	/**
 	 * [API] api.dlfile.config
 	 */
 	private function api_dlfile(){
@@ -88,7 +74,25 @@ class px_pxcommands_api extends px_bases_pxcommand{
 	}
 
 	/**
+	 * [API] api.ulfile.*
+	 */
+	private function api_ulfile(){
+		$path = $this->get_target_file_path();
+		if( is_null($path) || !is_file($path) ){
+			print $this->data_convert( array('result'=>0) );
+			exit;
+		}
+		if( !$this->px->dbh()->save_file( $path, $this->px->req()->get_param('bin') ) ){
+			print $this->data_convert( array('result'=>0) );
+			exit;
+		}
+		print $this->data_convert( array('result'=>1) );
+		exit;
+	}
+
+	/**
 	 * ダウン・アップロードファイルのパスを得る
+	 * api.ulfile, api.dlfile が使用する。
 	 */
 	private function get_target_file_path(){
 		$rtn = null;
@@ -121,6 +125,82 @@ class px_pxcommands_api extends px_bases_pxcommand{
 				break;
 		}
 		return $rtn;
+	}
+
+	/**
+	 * [API] api.get.*
+	 */
+	private function api_get(){
+		switch( $this->command[2] ){
+			case 'config':
+				$val = $this->px->get_conf_all();
+				print $this->data_convert( $val );
+				break;
+			case 'sitemap':
+				$val = $this->px->site()->get_sitemap();
+				print $this->data_convert( $val );
+				break;
+			case 'sitemap_definition':
+				$val = $this->px->site()->get_sitemap_definition();
+				print $this->data_convert( $val );
+				break;
+			default:
+				print $this->data_convert( array('result'=>0) );
+				break;
+		}
+		exit;
+	}
+
+	/**
+	 * データを自動的に加工して返す
+	 */
+	private function data_convert($val){
+		$data_type = $this->px->req()->get_param('type');
+		header('Content-type: application/xml; charset=UTF-8');
+		if( $data_type == 'json' ){
+			header('Content-type: application/json; charset=UTF-8');
+		}elseif( $data_type == 'jsonp' ){
+			header('Content-type: application/javascript; charset=UTF-8');
+		}
+		switch( $data_type ){
+			case 'jsonp':
+				return $this->data2jsonp($val);
+				break;
+			case 'json':
+				return $this->data2json($val);
+				break;
+			case 'xml':
+			default:
+				return $this->data2xml($val);
+				break;
+		}
+		return t::data2jssrc($val);
+	}
+
+	/**
+	 * データをXMLに加工して返す
+	 */
+	private function data2xml($val){
+		return '<api>'.t::data2xml($val).'</api>';
+	}
+
+	/**
+	 * データをJSONに加工して返す
+	 */
+	private function data2json($val){
+		return t::data2jssrc($val);
+	}
+
+	/**
+	 * データをJSONPに加工して返す
+	 */
+	private function data2jsonp($val){
+		//JSONPのコールバック関数名は、パラメータ callback に受け取る。
+		$cb = trim( $this->px->req()->get_param('callback') );
+		if( !strlen($cb) ){
+			$cb = 'callback';
+		}
+		return $cb.'('.t::data2jssrc($val).');';
 	}
 
 }

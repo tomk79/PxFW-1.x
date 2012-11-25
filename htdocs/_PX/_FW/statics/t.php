@@ -246,8 +246,6 @@ class t{
 		return	$RTN;
 	}
 
-
-
 	/**
 	 * 変数をJavaScriptのシンタックスに変換する
 	 */
@@ -370,6 +368,122 @@ class t{
 		}
 
 		return	'undefined';
+
+	}
+
+	/**
+	 * 変数をXMLのシンタックスに変換する
+	 */
+	function data2xml( $value = null , $option = array() ){
+		#======================================
+		#	[ $option ]
+		#		delete_arrayelm_if_null
+		#			配列の要素が null だった場合に削除。
+		#		array_break
+		#			配列に適当なところで改行を入れる。
+		#======================================
+
+		if( is_array( $value ) ){
+			#	配列
+			$is_hash = false;
+			$i = 0;
+			foreach( $value as $key=>$val ){
+				#	ArrayかHashか見極める
+				if( !is_int( $key ) ){
+					$is_hash = true;
+					break;
+				}
+				if( $key != $i ){
+					#	順番通りに並んでなかったらHash とする。
+					$is_hash = true;
+					break;
+				}
+				$i ++;
+			}
+
+			if( $is_hash ){
+				$RTN .= '<object>';
+			}else{
+				$RTN .= '<array>';
+			}
+			if( $option['array_break'] ){ $RTN .= "\n"; }
+			foreach( $value as $key=>$val ){
+				if( $option['delete_arrayelm_if_null'] && is_null( $value[$key] ) ){
+					#	配列のnull要素を削除するオプションが有効だった場合
+					continue;
+				}
+				$RTN .= '<element';
+				if( $is_hash ){
+					$RTN .= ' name="'.htmlspecialchars( $key ).'"';
+				}
+				$RTN .= '>';
+				$RTN .= t::data2xml( $value[$key] , $option );
+				$RTN .= '</element>';
+				if( $option['array_break'] ){ $RTN .= "\n"; }
+			}
+			if( $is_hash ){
+				$RTN .= '</object>';
+			}else{
+				$RTN .= '</array>';
+			}
+			if( $option['array_break'] ){ $RTN .= "\n"; }
+			return	$RTN;
+		}
+
+		if( is_object( $value ) ){
+			#	オブジェクト型
+			$RTN = '';
+			$RTN .= '<object>';
+			$proparray = get_object_vars( $value );
+			$methodarray = get_class_methods( get_class( $value ) );
+			foreach( $proparray as $key=>$val ){
+				$RTN .= '<element name="'.htmlspecialchars( $key ).'">';
+
+				$RTN .= t::data2xml( $val , $option );
+				$RTN .= '</element>';
+			}
+			$RTN .= '</object>';
+			return	$RTN;
+		}
+
+		if( is_int( $value ) ){
+			#	数値
+			$RTN = '<value type="int">'.t::h( $value ).'</value>';
+			return	$RTN;
+		}
+
+		if( is_float( $value ) ){
+			#	浮動小数点
+			$RTN = '<value type="float">'.t::h( $value ).'</value>';
+			return	$RTN;
+		}
+
+		if( is_string( $value ) ){
+			#	文字列型
+			$RTN = '<value type="string">'.t::h( $value ).'</value>';
+			return	$RTN;
+		}
+
+		if( is_null( $value ) ){
+			#	ヌル
+			return	'<value type="null"></value>';
+		}
+
+		if( is_resource( $value ) ){
+			#	リソース型
+			return	'<value type="undefined"></value>';
+		}
+
+		if( is_bool( $value ) ){
+			#	ブール型
+			if( $value ){
+				return	'<value type="bool">true</value>';
+			}else{
+				return	'<value type="bool">false</value>';
+			}
+		}
+
+		return	'<value type="undefined"></value>';
 
 	}
 

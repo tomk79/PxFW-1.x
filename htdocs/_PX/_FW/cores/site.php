@@ -48,13 +48,16 @@ class px_cores_site{
 
 		//  サイトマップ定義をロード
 		$tmp_sitemap_definition = $this->px->dbh()->read_csv_utf8( $path_sitemap_definition );
+		$tmp_sitemap_col = 'a';
 		foreach ($tmp_sitemap_definition as $key=>$val) {
 			$this->sitemap_definition[$val[0]] = array();
 			$this->sitemap_definition[$val[0]]['num'] = $key;
+			$this->sitemap_definition[$val[0]]['col'] = strtoupper($tmp_sitemap_col++);
 			$this->sitemap_definition[$val[0]]['key'] = $val[0];
 			$this->sitemap_definition[$val[0]]['name'] = $val[1];
 		}
 		unset($tmp_sitemap_definition);
+		unset($tmp_sitemap_col);
 		//  / サイトマップ定義をロード
 
 		//  サイトマップをロード
