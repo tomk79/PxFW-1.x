@@ -27,6 +27,10 @@ class px_pxcommands_api extends px_bases_pxcommand{
 				//ファイルアップロード
 				$this->api_ulfile();
 				break;
+			case 'delete':
+				//ファイル削除
+				$this->api_delete();
+				break;
 		}
 
 		if( !strlen($this->command[1]) ){
@@ -71,16 +75,29 @@ class px_pxcommands_api extends px_bases_pxcommand{
 		$content = $this->px->dbh()->file_get_contents($path);
 		print $content;
 		exit;
-	}
+	}//api_dlfile()
 
 	/**
 	 * [API] api.ulfile.*
 	 */
 	private function api_ulfile(){
 		$path = $this->get_target_file_path();
-		if( is_null($path) || !is_file($path) ){
+		if( is_null($path) ){
+			//nullならNG
 			print $this->data_convert( array('result'=>0) );
 			exit;
+		}
+		if( is_dir($path) ){
+			//対象パスにディレクトリが既に存在していたらNG
+			print $this->data_convert( array('result'=>0) );
+			exit;
+		}
+		if( !is_dir(dirname($path)) ){
+			//ディレクトリがなければ作る。
+			if( !$this->px->dbh()->mkdir_all(dirname($path)) ){
+				print $this->data_convert( array('result'=>0) );
+				exit;
+			}
 		}
 		if( !$this->px->dbh()->save_file( $path, $this->px->req()->get_param('bin') ) ){
 			print $this->data_convert( array('result'=>0) );
@@ -88,7 +105,50 @@ class px_pxcommands_api extends px_bases_pxcommand{
 		}
 		print $this->data_convert( array('result'=>1) );
 		exit;
-	}
+	}//api_ulfile()
+
+	/**
+	 * [API] api.delete.*
+	 */
+	private function api_delete(){
+		switch( $this->command[2] ){
+			case 'content':
+			case 'sitemap':
+			case 'theme':
+				//これ以外は削除の機能は提供しない
+				break;
+			default:
+				print $this->data_convert( array('result'=>0) );
+				exit;
+				break;
+		}
+
+		//  フールプルーフ
+		$input_path = trim( $this->px->req()->get_param('path') );
+		$input_path = preg_replace('/\\\\/','/',$input_path);
+		$input_path = preg_replace('/\/+/','/',$input_path);
+		if( !strlen( $input_path ) ){
+			print $this->data_convert( array('result'=>0) );
+			exit;
+		}
+		if( $input_path == '/' ){
+			print $this->data_convert( array('result'=>0) );
+			exit;
+		}
+		//  / フールプルーフ
+
+		$path = $this->get_target_file_path();
+		if( is_null($path) || !file_exists($path) ){
+			print $this->data_convert( array('result'=>0) );
+			exit;
+		}
+		if( !$this->px->dbh()->rmdir_all( $path ) ){
+			print $this->data_convert( array('result'=>0) );
+			exit;
+		}
+		print $this->data_convert( array('result'=>1) );
+		exit;
+	}//api_delete()
 
 	/**
 	 * ダウン・アップロードファイルのパスを得る

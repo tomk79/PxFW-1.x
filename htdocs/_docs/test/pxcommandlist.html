@@ -38,6 +38,13 @@
 	<dt>api.ulfile.theme.(テーマID)</dt>
 		<dd>指定のテーマIDのディレクトリ内の任意のファイルをアップロードする。対象とするファイルのパスは、pathパラメータに指示する。</dd>
 
+	<dt>api.delete.content</dt>
+		<dd>コンテンツディレクトリ内の任意のファイルやディレクトリを削除する。対象とするファイルのパスは、pathパラメータに指示する。</dd>
+	<dt>api.delete.sitemap</dt>
+		<dd>サイトマップディレクトリ内の任意のファイルやディレクトリを削除する。対象とするファイルのパスは、pathパラメータに指示する。</dd>
+	<dt>api.delete.theme.(テーマID)</dt>
+		<dd>指定のテーマIDのディレクトリ内の任意のファイルやディレクトリを削除する。対象とするファイルのパスは、pathパラメータに指示する。</dd>
+
 	<dt>api.get.config</dt>
 		<dd>PxFWが読み込んだコンフィグの内容を返す。</dd>
 	<dt>api.get.sitemap</dt>
@@ -53,7 +60,7 @@
 	<dt>bin</dt>
 		<dd>アップロードするファイルの内容。api.ulfileでのみ使用可能。</dd>
 	<dt>path</dt>
-		<dd>アップロードするファイルのパス。コンテンツやサイトマップなど、複数のファイルや階層の概念を持った対象の場合に付加する。content, sitemap, theme をアップロードまたはダウンロードする場合に使用。</dd>
+		<dd>対象とするファイルのパス。コンテンツやサイトマップなど、複数のファイルや階層の概念を持った対象の場合に付加する。content, sitemap, theme をアップロード、ダウンロード、削除する場合に使用。</dd>
 	<dt>type</dt>
 		<dd>形式をXML(デフォルト), JSON, JSONP の中から指定します。api.dlfile 以外で使用可能。</dd>
 	<dt>callback</dt>
