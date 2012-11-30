@@ -32,6 +32,7 @@ class px_pxcommands_config extends px_bases_pxcommand{
 		$src .= '<colgroup><col width="30%" /><col width="30%" /><col width="40%" /></colgroup>' . "\n";
 		$src .= $this->mk_config_unit('project.id','プロジェクトID');
 		$src .= $this->mk_config_unit('project.name','プロジェクト名');
+		$src .= $this->mk_config_unit('project.path_top','トップページのパス');
 		$src .= $this->mk_config_unit('project.auth_type','認証形式');
 		$src .= $this->mk_config_unit('project.auth_name','認証ユーザーID');
 		$src .= $this->mk_config_unit('project.auth_password','認証パスワード');

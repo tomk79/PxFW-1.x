@@ -82,7 +82,7 @@ class px_cores_site{
 				if( !strlen( $tmp_array['content'] ) ){
 					$tmp_array['content'] = $tmp_array['path'];
 				}
-				$tmp_array['content'] = preg_replace( '/\/$/si' , '/index.html' , $tmp_array['content'] );
+				$tmp_array['content'] = preg_replace( '/\/$/si' , '/index.html' , $tmp_array['content'] );//index.htmlを付加する。
 				if( !strlen( $tmp_array['id'] ) ){
 					//ページID文字列を自動生成
 					$tmp_id = '';
@@ -100,6 +100,15 @@ class px_cores_site{
 					}
 					$tmp_array['id'] = $tmp_id;
 					unset($tmp_id);
+				}
+
+				if( strlen($this->px->get_conf('project.path_top')) ){
+					$tmp_path_top = $this->px->get_conf('project.path_top');
+					$tmp_path_top = preg_replace( '/\/$/si' , '/index.html' , $tmp_path_top );//index.htmlを付加する。
+					if( $tmp_array['path'] == $tmp_path_top ){
+						$tmp_array['id'] = '';
+					}
+					unset($tmp_path_top);
 				}
 
 				if($this->get_path_type( $tmp_array['path'] ) == 'dynamic'){
