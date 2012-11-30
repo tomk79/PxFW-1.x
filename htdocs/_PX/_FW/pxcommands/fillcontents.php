@@ -81,7 +81,7 @@ class px_pxcommands_fillcontents extends px_bases_pxcommand{
 			if( !strlen($val) ){continue;}
 
 			//処理用 サーバードキュメントルールからのパス
-			$content_realpath_parts = pathinfo($this->px->dbh()->get_realpath( $_SERVER['DOCUMENT_ROOT'] ) . $val);
+			$content_realpath_parts = pathinfo($this->px->dbh()->get_realpath( $_SERVER['DOCUMENT_ROOT'].$this->px->get_install_path() ) . $val);
 			$dir_realpath = $this->px->dbh()->get_realpath( $content_realpath_parts['dirname'].'/' );
 			$file_realpath = $this->px->dbh()->get_realpath( $content_realpath_parts['dirname'].'/'.$content_realpath_parts['basename'] );
 
@@ -97,24 +97,24 @@ class px_pxcommands_fillcontents extends px_bases_pxcommand{
 				$success_dir = $this->px->dbh()->mkdir_all( $dir_realpath );
 
 				if($success_dir) {
-					print 'success make Directory : ' . $dir_path . "\n";
+					print 'success make Directory : ' . $dir_realpath . "\n";
 				} else {
-					print 'ERROR make Directory FAILED: ' . $dir_path . "\n";
+					print '[ERROR] make Directory FAILED: ' . $dir_realpath . "\n";
 				}
 			} else {
-				print 'exists Directory: ' . $dir_path . "\n";
+				print 'Directory already exists: ' . $dir_realpath . "\n";
 			}
 
 			//ファイル生成
 			if(!$this->is_content_file($file_realpath)) {
 				$success_file = $this->px->dbh()->save_file( $file_realpath , $CONTENT );
 				if($success_file) {
-					print 'success make File: ' . $file_path . "\n";
+					print 'success make File: ' . $file_realpath . "\n";
 				} else {
-					print 'ERROR make File FAILED: ' . $file_path . "\n";
+					print '[ERROR] make File FAILED: ' . $file_realpath . "\n";
 				}
 			} else {
-				print 'File exists: ' . $file_path . "\n";
+				print 'File already exists: ' . $file_realpath . "\n";
 			}
 
 		}
