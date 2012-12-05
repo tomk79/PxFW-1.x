@@ -23,7 +23,7 @@ class px_pxcommands_clearcache extends px_bases_pxcommand{
 		$command = $this->get_command();
 		$this->setup();
 		@header('Content-type: text/plain');
-		print ''.$command[0].' | Pickles Framework'."\n";
+		print ''.$command[0].' | Pickles Framework (version:'.$this->px->get_version().')'."\n";
 		print '------'."\n";
 		print 'PX command "'.$command[0].'" executed.'."\n";
 		print '------'."\n";

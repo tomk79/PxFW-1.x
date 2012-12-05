@@ -42,7 +42,7 @@ class px_bases_pxcommand{
 		$src .= '<body>'."\n";
 		$src .= '<div class="outline">'."\n";
 		$src .= '<div class="header">'."\n";
-		$src .= '<h1>'.htmlspecialchars( $this->pxcommand_name[0] ).'<span class="small"> | Pickles Framework</span></h1>'."\n";
+		$src .= '<h1>'.htmlspecialchars( $this->pxcommand_name[0] ).'<span class="small"> | Pickles Framework (version:'.t::h($this->px->get_version()).')</span></h1>'."\n";
 		$src .= '</div>'."\n";
 		$src .= '<div class="middle">'."\n";
 		$src .= '<div id="content" class="contents">'."\n";

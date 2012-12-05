@@ -46,7 +46,7 @@ class px_pxcommands_initialize extends px_bases_pxcommand{
 	private function execute(){
 		$command = $this->get_command();
 		@header('Content-type: text/plain');
-		print ''.$command[0].' | Pickles Framework'."\n";
+		print ''.$command[0].' | Pickles Framework (version:'.$this->px->get_version().')'."\n";
 		print '------'."\n";
 		$class_name_dao_init = $this->px->load_px_class('/daos/initialize.php');
 		$dao_init = new $class_name_dao_init( $this->px );
