@@ -3,12 +3,11 @@
 --------
 
 静的な構成のウェブサイトを効率よく制作するためのフレームワークです。
-Pickles Framework 0.x系( http://pickles.pxt.jp/ )の後継です。
 
 
 ■セットアップ手順
 
-1. ダウンロードページ(https://github.com/tomk79/PxFW-1.x/downloads)より、
+1. ダウンロードページ( https://github.com/tomk79/PxFW-1.x/downloads )より、
    ソース一式をダウンロードする。
       ※バージョン番号の見方も参照してください。
 2. 解凍する。
