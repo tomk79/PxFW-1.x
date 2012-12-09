@@ -20,6 +20,7 @@
 "/_docs/test/user/mypage/{*}","/_docs/test/user/mypage/index.php","","マイページ",,,,"/_docs/test/>/_docs/test/user_test.html",1,1,,,,,"",
 "/_docs/test/user/mypage/revise/{*}","/_docs/test/user/mypage/revise/index.php","","登録情報を変更する",,,,"/_docs/test/>/_docs/test/user_test.html>/_docs/test/user/mypage/{*}",1,1,,,,,"",
 "/_docs/test/user/mypage/withdraw/{*}","/_docs/test/user/mypage/withdraw/index.php","","退会する",,,,"/_docs/test/>/_docs/test/user_test.html>/_docs/test/user/mypage/{*}",1,1,,,,,"",
+"/_docs/test/user/mypage/logout/{*}","/_docs/test/user/mypage/logout/index.php","","ログアウト",,,,"/_docs/test/>/_docs/test/user_test.html>/_docs/test/user/mypage/{*}",1,1,,,,,"",
 "alias:/_docs/test/alias/","","_alias1","エイリアス元A",,,,"/_docs/test/",1,,,,,,"",
 "/_docs/test/alias/","/_docs/test/alias/",,"エイリアス機能のテスト",,,,"/_docs/test/>_alias1",1,,,,,,"",
 "alias:/_docs/test/alias/","",,"エイリアス元B",,,,"/_docs/test/",1,,,,,,"",

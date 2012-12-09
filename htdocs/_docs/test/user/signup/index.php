@@ -221,15 +221,16 @@ class cont_{
 		$rtn = array();
 		if( !strlen( $this->px->req()->get_param('user_account') ) ){
 			$rtn['user_account'] = 'アカウント名を入力してください。';
-		}elseif( strlen( $this->px->req()->get_param('user_account') )>20 ){
+		}elseif( strlen( $this->px->req()->get_param('user_account') )>255 ){
 			$rtn['user_account'] = 'アカウント名が長すぎます。';
 		}elseif( !preg_match( '/^[a-zA-Z0-9\-\_]+$/s', $this->px->req()->get_param('user_account') ) ){
 			$rtn['user_account'] = 'アカウント名に使用できない文字が含まれています。半角英数字で入力してください。';
-		}
-		$dao_user = $this->factory_dao_user();
-		$user_preset = $dao_user->get_user_info_by_account( $this->px->req()->get_param('user_account') );
-		if($user_preset['user_account']==$this->px->req()->get_param('user_account')){
-			$rtn['user_account'] = 'このアカウント名は既に使用されています。';
+		}else{
+			$dao_user = $this->factory_dao_user();
+			$user_preset = $dao_user->get_user_info_by_account( $this->px->req()->get_param('user_account') );
+			if($user_preset['user_account']==$this->px->req()->get_param('user_account')){
+				$rtn['user_account'] = 'このアカウント名は既に使用されています。';
+			}
 		}
 
 		if( !strlen( $this->px->req()->get_param('user_pw') ) ){
@@ -238,7 +239,7 @@ class cont_{
 
 		if( !strlen( $this->px->req()->get_param('user_name') ) ){
 			$rtn['user_name'] = 'お名前を入力してください。';
-		}elseif( strlen( $this->px->req()->get_param('user_name') )>20 ){
+		}elseif( strlen( $this->px->req()->get_param('user_name') )>255 ){
 			$rtn['user_name'] = 'お名前が長すぎます。';
 		}
 
