@@ -37,13 +37,13 @@ class cont_{
 
 		switch( $mode ){
 			case 'execute':
-				return $this->page_add_user_execute();
+				if(!count($validate)){
+					return $this->page_add_user_execute();
+				}
 				break;
 			case 'confirm':
 				if(!count($validate)){
 					return $this->page_add_user_confirm();
-				}else{
-					return $this->page_add_user_input($validate);
 				}
 				break;
 			case 'complete':
@@ -265,7 +265,7 @@ class cont_{
 			return '<p>ユーザーの追加に失敗しました。</p>';
 		}
 
-		return $this->px->redirect( '?page='.urlencode($this->px->req()->get_param('page')).'&mode=complete' );
+		return $this->px->redirect( '?mode=complete' );
 	}
 	private function page_add_user_complete(){
 		$rtn = '';

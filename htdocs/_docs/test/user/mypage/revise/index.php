@@ -37,13 +37,13 @@ class cont_{
 
 		switch( $mode ){
 			case 'execute':
-				return $this->page_revise_user_execute();
+				if(!count($validate)){
+					return $this->page_revise_user_execute();
+				}
 				break;
 			case 'confirm':
 				if(!count($validate)){
 					return $this->page_revise_user_confirm();
-				}else{
-					return $this->page_revise_user_input($validate);
 				}
 				break;
 			case 'complete':
@@ -276,7 +276,7 @@ class cont_{
 			return '<p>ユーザー情報の更新に失敗しました。</p>';
 		}
 
-		return $this->px->redirect( '?page='.urlencode($this->px->req()->get_param('page')).'&mode=complete' );
+		return $this->px->redirect( '?mode=complete' );
 	}
 	private function page_revise_user_complete(){
 		$rtn = '';
