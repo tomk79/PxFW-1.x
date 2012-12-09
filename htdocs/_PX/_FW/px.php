@@ -109,6 +109,11 @@ class px_px{
 			$this->theme()->set_layout_id($page_info['layout']);
 		}
 
+		if( $page_info['authlevel'] && !$this->user()->is_login() ){
+			$this->page_login();
+			return true;
+		}
+
 		//------
 		//  拡張子違いのコンテンツを検索
 		//  リクエストはmod_rewriteの設定上、*.html でしかこない。
@@ -493,7 +498,7 @@ class px_px{
 	/**
 	 * リダイレクトする
 	 */
-	function redirect( $redirect_to , $options = array() ){
+	public function redirect( $redirect_to , $options = array() ){
 		while( @ob_end_clean() );
 
 		@header( 'Location: '.$redirect_to );
@@ -506,13 +511,56 @@ class px_px{
 		$fin .= '<meta http-equiv="refresh" content="0;url='.t::h( $redirect_to ).'" />'."\n";
 		$fin .= '</head>'."\n";
 		$fin .= '<body>'."\n";
-		$fin .= '<p class="ttr">'."\n";
+		$fin .= '<p>'."\n";
 		$fin .= '画面が切り替わらない場合は、次のリンクを押してください。<br />'."\n";
 		$fin .= '[<a href="'.t::h( $redirect_to ).'">次へ</a>]<br />'."\n";
 		$fin .= '</p>'."\n";
 		$fin .= '</body>'."\n";
 		$fin .= '</html>'."\n";
 		print $fin;
+		exit();
+	}//redirect()
+
+	/**
+	 * Not Found画面を出力する。
+	 */
+	public function page_notfound(){
+		while( @ob_end_clean() );
+
+		header('Status: 404 NotFound.');
+		$fin = '';
+		$fin .= '<!doctype html>'."\n";
+		$fin .= '<html>'."\n";
+		$fin .= '<head>'."\n";
+		$fin .= '<meta charset="UTF-8" />'."\n";
+		$fin .= '<title>404 Not found</title>'."\n";
+		$fin .= '</head>'."\n";
+		$fin .= '<body>'."\n";
+		$fin .= '<p>'."\n";
+		$fin .= 'お探しのページは見つかりませんでした。<br />'."\n";
+		$fin .= '</p>'."\n";
+		$fin .= '</body>'."\n";
+		$fin .= '</html>'."\n";
+		print $fin;
+		exit();
+	}//redirect()
+
+	/**
+	 * ログイン画面を出力する。
+	 */
+	public function page_login(){
+		while( @ob_end_clean() );
+
+		$fin = '';
+		$fin .= '<p>'."\n";
+		$fin .= '	ログインしてください。<br />'."\n";
+		$fin .= '</p>'."\n";
+		$fin .= '<form action="'.$this->theme()->href( $this->req()->get_request_file_path() ).'" method="post">'."\n";
+		$fin .= '	<p><input type="text" name="ID" value="'.t::h($this->req()->get_param('ID')).'" /><br /></p>'."\n";
+		$fin .= '	<p><input type="password" name="PW" value="" /><br /></p>'."\n";
+		$fin .= '	<p><input type="submit" value="送信" /></p>'."\n";
+		$fin .= '</form>'."\n";
+		print $this->theme()->bind_contents( $fin );
 		exit();
 	}//redirect()
 

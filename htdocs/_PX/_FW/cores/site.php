@@ -158,6 +158,9 @@ class px_cores_site{
 		}
 		//  / サイトマップをロード
 
+		//  ダイナミックパスを並び替え
+		usort($this->sitemap_dynamic_paths, array($this,'sort_sitemap_dynamic_paths'));
+
 		//  キャッシュディレクトリを作成
 		$this->px->dbh()->mkdir($path_sitemap_cache_dir);
 
@@ -169,6 +172,16 @@ class px_cores_site{
 
 		return true;
 	}//load_sitemap_csv();
+
+	private function sort_sitemap_dynamic_paths($a,$b){
+		$path_short_a = preg_replace( '/\{.*$/si', '', $a['path_original'] );
+		$path_short_b = preg_replace( '/\{.*$/si', '', $b['path_original'] );
+		if( strlen($path_short_a) > strlen($path_short_b) ){ return -1; }
+		if( strlen($path_short_a) < strlen($path_short_b) ){ return  1; }
+		if( $path_short_a > $path_short_b ){ return -1; }
+		if( $path_short_a < $path_short_b ){ return  1; }
+		return 0;
+	}
 
 	/**
 	 * サイトマップキャッシュが読み込み可能か調べる
