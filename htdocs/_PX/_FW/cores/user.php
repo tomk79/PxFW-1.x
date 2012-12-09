@@ -52,7 +52,7 @@ class px_cores_user{
 			$this->login_user_info = $tmp_user_info;
 			if( $is_starting ){
 				//  ログインが成立したてなら、IDとPWを外してリダイレクトする
-				$redirect_to = 'http'.($this->px->req()->is_ssl()?'s':'').'://'.$_SERVER['HTTP_HOST'].$this->px->dbh()->get_realpath( $this->px->get_install_path().$this->px->theme()->href($this->px->req()->get_request_file_path()) );
+				$redirect_to = 'http'.($this->px->req()->is_ssl()?'s':'').'://'.$_SERVER['HTTP_HOST'].$this->px->dbh()->get_realpath( $this->px->theme()->href($this->px->req()->get_request_file_path()) );
 				@header( 'Location: '.$redirect_to );
 			}
 			$dao_user->update_user_login_date( $this->px->req()->get_session('USER_ID') );
