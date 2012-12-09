@@ -555,7 +555,7 @@ class px_px{
 		$fin .= '<p>'."\n";
 		$fin .= '	ログインしてください。<br />'."\n";
 		$fin .= '</p>'."\n";
-		$fin .= '<form action="'.$this->theme()->href( $this->req()->get_request_file_path() ).'" method="post">'."\n";
+		$fin .= '<form action="'.t::h($this->theme()->href( $this->req()->get_request_file_path() )).'" method="post">'."\n";
 		$fin .= '	<p><input type="text" name="ID" value="'.t::h($this->req()->get_param('ID')).'" /><br /></p>'."\n";
 		$fin .= '	<p><input type="password" name="PW" value="" /><br /></p>'."\n";
 		$fin .= '	<p><input type="submit" value="送信" /></p>'."\n";

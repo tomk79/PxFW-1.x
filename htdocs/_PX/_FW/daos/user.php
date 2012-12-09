@@ -23,6 +23,12 @@ class px_daos_user extends px_bases_dao{
 			return false;
 		}
 
+		$user_preset = $this->get_user_info_by_account($user_info['user_account']);
+		if($user_preset['user_account']==$user_info['user_account']){
+			//  アカウント名が既に登録されている場合
+			return false;
+		}
+
 		if( !strlen( $user_info['user_pw'] ) ){
 			//  パスワードが指定されていない
 			return false;
