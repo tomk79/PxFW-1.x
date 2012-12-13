@@ -173,6 +173,9 @@ class px_cores_site{
 		return true;
 	}//load_sitemap_csv();
 
+	/**
+	 * ダイナミックパスの検索順を並べ替える
+	 */
 	private function sort_sitemap_dynamic_paths($a,$b){
 		$path_short_a = preg_replace( '/\{.*$/si', '', $a['path_original'] );
 		$path_short_b = preg_replace( '/\{.*$/si', '', $b['path_original'] );
@@ -234,6 +237,35 @@ class px_cores_site{
 		$logical_paths = explode('>',$logical_path);
 		return $logical_paths[count($logical_paths)-1];
 	}
+
+	/**
+	 * 所属するカテゴリトップページのIDを取得する
+	 */
+	public function get_category_top( $path = null ){
+		if( is_null( $path ) ){
+			$path = $this->px->req()->get_request_file_path();
+		}
+		$current_page_info = $this->get_page_info($path);
+		if( $current_page_info['category_top_flg'] ){
+			//  自身がカテゴリトップだった場合。
+			return $current_page_info['id'];
+		}
+		if( !strlen($current_page_info['id']) ){
+			//  自身がトップページだった場合。
+			return '';
+		}
+		while( $parent_pid = $this->get_parent($parent_pid) ){
+			if(!strlen($parent_pid)){
+				break;
+			}
+			$page_info = $this->get_page_info($parent_pid);
+			if( $page_info['category_top_flg'] ){
+				//  自身がカテゴリトップだった場合。
+				return $page_info['id'];
+			}
+		}
+		return '';//引っかからなかったらトップページを返す
+	}//get_category_top()
 
 	/**
 	 * ページ情報を取得する。
@@ -463,6 +495,11 @@ class px_cores_site{
 	public function get_bros( $path = null ){
 		if( is_null( $path ) ){
 			$path = $this->px->req()->get_request_file_path();
+		}
+		$page_info = $this->get_page_info($path);
+		if( !strlen($page_info['id']) ){
+			//トップページの兄弟はトップページだけ。
+			return array('');
 		}
 		$parent = $this->get_parent( $path );
 		$bros = $this->get_children( $parent );
