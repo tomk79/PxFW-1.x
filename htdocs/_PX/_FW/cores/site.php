@@ -450,7 +450,9 @@ class px_cores_site{
 			$path = $this->px->req()->get_request_file_path();
 		}
 		$page_info = $this->get_page_info( $path );
-		$rtn = array();
+
+		$tmp_children_orderby_manual = array();
+		$tmp_children_orderby_auto = array();
 
 		$current_layer = '';
 		if( strlen( trim($page_info['id']) ) ){
@@ -482,11 +484,41 @@ class px_cores_site{
 			}
 
 			if( $current_layer == $target_layer ){
-				array_push( $rtn , $row['id'] );
+				if(strlen($row['orderby'])){
+					array_push( $tmp_children_orderby_manual , $row['id'] );
+				}else{
+					array_push( $tmp_children_orderby_auto , $row['id'] );
+				}
 			}
 		}
+
+		usort( $tmp_children_orderby_manual , array( $this , 'usort_sitemap' ) );
+		$rtn = array_merge( $tmp_children_orderby_manual , $tmp_children_orderby_auto );
+
 		return $rtn;
 	}//get_children()
+
+	/**
+	 * ページ情報の配列を並び替える
+	 * @param 比較対象1のページID
+	 * @param 比較対象2のページID
+	 */
+	private function usort_sitemap( $a , $b ){
+		$page_info_a = $this->get_page_info( $a );
+		$page_info_b = $this->get_page_info( $b );
+		$orderby_a = $page_info_a['orderby'];
+		$orderby_b = $page_info_b['orderby'];
+		if( strlen( $orderby_a ) && !strlen( $orderby_b ) ){
+			return	-1;
+		}elseif( strlen( $orderby_b ) && !strlen( $orderby_a ) ){
+			return	1;
+		}elseif( $orderby_a < $orderby_b ){
+			return	-1;
+		}elseif( $orderby_a > $orderby_b ){
+			return	1;
+		}
+		return	0;
+	}//usort_sitemap()
 
 	/**
 	 * 同じ階層のページの一覧を取得する
