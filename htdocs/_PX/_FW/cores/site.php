@@ -152,6 +152,9 @@ class px_cores_site{
 					$tmp_array['path'] = preg_replace( '/^alias\:/s' , 'alias'.$num_auto_pid.':' , $tmp_array['path'] );
 				}
 
+				//  パンくず欄の先頭が > から始まっていた場合、削除
+				$tmp_array['logical_path'] = preg_replace( '/^\>+/s' , '' , $tmp_array['logical_path'] );
+
 				$this->sitemap_array[$tmp_array['path']] = $tmp_array;
 				$this->sitemap_id_map[$tmp_array['id']] = $tmp_array['path'];
 			}
@@ -307,7 +310,7 @@ class px_cores_site{
 		static $num_auto_pid = 0;
 		$path_type = $this->get_path_type($path);
 		if( is_string( $path_type ) ){
-			//
+			//  $path がスラドメされている場合に index.html を付加
 			$path = preg_replace( '/\/$/si' , '/index.html' , $path );
 		}
 
@@ -347,6 +350,9 @@ class px_cores_site{
 			unset( $tmp_array['title_h1'] );
 			unset( $tmp_array['title_label'] );
 		}
+
+		//  パンくず欄の先頭が > から始まっていた場合、削除
+		$tmp_array['logical_path'] = preg_replace( '/^\>+/s' , '' , $tmp_array['logical_path'] );
 
 		//  指定値を反映
 		foreach( $page_info as $key=>$val ){
