@@ -303,6 +303,7 @@ table.def tfoot td{
 	width:auto;
 	background:#e8e8e8;
 	border:1px dashed #999999;
+	overflow:auto;
 }
 .code textarea{
 	display:block;

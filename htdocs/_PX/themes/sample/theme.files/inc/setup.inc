@@ -122,7 +122,10 @@ dl dt{
 }
 </style>
 
-<style type="text/css" media="all and (max-width:390px)">
+<style type="text/css" media="all and (max-width:460px)">
+/**
+ * レスポンシブデザイン
+ */
 body{
 	font-size:medium;
 }
@@ -136,6 +139,46 @@ body .theme_outline{
 	margin-left:5px;
 	margin-right:5px;
 }
+
+/**
+ * ソースコード
+ */
+.code{
+}
+.code pre{
+	white-space:pre-wrap;
+}
+
+/**
+ * フォーム table.form_elements
+ */
+table.form_elements{
+}
+table.form_elements,
+table.form_elements tbody{
+	display:block;
+	width:auto;
+}
+table.form_elements thead tr,
+table.form_elements thead th,
+table.form_elements thead td,
+table.form_elements tbody tr,
+table.form_elements tbody th,
+table.form_elements tbody td{
+	display:block;
+	width:auto;
+}
+
+/**
+ * カラムレイアウト .cols
+ */
+.cols {
+}
+.cols .cols-col{
+	float:none;
+	width:auto;
+}
+
 </style>
 <script src="<?php print t::h($px->get_install_path()); ?>common/js/jquery-1.7.2.min.js" type="text/javascript"></script>
 <!-- / インクルードエリア -->
