@@ -448,6 +448,31 @@ class px_px{
 	}//load_px_class()
 
 	/**
+	 * PX Plugin のクラスファイルをロードする。
+	 * 
+	 */
+	public function load_px_plugin_class($path){
+		//戻り値は、ロードしたクラス名
+		$path = preg_replace( '/^\/+/si' , '' , $path );
+		$class_name = 'pxplugin_'.preg_replace(  '/\//si' , '_' , $path  );
+		$class_name = preg_replace(  '/\.php$/si' , '' , $class_name  );
+		if( class_exists( $class_name ) ){
+			//ロード済みならそのまま返す
+			return $class_name;
+		}
+
+		$lib_realpath = $this->get_conf('paths.px_dir').'plugins/'.$path;
+		if( !is_file( $lib_realpath ) || !is_readable( $lib_realpath ) ){ return false; }
+		if( !@include_once( $lib_realpath ) ){
+			return false;
+		}
+		if( !class_exists( $class_name ) ){
+			return false;
+		}
+		return $class_name;
+	}//load_px_plugin_class()
+
+	/**
 	 * PxFWのテーマが定義するクラスファイルをロードする。
 	 */
 	public function load_pxtheme_class($path){

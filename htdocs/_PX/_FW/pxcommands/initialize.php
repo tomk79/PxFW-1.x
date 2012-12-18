@@ -51,21 +51,62 @@ class px_pxcommands_initialize extends px_bases_pxcommand{
 		$class_name_dao_init = $this->px->load_px_class('/daos/initialize.php');
 		$dao_init = new $class_name_dao_init( $this->px );
 
-		print '[init user tables]'."\n";
+		print '[init PxFW user tables]'."\n";
 		if( $dao_init->create_user_tables() ){
 			print 'success'."\n";
 		}else{
 			print 'FAILED'."\n";
+			$errors = $dao_init->get_errors();
+			foreach( $errors as $error ){
+				print '[ERROR] '.$error['message'].' (Line: '.$error['line'].')'."\n";
+			}
+		}
+		print ''."\n";
+		print '------'."\n";
+
+		$plugins = $this->scan_plugins();
+		foreach( $plugins as $plugin_name ){
+			print '[init plugin "'.$plugin_name.'"]'."\n";
+			$class_name = $this->px->load_px_plugin_class( $plugin_name.'/register/initialize.php' );
+			$plugin_initializer = new $class_name($this->px);
+			if( $plugin_initializer->execute() ){
+				print 'success'."\n";
+			}else{
+				print 'FAILED'."\n";
+				$errors = $plugin_initializer->get_errors();
+				foreach( $errors as $error ){
+					print '[ERROR] '.$error['message'].' (Line: '.$error['line'].')'."\n";
+				}
+			}
+			print ''."\n";
+			print '------'."\n";
 		}
 
 		//var_dump( $this->px->dbh()->get_table_definition($this->px->get_conf('dbms.prefix').'_user') );
 
-		print '------'."\n";
+		print ''."\n";
 		print 'initialize completed.'."\n";
 		print date('Y-m-d H:i:s')."\n";
 		print 'exit.'."\n";
 		exit;
 	}
 
+	/**
+	 * プラグインディレクトリをスキャンして、initializeクラスの一覧を作成する
+	 * @return initialize.php を持ったプラグイン名の一覧
+	 */
+	private function scan_plugins(){
+		$rtn = array();
+		$path_base_dir = $this->px->get_conf('paths.px_dir').'plugins/';
+		$plugins = $this->px->dbh()->ls( $path_base_dir );
+		foreach( $plugins as $plugin_name ){
+			if( is_file( $path_base_dir.$plugin_name.'/register/initialize.php' ) ){
+				array_push($rtn, $plugin_name);
+			}
+		}
+		return $rtn;
+	}
+
 }
+
 ?>

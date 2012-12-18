@@ -6,12 +6,14 @@ $this->load_px_class('/bases/dao.php');
  **/
 class px_daos_initialize extends px_bases_dao{
 
+	private $errors = array();
+
 	/**
 	 * ユーザー関連テーブルを作成する。
 	 */
 	public function create_user_tables(){
-		#--------------------------------------
-		#	user: ユーザマスタテーブル
+		//--------------------------------------
+		//  user: ユーザーマスターテーブル
 		ob_start();?>
 <?php if( $this->px->get_conf('dbms.dbms') == 'postgresql' ){ ?>
 CREATE TABLE :D:table_name(
@@ -91,6 +93,7 @@ CREATE TABLE :D:table_name(
 
 				if( !$this->px->dbh()->send_query( $sql_final ) ){
 					$this->px->error()->error_log('database query error ['.$sql_final.']');
+					$this->error_log('database query error ['.$sql_final.']',__LINE__);
 
 					//トランザクション：ロールバック
 					$this->px->dbh()->rollback();
@@ -105,5 +108,30 @@ CREATE TABLE :D:table_name(
 		return true;
 	}
 
+	/**
+	 * エラー取得メソッド
+	 * PxFWはinitialize処理が終了した後(=execute()がreturnした後)、
+	 * このメソッドを通じてエラー内容を受け取ります。
+	 * @return 配列。配列の要素は、message, file, line の3つを持った連想配列。
+	 */
+	public function get_errors(){
+		return $this->errors;
+	}
+
+	/**
+	 * 内部エラー発行メソッド
+	 * 本オブジェクト内部で発生したエラーを受け取り、メンバー変数に記憶します。
+	 * ここで記憶したエラー情報は、最終的に get_errors() により引き出されます。
+	 */
+	private function error_log( $error_message , $line ){
+		array_push( $this->errors, array(
+			'message'=>$error_message ,
+			'file'=>__FILE__ ,
+			'line'=>$line ,
+		) );
+		return true;
+	}
+
 }
+
 ?>
