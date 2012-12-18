@@ -35,6 +35,10 @@ class cont_{
 		$validate = $this->page_add_user_validate();
 		$mode = $this->px->req()->get_param('mode');
 
+		if( $this->px->user()->is_login() ){
+			return '<p class="error">お1人様1アカウントまでとさせて頂いております。</p>';
+		}
+
 		switch( $mode ){
 			case 'execute':
 				if(!count($validate)){
