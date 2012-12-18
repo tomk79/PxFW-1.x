@@ -20,9 +20,9 @@ class px_cores_dbh{
 	private $try2connect_count = 1;
 		#	接続に挑戦する回数
 
-	private $res_connection = null;		#	データベースとのコネクション
+	private $connection = null;			#	データベースとのコネクション(PDOを使用する場合は、PDOオブジェクト)
 	private $errorlist = array();		#	エラーリスト
-	private $result = null;				#	RDBクエリの実行結果リソース
+	private $result = null;				#	RDBクエリの実行結果リソース(PDOを使用する場合は、PDOStatementオブジェクト)
 	private $transaction_flg = false;	#	トランザクションフラグ
 	private $file = array();			#	ファイルオープンリソースのリスト
 
@@ -73,12 +73,44 @@ class px_cores_dbh{
 	}
 
 	/**
-	 * データベースコネクションを確立する
+	 * データベースに接続する
 	 */
 	public function connect(){
 		if( $this->check_connection() ){ return true; }
 
-		if( $this->get_db_conf('dbms') == 'mysql' ){
+		if( class_exists('PDO') ){
+			#--------------------------------------
+			#	【 PDO 】
+			$available_drivers = PDO::getAvailableDrivers();
+			switch( $this->get_db_conf('dbms') ){
+				case 'mysql':
+					$this->connection = new PDO(
+						'mysql:host='.$this->get_db_conf('host').(strlen($this->get_db_conf('port'))?':'.$this->get_db_conf('port'):'').'; dbname='.$this->get_db_conf('database_name').'' ,
+						$this->get_db_conf('user') ,
+						$this->get_db_conf('password')
+					);
+					return true;
+					break;
+				case 'postgresql':
+					$this->connection = new PDO(
+						'pgsql:dbname='.$this->get_db_conf('database_name').'; host='.$this->get_db_conf('host').'; port='.$this->get_db_conf('port').'' ,
+						$this->get_db_conf('user') ,
+						$this->get_db_conf('password')
+					);
+					return true;
+					break;
+				case 'sqlite':
+					$this->connection = new PDO(
+						'sqlite:'.$this->get_db_conf('database_name')
+					);
+
+					return true;
+					break;
+				default:
+					break;
+			}
+
+		}elseif( $this->get_db_conf('dbms') == 'mysql' ){
 			#--------------------------------------
 			#	【 MySQL 】
 			$server = $this->get_db_conf('host');
@@ -97,12 +129,12 @@ class px_cores_dbh{
 				sleep(1);
 			}
 			if( is_resource( $res ) ){
-				$this->res_connection = $res;
-				mysql_select_db( $this->get_db_conf('database_name') , $this->res_connection );
+				$this->connection = $res;
+				mysql_select_db( $this->get_db_conf('database_name') , $this->connection );
 				if( strlen( $this->get_db_conf('charset') ) ){
 					#	DB文字コードの指定があれば、
 					#	SET NAMES を発行。
-					@mysql_query( 'SET NAMES '.addslashes( $this->get_db_conf('charset') ).';' , $this->res_connection );
+					@mysql_query( 'SET NAMES '.addslashes( $this->get_db_conf('charset') ).';' , $this->connection );
 				}
 				return	true;
 			}else{
@@ -110,6 +142,7 @@ class px_cores_dbh{
 				$this->eventhdl_connection_error( 'Database Connection Error.' , __FILE__ , __LINE__ );	//	DB接続エラー時のコールバック関数
 				return	false;
 			}
+
 		}elseif( $this->get_db_conf('dbms') == 'postgresql' ){
 			#--------------------------------------
 			#	【 PostgreSQL 】
@@ -142,7 +175,7 @@ class px_cores_dbh{
 				sleep(1);
 			}
 			if( is_resource( $res ) ){
-				$this->res_connection = $res;
+				$this->connection = $res;
 				return	true;
 			}else{
 				$this->add_error( 'DB connect was faild. DB Type of ['.$this->get_db_conf('dbms').'] Server ['.$this->get_db_conf('host').']' , null , __FILE__ , __LINE__ );
@@ -155,7 +188,7 @@ class px_cores_dbh{
 			#	【 SQLite 】
 			$res = sqlite_open( $this->get_db_conf('database_name') , 0666 , $sqlite_error_msg );
 			if( is_resource( $res ) ){
-				$this->res_connection = $res;
+				$this->connection = $res;
 				return	true;
 			}else{
 				$this->add_error( 'DB connect was faild. Because:['.$sqlite_error_msg.']. DB Type of ['.$this->get_db_conf('dbms').'] DB ['.$this->get_db_conf('database_name').']' , null , __FILE__ , __LINE__ );
@@ -178,7 +211,7 @@ class px_cores_dbh{
 			#	外部からの接続情報は受け入れない
 			return false;
 		}
-		$this->res_connection = $con;
+		$this->connection = $con;
 		return true;
 	}
 
@@ -186,10 +219,16 @@ class px_cores_dbh{
 	 * データベースコネクション$conが有効かどうか確認
 	 */
 	public function check_connection( $con = null ){
-		if( !is_resource( $con ) ){
-			$con = $this->res_connection;
+		if( !is_resource( $con ) && !is_object( $con ) ){
+			$con = $this->connection;
 		}
-		if( !is_resource( $con ) ){ return false; }
+		if( !is_resource( $con ) && !is_object( $con ) ){ return false; }
+
+		if( class_exists('PDO') ){
+			#--------------------------------------
+			#	【 PDO 】
+			return true;
+		}//if( class_exists('PDO') )
 
 		if( $this->get_db_conf('dbms') == 'mysql' ){
 			#--------------------------------------
@@ -233,10 +272,17 @@ class px_cores_dbh{
 	 * 
 	 */
 	public function get_affected_rows( $res = null ){
-		if( !is_null( $res ) && !is_resource( $res ) ){
-			#	何かを渡してるのに、リソース型じゃなかったらダメ。
+		if( !is_null( $res ) && !is_resource( $res ) && !is_object( $res ) ){
+			#	何かを渡してるのに、リソース型でもオブジェクト型でもなかったらダメ。
 			return false;
 		}
+
+		if( class_exists('PDO') ){
+			#--------------------------------------
+			#	【 PDO 】
+			$RTN = $this->result->rowCount();
+			return $RTN;
+		}//if( class_exists('PDO') )
 
 		if( $this->get_db_conf('dbms') == 'mysql' ){
 			#--------------------------------------
@@ -244,7 +290,7 @@ class px_cores_dbh{
 			if( !is_resource( $res ) ){
 				#	MySQLは、接続リソースをとる。
 				#	ゆえに、直前のクエリの結果しか知れない。
-				$res = $this->res_connection;
+				$res = $this->connection;
 			}
 			return @mysql_affected_rows( $res );
 
@@ -263,7 +309,7 @@ class px_cores_dbh{
 			if( !is_resource( $res ) ){
 				#	SQLiteは、接続リソースをとる。
 				#	ゆえに、直前のクエリの結果しか知れない。
-				$res = $this->res_connection;
+				$res = $this->connection;
 			}
 			return	@sqlite_changes( $res );
 
@@ -278,11 +324,17 @@ class px_cores_dbh{
 		$this->connect();
 		if( !$this->is_transaction() ){
 			$this->transaction_flg = true;
+			if( class_exists('PDO') ){
+				#	PDOの処理
+				return $this->connection->beginTransaction();
+			}
+
 			$sql = 'START TRANSACTION;';
 			if( $this->get_db_conf('dbms') == 'sqlite' ){
+				#	SQLiteの処理
 				$sql = 'BEGIN TRANSACTION;';
 			}
-			$result = $this->execute_send_query( $sql , $this->res_connection );
+			$result = $this->execute_send_query( $sql , $this->connection );
 			return $result;
 		}
 		return null;
@@ -298,11 +350,15 @@ class px_cores_dbh{
 			return true;
 		}
 		$this->transaction_flg = false;
+		if( class_exists('PDO') ){
+			#	PDOの処理
+			return $this->connection->commit();
+		}
 		if( $this->get_db_conf('dbms') == 'sqlite' ){
 			#	SQLiteの処理
-			return $this->execute_send_query( 'COMMIT TRANSACTION;' , $this->res_connection );
+			return $this->execute_send_query( 'COMMIT TRANSACTION;' , $this->connection );
 		}
-		return $this->execute_send_query( 'COMMIT;' , $this->res_connection );
+		return $this->execute_send_query( 'COMMIT;' , $this->connection );
 	}
 
 	/**
@@ -315,11 +371,15 @@ class px_cores_dbh{
 			return true;
 		}
 		$this->transaction_flg = false;
+		if( class_exists('PDO') ){
+			#	PDOの処理
+			return $this->connection->rollBack();
+		}
 		if( $this->get_db_conf('dbms') == 'sqlite' ){
 			#	SQLiteの処理
-			return $this->execute_send_query( 'ROLLBACK TRANSACTION;' , $this->res_connection );
+			return $this->execute_send_query( 'ROLLBACK TRANSACTION;' , $this->connection );
 		}
-		return $this->execute_send_query( 'ROLLBACK;' , $this->res_connection );
+		return $this->execute_send_query( 'ROLLBACK;' , $this->connection );
 	}
 
 	/**
@@ -344,7 +404,6 @@ class px_cores_dbh{
 	
 	/**
 	 * 実際にクエリを送信する
-	 * ※オブジェクト外から直接呼ばないでください。
 	 */
 	private function &execute_send_query( $querystring ){
 		$this->connect();
@@ -352,20 +411,31 @@ class px_cores_dbh{
 		list( $microtime , $time ) = explode( ' ' , microtime() ); 
 		$start_mtime = ( floatval( $time ) + floatval( $microtime ) );
 
-		if( $this->get_db_conf('dbms') == 'mysql' ){
+		if( class_exists('PDO') ){
+			#--------------------------------------
+			#	【 PDO 】
+			$RTN = $this->connection->prepare($querystring);
+			if( $RTN ){
+				if( !$RTN->execute() ){
+					$RTN = false;
+				}
+			}
+			unset($PDO_stmt);
+
+		}elseif( $this->get_db_conf('dbms') == 'mysql' ){
 			#--------------------------------------
 			#	【 MySQL 】
-			$RTN = @mysql_query( $querystring , $this->res_connection );	//クエリを投げる。
+			$RTN = @mysql_query( $querystring , $this->connection );	//クエリを投げる。
 
 		}elseif( $this->get_db_conf('dbms') == 'postgresql' ){
 			#--------------------------------------
 			#	【 PostgreSQL 】
-			$RTN = @pg_query( $this->res_connection , $querystring );	//クエリを投げる。
+			$RTN = @pg_query( $this->connection , $querystring );	//クエリを投げる。
 
 		}elseif( $this->get_db_conf('dbms') == 'sqlite' ){
 			#--------------------------------------
 			#	【 SQLite 】
-			$RTN = @sqlite_query( $this->res_connection , $querystring );	//クエリを投げる。
+			$RTN = @sqlite_query( $this->connection , $querystring );	//クエリを投げる。
 
 		}else{
 			#	【 想定外のDB 】
@@ -474,9 +544,17 @@ class px_cores_dbh{
 	 */
 	public function get_results( $res = null ){
 		$RTN = array();
+
 		if( !$res ){ $res = $this->result; }
 		if( is_bool( $res ) ){ return $res; }
-		if( !is_resource( $res ) ){ return array(); }
+		if( !is_resource( $res ) && !is_object( $res ) ){ return array(); }
+
+		if( class_exists('PDO') ){
+			#--------------------------------------
+			#	【 PDO 】
+			$RTN = $this->result->fetchAll(PDO::FETCH_ASSOC);
+			return $RTN;
+		}//if( class_exists('PDO') )
 
 		if( $this->get_db_conf('dbms') == 'mysql' ){
 			#--------------------------------------
@@ -505,7 +583,14 @@ class px_cores_dbh{
 		$RTN = array();
 		if( !$res ){ $res = $this->result; }
 		if( is_bool( $res ) ){ return $res; }
-		if( !is_resource( $res ) ){ return array(); }
+		if( !is_resource( $res ) && !is_object( $res ) ){ return array(); }
+
+		if( class_exists('PDO') ){
+			#--------------------------------------
+			#	【 PDO 】
+			$RTN = $this->result->fetch(PDO::FETCH_ASSOC);
+			return $RTN;
+		}//if( class_exists('PDO') )
 
 		if( $this->get_db_conf('dbms') == 'mysql' ){
 			#--------------------------------------
@@ -531,24 +616,36 @@ class px_cores_dbh{
 	 * 直前のクエリのエラー報告を受ける
 	 */
 	public function get_sql_error(){
+		if( class_exists('PDO') ){
+			#--------------------------------------
+			#	【 PDO 】
+			$errornum = null;
+			$errormsg = null;
+			if( $this->result ){
+				$errornum = $this->result->errorCode();
+				$errormsg = $this->result->errorInfo();
+			}
+			return	array( 'message'=>$errormsg , 'number'=>$errornum );
+		}//if( class_exists('PDO') )
+
 		if( $this->get_db_conf('dbms') == 'mysql' ){
 			#--------------------------------------
 			#	【 MySQL 】
-			$errornum = mysql_errno( $this->res_connection );
-			$errormsg = mysql_error( $this->res_connection );
+			$errornum = mysql_errno( $this->connection );
+			$errormsg = mysql_error( $this->connection );
 			return	array( 'message'=>$errormsg , 'number'=>$errornum );
 
 		}elseif( $this->get_db_conf('dbms') == 'postgresql' ){
 			#--------------------------------------
 			#	【 PostgreSQL 】
-			$errormsg = pg_last_error( $this->res_connection );
+			$errormsg = pg_last_error( $this->connection );
 			$result_error = pg_result_error( $this->result );
 			return	array( 'message'=>$errormsg , 'number'=>null , 'result_error'=>$result_error );
 
 		}elseif( $this->get_db_conf('dbms') == 'sqlite' ){
 			#--------------------------------------
 			#	【 SQLite 】
-			$error_cd = sqlite_last_error( $this->res_connection );
+			$error_cd = sqlite_last_error( $this->connection );
 			$errormsg = sqlite_error_string( $error_cd );
 			return	array( 'message'=>$errormsg , 'number'=>$error_cd );
 
@@ -567,10 +664,25 @@ class px_cores_dbh{
 		#	省略した場合は、自動的に選択します。
 		#--------------------------------------
 
+		if( class_exists('PDO') ){
+			#--------------------------------------
+			#	【 PDO 】
+			switch( $this->get_db_conf('dbms') ){
+				case 'postgresql':
+					$RTN = $this->connection->lastInsertId( $seq_table_name );
+					break;
+				default:
+					$RTN = $this->connection->lastInsertId();
+					break;
+			}
+			return $RTN;
+
+		}//if( class_exists('PDO') )
+
 		if( $this->get_db_conf('dbms') == 'mysql' ){
 			#--------------------------------------
 			#	【 MySQL 】
-			if( !$res ){ $res = $this->res_connection; }
+			if( !$res ){ $res = $this->connection; }
 			$RTN = mysql_insert_id( $res );
 			return	$RTN;
 
@@ -580,7 +692,7 @@ class px_cores_dbh{
 			if( !strlen( $seq_table_name ) ){ return false; }//PostgreSQLでは必須
 			if( !$res ){ $res = $this->result; }
 
-			$result = @pg_query( $this->res_connection , 'SELECT CURRVAL(\''.addslashes($seq_table_name).'\') AS seq' );
+			$result = @pg_query( $this->connection , 'SELECT CURRVAL(\''.addslashes($seq_table_name).'\') AS seq' );
 			$data = @pg_fetch_assoc( $result );
 			$RTN = intval( $data['seq'] );
 			return	$RTN;
@@ -588,7 +700,7 @@ class px_cores_dbh{
 		}elseif( $this->get_db_conf('dbms') == 'sqlite' ){
 			#--------------------------------------
 			#	【 SQLite 】
-			if( !$res ){ $res = $this->res_connection; }
+			if( !$res ){ $res = $this->connection; }
 			$RTN = sqlite_last_insert_rowid( $res );
 			return	$RTN;
 
@@ -605,15 +717,23 @@ class px_cores_dbh{
 	 */
 	public function get_db_encoding(){
 		$this->connect();
+
+		if( class_exists('PDO') ){
+			#--------------------------------------
+			#	【 PDO 】
+			//  PDO非対応
+			return	false;
+		}//if( class_exists('PDO') )
+
 		if( $this->get_db_conf('dbms') == 'mysql' ){
 			#--------------------------------------
 			#	【 MySQL 】
-			return	mysql_client_encoding( $this->res_connection );
+			return	mysql_client_encoding( $this->connection );
 
 		}elseif( $this->get_db_conf('dbms') == 'postgresql' ){
 			#--------------------------------------
 			#	【 PostgreSQL 】
-			return	pg_client_encoding( $this->res_connection );
+			return	pg_client_encoding( $this->connection );
 
 		}elseif( $this->get_db_conf('dbms') == 'sqlite' ){
 			#--------------------------------------
@@ -737,6 +857,14 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	 */
 	public function get_table_definition( $tablename ){
 		$this->connect();
+
+		if( class_exists('PDO') ){
+			#--------------------------------------
+			#	【 PDO 】
+			//  PDO非対応
+			return	false;
+		}//if( class_exists('PDO') )
+
 		if( $this->get_db_conf('dbms') == 'mysql' ){
 			#--------------------------------------
 			#	【 MySQL 】
@@ -763,7 +891,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 			#--------------------------------------
 			#	【 PostgreSQL 】
 			if( !is_callable( 'pg_meta_data' ) ){ return false; }
-			$VALUE = pg_meta_data( $this->res_connection , $tablename );
+			$VALUE = pg_meta_data( $this->connection , $tablename );
 			if( !is_array( $VALUE ) ){ return false; }
 			$RTN = array();
 			foreach( $VALUE as $Key=>$Line ){
@@ -781,7 +909,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 			#--------------------------------------
 			#	【 SQLite 】
 			if( !is_callable( 'sqlite_fetch_column_types' ) ){ return false; }
-			$VALUE = sqlite_fetch_column_types( $tablename , $this->res_connection );
+			$VALUE = sqlite_fetch_column_types( $tablename , $this->connection );
 			if( !is_array( $VALUE ) ){ return false; }
 			$RTN = array();
 			foreach( $VALUE as $Key=>$Line ){
@@ -1129,7 +1257,6 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	public function file_get_lines( $path ){
 
 		if( strlen( $this->px->get_conf('system.filesystem_encoding') ) ){
-			//PxFW 0.6.4 追加
 			$path = @t::convert_encoding( $path , $this->px->get_conf('system.filesystem_encoding') );
 		}
 
@@ -1162,7 +1289,6 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	public function file_get_contents( $path ){
 
 		if( strlen( $this->px->get_conf('system.filesystem_encoding') ) ){
-			//PxFW 0.6.4 追加
 			$path = @t::convert_encoding( $path , $this->px->get_conf('system.filesystem_encoding') );
 		}
 
@@ -2022,11 +2148,18 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 			}
 		}
 
+		if( class_exists('PDO') ){
+			#--------------------------------------
+			#	【 PDO 】
+			unset( $this->connection );
+			$this->connection = null;
+		}//if( class_exists('PDO') )
+
 		if( $this->get_db_conf('dbms') == 'mysql' ){
 			#--------------------------------------
 			#	【 MySQL 】
-			if( mysql_close( $this->res_connection ) ){
-				unset( $this->res_connection );
+			if( mysql_close( $this->connection ) ){
+				unset( $this->connection );
 				return	true;
 			}else{
 				$this->add_error( 'Faild to disconnect DB.' , 'disconnect' , __FILE__ , __LINE__ );
@@ -2036,8 +2169,8 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 		}elseif( $this->get_db_conf('dbms') == 'postgresql' ){
 			#--------------------------------------
 			#	【 PostgreSQL 】
-			if( pg_close( $this->res_connection ) ){
-				unset( $this->res_connection );
+			if( pg_close( $this->connection ) ){
+				unset( $this->connection );
 				return	true;
 			}else{
 				$this->add_error( 'Faild to disconnect DB.' , 'disconnect' , __FILE__ , __LINE__ );
@@ -2047,8 +2180,8 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 		}elseif( $this->get_db_conf('dbms') == 'sqlite' ){
 			#--------------------------------------
 			#	【 SQLite 】
-			sqlite_close( $this->res_connection );
-			unset( $this->res_connection );
+			sqlite_close( $this->connection );
+			unset( $this->connection );
 			return	true;
 
 		}
