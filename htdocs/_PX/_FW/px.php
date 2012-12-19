@@ -388,7 +388,9 @@ class px_px{
 		$ary = $this->dbh()->ls( $this->get_conf('paths.px_dir').'_FW/extensions/' );
 		$rtn = array();
 		foreach( $ary as $row ){
-			array_push( $rtn , t::trimext($row) );
+			$ext = t::trimext($row);
+			if(!strlen($ext)){continue;}
+			array_push( $rtn , $ext );
 		}
 		return $rtn;
 	}//get_extensions_list()
