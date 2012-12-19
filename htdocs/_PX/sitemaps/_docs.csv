@@ -1,4 +1,4 @@
-"*path","*content","*id","*title","*title_breadcrumb","*title_h1","*title_label","*logical_path","*list_flg","*authlevel","*layout","*extension","*orderby","*keywords","*description","*category_top_flg"
+"*path","*content","*id","*title","*title_breadcrumb","*title_h1","*title_label","*logical_path","*list_flg","*auth_level","*layout","*extension","*orderby","*keywords","*description","*category_top_flg"
 "/_docs/",,,"Pickles Framework ドキュメント",,,"ドキュメント",,1,,,,,,,
 "/_docs/modules/",,,"コーディング規則",,,,"/_docs/",1,,,,,,,
 "/_docs/modules/statics/",,,"スタティックモジュール",,,,"/_docs/>/_docs/modules/",1,,,,,,,

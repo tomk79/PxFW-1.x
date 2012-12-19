@@ -108,6 +108,14 @@ class px_cores_user{
 	}//get_login_user_email()
 
 	/**
+	 * ログインユーザーの認証レベルを取得する
+	 * @return int
+	 */
+	public function get_login_user_auth_level(){
+		return intval($this->login_user_info['auth_level']);
+	}//get_login_user_email()
+
+	/**
 	 * 明示的にログアウトする
 	 * @return true|false
 	 */

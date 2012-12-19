@@ -1,4 +1,4 @@
-"*path","*content","*id","*title","*title_breadcrumb","*title_h1","*title_label","*logical_path","*list_flg","*authlevel","*layout","*extension","*orderby","*keywords","*description","*category_top_flg"
+"*path","*content","*id","*title","*title_breadcrumb","*title_h1","*title_label","*logical_path","*list_flg","*auth_level","*layout","*extension","*orderby","*keywords","*description","*category_top_flg"
 "/_docs/test/","/_docs/test/",,"テストページ",,,,,1,,,,,,,
 "/_docs/test/funcs.html","/_docs/test/funcs.html",,"テーマの制作でよく使う関数一覧",,,,"/_docs/test/",1,,,,,,,
 "/_docs/test/extensions/",,,"extensionsのテスト",,,,"/_docs/test/",1,,,,,,,

@@ -34,6 +34,11 @@ class px_daos_user extends px_bases_dao{
 			return false;
 		}
 
+		if( !strlen( $user_info['auth_level'] ) ){
+			//  auth_levelが指定されていない場合、1でフォーマット。
+			$user_info['auth_level'] = 1;
+		}
+
 		$id = uniqid();//ユニークなIDを生成。
 
 		ob_start();?>
@@ -43,6 +48,7 @@ INSERT INTO :D:table_name (
 	user_pw,
 	user_name,
 	user_email,
+	auth_level,
 	tmp_pw,
 	tmp_email,
 	tmp_data,
@@ -56,6 +62,7 @@ INSERT INTO :D:table_name (
 	:S:user_pw,
 	:S:user_name,
 	:S:user_email,
+	:N:auth_level,
 	:S:tmp_pw,
 	:S:tmp_email,
 	:S:tmp_data,
@@ -70,9 +77,10 @@ INSERT INTO :D:table_name (
 			'table_name'=>$this->px->get_conf('dbms.prefix').'_user',
 			'id'=>$id,
 			'user_account'=>$user_info['user_account'],
+			'user_pw'=>$this->px->user()->crypt_user_password( $user_info['user_pw'] ),
 			'user_name'=>$user_info['user_name'],
 			'user_email'=>$user_info['user_email'],
-			'user_pw'=>$this->px->user()->crypt_user_password( $user_info['user_pw'] ),
+			'auth_level'=>intval($user_info['auth_level']),
 			'tmp_pw'=>null,
 			'tmp_email'=>null,
 			'tmp_data'=>null,

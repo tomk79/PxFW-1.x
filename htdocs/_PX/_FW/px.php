@@ -109,9 +109,16 @@ class px_px{
 			$this->theme()->set_layout_id($page_info['layout']);
 		}
 
-		if( $page_info['authlevel'] && !$this->user()->is_login() ){
-			$this->page_login();
-			return true;
+		if( $page_info['auth_level'] ){
+			if( !$this->user()->is_login() ){
+				//  ログインしていなかったらログインを促す。
+				$this->page_login();
+				return true;
+			}elseif( $page_info['auth_level'] > $this->user()->get_login_user_auth_level() ){
+				//  ユーザーのauth_levelが満たなかったら、forbidden
+				$this->page_forbidden();
+				return true;
+			}
 		}
 
 		//------
@@ -568,7 +575,22 @@ class px_px{
 		$fin .= '</html>'."\n";
 		print $fin;
 		exit();
-	}//redirect()
+	}//page_notfound()
+
+	/**
+	 * Forbidden画面を出力する。
+	 */
+	public function page_forbidden(){
+		while( @ob_end_clean() );
+
+		header('Status: 403 Forbidden.');
+		$fin = '';
+		$fin .= '<p>'."\n";
+		$fin .= 'このページの閲覧権がありません。<br />'."\n";
+		$fin .= '</p>'."\n";
+		print $this->theme()->bind_contents( $fin );
+		exit();
+	}//page_forbidden()
 
 	/**
 	 * ログイン画面を出力する。
