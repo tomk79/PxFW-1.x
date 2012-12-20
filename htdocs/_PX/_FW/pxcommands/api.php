@@ -27,6 +27,10 @@ class px_pxcommands_api extends px_bases_pxcommand{
 				//ファイルアップロード
 				$this->api_ulfile();
 				break;
+			case 'ls':
+				//ファイルの一覧を取得
+				$this->api_ls();
+				break;
 			case 'delete':
 				//ファイル削除
 				$this->api_delete();
@@ -106,6 +110,83 @@ class px_pxcommands_api extends px_bases_pxcommand{
 		print $this->data_convert( array('result'=>1) );
 		exit;
 	}//api_ulfile()
+
+	/**
+	 * [API] api.ls.config
+	 */
+	private function api_ls(){
+		switch( $this->command[2] ){
+			case 'content':
+			case 'sitemap':
+			case 'theme':
+				//これ以外は削除の機能は提供しない
+				break;
+			default:
+				print $this->data_convert( array('result'=>0) );
+				exit;
+				break;
+		}
+
+		$path = $this->get_target_file_path();
+		if( is_null($path) ){
+			//  ターゲットがただしく指示されていない。
+			print $this->data_convert( array('result'=>0) );
+			exit;
+		}
+		if( is_file($path) ){
+			//  ターゲットがファイル。ディレクトリを指示しなければならない。
+			print $this->data_convert( array('result'=>0) );
+			exit;
+		}
+		if( !is_dir($path) ){
+			//  ターゲットがディレクトリではない。
+			print $this->data_convert( array('result'=>0) );
+			exit;
+		}
+		if($this->command[2]=='content'){
+			//コンテンツディレクトリ内の除外ファイル
+			$tmp_path = $this->px->dbh()->get_realpath($path);
+			if( preg_match( '/^'.preg_quote($this->px->dbh()->get_realpath($this->px->get_conf('paths.px_dir')),'/').'/' , $this->px->dbh()->get_realpath($path) ) ){
+				// _PX の中身はこのAPIからは操作できない。
+				print $this->data_convert( array('result'=>0) );
+				exit;
+			}
+		}
+
+		$rtn = array();
+		$ls = $this->px->dbh()->ls($path);
+		foreach( $ls as $file_name ){
+			if($this->command[2]=='content'){
+				//コンテンツディレクトリ内の除外ファイル
+				if( preg_match( '/^'.preg_quote($this->px->dbh()->get_realpath($this->px->get_conf('paths.px_dir')),'/').'/' , $this->px->dbh()->get_realpath($path.'/'.$file_name) ) ){
+					// _PX の中身はこのAPIからは操作できない。
+					continue;
+				}
+				if( $this->px->dbh()->get_realpath($path.'/'.$file_name) == $this->px->dbh()->get_realpath(dirname($_SERVER['SCRIPT_FILENAME']).'/_px_execute.php') ){
+					//  /_px_execute.php は除外
+					continue;
+				}
+				if( $this->px->dbh()->get_realpath($path.'/'.$file_name) == $this->px->dbh()->get_realpath(dirname($_SERVER['SCRIPT_FILENAME']).'/.htaccess') ){
+					//  /.htaccess は除外
+					continue;
+				}
+			}
+
+			$file_info = array(
+				'type'=>null,
+				'name'=>$file_name,
+			);
+			if( is_dir($path.'/'.$file_name) ){
+				$file_info['type'] = 'directory';
+			}elseif( is_file($path.'/'.$file_name) ){
+				$file_info['type'] = 'file';
+			}
+			array_push( $rtn, $file_info );
+		}
+		print $this->data_convert( $rtn );
+		exit;
+
+	}//api_ls()
 
 	/**
 	 * [API] api.delete.*
