@@ -16,6 +16,7 @@ class px_px{
 	private $pxcommand;
 	private $relatedlinks = array();
 	private $path_mainconf;
+	private $plugin_objects = array();
 
 	/**
 	 * PxFWのバージョン情報を取得する
@@ -79,11 +80,7 @@ class px_px{
 	public function execute(){
 		$this->access_log();//アクセスログを記録
 
-		if( strlen($this->req()->get_param('THEME')) ){
-			//  テーマIDの変更を反映
-			$this->theme()->set_theme_id( $this->req()->get_param('THEME') );
-		}
-
+		//  PX Commands を実行
 		$tmp_px_class_name = $this->load_px_class( 'pxcommands/'.$this->pxcommand[0].'.php' );
 		if( $tmp_px_class_name ){
 			$obj_pxcommands = new $tmp_px_class_name( $this->pxcommand , $this );
@@ -92,23 +89,36 @@ class px_px{
 
 		@header('Content-type: text/html; charset='.(strlen($this->get_conf('system.output_encoding'))?$this->get_conf('system.output_encoding'):'UTF-8'));//←デフォルトのContent-type。$theme->bind_contents() 内で必要があれば上書き可能。
 
-		$this->user()->update_login_status( $this->req()->get_param('ID') , $this->req()->get_param('PW') );//←ユーザーログイン処理
-
-		$page_info = $this->site()->get_page_info( $this->req()->get_request_file_path() );
-		$localpath_current_content = $this->site()->get_page_info( $this->req()->get_request_file_path() , 'content' );
-		if( !strlen($localpath_current_content) ){
-			$localpath_current_content = $_SERVER['PATH_INFO'];
-			if( preg_match('/\/$/s',$localpath_current_content) ){
-				$localpath_current_content .= 'index.html';
-			}
+		//  テーマIDの変更を反映
+		if( strlen($this->req()->get_param('THEME')) ){
+			$this->theme()->set_theme_id( $this->req()->get_param('THEME') );
 		}
-		$path_content = $this->dbh()->get_realpath( dirname($_SERVER['SCRIPT_FILENAME']).$localpath_current_content );
 
+		//  ユーザーログイン処理
+		$this->user()->update_login_status( $this->req()->get_param('ID') , $this->req()->get_param('PW') );
+
+		//  カレントページの情報を取得
+		$page_info = $this->site()->get_page_info( $this->req()->get_request_file_path() );
+
+		//  レイアウトIDの変更を反映
 		if( strlen( $page_info['layout'] ) ){
-			//  レイアウトIDの変更を反映
 			$this->theme()->set_layout_id($page_info['layout']);
 		}
 
+		//  プラグインオブジェクトを生成
+		$tmp_path_plugins_base_dir = $this->get_conf('paths.px_dir').'plugins/';
+		$tmp_plugin_list = $this->dbh()->ls( $tmp_path_plugins_base_dir );
+		foreach( $tmp_plugin_list as $tmp_plugin_name ){
+			if( is_file( $tmp_path_plugins_base_dir.$tmp_plugin_name.'/register/object.php' ) ){
+				$tmp_class_name = $this->load_px_plugin_class($tmp_plugin_name.'/register/object.php');
+				if($tmp_class_name){
+					$this->plugin_objects[$tmp_plugin_name] = new $tmp_class_name($this);
+				}
+			}
+		}
+		unset($tmp_path_plugins_base_dir,$tmp_plugin_list,$tmp_plugin_name,$tmp_class_name);
+
+		//  auth_levelの分岐処理
 		if( $page_info['auth_level'] ){
 			if( !$this->user()->is_login() ){
 				//  ログインしていなかったらログインを促す。
@@ -120,6 +130,16 @@ class px_px{
 				return true;
 			}
 		}
+
+		//  コンテンツファイル(内部パス)を決める
+		$localpath_current_content = $this->site()->get_page_info( $this->req()->get_request_file_path() , 'content' );
+		if( !strlen($localpath_current_content) ){
+			$localpath_current_content = $_SERVER['PATH_INFO'];
+			if( preg_match('/\/$/s',$localpath_current_content) ){
+				$localpath_current_content .= 'index.html';
+			}
+		}
+		$path_content = $this->dbh()->get_realpath( dirname($_SERVER['SCRIPT_FILENAME']).$localpath_current_content );
 
 		//------
 		//  拡張子違いのコンテンツを検索
@@ -458,7 +478,7 @@ class px_px{
 
 	/**
 	 * PX Plugin のクラスファイルをロードする。
-	 * 
+	 * @return 読み込んだクラス名(string)
 	 */
 	public function load_px_plugin_class($path){
 		//戻り値は、ロードしたクラス名
@@ -480,6 +500,15 @@ class px_px{
 		}
 		return $class_name;
 	}//load_px_plugin_class()
+
+	/**
+	 * プラグインオブジェクトを取り出す
+	 */
+	public function get_plugin_object( $plugin_name ){
+		if( !strlen($plugin_name) ){return false;}
+		if( !is_object($this->plugin_objects[$plugin_name]) ){return false;}
+		return $this->plugin_objects[$plugin_name];
+	}//get_plugin_object()
 
 	/**
 	 * PxFWのテーマが定義するクラスファイルをロードする。
