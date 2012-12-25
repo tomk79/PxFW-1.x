@@ -1,5 +1,6 @@
 
 <!-- インクルードエリア -->
+<meta name="viewport" content="width=device-width" />
 <meta name="keywords" content="<?php print t::h($page_info['keywords']); ?>" />
 <meta name="description" content="<?php print t::h($page_info['description']); ?>" />
 
