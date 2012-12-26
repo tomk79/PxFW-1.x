@@ -27,6 +27,7 @@ CREATE TABLE :D:table_name(
     tmp_email    VARCHAR,
     tmp_data    TEXT,
     login_date    TIMESTAMP DEFAULT 'NOW',
+    set_pw_date    TIMESTAMP DEFAULT 'NOW',
     create_date    TIMESTAMP DEFAULT 'NOW',
     update_date    TIMESTAMP DEFAULT 'NOW',
     delete_date    TIMESTAMP DEFAULT 'NOW',
@@ -44,6 +45,7 @@ CREATE TABLE :D:table_name(
     tmp_email    VARCHAR(128),
     tmp_data    TEXT,
     login_date    DATETIME DEFAULT NULL,
+    set_pw_date    DATETIME DEFAULT NULL,
     create_date    DATETIME DEFAULT NULL,
     update_date    DATETIME DEFAULT NULL,
     delete_date    DATETIME DEFAULT NULL,
@@ -61,6 +63,7 @@ CREATE TABLE :D:table_name(
     tmp_email    VARCHAR(128),
     tmp_data    TEXT,
     login_date    DATETIME DEFAULT NULL,
+    set_pw_date    DATETIME DEFAULT NULL,
     create_date    DATETIME DEFAULT NULL,
     update_date    DATETIME DEFAULT NULL,
     delete_date    DATETIME DEFAULT NULL,
@@ -70,18 +73,17 @@ CREATE TABLE :D:table_name(
 <?php
 		$sql['user'] = array();
 		array_push( $sql['user'] , @ob_get_clean() );
-/*
+
 		if( $this->px->get_conf('dbms.dbms') == 'postgresql' ){
 			#	PostgreSQL
-			array_push( $sql['user'] , 'ALTER TABLE :D:table_name ADD PRIMARY KEY ( user_cd );' );
-			array_push( $sql['user'] , 'ALTER TABLE :D:table_name ADD UNIQUE ( user_id );' );
+//			array_push( $sql['user'] , 'ALTER TABLE :D:table_name ADD PRIMARY KEY ( user_cd );' );
+			array_push( $sql['user'] , 'ALTER TABLE :D:table_name ADD UNIQUE ( id );' );
 		}elseif( $this->px->get_conf('dbms.dbms') == 'mysql' ){
 			#	MySQL
-			array_push( $sql['user'] , 'ALTER TABLE :D:table_name ADD PRIMARY KEY ( user_cd );' );
-			array_push( $sql['user'] , 'ALTER TABLE :D:table_name CHANGE user_cd user_cd INT(11) NOT NULL AUTO_INCREMENT;' );
-			array_push( $sql['user'] , 'CREATE UNIQUE INDEX user_id ON :D:table_name (user_id(64));' );
+//			array_push( $sql['user'] , 'ALTER TABLE :D:table_name ADD PRIMARY KEY ( user_cd );' );
+//			array_push( $sql['user'] , 'ALTER TABLE :D:table_name CHANGE user_cd user_cd INT(11) NOT NULL AUTO_INCREMENT;' );
+			array_push( $sql['user'] , 'CREATE UNIQUE INDEX id ON :D:table_name (id(64));' );
 		}
-*/
 
 		//トランザクション：スタート
 		$this->px->dbh()->start_transaction();

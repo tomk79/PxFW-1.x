@@ -52,6 +52,7 @@ INSERT INTO :D:table_name (
 	tmp_pw,
 	tmp_email,
 	tmp_data,
+	set_pw_date,
 	create_date,
 	update_date,
 	login_date,
@@ -66,6 +67,7 @@ INSERT INTO :D:table_name (
 	:S:tmp_pw,
 	:S:tmp_email,
 	:S:tmp_data,
+	:S:now,
 	:S:now,
 	:S:now,
 	:S:login_date,
@@ -178,7 +180,7 @@ INSERT INTO :D:table_name (
 		if( strlen( $user_info['user_pw'] ) && !strlen( $user_info['user_account'] ) ){
 			#	パスワードの変更を要求した場合は、
 			#	user_account が必須になる。
-			$this->px->error()->error_log( 'パスワードを変更する場合は、ユーザIDを必ず指定する必要があります。' , __FILE__ , __LINE__ );
+			$this->px->error()->error_log( 'パスワードを変更する場合は、ユーザアカウント名を必ず指定する必要があります。' , __FILE__ , __LINE__ );
 			return	false;
 		}
 
@@ -190,6 +192,7 @@ SET
 	user_email = :S:user_email, 
 <?php if( !is_null( $user_info['user_pw'] ) ){ ?>
 	user_pw = :S:user_pw,
+	set_pw_date = :S:now,
 <?php } ?>
 	update_date = :S:now
 WHERE id = :S:id;
