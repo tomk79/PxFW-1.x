@@ -273,6 +273,7 @@ class px_cores_site{
 	/**
 	 * ページ情報を取得する。
 	 * @param パス または ページID
+	 * @param [省略可] 取り出す単一要素のキー。省略時はすべての要素を含む連想配列が返される。
 	 */
 	public function get_page_info( $path ){
 		if( is_null($path) ){
@@ -543,6 +544,29 @@ class px_cores_site{
 		$bros = $this->get_children( $parent );
 		return $bros;
 	}//get_bros()
+
+	/**
+	 * パンくず配列を取得する
+	 * @param 基点とするページのパス。またはID。
+	 * @return 親ページまでのパンくず階層をあらわす配列。自身を含まない。$pathがトップページを示す場合は、空の配列。
+	 */
+	public function get_breadcrumb_array( $path = null ){
+		if( is_null( $path ) ){
+			$path = $this->px->req()->get_request_file_path();
+		}
+		$page_info = $this->get_page_info( $path );
+		if( !strlen($page_info['id']) ){return array();}
+
+		$rtn = array('');
+		$tmp_breadcrumb = explode( '>', $page_info['logical_path'] );
+		foreach( $tmp_breadcrumb as $tmp_id ){
+			if( !strlen($tmp_id) ){continue;}
+			$tmp_page_info = $this->get_page_info( trim($tmp_id) );
+			array_push( $rtn , $tmp_page_info['id'] );
+		}
+
+		return $rtn;
+	}//get_breadcrumb_array()
 
 	/**
 	 * パス文字列を受け取り、種類を判定する。
