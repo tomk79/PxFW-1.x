@@ -16,6 +16,8 @@ class px_daos_initialize extends px_bases_dao{
 	public function create_user_tables($behavior=0){
 		$behavior = intval($behavior);
 
+		$sql = array();
+
 		//--------------------------------------
 		//  user: ユーザーマスターテーブル
 		ob_start();?>
