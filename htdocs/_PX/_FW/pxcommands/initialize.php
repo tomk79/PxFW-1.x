@@ -18,6 +18,9 @@ class px_pxcommands_initialize extends px_bases_pxcommand{
 			case 'run':
 				$this->execute();
 				break;
+			case 'download':
+				$this->download_sql();
+				break;
 			default:
 				$this->homepage();
 				break;
@@ -36,6 +39,10 @@ class px_pxcommands_initialize extends px_bases_pxcommand{
 		$src .= '<p class="center"><button>イニシャライズを実行する</button></p>'."\n";
 		$src .= '<div><input type="hidden" name="PX" value="'.t::h($command[0]).'.run" /></div>'."\n";
 		$src .= '</form>'."\n";
+		$src .= '<p>または、セットアップ用のSQL文をダウンロードしたい場合は、次のリンクをクリックしてください。</p>'."\n";
+		$src .= '<ul>'."\n";
+		$src .= '	<li><a href="?PX='.t::h($command[0]).'.download">SQLをダウンロード</a></li>'."\n";
+		$src .= '</ul>'."\n";
 		print $this->html_template($src);
 		exit;
 	}
@@ -52,7 +59,7 @@ class px_pxcommands_initialize extends px_bases_pxcommand{
 		$dao_init = new $class_name_dao_init( $this->px );
 
 		print '[init PxFW user tables]'."\n";
-		if( $dao_init->create_user_tables() ){
+		if( $dao_init->create_user_tables(0) ){
 			print 'success'."\n";
 		}else{
 			print 'FAILED'."\n";
@@ -69,7 +76,7 @@ class px_pxcommands_initialize extends px_bases_pxcommand{
 			print '[init plugin "'.$plugin_name.'"]'."\n";
 			$class_name = $this->px->load_px_plugin_class( $plugin_name.'/register/initialize.php' );
 			$plugin_initializer = new $class_name($this->px);
-			if( $plugin_initializer->execute() ){
+			if( $plugin_initializer->execute(0) ){
 				print 'success'."\n";
 			}else{
 				print 'FAILED'."\n";
@@ -90,6 +97,40 @@ class px_pxcommands_initialize extends px_bases_pxcommand{
 		print 'exit.'."\n";
 		exit;
 	}
+
+	/**
+	 * SQL文をダウンロードする
+	 */
+	private function download_sql(){
+		$command = $this->get_command();
+		$sql = '';
+		$sql .= '-- '.$command[0].' | Pickles Framework (version:'.$this->px->get_version().')'."\r\n";
+		$sql .= '-- '.date('Y-m-d H:i:s')."\r\n";
+		$sql .= '-- ----'."\r\n";
+		$sql .= ''."\r\n";
+		$sql .= '-- ----------------'."\r\n";
+		$sql .= '-- PxFW User Table(s)'."\r\n";
+		$sql .= ''."\r\n";
+		$class_name_dao_init = $this->px->load_px_class('/daos/initialize.php');
+		$dao_init = new $class_name_dao_init( $this->px );
+		$sql .= $dao_init->create_user_tables(2);
+		$sql .= ''."\r\n";
+		$sql .= ''."\r\n";
+
+		$plugins = $this->scan_plugins();
+		foreach( $plugins as $plugin_name ){
+			$sql .= '-- ----------------'."\r\n";
+			$sql .= '-- plugin "'.$plugin_name.'"'."\r\n";
+			$class_name = $this->px->load_px_plugin_class( $plugin_name.'/register/initialize.php' );
+			$plugin_initializer = new $class_name($this->px);
+			$sql .= $plugin_initializer->execute(2);
+			$sql .= ''."\r\n";
+			$sql .= ''."\r\n";
+		}
+
+		$this->px->download( $sql, array('filename'=>'pxfw_initialize_'.$this->px->get_conf('project.id').'_'.date('Ymd_Hi').'.sql') );
+		exit;
+	}//download_sql()
 
 	/**
 	 * プラグインディレクトリをスキャンして、initializeクラスの一覧を作成する

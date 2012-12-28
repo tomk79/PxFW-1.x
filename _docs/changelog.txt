@@ -9,6 +9,7 @@
 - サイトマップの orderby の処理を実装。
 - $dbhがPDOに対応。
 - PX=api に ls コマンドを追加。
+- PX=initialize で、SQLを実行せずにダウンロードする機能を追加。
 - カテゴリトップページを取得する $site->get_category_top() を実装。
 - 親ページまでのパンくず配列を取得する $site->get_breadcrumb_array() を実装。
 - Not Foundページを出力する $px->page_notfound() を追加実装。

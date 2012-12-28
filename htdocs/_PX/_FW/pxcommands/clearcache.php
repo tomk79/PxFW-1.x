@@ -43,22 +43,74 @@ class px_pxcommands_clearcache extends px_bases_pxcommand{
 		print 'OK!'."\n";
 		print '------'."\n";
 		foreach( $this->paths_cache_dir as $path_cache_dir ){
+			print 'Cleanup a Directory "'.$path_cache_dir.'"'."\n";
+			print ''."\n";
 			if( !is_dir( $path_cache_dir ) ){
 				print '[ERROR] Directory "'.$path_cache_dir.'" is NOT exists.'."\n";
 				continue;
 			}
 			$items = $this->px->dbh()->ls( $path_cache_dir );
 			foreach( $items as $filename ){
-				$this->px->dbh()->rmdir_all( $path_cache_dir.'/'.$filename );
+				$this->rmdir_all( $path_cache_dir.'/'.$filename );
 			}
+			print 'making readme.txt'."\n";//  gitが空ディレクトリを保持できないため
 			$this->px->dbh()->save_file( $path_cache_dir.'/readme.txt' , 'This directory is for saving cache files.' );
-			print '[Complete] Directory "'.$path_cache_dir.'"'."\n";
+			print '[Complete]'."\n";
+			print ''."\n";
+			print '---'."\n";
 		}
 		print '------'."\n";
 		print 'publish completed.'."\n";
 		print 'exit.'."\n";
 		exit;
 	}
+
+	/**
+	 * ディレクトリを中身ごと完全に削除する
+	 * $px->dbh()からの移植。
+	 * 詳細な進捗と結果を標準出力するために、独自実装することとした。
+	 */
+	private function rmdir_all( $path ){
+
+		if( strlen( $this->px->get_conf('system.filesystem_encoding') ) ){
+			$path = @t::convert_encoding( $path , $this->px->get_conf('system.filesystem_encoding') );
+		}
+
+		if( !$this->px->dbh()->is_writable( $path ) ){
+			print 'FAILED : NOT WRITABLE "'.$path_cache_dir.'"'."\n";
+			return false;
+		}
+		$path = @realpath( $path );
+		if( $path === false ){ return false; }
+		if( @is_file( $path ) || @is_link( $path ) ){
+			#	ファイルまたはシンボリックリンクの場合の処理
+			$result = @unlink( $path );
+			if($result){
+				print 'success: file "'.$path.'"'."\n";
+			}else{
+				print 'FAILED : file "'.$path.'"'."\n";
+			}
+			return	$result;
+
+		}elseif( @is_dir( $path ) ){
+			#	ディレクトリの処理
+			$flist = $this->px->dbh()->ls( $path );
+			foreach ( $flist as $Line ){
+				if( $Line == '.' || $Line == '..' ){ continue; }
+				$this->rmdir_all( $path.'/'.$Line );
+			}
+			$result = @rmdir( $path );
+			if($result){
+				print 'success: directory "'.$path.'"'."\n";
+			}else{
+				print 'FAILED : directory "'.$path.'"'."\n";
+			}
+			return	$result;
+
+		}
+
+		return false;
+	}//rmdir_all()
 
 	/**
 	 * セットアップ

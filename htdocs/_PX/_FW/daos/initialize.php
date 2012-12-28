@@ -10,8 +10,12 @@ class px_daos_initialize extends px_bases_dao{
 
 	/**
 	 * ユーザー関連テーブルを作成する。
+	 * @params int $behavior: 振る舞い。0(既定値)=SQLを実行する|1=SQL文全体を配列として返す|2=SQL全体を文字列として返す
+	 * @return $behavior=0 の場合、SQLを実行した結果の成否(bool), $behavior=1 の場合、1つのSQL文を1要素として持つ配列, $behavior=2 の場合、全SQL文を結合した文字列としてのSQL
 	 */
-	public function create_user_tables(){
+	public function create_user_tables($behavior=0){
+		$behavior = intval($behavior);
+
 		//--------------------------------------
 		//  user: ユーザーマスターテーブル
 		ob_start();?>
@@ -85,9 +89,12 @@ CREATE TABLE :D:table_name(
 			array_push( $sql['user'] , 'CREATE UNIQUE INDEX id ON :D:table_name (id(64));' );
 		}
 
-		//トランザクション：スタート
-		$this->px->dbh()->start_transaction();
+		if( !$behavior ){
+			//  トランザクション：スタート
+			$this->px->dbh()->start_transaction();
+		}
 
+		$rtn_sql = array();
 		foreach( $sql as $table_name=>$sql_row ){
 			foreach( $sql_row as $sql_content ){
 				$bind_data = array(
@@ -96,21 +103,36 @@ CREATE TABLE :D:table_name(
 				$sql_final = $this->px->dbh()->bind( $sql_content , $bind_data );
 				if( !strlen( $sql_final ) ){ continue; }
 
-				if( !$this->px->dbh()->send_query( $sql_final ) ){
-					$this->px->error()->error_log('database query error ['.$sql_final.']');
-					$this->error_log('database query error ['.$sql_final.']',__LINE__);
+				if( !$behavior ){
+					if( !$this->px->dbh()->send_query( $sql_final ) ){
+						$this->px->error()->error_log('database query error ['.$sql_final.']');
+						$this->error_log('database query error ['.$sql_final.']',__LINE__);
 
-					//トランザクション：ロールバック
-					$this->px->dbh()->rollback();
-					return false;
+						//トランザクション：ロールバック
+						$this->px->dbh()->rollback();
+						return false;
+					}
+				}else{
+					array_push( $rtn_sql , $sql_final );
 				}
+				unset($sql_final);
 			}
 		}
 
-		//トランザクション：コミット
-		$this->px->dbh()->commit();
+		if( !$behavior ){
+			//  トランザクション：コミット
+			$this->px->dbh()->commit();
+			return true;
+		}
+		if( $behavior === 1 ){
+			return $rtn_sql;
+		}
+		if( $behavior === 2 ){
+			return implode( "\r\n\r\n\r\n", $rtn_sql );
+		}
 
-		return true;
+		//  想定外の$behavior
+		return false;
 	}
 
 	/**
