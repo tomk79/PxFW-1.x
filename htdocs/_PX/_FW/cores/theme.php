@@ -350,10 +350,10 @@ class px_cores_theme{
 			$tmp = array();
 			$tmp['label'] = $matched[4];
 			$tmp['label'] = strip_tags( $tmp['label'] );//ラベルからHTMLタグを除去
-			$tmp['anch'] = 'hash_'.urlencode($tmp['label']);
+			$tmp['anch'] = 'hash_'.($tmp['label']);
 			if($indexCounter[$tmp['anch']]){
 				$indexCounter[$tmp['anch']] ++;
-				$tmp['anch'] = 'hash_'.$indexCounter[$tmp['anch']].'_'.urlencode($tmp['label']);
+				$tmp['anch'] = 'hash_'.$indexCounter[$tmp['anch']].'_'.($tmp['label']);
 			}else{
 				$indexCounter[$tmp['anch']] = 1;
 			}
