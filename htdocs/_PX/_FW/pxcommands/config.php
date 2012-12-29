@@ -86,6 +86,40 @@ class px_pxcommands_config extends px_bases_pxcommand{
 		}
 
 		$src .= '<div class="unit">'."\n";
+		$src .= '<h2>プラグイン</h2>'."\n";
+		$tmp_path_plugins_base_dir = $this->px->get_conf('paths.px_dir').'plugins/';
+		$tmp_plugin_list = $this->px->dbh()->ls( $tmp_path_plugins_base_dir );
+		foreach( $tmp_plugin_list as $tmp_plugin_key=>$tmp_plugin_name ){
+			if(!is_dir($tmp_path_plugins_base_dir.$tmp_plugin_name)){
+				unset( $tmp_plugin_list[$tmp_plugin_key] );
+			}
+		}
+		if( !count($tmp_plugin_list) ){
+			$src .= '<p>プラグインは読み込まれていません。</p>'."\n";
+		}else{
+			$src .= '	<table class="def">'."\n";
+			$src .= '		<thead>'."\n";
+			$src .= '			<tr>'."\n";
+			$src .= '				<th>プラグイン名</th>'."\n";
+			$src .= '				<th>object</th>'."\n";
+			$src .= '				<th>initialize</th>'."\n";
+			$src .= '			</tr>'."\n";
+			$src .= '		</thead>'."\n";
+			$src .= '		<tbody>'."\n";
+			foreach( $tmp_plugin_list as $tmp_plugin_name ){
+				$src .= '			<tr>'."\n";
+				$src .= '				<th>'.t::h($tmp_plugin_name).'</th>'."\n";
+				$src .= '				<td class="center">'.(is_file( $tmp_path_plugins_base_dir.$tmp_plugin_name.'/register/object.php' )?'○':'-').'</td>'."\n";
+				$src .= '				<td class="center">'.(is_file( $tmp_path_plugins_base_dir.$tmp_plugin_name.'/register/initialize.php' )?'○':'-').'</td>'."\n";
+				$src .= '			</tr>'."\n";
+			}
+			$src .= '		</tbody>'."\n";
+			$src .= '	</table>'."\n";
+		}
+		unset($tmp_path_plugins_base_dir,$tmp_plugin_list,$tmp_plugin_name,$tmp_class_name);
+		$src .= '</div><!-- /.unit -->'."\n";
+
+		$src .= '<div class="unit">'."\n";
 		$src .= '<h2>コンフィグの変更</h2>'."\n";
 		$src .= '	<p>'."\n";
 		$src .= '		コンフィグは、次のファイルを編集して変更することができます。<br />'."\n";

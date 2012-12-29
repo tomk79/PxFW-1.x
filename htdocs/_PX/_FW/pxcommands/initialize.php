@@ -105,6 +105,7 @@ class px_pxcommands_initialize extends px_bases_pxcommand{
 		$command = $this->get_command();
 		$sql = '';
 		$sql .= '-- '.$command[0].' | Pickles Framework (version:'.$this->px->get_version().')'."\r\n";
+		$sql .= '-- SQL for "'.$this->px->get_conf('dbms.dbms').'"'."\r\n";
 		$sql .= '-- '.date('Y-m-d H:i:s')."\r\n";
 		$sql .= '-- ----'."\r\n";
 		$sql .= ''."\r\n";
@@ -127,6 +128,8 @@ class px_pxcommands_initialize extends px_bases_pxcommand{
 			$sql .= ''."\r\n";
 			$sql .= ''."\r\n";
 		}
+
+		$sql = preg_replace( '/\r\n|\r|\n/', "\r\n", $sql );//←CRLFに統一
 
 		$this->px->download( $sql, array('filename'=>'pxfw_initialize_'.$this->px->get_conf('project.id').'_'.date('Ymd_Hi').'.sql') );
 		exit;
