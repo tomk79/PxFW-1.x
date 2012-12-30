@@ -1,6 +1,7 @@
 * このディレクトリは、プラグインをインストールする領域です。
 * This directory is for installing plugins.
 
+------
 【プラグインの開発規則】
 
 ■プラグイン名
@@ -26,10 +27,50 @@
 例： <plugins>/samplePlugin/lib/factory.php の場合、class pxplugin_samplePlugin_lib_factory
 
 
+------
 【共通クラス】
 
 以下のクラスは、共通ルールに基づき、PxFWが自動的にロードし、実行します。
 すべて、{$plugin_name}ディレクトリ内 register ディレクトリに格納されます。
+
+■object
+
+PxFWの初期セットアップ処理の中で自動的にインスタンス化され、
+以降、$px内部にメンバーとして保持されます。
+
+このオブジェクトにアクセスするには、
+次のメソッドを用います。
+
+$obj = $px->get_plugin_object($plugin_name);
+
+- 格納先: <plugins>/{$plugin_name}/register/object.php
+- クラス名: pxplugin_{$plugin_name}_register_object
+- コンストラクタ引数: $px
+
+下記は実装例。
+
+<!--- ここからサンプルコード --->
+<?php
+
+/**
+ * PX Plugin "{$plugin_name}"
+ */
+class pxplugin_{$plugin_name}_register_object{
+	private $px;
+
+	/**
+	 * コンストラクタ
+	 * @param $px = PxFWコアオブジェクト
+	 */
+	public function __construct($px){
+		$this->px = $px;
+	}
+
+}
+
+?>
+<!--- / ここまでサンプルコード --->
+
 
 ■initialize
 
@@ -40,6 +81,7 @@ PX=initialize.run の実行時に実行されます。
 - コンストラクタ引数: $px
 - API
 -- トリガーメソッド: $instance->execute()
+-- ログ出力: $instance->get_logs()
 -- エラー出力: $instance->get_errors()
 
 下記は実装例。
@@ -53,6 +95,7 @@ PX=initialize.run の実行時に実行されます。
 class pxplugin_{$plugin_name}_register_initialize{
 	private $px;
 	private $errors = array();
+	private $logs = array();
 
 	/**
 	 * コンストラクタ
@@ -72,6 +115,7 @@ class pxplugin_{$plugin_name}_register_initialize{
 		//  エラーメッセージを出力し、falseを返す。
 		/*
 		if( $error ){
+			$this->error_log('エラーが発生したため、処理を中止しました。',__LINE__);
 			$this->error_log('エラーが発生したため、処理を中止しました。',__LINE__);
 			return false;
 		}
@@ -101,6 +145,26 @@ class pxplugin_{$plugin_name}_register_initialize{
 			'file'=>__FILE__ ,
 			'line'=>$line ,
 		) );
+		return true;
+	}
+
+	/**
+	 * ログ取得メソッド
+	 * PxFWはinitialize処理が終了した後(=execute()がreturnした後)、
+	 * このメソッドを通じて実行された処理の内容を受け取ります。
+	 * @return 配列。
+	 */
+	public function get_logs(){
+		return $this->logs;
+	}
+
+	/**
+	 * 内部ログ記録メソッド
+	 * 本オブジェクト内部で処理した内容をテキストで受け取り、メンバー変数に記憶します。
+	 * ここで記憶した情報は、最終的に get_logs() により引き出されます。
+	 */
+	private function log( $message ){
+		array_push( $this->logs, $message );
 		return true;
 	}
 

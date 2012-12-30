@@ -7,6 +7,7 @@ $this->load_px_class('/bases/dao.php');
 class px_daos_initialize extends px_bases_dao{
 
 	private $errors = array();
+	private $logs = array();
 
 	/**
 	 * ユーザー関連テーブルを作成する。
@@ -108,11 +109,14 @@ CREATE TABLE :D:table_name(
 				if( !$behavior ){
 					if( !$this->px->dbh()->send_query( $sql_final ) ){
 						$this->px->error()->error_log('database query error ['.$sql_final.']');
+						$this->log('[ERROR] database query error. (see error log)',__LINE__);
 						$this->error_log('database query error ['.$sql_final.']',__LINE__);
 
 						//トランザクション：ロールバック
 						$this->px->dbh()->rollback();
 						return false;
+					}else{
+						$this->log('database query done.  ['.$sql_final.']',__LINE__);
 					}
 				}else{
 					array_push( $rtn_sql , $sql_final );
@@ -158,6 +162,26 @@ CREATE TABLE :D:table_name(
 			'file'=>__FILE__ ,
 			'line'=>$line ,
 		) );
+		return true;
+	}
+
+	/**
+	 * ログ取得メソッド
+	 * PxFWはinitialize処理が終了した後(=execute()がreturnした後)、
+	 * このメソッドを通じて実行された処理の内容を受け取ります。
+	 * @return 配列。
+	 */
+	public function get_logs(){
+		return $this->logs;
+	}
+
+	/**
+	 * 内部ログ記録メソッド
+	 * 本オブジェクト内部で処理した内容をテキストで受け取り、メンバー変数に記憶します。
+	 * ここで記憶した情報は、最終的に get_logs() により引き出されます。
+	 */
+	private function log( $message ){
+		array_push( $this->logs, $message );
 		return true;
 	}
 

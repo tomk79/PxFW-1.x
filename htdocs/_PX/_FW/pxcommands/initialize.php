@@ -58,32 +58,52 @@ class px_pxcommands_initialize extends px_bases_pxcommand{
 		$class_name_dao_init = $this->px->load_px_class('/daos/initialize.php');
 		$dao_init = new $class_name_dao_init( $this->px );
 
-		print '[init PxFW user tables]'."\n";
+		print ''."\n";
+		print '[----  init PxFW user tables  ----]'."\n";
 		if( $dao_init->create_user_tables(0) ){
-			print 'success'."\n";
+			print 'result: success'."\n";
+			foreach( $dao_init->get_logs() as $log_text ){
+				print '- '.$log_text."\n";
+			}
+			print ''."\n";
 		}else{
-			print 'FAILED'."\n";
+			print 'result: FAILED'."\n";
+			foreach( $dao_init->get_logs() as $log_text ){
+				print '- '.$log_text."\n";
+			}
+			print ''."\n";
 			$errors = $dao_init->get_errors();
 			foreach( $errors as $error ){
 				print '[ERROR] '.$error['message'].' (Line: '.$error['line'].')'."\n";
 			}
+			print ''."\n";
 		}
 		print ''."\n";
 		print '------'."\n";
 
 		$plugins = $this->scan_plugins();
 		foreach( $plugins as $plugin_name ){
-			print '[init plugin "'.$plugin_name.'"]'."\n";
+			print ''."\n";
+			print '[----  init plugin "'.$plugin_name.'"  ----]'."\n";
 			$class_name = $this->px->load_px_plugin_class( $plugin_name.'/register/initialize.php' );
 			$plugin_initializer = new $class_name($this->px);
 			if( $plugin_initializer->execute(0) ){
-				print 'success'."\n";
+				print 'result: success'."\n";
+				foreach( $plugin_initializer->get_logs() as $log_text ){
+					print '- '.$log_text."\n";
+				}
+				print ''."\n";
 			}else{
-				print 'FAILED'."\n";
+				print 'result: FAILED'."\n";
+				foreach( $plugin_initializer->get_logs() as $log_text ){
+					print '- '.$log_text."\n";
+				}
+				print ''."\n";
 				$errors = $plugin_initializer->get_errors();
 				foreach( $errors as $error ){
 					print '[ERROR] '.$error['message'].' (Line: '.$error['line'].')'."\n";
 				}
+				print ''."\n";
 			}
 			print ''."\n";
 			print '------'."\n";
