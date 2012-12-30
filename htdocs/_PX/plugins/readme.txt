@@ -116,7 +116,7 @@ class pxplugin_{$plugin_name}_register_initialize{
 		/*
 		if( $error ){
 			$this->error_log('エラーが発生したため、処理を中止しました。',__LINE__);
-			$this->error_log('エラーが発生したため、処理を中止しました。',__LINE__);
+			$this->log('エラーが発生したため、処理を中止しました。');
 			return false;
 		}
 		*/
