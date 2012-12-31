@@ -113,7 +113,15 @@ class px_cores_user{
 	 */
 	public function get_login_user_auth_level(){
 		return intval($this->login_user_info['auth_level']);
-	}//get_login_user_email()
+	}//get_login_user_auth_level()
+
+	/**
+	 * ユーザーが最後にパスワードを変更した日時を取得する
+	 * @return int
+	 */
+	public function get_login_user_set_pw_date(){
+		return $this->login_user_info['set_pw_date'];
+	}//get_login_user_set_pw_date()
 
 	/**
 	 * 明示的にログアウトする

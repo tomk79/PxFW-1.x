@@ -42,8 +42,8 @@ CREATE TABLE :D:table_name(
 );
 <?php }elseif( $this->px->get_conf('dbms.dbms') == 'sqlite' ){ ?>
 CREATE TABLE :D:table_name(
-    id    VARCHAR(64) NOT NULL,
-    user_account    VARCHAR(64) NOT NULL,
+    id    VARCHAR(64) UNIQUE NOT NULL,
+    user_account    VARCHAR(64) UNIQUE NOT NULL,
     user_pw    VARCHAR(32) NOT NULL,
     user_name    VARCHAR(128),
     user_email    VARCHAR(128),

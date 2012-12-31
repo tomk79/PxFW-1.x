@@ -189,6 +189,7 @@ INSERT INTO :D:table_name (
 UPDATE :D:table_name
 SET
 	user_name = :S:user_name, 
+	user_account = :S:user_account,
 	user_email = :S:user_email, 
 <?php if( !is_null( $user_info['user_pw'] ) ){ ?>
 	user_pw = :S:user_pw,
