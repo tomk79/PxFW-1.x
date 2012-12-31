@@ -24,8 +24,8 @@ class px_daos_initialize extends px_bases_dao{
 		ob_start();?>
 <?php if( $this->px->get_conf('dbms.dbms') == 'postgresql' ){ ?>
 CREATE TABLE :D:table_name(
-    id    VARCHAR NOT NULL,
-    user_account    VARCHAR NOT NULL,
+    id    VARCHAR NOT NULL UNIQUE,
+    user_account    VARCHAR NOT NULL UNIQUE,
     user_pw    VARCHAR NOT NULL,
     user_name    VARCHAR,
     user_email    VARCHAR,
@@ -40,28 +40,10 @@ CREATE TABLE :D:table_name(
     delete_date    TIMESTAMP DEFAULT 'NOW',
     delete_flg    INT2 NOT NULL DEFAULT '0'
 );
-<?php }elseif( $this->px->get_conf('dbms.dbms') == 'sqlite' ){ ?>
-CREATE TABLE :D:table_name(
-    id    VARCHAR(64) UNIQUE NOT NULL,
-    user_account    VARCHAR(64) UNIQUE NOT NULL,
-    user_pw    VARCHAR(32) NOT NULL,
-    user_name    VARCHAR(128),
-    user_email    VARCHAR(128),
-    auth_level    INT(1) NOT NULL DEFAULT '0',
-    tmp_pw    VARCHAR(32),
-    tmp_email    VARCHAR(128),
-    tmp_data    TEXT,
-    login_date    DATETIME DEFAULT NULL,
-    set_pw_date    DATETIME DEFAULT NULL,
-    create_date    DATETIME DEFAULT NULL,
-    update_date    DATETIME DEFAULT NULL,
-    delete_date    DATETIME DEFAULT NULL,
-    delete_flg    INT(1) NOT NULL DEFAULT '0'
-);
 <?php }else{ ?>
 CREATE TABLE :D:table_name(
-    id    VARCHAR(64) NOT NULL,
-    user_account    VARCHAR(64) NOT NULL,
+    id    VARCHAR(64) NOT NULL UNIQUE,
+    user_account    VARCHAR(64) NOT NULL UNIQUE,
     user_pw    VARCHAR(32) NOT NULL,
     user_name    VARCHAR(128),
     user_email    VARCHAR(128),
@@ -80,17 +62,6 @@ CREATE TABLE :D:table_name(
 <?php
 		$sql['user'] = array();
 		array_push( $sql['user'] , @ob_get_clean() );
-
-		if( $this->px->get_conf('dbms.dbms') == 'postgresql' ){
-			#	PostgreSQL
-//			array_push( $sql['user'] , 'ALTER TABLE :D:table_name ADD PRIMARY KEY ( user_cd );' );
-			array_push( $sql['user'] , 'ALTER TABLE :D:table_name ADD UNIQUE ( id );' );
-		}elseif( $this->px->get_conf('dbms.dbms') == 'mysql' ){
-			#	MySQL
-//			array_push( $sql['user'] , 'ALTER TABLE :D:table_name ADD PRIMARY KEY ( user_cd );' );
-//			array_push( $sql['user'] , 'ALTER TABLE :D:table_name CHANGE user_cd user_cd INT(11) NOT NULL AUTO_INCREMENT;' );
-			array_push( $sql['user'] , 'CREATE UNIQUE INDEX id ON :D:table_name (id(64));' );
-		}
 
 		if( !$behavior ){
 			//  トランザクション：スタート
