@@ -1,12 +1,20 @@
 <?php
+	//↓ $page_info にページの情報を格納しています。
+	//	 test::var_dump( $page_info ); で、変数の内容を確認できます。
 	$page_info = $this->px->site()->get_current_page_info();
 ?><!doctype html>
 <html>
 <head>
 <meta charset="UTF-8" />
+<?php /*
+↓ t::h() は、htmlspecialchars() のショートカットです。
+*/ ?>
 <title><?php print t::h($page_info['title']); ?> | <?php print t::h($px->get_conf('project.name')); ?></title>
 <?php
 	include( $px->get_theme_resource_dir_realpath().'inc/setup.inc' );
+
+	//↓コンテンツから受け取った
+	//	headセクション内用のソースを出力しています。
 	print $px->theme()->pull_content('head');
 ?>
 </head>
@@ -14,7 +22,7 @@
 <div id="pagetop">
 <div class="theme_outline">
 <div class="theme_header">
-	<div class="logo"><a href="<?php print t::h( $px->get_install_path() ); ?>"><?php print t::h($px->get_conf('project.name')); ?></a></div>
+	<div class="logo"><a href="<?php print t::h( $px->theme()->href('') ); ?>"><?php print t::h($px->get_conf('project.name')); ?></a></div>
 	<div class="breadcrumb"><?php print $px->theme()->mk_breadcrumb(); ?></div>
 </div><!-- /.theme_header -->
 <div class="theme_middle">
@@ -23,6 +31,8 @@
 <div id="content" class="contents">
 
 <?php
+	//↓コンテンツから受け取った
+	//	コンテンツエリアのソースを出力しています。
 	print $px->theme()->pull_content();
 ?>
 

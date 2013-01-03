@@ -12,11 +12,11 @@
 		<title><?php print t::h($page_info['title']); ?> | <?php print t::h($px->get_conf('project.name')); ?></title>
 		<meta name="keywords" content="<?php print t::h($page_info['keywords']); ?>" />
 		<meta name="description" content="<?php print t::h($page_info['description']); ?>" />
-		<script src="<?php print t::h($px->get_install_path()); ?>common/js/jquery-1.7.2.min.js" type="text/javascript"></script>
+		<script src="<?php print t::h($px->theme()->href('/common/js/jquery-1.7.2.min.js')); ?>" type="text/javascript"></script>
 <?php
-	print $px->ssi(implode('/',array($px->get_install_path(),'/common/inc/common_setup.inc')));
+	print $px->ssi($px->theme()->href('/common/inc/common_setup.inc'));
 ?>
-		<link rel="stylesheet" href="<?php print t::h($px->get_install_path()); ?>common/css/common.css" type="text/css" />
+		<link rel="stylesheet" href="<?php print t::h($px->theme()->href('/common/css/common.css')); ?>" type="text/css" />
 <?php
 	//↓コンテンツから受け取った
 	//	headセクション内用のソースを出力しています。
@@ -26,7 +26,7 @@
 	<body>
 		<div class="outline" id="pagetop">
 			<div class="header">
-				<div class="logo"><a href="<?php print t::h( $px->get_install_path() ); ?>"><?php print t::h($px->get_conf('project.name')); ?></a></div>
+				<div class="logo"><a href="<?php print t::h( $px->theme()->href('') ); ?>"><?php print t::h($px->get_conf('project.name')); ?></a></div>
 			</div><!-- /.header -->
 			<div class="middle">
 				<div class="column1">
@@ -84,7 +84,7 @@
 			<div class="footer">
 				<div class="right small">[<a href="#pagetop" class="up">ページの先頭へ戻る</a>]</div>
 				<div class="breadcrumb"><?php print $px->theme()->mk_breadcrumb(); ?></div>
-				<div class="center">[<?php print $px->theme()->mk_link('/'); ?>]</div>
+				<div class="center">[<?php print $px->theme()->mk_link(''); ?>]</div>
 			</div><!-- /.footer -->
 		</div><!-- /.outline -->
 	</body>
