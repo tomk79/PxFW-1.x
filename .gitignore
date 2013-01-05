@@ -1,3 +1,5 @@
 htdocs/_caches/*
 htdocs/_PX/_sys/*
 htdocs/_PX/plugins/*
+*/.DS_Store
+*/Thumbs.db
