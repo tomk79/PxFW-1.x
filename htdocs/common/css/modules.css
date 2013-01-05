@@ -75,6 +75,21 @@
 }
 
 /**
+ * [static] 読み上げブラウザ対応のための隠しナビゲーション
+ */
+.aural{
+	display: block;
+	visibility: hidden;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	overflow: hidden;
+	width: 0px;
+	height: 0px;
+	background-color: transparent;
+}
+
+/**
  * [parts] リンク
  */
 a{
