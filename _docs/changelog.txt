@@ -2,7 +2,7 @@
  * PxFW(Pickles Framework) 更新履歴
  */
 
-■PxFW 1.0.0b2 (****/**/**)
+■PxFW 1.0.0b2 (2013/1/6)
 
 - プラグインの仕組みを追加。object, initializeプラグインの実装規則を規定。
 - サイトマップの auth_level の処理を実装。
@@ -10,6 +10,7 @@
 - $dbhがPDOに対応。
 - PX=api に ls コマンドを追加。
 - PX=initialize で、SQLを実行せずにダウンロードする機能を追加。
+- CSSモジュール .aural を追加。
 - カテゴリトップページを取得する $site->get_category_top() を実装。
 - 親ページまでのパンくず配列を取得する $site->get_breadcrumb_array() を実装。
 - Not Foundページを出力する $px->page_notfound() を追加実装。

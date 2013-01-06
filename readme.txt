@@ -61,7 +61,7 @@ publishディレクティブ path_publish_dir で変更できます。
 
 ■Windowsサーバでの制約
 
-Windows系OSでは、次のような制約を受ける。
+Windows系OSでは、次のような制約を受けます。
 
 ・ボリューム名からバックスラッシュ区切りのパス名は使用できない。
 　絶対パスは、スラッシュから始まり、
@@ -106,7 +106,7 @@ PxCommands(例:PX=config)の画面で確認することができます。
 
 ■ライセンス
 
-MIT License を適用する。
+MIT License を適用します。
 http://ja.wikipedia.org/wiki/MIT_License
 
 
