@@ -484,10 +484,10 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 	 * 除外ファイルか調べる
 	 */
 	private function is_ignore_path( $path ){
-		$path = t::realpath( $path );
+		$path = $this->px->dbh()->get_realpath( $path );
 		//if( !file_exists($path) ){ return true; }
 		foreach( $this->paths_ignore as $row ){
-			if( t::realpath($row) == $path ){
+			if( preg_match( '/^'.preg_quote($this->px->dbh()->get_realpath($row),'/').'/s' , $path ) ){
 				return true;
 			}
 		}
