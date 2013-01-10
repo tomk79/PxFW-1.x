@@ -311,10 +311,10 @@
 	学習しやすさのために <q>可能な限り、素のHTMLの構造のままでマークアップできるように設計する</q> コンセプトに従うならば、本来はクラス名なしの素のHTMLがデフォルトのテーブルスタイルになるべきです。しかし、テーブルに限っては、素のデザインにはボーダーが表示されず、一見して表だと分かるスタイルは適用されません。これをデフォルトとしてボーダーをつけるように変更するのは混乱を招く元となるおそれがあるので、例外的に、デフォルトスタイルにクラス名 .def を定義しています。<br />
 </p>
 <p>
-	コンテンツ制作者は、table要素の幅、高さ、行や列の幅、高さ を上書きして変更できます。<br />
+	コンテンツ制作者は、table要素の幅(width)、高さ(height)、行や列の幅(width)、高さ(height) を上書きして変更できます。<br />
 </p>
 
-<table class="def" style="width:100%;">
+<table class="def">
 	<thead>
 		<tr>
 			<th>thead ヘッダセル</th>
@@ -343,7 +343,7 @@
 	</tbody>
 </table>
 <div class="unit">
-	<div class="code"><textarea readonly="readonly">&lt;table class=&quot;def&quot; style=&quot;width:100%;&quot;&gt;
+	<div class="code"><textarea readonly="readonly">&lt;table class=&quot;def&quot;&gt;
 	&lt;thead&gt;
 		&lt;tr&gt;
 			&lt;th&gt;thead ヘッダセル&lt;/th&gt;
@@ -372,6 +372,69 @@
 	&lt;/tbody&gt;
 &lt;/table&gt;
 </textarea></div>
+</div><!-- /.unit -->
+
+
+<h2>画像置換 .imagereplace</h2>
+<p>
+	<code>.imagereplace</code> には <code>width</code> および <code>height</code> を、<code>.imagereplace-panel</code> には <code>background-image</code> 、必要に応じて <code>background-position</code> を上書きして使用します。<br />
+</p>
+
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;?php ob_start(); ?&gt;
+&lt;style type=&quot;text/css&quot;&gt;
+	.cont_sample{
+		width:130px;
+		height:86px;
+	}
+	.cont_sample .imagereplace-panel{
+		background-image:url(&quot;./sample.files/sample_image.png&quot;);
+	}
+&lt;/style&gt;
+&lt;?php $px-&gt;theme()-&gt;send_content( ob_get_clean(), 'head' ); ?&gt;
+&lt;a href=&quot;***&quot; class=&quot;imagereplace cont_sample&quot;&gt;リンクラベル&lt;span class=&quot;imagereplace-panel&quot;&gt;&lt;/span&gt;&lt;/a&gt;</textarea></div>
+</div><!-- /.unit -->
+
+
+<h2>メディアタイプ別パーツ出し分け</h2>
+
+<div class="unit">
+<table class="def" style="width:100%;">
+	<thead>
+		<tr><th>モジュール名称</th><th>用途</th><th>サンプル</th></tr>
+	</thead>
+	<tbody>
+		<tr>
+			<th>.aural</th>
+			<td>読み上げブラウザ対応のための隠しナビゲーションを表現します。視覚メディアには表示されませんが、音声読み上げブラウザには読み上げられます。</td>
+			<td>
+				&lt;div class=&quot;aural&quot;&gt;&lt;a href=&quot;#content&quot;&gt;本文へ&lt;/a&gt;&lt;/div&gt;<br />
+				<br />
+				&lt;div class=&quot;breadcrumb&quot;&gt;<br />
+					&lt;span class=&quot;aural&quot;&gt;現在のページ:&lt;/span&gt;<br />
+					&lt;ul&gt;<br />
+						&lt;li&gt;&lt;a href=&quot;/&quot;&gt;ホーム&lt;/a&gt;&lt;/li&gt;<br />
+						&lt;li&gt;&amp;gt; ページA&lt;/li&gt;<br />
+					&lt;/ul&gt;<br />
+				&lt;/div&gt;<br />
+			</td>
+		</tr>
+	</tbody>
+</table>
+</div><!-- /.unit -->
+
+
+<h2>カレント制御</h2>
+
+<div class="unit">
+<table class="def" style="width:100%;">
+	<thead>
+		<tr><th>モジュール名称</th><th>用途</th><th>サンプル</th></tr>
+	</thead>
+	<tbody>
+		<tr><th>.current</th><td>カレントページを示す要素に適用する。</td><td>&lt;a href=&quot;***&quot; class=&quot;current&quot;&gt;カレントページ&lt;/a&gt;</td></tr>
+	</tbody>
+</table>
 </div><!-- /.unit -->
 
 

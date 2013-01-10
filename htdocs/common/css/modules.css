@@ -1,8 +1,7 @@
 @charset "UTF-8";
 
 /**
- * [static] 画像置換
- * .haribotekit の移植
+ * [parts] 画像置換
  */
 .imagereplace{
 	display:block;
@@ -75,7 +74,7 @@
 }
 
 /**
- * [static] 読み上げブラウザ対応のための隠しナビゲーション
+ * [parts] 読み上げブラウザ対応のための隠しナビゲーション
  */
 .aural{
 	display: block;
@@ -146,7 +145,7 @@ a span.pdf:after{
 }
 
 /**
- * [static] カレントページ
+ * [parts] カレントページ
  */
 .current{
 	font-weight:bold;
