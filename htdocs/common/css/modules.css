@@ -41,7 +41,7 @@
  * [static] マージン制御
  */
 .mt1em  { margin-top:   1em !important; }
-.mt1hem { margin-top: 1.5em !important; }
+.mt1p5em{ margin-top: 1.5em !important; }
 .mt2em  { margin-top:   2em !important; }
 .mt0 { margin-top:  0px !important; }
 .mt1 { margin-top:  1px !important; }
@@ -60,7 +60,7 @@
 .mt30{ margin-top: 30px !important; }
 
 .mb1em  { margin-bottom:   1em !important; }
-.mb1hem { margin-bottom: 1.5em !important; }
+.mb1p5em{ margin-bottom: 1.5em !important; }
 .mb2em  { margin-bottom:   2em !important; }
 .mb0 { margin-bottom:  0px !important; }
 .mb1 { margin-bottom:  1px !important; }
@@ -114,7 +114,7 @@
  * [static] パディング制御
  */
 .pt1em  { padding-top:   1em !important; }
-.pt1hem { padding-top: 1.5em !important; }
+.pt1p5em{ padding-top: 1.5em !important; }
 .pt2em  { padding-top:   2em !important; }
 .pt0 { padding-top:  0px !important; }
 .pt1 { padding-top:  1px !important; }
@@ -133,7 +133,7 @@
 .pt30{ padding-top: 30px !important; }
 
 .pb1em  { padding-bottom:   1em !important; }
-.pb1hem { padding-bottom: 1.5em !important; }
+.pb1p5em{ padding-bottom: 1.5em !important; }
 .pb2em  { padding-bottom:   2em !important; }
 .pb0 { padding-bottom:  0px !important; }
 .pb1 { padding-bottom:  1px !important; }
