@@ -34,68 +34,101 @@ class px_pxcommands_rdb extends px_bases_pxcommand{
 
 		$src = '';
 		$src .= '<p>データベース '.t::h($this->px->dbh()->get_db_conf('dbms')).' に対し、SQLを実行します。</p>'."\n";
-		ob_start();
-?>
-<script type="text/javascript">
-function contExecSQL(formElm){
-	var textarea = $('textarea[name=sql]',formElm);
-	var sql = textarea[0].value;
-//	alert(sql);
-	$('.cont_results').html('<p class="center">通信中</p>');
-	$.ajax({
-		url: <?php print t::data2jssrc('?PX='.$this->command[0].'.exec_sql.json'); ?> ,
-		dataType: 'json' ,
-		data:{
-			sql: sql
-		} ,
-		success: function( data ){
-//			if(console){console.debug(data);}
-			var SRC = '';
-			if( data.value === false ){
-				SRC += '<p class="center">検索エラー。検索結果に false を受け取りました。</p>';
-			}else{
-				SRC += '<p class="center">'+(data.value.length)+'件の検索結果。</p>';
-				SRC += '<table class="def">';
-				SRC += '<tr>';
-				for(var key2 in data.define){
-					SRC += '<th>';
-					SRC += data.define[key2];
-					SRC += '</th>';
-				}
-				SRC += '</tr>';
-				if(data.value.length){
-					for(var key1 in data.value){
-						SRC += '<tr>';
-						for(var key2 in data.value[key1]){
-							SRC += '<td>';
-							SRC += data.value[key1][key2];
-							SRC += '</td>';
-						}
-						SRC += '</tr>';
-					}
-				}
-				SRC += '</table>';
-			}
-			$('.cont_results').html(SRC);
-		} ,
-		error: function(){
-			$('.cont_results').html('<p class="center">エラーが発生しました。</p>');
-		}
-	})
-
-	return true;
-}
-</script>
-<?php
-		$src .= ob_get_clean();
-		$src .= '<form action="?PX='.t::h( implode('.',$this->command) ).'.exec_sql" method="post" onsubmit="return !contExecSQL(this);">'."\n";
+		$src .= '<form action="?PX='.t::h( implode('.',$this->command) ).'.exec_sql" id="cont_sql_form" method="get" onsubmit="return !contSql.submitForm();">'."\n";
 		$src .= '<p><textarea name="sql" style="width:100%; height:80px;">';
 		$src .= t::h( $this->px->dbh()->file_get_contents( $this->px->req()->get_param('sql') ) );
 		$src .= '</textarea></p>'."\n";
 		$src .= '<p class="center"><button>SQLを実行する</button></p>'."\n";
 		$src .= '</form>'."\n";
-		$src .= '<div class="cont_results">'."\n";
+		$src .= '<div class="cont_results" style="margin-bottom:4em;">'."\n";
 		$src .= '</div>'."\n";
+		$src .= '<div class="unit">'."\n";
+		$src .= '<ul>'."\n";
+		$src .= '	<li><a href="javascript:;" onclick="contSql.execSql(\'\\\\d\');return false;">テーブルの一覧を取得する</a></li>'."\n";
+		$src .= '</ul>'."\n";
+		$src .= '</div>'."\n";
+
+		ob_start();
+?>
+<script type="text/javascript">
+var contSql = new (function(formElm){
+	var formElm;
+
+	/**
+	 * SQLを実行する。
+	 */
+	this.execSql = function(sqlString){
+		var textarea = $('textarea[name=sql]',formElm);
+		textarea.val(sqlString);
+		this.submitForm();
+	}
+
+	/**
+	 * フォームを送信し、SQLを実行する。
+	 * 実際には送信せず、AJAXで処理されています。
+	 */
+	this.submitForm = function(){
+		var textarea = $('textarea[name=sql]',formElm);
+		var sql = textarea[0].value;
+
+		$('.cont_results').html('<p class="center">通信中</p>');
+		$.ajax({
+			url: <?php print t::data2jssrc('?PX='.$this->command[0].'.exec_sql.json'); ?> ,
+			dataType: 'json' ,
+			data:{
+				sql: sql
+			} ,
+			success: function( data ){
+				// if(console){console.debug(data);}
+				var SRC = '';
+				if( data.value === false ){
+					SRC += '<p class="center">検索エラー。検索結果に false を受け取りました。</p>';
+				}else{
+					SRC += '<p class="center">'+(data.value.length)+'件の検索結果。</p>';
+					SRC += '<table class="def">';
+					SRC += '<tr>';
+					for(var key2 in data.define){
+						SRC += '<th>';
+						SRC += data.define[key2];
+						SRC += '</th>';
+					}
+					if(data.sql=='\\d'){
+						SRC += '<th></th>';
+					}
+					SRC += '</tr>';
+					if(data.value.length){
+						for(var key1 in data.value){
+							SRC += '<tr>';
+							for(var key2 in data.value[key1]){
+								SRC += '<td>';
+								SRC += data.value[key1][key2];
+								SRC += '</td>';
+							}
+							if(data.sql=='\\d'){
+								SRC += '<td>';
+								SRC += '<a href="javascript:;" onclick="contSql.execSql(\'SELECT count(*) AS count FROM '+data.value[key1]['table_name']+';\');return false;">count(*)</a>|';
+								SRC += '<a href="javascript:;" onclick="contSql.execSql(\'SELECT * FROM '+data.value[key1]['table_name']+' LIMIT 0,20;\');return false;">SELECT</a>';
+								SRC += '</td>';
+							}
+							SRC += '</tr>';
+						}
+					}
+					SRC += '</table>';
+				}
+				$('.cont_results').html(SRC);
+			} ,
+			error: function(){
+				$('.cont_results').html('<p class="center">エラーが発生しました。</p>');
+			}
+		});
+
+		return true;
+	}
+})(document.getElementById('cont_sql_form'));
+</script>
+<?php
+		$src .= ob_get_clean();
+
 		print $this->html_template($src);
 		exit;
 	}

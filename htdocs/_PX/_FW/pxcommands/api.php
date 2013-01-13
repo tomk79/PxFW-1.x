@@ -35,6 +35,10 @@ class px_pxcommands_api extends px_bases_pxcommand{
 				//ファイル削除
 				$this->api_delete();
 				break;
+			case 'hash':
+				//ハッシュ値を取得
+				$this->api_hash();
+				break;
 		}
 
 		if( !strlen($this->command[1]) ){
@@ -291,6 +295,53 @@ class px_pxcommands_api extends px_bases_pxcommand{
 		}
 		exit;
 	}
+
+	/**
+	 * [API] api.hash
+	 */
+	private function api_hash(){
+		header('Content-type: text/csv');
+		if( strpos( $_SERVER['HTTP_USER_AGENT'] , 'MSIE' ) ){
+			#	MSIE対策
+			#	→こんな問題 http://support.microsoft.com/kb/323308/ja
+			header( 'Cache-Control: public' );
+			header( 'Pragma: public' );
+		}
+		header( 'Content-Disposition: attachment; filename=PxFW_apiHash_'.date('Ymd_His').'.csv' );
+
+
+		#	出力バッファをすべてクリア
+		while( @ob_end_clean() );
+
+		print '"[Pickles Framework (version:'.$this->px->get_version().')]"'."\n";
+		print '"--docroot"'."\n";
+		$this->mk_hash_list('.');
+		print '"--_PX"'."\n";
+		$this->mk_hash_list($this->px->get_conf('paths.px_dir'));
+		exit;
+	}
+	/**
+	 * ディレクトリ内のファイルの一覧とそのMD5ハッシュ値を再帰的に標準出力する。
+	 * [API] api.hash 内で使用。
+	 */
+	private function mk_hash_list($base_dir,$local_path=''){
+		$file_list = $this->px->dbh()->ls($base_dir.$local_path);
+		sort($file_list);
+		foreach($file_list as $file_name){
+			if($this->px->dbh()->get_realpath($base_dir.$local_path.'/'.$file_name) == $this->px->dbh()->get_realpath($this->px->get_conf('paths.px_dir'))){
+				continue;
+			}
+			if(is_file($base_dir.$local_path.'/'.$file_name)){
+				print '"file","'.$local_path.'/'.$file_name.'","'.md5_file($base_dir.$local_path.'/'.$file_name).'"'."\n";
+			}elseif(is_dir($base_dir.$local_path.'/'.$file_name)){
+				print '"dir","'.$local_path.'/'.$file_name.'"'."\n";
+				$this->mk_hash_list($base_dir,$local_path.'/'.$file_name);
+			}
+			flush();
+		}
+	}
+
+	// -------------------------------------
 
 	/**
 	 * データを自動的に加工して返す

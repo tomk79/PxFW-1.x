@@ -63,8 +63,8 @@ class px_bases_pxcommand{
 		$src .= '<li><a href="?PX=fillcontents">fillcontents</a></li>'."\n";
 		$src .= '</ul>'."\n";
 		$src .= '<ul>'."\n";
-		$src .= '<li><a href="?PX=clearcache">clearcache</a></li>'."\n";
-		$src .= '<li><a href="?PX=phpinfo">phpinfo</a></li>'."\n";
+		$src .= '<li><a href="?PX=clearcache" target="_blank">clearcache</a></li>'."\n";
+		$src .= '<li><a href="?PX=phpinfo" target="_blank">phpinfo</a></li>'."\n";
 		$src .= '</ul>'."\n";
 		$src .= '<p class="center">[ <a href="?">PX Commands を終了する</a> ]</p>'."\n";
 		$src .= '</div><!-- /.footer -->'."\n";
