@@ -39,6 +39,9 @@
 <h2>文字サイズ</h2>
 
 <div class="unit">
+	文字サイズ指定系のクラス同士を入れ子の関係にする(例： .large の中に .small を置くなど)ことはできません。<br />
+</div>
+<div class="unit">
 <table class="def" style="width:100%;">
 	<thead>
 		<tr><th>モジュール名称</th><th>用途</th><th>サンプル</th></tr>
@@ -160,13 +163,20 @@
 <h3>注釈リスト .notes</h3>
 
 <ul class="notes">
-	<li>※リスト内容</li>
-	<li>※リスト内容</li>
+	<li class="notes-li">※リスト内容</li>
+	<li class="notes-li">※リスト内容</li>
+	<li class="notes-li">※リスト内容
+		<ul>
+			<li>通常のリストを入れ子にするパターン</li>
+			<li>通常のリストを入れ子にするパターン</li>
+			<li>通常のリストを入れ子にするパターン</li>
+		</ul>
+	</li>
 </ul>
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;ul class=&quot;notes&quot;&gt;
-	&lt;li&gt;※リスト内容&lt;/li&gt;
-	&lt;li&gt;※リスト内容&lt;/li&gt;
+	&lt;li class=&quot;notes-li&quot;&gt;※リスト内容&lt;/li&gt;
+	&lt;li class=&quot;notes-li&quot;&gt;※リスト内容&lt;/li&gt;
 &lt;/ul&gt;
 </textarea></div>
 </div><!-- /.unit -->
@@ -174,13 +184,20 @@
 
 <h3>リストマークがないリスト .nomark</h3>
 <ul class="nomark">
-	<li>リスト内容</li>
-	<li>リスト内容</li>
+	<li class="nomark-li">リスト内容</li>
+	<li class="nomark-li">リスト内容</li>
+	<li class="nomark-li">リスト内容
+		<ul>
+			<li>通常のリストを入れ子にするパターン</li>
+			<li>通常のリストを入れ子にするパターン</li>
+			<li>通常のリストを入れ子にするパターン</li>
+		</ul>
+	</li>
 </ul>
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;ul class=&quot;nomark&quot;&gt;
-	&lt;li&gt;リスト内容&lt;/li&gt;
-	&lt;li&gt;リスト内容&lt;/li&gt;
+	&lt;li class=&quot;nomark-li&quot;&gt;リスト内容&lt;/li&gt;
+	&lt;li class=&quot;nomark-li&quot;&gt;リスト内容&lt;/li&gt;
 &lt;/ul&gt;
 </textarea></div>
 </div><!-- /.unit -->
@@ -231,22 +248,26 @@
 <h3>注釈定義・説明リスト .notes</h3>
 
 <dl class="notes">
-	<dt>※1 語句</dt>
-		<dd>定義や説明テキスト。定義や説明テキスト。定義や説明テキスト。定義や説明テキスト。</dd>
-	<dt>※2 語句</dt>
-		<dd>定義や説明テキスト。定義や説明テキスト。定義や説明テキスト。定義や説明テキスト。</dd>
-	<dt>※3 語句</dt>
-		<dd>定義や説明テキスト。定義や説明テキスト。定義や説明テキスト。定義や説明テキスト。</dd>
+	<dt class="notes-dt">※1 語句</dt>
+		<dd class="notes-dd">定義や説明テキスト。定義や説明テキスト。定義や説明テキスト。定義や説明テキスト。</dd>
+	<dt class="notes-dt">※2 語句</dt>
+		<dd class="notes-dd">定義や説明テキスト。定義や説明テキスト。定義や説明テキスト。定義や説明テキスト。</dd>
+	<dt class="notes-dt">※3 語句</dt>
+		<dd class="notes-dd">定義や説明テキスト。定義や説明テキスト。定義や説明テキスト。定義や説明テキスト。
+			<dl>
+				<dt>DL入れ子サンプル</dt>
+					<dd>定義や説明テキスト。定義や説明テキスト。定義や説明テキスト。定義や説明テキスト。</dd>
+				<dt>DL入れ子サンプル</dt>
+					<dd>定義や説明テキスト。定義や説明テキスト。定義や説明テキスト。定義や説明テキスト。</dd>
+			</dl>
+		</dd>
 </dl>
-
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;dl class=&quot;notes&quot;&gt;
-	&lt;dt&gt;※1 語句&lt;/dt&gt;
-		&lt;dd&gt;定義や説明テキスト。定義や説明テキスト。定義や説明テキスト。定義や説明テキスト。&lt;/dd&gt;
-	&lt;dt&gt;※2 語句&lt;/dt&gt;
-		&lt;dd&gt;定義や説明テキスト。定義や説明テキスト。定義や説明テキスト。定義や説明テキスト。&lt;/dd&gt;
-	&lt;dt&gt;※3 語句&lt;/dt&gt;
-		&lt;dd&gt;定義や説明テキスト。定義や説明テキスト。定義や説明テキスト。定義や説明テキスト。&lt;/dd&gt;
+	&lt;dt class=&quot;notes-dt&quot;&gt;※1 語句&lt;/dt&gt;
+		&lt;dd class=&quot;notes-dd&quot;&gt;定義や説明テキスト。定義や説明テキスト。定義や説明テキスト。定義や説明テキスト。&lt;/dd&gt;
+	&lt;dt class=&quot;notes-dt&quot;&gt;※2 語句&lt;/dt&gt;
+		&lt;dd class=&quot;notes-dd&quot;&gt;定義や説明テキスト。定義や説明テキスト。定義や説明テキスト。定義や説明テキスト。&lt;/dd&gt;
 &lt;/dl&gt;
 </textarea></div>
 </div><!-- /.unit -->
@@ -335,6 +356,7 @@
 	コンテンツ制作者は、table要素の幅(width)、高さ(height)、行や列の幅(width)、高さ(height) を上書きして変更できます。<br />
 </p>
 
+<div class="unit">
 <table class="def">
 	<thead>
 		<tr>
@@ -363,6 +385,8 @@
 		</tr>
 	</tbody>
 </table>
+</div><!-- /.unit -->
+
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;table class=&quot;def&quot;&gt;
 	&lt;thead&gt;
@@ -396,9 +420,9 @@
 </div><!-- /.unit -->
 
 
-<h2>画像置換 .imagereplace</h2>
+<h2>画像置換 .imgrep</h2>
 <p>
-	<code>.imagereplace</code> には <code>width</code> および <code>height</code> を、<code>.imagereplace-panel</code> には <code>background-image</code> 、必要に応じて <code>background-position</code> を上書きして使用します。<br />
+	<code>.imgrep</code> には <code>width</code> および <code>height</code> を、<code>.imgrep-panel</code> には <code>background-image</code> 、必要に応じて <code>background-position</code> を上書きして使用します。<br />
 </p>
 
 <div class="unit">
@@ -408,12 +432,12 @@
 		width:130px;
 		height:86px;
 	}
-	.cont_sample .imagereplace-panel{
+	.cont_sample .imgrep-panel{
 		background-image:url(&quot;./sample.files/sample_image.png&quot;);
 	}
 &lt;/style&gt;
 &lt;?php $px-&gt;theme()-&gt;send_content( ob_get_clean(), 'head' ); ?&gt;
-&lt;a href=&quot;***&quot; class=&quot;imagereplace cont_sample&quot;&gt;リンクラベル&lt;span class=&quot;imagereplace-panel&quot;&gt;&lt;/span&gt;&lt;/a&gt;</textarea></div>
+&lt;a href=&quot;***&quot; class=&quot;imgrep cont_sample&quot;&gt;リンクラベル&lt;span class=&quot;imgrep-panel&quot;&gt;&lt;/span&gt;&lt;/a&gt;</textarea></div>
 </div><!-- /.unit -->
 
 
@@ -592,6 +616,8 @@
 			<th>ボタン</th>
 			<td>
 				<button onclick="alert('ボタンをクリックしました。');return false;">ボタン</button>
+				<input type="button" value="ボタン" onclick="alert('ボタンをクリックしました。');return false;" />
+				<input type="submit" value="ボタン" onclick="alert('ボタンをクリックしました。');return false;" />
 			</td>
 		</tr>
 	</tbody>
@@ -692,12 +718,14 @@
 			&lt;th&gt;ボタン&lt;/th&gt;
 			&lt;td&gt;
 				&lt;button onclick=&quot;alert('ボタンをクリックしました。');return false;&quot;&gt;ボタン&lt;/button&gt;
+				&lt;input type=&quot;button&quot; value=&quot;ボタン&quot; onclick=&quot;alert('ボタンをクリックしました。');return false;&quot; /&gt;
+				&lt;input type=&quot;submit&quot; value=&quot;ボタン&quot; onclick=&quot;alert('ボタンをクリックしました。');return false;&quot; /&gt;
 			&lt;/td&gt;
 		&lt;/tr&gt;
 	&lt;/tbody&gt;
-&lt;/table&gt;
-</textarea></div>
+&lt;/table&gt;</textarea></div>
 </div><!-- /.unit -->
+
 
 
 <h3>必須項目</h3>

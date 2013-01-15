@@ -268,7 +268,7 @@ a span.pdf:after{
 /**
  * [parts] 画像置換
  */
-.imagereplace{
+.imgrep{
 	display:block;
 	position:relative; top:auto; left:auto;
 	padding:0px 0px 0px 0px !important;
@@ -276,7 +276,7 @@ a span.pdf:after{
 	overflow:hidden;
 	zoom:100%;
 }
-.imagereplace .imagereplace-panel{
+.imgrep .imgrep-panel{
 	display:block;
 	position:absolute; top:0px; left:0px;
 	width:100%; height:100%;
@@ -377,10 +377,19 @@ div.unit{
 }
 
 /**
+ * [parts] 通常のリスト
+ */
+ul{}
+ul li{
+	list-style-type:disc;
+	text-indent:0;
+}
+
+/**
  * [parts] 注釈リスト
  */
 ul.notes{}
-ul.notes li{
+ul.notes li.notes-li{
 	list-style-type:none;
 	text-indent:-1em;
 }
@@ -391,7 +400,7 @@ ul.notes li{
 ul.nomark{
 	padding-left:0;
 }
-ul.nomark li{
+ul.nomark li.nomark-li{
 	list-style-type:none;
 	padding-left:0;
 }
@@ -405,7 +414,7 @@ dl.notes{
 	margin-left:0px;
 	margin-right:0px;
 }
-dl.notes dt{
+dl.notes dt.notes-dt{
 	padding:0px 0px 0px 0px;
 	margin:0px 0px 0px 0px;
 	float:left;
@@ -413,7 +422,7 @@ dl.notes dt{
 	border:0px none;
 	font-weight:normal;
 }
-dl.notes dd{
+dl.notes dd.notes-dd{
 	padding:0px 0px 0px 5px;
 	margin:0px 0px 0px 0px;
 	float:none;
