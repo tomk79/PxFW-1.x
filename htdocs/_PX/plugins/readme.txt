@@ -173,3 +173,55 @@ class pxplugin_{$plugin_name}_register_initialize{
 ?>
 <!--- / ここまでサンプルコード --->
 
+
+■pxcommand
+
+PX=plugins.{$plugin_name} で呼び出せるGUIを実装できます。
+
+- 格納先: <plugins>/{$plugin_name}/register/pxcommand.php
+- クラス名: pxplugin_{$plugin_name}_register_pxcommand
+- コンストラクタ引数: $px
+- API
+-- コンストラクタのみ
+
+下記は実装例。
+
+<!--- ここからサンプルコード --->
+<?php
+$this->load_px_class('/bases/pxcommand.php');
+
+/**
+ * PX Plugin "{$plugin_name}"
+ */
+class pxplugin_{$plugin_name}_register_pxcommand extends px_bases_pxcommand{
+
+	/**
+	 * コンストラクタ
+	 * @param $command = PXコマンド配列
+	 * @param $px = PxFWコアオブジェクト
+	 */
+	public function __construct( $command , $px ){
+		parent::__construct( $command , $px );
+		$this->px = $px;
+
+		$this->homepage();
+	}
+
+	/**
+	 * ホームページを表示する。
+	 */
+	private function homepage(){
+		$command = $this->get_command();
+
+		$src = '';
+		$src .= '<p>サンプル</p>'."\n";
+
+		print $this->html_template($src);
+		exit;
+	}
+
+}
+
+?>
+<!--- / ここまでサンプルコード --->
+

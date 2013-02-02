@@ -62,10 +62,27 @@ class px_bases_pxcommand{
 		$src .= '<li><a href="?PX=initialize">initialize</a></li>'."\n";
 		$src .= '<li><a href="?PX=fillcontents">fillcontents</a></li>'."\n";
 		$src .= '</ul>'."\n";
+		$path_plugin_dir = $this->px->get_conf('paths.px_dir').'plugins/';
+		$plugins_list = $this->px->dbh()->ls( $path_plugin_dir );
+		foreach( $plugins_list as $tmp_key=>$tmp_plugin_name ){
+			if( !is_file( $path_plugin_dir.$tmp_plugin_name.'/register/pxcommand.php' ) ){
+				unset($plugins_list[$tmp_key]);
+			}
+		}
+		if( count($plugins_list) ){
+			$src .= '<ul>'."\n";
+			$src .= '<li>plugins: </li>'."\n";
+			foreach($plugins_list as $plugin_name){
+				$src .= '<li><a href="?PX=plugins.'.t::h(urlencode($plugin_name)).'">'.t::h($plugin_name).'</a></li>'."\n";
+			}
+			$src .= '</ul>'."\n";
+		}
+
 		$src .= '<ul>'."\n";
 		$src .= '<li><a href="?PX=clearcache" target="_blank">clearcache</a></li>'."\n";
 		$src .= '<li><a href="?PX=phpinfo" target="_blank">phpinfo</a></li>'."\n";
 		$src .= '</ul>'."\n";
+
 		$src .= '<p class="center">[ <a href="?">PX Commands を終了する</a> ]</p>'."\n";
 		$src .= '</div><!-- /.footer -->'."\n";
 		$src .= '</div>'."\n";
