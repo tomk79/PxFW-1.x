@@ -108,9 +108,13 @@ class pxplugin_{$plugin_name}_register_initialize{
 	/**
 	 * トリガーメソッド
 	 * PxFWはインスタンスを作成した後、このメソッドをキックします。
+	 * @params int $behavior: 振る舞い。0(既定値)=SQLを実行する|1=SQL文全体を配列として返す|2=SQL全体を文字列として返す
 	 * @return 正常終了した場合に true , 異常が発生した場合に false を返します。
 	 */
-	public function execute(){
+	public function execute($behavior=0){
+		$behavior = intval($behavior);
+		$sql_srcs = array();
+
 		//  エラーが発生した場合は、
 		//  エラーメッセージを出力し、falseを返す。
 		/*
@@ -121,6 +125,58 @@ class pxplugin_{$plugin_name}_register_initialize{
 		}
 		*/
 
+		//  テーブル sample_table を作成
+		/*
+		$sql_srcs['sample_table'] = array();
+		array_push( $sql_srcs['sample_table'], 'CREATE TABLE :D:table_name( ...... );' );
+		*/
+
+
+		if( !$behavior ){
+			//  トランザクション：スタート
+			$this->px->dbh()->start_transaction();
+		}
+
+		$sqls = array();
+		foreach( $sql_srcs as $table_name=>$sql_row ){
+			foreach( $sql_row as $sql_content ){
+				$bind_data = array(
+					'table_name'=>$this->px->get_conf('dbms.prefix').'_'.$table_name,
+				);
+				$sql_final = $this->px->dbh()->bind( $sql_content , $bind_data );
+				if( !strlen( $sql_final ) ){ continue; }
+
+				if( !$behavior ){
+					if( !$this->px->dbh()->send_query( $sql_final ) ){
+						$this->px->error()->error_log('database query error ['.$sql_final.']');
+						$this->log('[ERROR] database query error. (see error log)',__LINE__);
+						$this->error_log('database query error ['.$sql_final.']',__LINE__);
+
+						//トランザクション：ロールバック
+						$this->px->dbh()->rollback();
+						return false;
+					}else{
+						$this->log('database query done.  ['.$sql_final.']',__LINE__);
+					}
+				}else{
+					array_push( $sqls , $sql_final );
+				}
+				unset($sql_final);
+			}
+		}
+
+		foreach( $sqls as $sql ){
+		}
+
+		if( $behavior === 1 ){
+			return $sqls;
+		}
+		if( $behavior === 2 ){
+			return implode( "\r\n\r\n\r\n", $sqls );
+		}
+
+		//  トランザクション：コミット
+		$this->px->dbh()->commit();
 		return true;
 	}
 
