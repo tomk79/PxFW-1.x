@@ -18,16 +18,24 @@ class px_pxcommands_config extends px_bases_pxcommand{
 	private function execute(){
 		$src = '';
 
+		$src .= '<h2>mainconf</h2>'."\n";
+
 		$src .= '<div class="unit">'."\n";
 		$src .= '	<p>'."\n";
 		$src .= '		コンフィグに設定された内容を表示します。<br />'."\n";
 		$src .= '	</p>'."\n";
+		$src .= '	<p>'."\n";
+		$src .= '		コンフィグは、次のファイルを編集して変更することができます。<br />'."\n";
+		$src .= '	</p>'."\n";
+		$src .= '	<ul>'."\n";
+		$src .= '		<li>'.t::h( realpath( $this->px->get_path_conf() ) ).'</li>'."\n";
+		$src .= '	</ul>'."\n";
 		$src .= '</div><!-- /.unit -->'."\n";
 
 		$this->config_ary = $this->px->get_conf_all();
 		$src .= '<div class="unit">'."\n";
 
-		$src .= '<h2>project</h2>'."\n";
+		$src .= '<h3>project</h3>'."\n";
 		$src .= '<table class="def" style="width:100%;">' . "\n";
 		$src .= '<colgroup><col width="30%" /><col width="30%" /><col width="40%" /></colgroup>' . "\n";
 		$src .= $this->mk_config_unit('project.id','プロジェクトID');
@@ -38,7 +46,7 @@ class px_pxcommands_config extends px_bases_pxcommand{
 		$src .= $this->mk_config_unit('project.auth_password','認証パスワード');
 		$src .= '</table>' . "\n";
 
-		$src .= '<h2>paths</h2>'."\n";
+		$src .= '<h3>paths</h3>'."\n";
 		$src .= '<table class="def" style="width:100%;">' . "\n";
 		$src .= '<colgroup><col width="30%" /><col width="30%" /><col width="40%" /></colgroup>' . "\n";
 		$src .= $this->mk_config_unit('paths.px_dir','Pickles Framework のディレクトリパス','realpath',true);
@@ -46,14 +54,14 @@ class px_pxcommands_config extends px_bases_pxcommand{
 		$src .= $this->mk_config_unit('paths.error_log','エラーログ出力先ファイルパス','realpath');
 		$src .= '</table>' . "\n";
 
-		$src .= '<h2>publish</h2>'."\n";
+		$src .= '<h3>publish</h3>'."\n";
 		$src .= '<table class="def" style="width:100%;">' . "\n";
 		$src .= '<colgroup><col width="30%" /><col width="30%" /><col width="40%" /></colgroup>' . "\n";
 		$src .= $this->mk_config_unit('publish.path_publish_dir','パブリッシュ先ディレクトリパス','realpath');
 		$src .= $this->mk_config_unit('publish.paths_ignore','パブリッシュ対象外パスの一覧');
 		$src .= '</table>' . "\n";
 
-		$src .= '<h2>dbms</h2>'."\n";
+		$src .= '<h3>dbms</h3>'."\n";
 		$src .= '<table class="def" style="width:100%;">' . "\n";
 		$src .= '<colgroup><col width="30%" /><col width="30%" /><col width="40%" /></colgroup>' . "\n";
 		$src .= $this->mk_config_unit('dbms.prefix','テーブル名の接頭辞');
@@ -66,7 +74,7 @@ class px_pxcommands_config extends px_bases_pxcommand{
 		$src .= $this->mk_config_unit('dbms.charset','文字セット');
 		$src .= '</table>' . "\n";
 
-		$src .= '<h2>system</h2>'."\n";
+		$src .= '<h3>system</h3>'."\n";
 		$src .= '<table class="def" style="width:100%;">' . "\n";
 		$src .= '<colgroup><col width="30%" /><col width="30%" /><col width="40%" /></colgroup>' . "\n";
 		$src .= $this->mk_config_unit('system.allow_pxcommands','PX Commands の実行を許可するフラグ(1=許可, 0=不許可)','bool');
@@ -80,7 +88,7 @@ class px_pxcommands_config extends px_bases_pxcommand{
 
 		if( count($this->config_ary) ){
 			$src .= '<div class="unit">'."\n";
-			$src .= '<h2>その他の値</h2>'."\n";
+			$src .= '<h3>その他の値</h3>'."\n";
 			$src .= $this->mk_ary_table($this->config_ary);
 			$src .= '</div><!-- /.unit -->'."\n";
 		}
@@ -95,8 +103,9 @@ class px_pxcommands_config extends px_bases_pxcommand{
 			}
 		}
 		if( !count($tmp_plugin_list) ){
-			$src .= '<p>プラグインは読み込まれていません。</p>'."\n";
+			$src .= '<p>プラグインは組み込まれていません。</p>'."\n";
 		}else{
+			$src .= '<p>次のプラグインが組み込まれています。</p>'."\n";
 			$src .= '	<table class="def">'."\n";
 			$src .= '		<thead>'."\n";
 			$src .= '			<tr>'."\n";
@@ -119,16 +128,6 @@ class px_pxcommands_config extends px_bases_pxcommand{
 			$src .= '	</table>'."\n";
 		}
 		unset($tmp_path_plugins_base_dir,$tmp_plugin_list,$tmp_plugin_name,$tmp_class_name);
-		$src .= '</div><!-- /.unit -->'."\n";
-
-		$src .= '<div class="unit">'."\n";
-		$src .= '<h2>コンフィグの変更</h2>'."\n";
-		$src .= '	<p>'."\n";
-		$src .= '		コンフィグは、次のファイルを編集して変更することができます。<br />'."\n";
-		$src .= '	</p>'."\n";
-		$src .= '	<ul>'."\n";
-		$src .= '		<li>'.t::h( realpath( $this->px->get_path_conf() ) ).'</li>'."\n";
-		$src .= '	</ul>'."\n";
 		$src .= '</div><!-- /.unit -->'."\n";
 
 		print $this->html_template($src);
