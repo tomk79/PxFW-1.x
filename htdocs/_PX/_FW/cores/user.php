@@ -14,7 +14,7 @@ class px_cores_user{
 	/**
 	 * $dao_userを生成する
 	 */
-	private function &factory_dao_user(){
+	public function &factory_dao_user(){
 		$class_name_dao_user = $this->px->load_px_class( '/daos/user.php' );
 		if( !$class_name_dao_user ){
 			return false;
