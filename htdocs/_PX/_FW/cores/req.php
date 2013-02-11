@@ -326,6 +326,16 @@ class px_cores_req{
 		return false;
 	}
 
+	/**
+	 * コマンドラインによる実行か確認する。
+	 */
+	public function is_cmd(){
+		if( array_key_exists( 'REMOTE_ADDR' , $_SERVER ) ){
+			return false;
+		}
+		return	true;
+	}
+
 }
 
 ?>

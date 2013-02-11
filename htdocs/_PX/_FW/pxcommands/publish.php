@@ -87,9 +87,23 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 	private function execute(){
 		$command = $this->get_command();
 		@header('Content-type: text/plain');
+		error_reporting(0);
 		print ''.$command[0].' | Pickles Framework (version:'.$this->px->get_version().')'."\n";
 		print '------'."\n";
 		print 'PX command "'.$command[0].'" executed.'."\n";
+		if( $this->px->req()->is_cmd() ){
+			print 'Sorry, CUI is not supported.'."\n";
+			print 'Please try below...'."\n";
+			print '    - If you can use "curl" command.'."\n";
+			print '      (If your system is Mac OSX, maybe you can use this.)'."\n";
+			print '        $ curl http://yourdomain/yourPxFWInstallPath/?PX=publish.run'."\n";
+			print '    - If you can use "wget" command.'."\n";
+			print '        $ wget http://yourdomain/yourPxFWInstallPath/?PX=publish.run'."\n";
+			print ''."\n";
+			print ''."\n";
+			print 'exit.'."\n";
+			exit;
+		}
 		print 'ProcessID='.getmypid()."\n";
 		print date('Y-m-d H:i:s')."\n";
 		print '------'."\n";

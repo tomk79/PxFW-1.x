@@ -197,7 +197,14 @@ class px_px{
 	 * @return string ドキュメントルートからのパス(スラッシュ閉じ)
 	 */
 	public function get_install_path(){
+		//  環境変数から自動的に判断。
 		$rtn = dirname( $_SERVER['SCRIPT_NAME'] );
+		if( !array_key_exists( 'REMOTE_ADDR' , $_SERVER ) ){
+			//  CUIから起動された場合
+			//  ドキュメントルートが判定できないので、
+			//  ドキュメントルート直下にあるものとする。
+			$rtn = '/';
+		}
 		$rtn = str_replace('\\','/',$rtn);
 		$rtn .= ($rtn!='/'?'/':'');
 		return $rtn;
