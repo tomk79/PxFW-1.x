@@ -4,8 +4,18 @@
 </p>
 
 <h2>コンテンツ</h2>
+<?php
+$children = $px->site()->get_children();
+if(!count($children)){
+	print '<p>コンテンツはありません。</p>';
+}else{ ?>
+
 <ul>
-	<li><a href="./modules/">コーディング規則</a></li>
-	<li><a href="./pxcommand_list/">PX Commands 一覧</a></li>
+<?php foreach($children as $child){ ?>
+	<li><?php print $px->theme()->mk_link($child); ?></li>
+<?php } ?>
 </ul>
+
+<?php } ?>
+
 

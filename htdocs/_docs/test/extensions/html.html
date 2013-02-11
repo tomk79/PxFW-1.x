@@ -1,7 +1,35 @@
+<?php
+	$page_info = $px->site()->get_current_page_info();
+?>
 
-<h2>HTMLエクステンションのテスト</h2>
+<p>test/html.html のHTMLソースコードです。</p>
 
-<p>
-	このコンテンツは、HTMLエクステンションのためのテストページです。<br />
-</p>
+<p>このページのタイトルは、<strong><?php print t::h( $page_info['title'] ); ?></strong> です。</p>
+
+<h2>ローカル変数にアサインしてみるテスト</h2>
+
+<?php
+	$assign_test = 'assign_test_value';
+?>
+
+<div><?php print t::h( $assign_test ); ?></div>
+
+<h2>環境変数を出力してみるテスト</h2>
+
+<ul>
+<li><?php print t::h( $_SERVER['HTTP_USER_AGENT'] ); ?></li>
+</ul>
+
+
+<h2>h2見出しサンプル(プレーン)</h2>
+<p>テスト用コード</p>
+
+<h2>h2見出しサンプル<span class="small">(span入り)</span></h2>
+<p>テスト用コード</p>
+
+<h2 class="cont_finalize_sample">h2見出しサンプル(クラス付き)</h2>
+<p>テスト用コード</p>
+
+<h2 class="cont_finalize_sample" style="color:#ff0000;">h2見出しサンプル(クラス＆スタイル属性付き)</h2>
+<p>テスト用コード</p>
 
