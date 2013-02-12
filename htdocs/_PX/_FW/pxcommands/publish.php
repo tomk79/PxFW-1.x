@@ -228,10 +228,16 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 		array_push( $this->paths_ignore , t::realpath($this->path_docroot_dir.'/_px_execute.php') );
 
 		$conf_paths_ignore = preg_split('/\r\n|\r|\n/',$this->px->get_conf('publish.paths_ignore'));
+		clearstatcache();
 		foreach( $conf_paths_ignore as $row ){
 			$row = trim( $row );
 			if(!strlen($row)){ continue; }
-			array_push( $this->paths_ignore , t::realpath($this->path_docroot_dir.'/'.$row) );
+			$row_realpath = t::realpath($this->path_docroot_dir.'/'.$row);
+			if( !is_string($row_realpath) || !file_exists($row_realpath) ){
+				$this->px->error()->error_log('[ERROR] error on path_ignore ['.$row.']. see "mainconf.ini".',__FILE__,__LINE__);
+				continue;
+			}
+			array_push( $this->paths_ignore , $row_realpath );
 		}
 
 		return true;
