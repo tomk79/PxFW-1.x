@@ -42,7 +42,7 @@ class px_bases_pxcommand{
 		$src .= '<body>'."\n";
 		$src .= '<div class="outline">'."\n";
 		$src .= '<div class="header">'."\n";
-		$src .= '<h1>'.htmlspecialchars( $this->pxcommand_name[0] ).'<span class="small"> | Pickles Framework (version:'.t::h($this->px->get_version()).')</span></h1>'."\n";
+		$src .= '<h1>'.htmlspecialchars( $this->pxcommand_name[0] ).'<span class="xxsmall"> | Pickles Framework (version:'.t::h($this->px->get_version()).')</span></h1>'."\n";
 		$src .= '</div>'."\n";
 		$src .= '<div class="middle">'."\n";
 		$src .= '<div id="content" class="contents">'."\n";
@@ -114,64 +114,7 @@ a){var b=F.exec(a);b&&(b[1]=(b[1]||"").toLowerCase(),b[3]=b[3]&&new RegExp("(?:^
 @charset "UTF-8";
 
 /**
- * ユニット
- * モジュールの単位となる。前後にデフォルトマージン付加
- */
-div.unit{
-	margin-top:1em;
-	margin-bottom:1.5em;
-	clear:both;
-}
-
-/**
- * 画像置換
- * .haribotekit の移植
- */
-.imagereplace{
-	display:block;
-	position:relative; top:auto; left:auto;
-	padding:0px 0px 0px 0px !important;
-	border:0px solid transparent !important;
-	overflow:hidden;
-	zoom:100%;
-}
-.imagereplace .imagereplace-panel{
-	display:block;
-	position:absolute; top:0px; left:0px;
-	width:100%; height:100%;
-	background-repeat:no-repeat;
-	background-color:transparent;
-	zoom:100%;
-}
-
-
-/**
- * 文字サイズ
- */
-.xxlarge{
-	font-size:xx-large;
-}
-.xlarge{
-	font-size:x-large;
-}
-.large{
-	font-size:large;
-}
-.medium{
-	font-size:medium;
-}
-.small{
-	font-size:small;
-}
-.xsmall{
-	font-size:x-small;
-}
-.xxsmall{
-	font-size:xx-small;
-}
-
-/**
- * 文字組み
+ * [static] 文字組み
  */
 .center{
 	text-align:center;
@@ -184,7 +127,7 @@ div.unit{
 }
 
 /**
- * まわりこみ制御
+ * [static] まわりこみ制御
  */
 .fl{
 	float:left;
@@ -198,7 +141,297 @@ div.unit{
 }
 
 /**
- * .clearfix
+ * [static] レイアウト制御
+ */
+.inline{
+	display:inline !important;
+}
+.block{
+	display:block !important;
+}
+
+/**
+ * [static] マージン制御
+ */
+.mt1em  { margin-top:   1em !important; }
+.mt1p5em{ margin-top: 1.5em !important; }
+.mt2em  { margin-top:   2em !important; }
+.mt0 { margin-top:  0px !important; }
+.mt1 { margin-top:  1px !important; }
+.mt2 { margin-top:  2px !important; }
+.mt3 { margin-top:  3px !important; }
+.mt4 { margin-top:  4px !important; }
+.mt5 { margin-top:  5px !important; }
+.mt6 { margin-top:  6px !important; }
+.mt7 { margin-top:  7px !important; }
+.mt8 { margin-top:  8px !important; }
+.mt9 { margin-top:  9px !important; }
+.mt10{ margin-top: 10px !important; }
+.mt15{ margin-top: 15px !important; }
+.mt20{ margin-top: 20px !important; }
+.mt25{ margin-top: 25px !important; }
+.mt30{ margin-top: 30px !important; }
+
+.mb1em  { margin-bottom:   1em !important; }
+.mb1p5em{ margin-bottom: 1.5em !important; }
+.mb2em  { margin-bottom:   2em !important; }
+.mb0 { margin-bottom:  0px !important; }
+.mb1 { margin-bottom:  1px !important; }
+.mb2 { margin-bottom:  2px !important; }
+.mb3 { margin-bottom:  3px !important; }
+.mb4 { margin-bottom:  4px !important; }
+.mb5 { margin-bottom:  5px !important; }
+.mb6 { margin-bottom:  6px !important; }
+.mb7 { margin-bottom:  7px !important; }
+.mb8 { margin-bottom:  8px !important; }
+.mb9 { margin-bottom:  9px !important; }
+.mb10{ margin-bottom: 10px !important; }
+.mb15{ margin-bottom: 15px !important; }
+.mb20{ margin-bottom: 20px !important; }
+.mb25{ margin-bottom: 25px !important; }
+.mb30{ margin-bottom: 30px !important; }
+
+.ml0 { margin-left:  0px !important; }
+.ml1 { margin-left:  1px !important; }
+.ml2 { margin-left:  2px !important; }
+.ml3 { margin-left:  3px !important; }
+.ml4 { margin-left:  4px !important; }
+.ml5 { margin-left:  5px !important; }
+.ml6 { margin-left:  6px !important; }
+.ml7 { margin-left:  7px !important; }
+.ml8 { margin-left:  8px !important; }
+.ml9 { margin-left:  9px !important; }
+.ml10{ margin-left: 10px !important; }
+.ml15{ margin-left: 15px !important; }
+.ml20{ margin-left: 20px !important; }
+.ml25{ margin-left: 25px !important; }
+.ml30{ margin-left: 30px !important; }
+
+.mr0 { margin-right:  0px !important; }
+.mr1 { margin-right:  1px !important; }
+.mr2 { margin-right:  2px !important; }
+.mr3 { margin-right:  3px !important; }
+.mr4 { margin-right:  4px !important; }
+.mr5 { margin-right:  5px !important; }
+.mr6 { margin-right:  6px !important; }
+.mr7 { margin-right:  7px !important; }
+.mr8 { margin-right:  8px !important; }
+.mr9 { margin-right:  9px !important; }
+.mr10{ margin-right: 10px !important; }
+.mr15{ margin-right: 15px !important; }
+.mr20{ margin-right: 20px !important; }
+.mr25{ margin-right: 25px !important; }
+.mr30{ margin-right: 30px !important; }
+
+/**
+ * [static] パディング制御
+ */
+.pt1em  { padding-top:   1em !important; }
+.pt1p5em{ padding-top: 1.5em !important; }
+.pt2em  { padding-top:   2em !important; }
+.pt0 { padding-top:  0px !important; }
+.pt1 { padding-top:  1px !important; }
+.pt2 { padding-top:  2px !important; }
+.pt3 { padding-top:  3px !important; }
+.pt4 { padding-top:  4px !important; }
+.pt5 { padding-top:  5px !important; }
+.pt6 { padding-top:  6px !important; }
+.pt7 { padding-top:  7px !important; }
+.pt8 { padding-top:  8px !important; }
+.pt9 { padding-top:  9px !important; }
+.pt10{ padding-top: 10px !important; }
+.pt15{ padding-top: 15px !important; }
+.pt20{ padding-top: 20px !important; }
+.pt25{ padding-top: 25px !important; }
+.pt30{ padding-top: 30px !important; }
+
+.pb1em  { padding-bottom:   1em !important; }
+.pb1p5em{ padding-bottom: 1.5em !important; }
+.pb2em  { padding-bottom:   2em !important; }
+.pb0 { padding-bottom:  0px !important; }
+.pb1 { padding-bottom:  1px !important; }
+.pb2 { padding-bottom:  2px !important; }
+.pb3 { padding-bottom:  3px !important; }
+.pb4 { padding-bottom:  4px !important; }
+.pb5 { padding-bottom:  5px !important; }
+.pb6 { padding-bottom:  6px !important; }
+.pb7 { padding-bottom:  7px !important; }
+.pb8 { padding-bottom:  8px !important; }
+.pb9 { padding-bottom:  9px !important; }
+.pb10{ padding-bottom: 10px !important; }
+.pb15{ padding-bottom: 15px !important; }
+.pb20{ padding-bottom: 20px !important; }
+.pb25{ padding-bottom: 25px !important; }
+.pb30{ padding-bottom: 30px !important; }
+
+.pl0 { padding-left:  0px !important; }
+.pl1 { padding-left:  1px !important; }
+.pl2 { padding-left:  2px !important; }
+.pl3 { padding-left:  3px !important; }
+.pl4 { padding-left:  4px !important; }
+.pl5 { padding-left:  5px !important; }
+.pl6 { padding-left:  6px !important; }
+.pl7 { padding-left:  7px !important; }
+.pl8 { padding-left:  8px !important; }
+.pl9 { padding-left:  9px !important; }
+.pl10{ padding-left: 10px !important; }
+.pl15{ padding-left: 15px !important; }
+.pl20{ padding-left: 20px !important; }
+.pl25{ padding-left: 25px !important; }
+.pl30{ padding-left: 30px !important; }
+
+.pr0 { padding-right:  0px !important; }
+.pr1 { padding-right:  1px !important; }
+.pr2 { padding-right:  2px !important; }
+.pr3 { padding-right:  3px !important; }
+.pr4 { padding-right:  4px !important; }
+.pr5 { padding-right:  5px !important; }
+.pr6 { padding-right:  6px !important; }
+.pr7 { padding-right:  7px !important; }
+.pr8 { padding-right:  8px !important; }
+.pr9 { padding-right:  9px !important; }
+.pr10{ padding-right: 10px !important; }
+.pr15{ padding-right: 15px !important; }
+.pr20{ padding-right: 20px !important; }
+.pr25{ padding-right: 25px !important; }
+.pr30{ padding-right: 30px !important; }
+
+/**
+ * [parts] 文字サイズ
+ */
+.xxlarge{
+	font-size:150%;
+}
+.xlarge{
+	font-size:123%;
+}
+.large{
+	font-size:108%;
+}
+.medium{
+	font-size:100%;
+}
+.small{
+	font-size: 85%;
+}
+.xsmall{
+	font-size: 77%;
+}
+.xxsmall{
+	font-size: 60%;
+}
+
+
+/**
+ * [parts] リンク
+ */
+a{
+}
+
+/**
+ * [parts] アイコン付きリンク
+ */
+a.icon:before{
+	content:"⇒ ";
+}
+/**
+ * [parts] ページ内リンク(下向き)
+ */
+a.down:before{
+	content:"↓ ";
+}
+/**
+ * [parts] ページ内リンク(上向き)
+ */
+a.up:before{
+	content:"↑ ";
+}
+/**
+ * [parts] 戻るリンク
+ */
+a.back:before{
+	content:"← ";
+}
+/**
+ * [parts] 付加リンクモジュール：別ウィンドウリンク
+ */
+a span.blank:after{
+	content:" □";
+}
+/**
+ * [parts] 付加リンクモジュール：ダウンロードリンク
+ */
+a span.download:after{
+	content:" [↓]";
+}
+/**
+ * [parts] 付加リンクモジュール：PDF
+ */
+a span.pdf:after{
+	content:" (PDF)";
+}
+
+/**
+ * [parts] エラー表示
+ */
+.error{
+	color:#ff0000;
+}
+
+/**
+ * [parts] 画像置換
+ */
+.imgrep{
+	display:block;
+	position:relative; top:auto; left:auto;
+	padding:0px 0px 0px 0px !important;
+	border:0px solid transparent !important;
+	overflow:hidden;
+	zoom:100%;
+}
+.imgrep .imgrep-panel{
+	display:block;
+	position:absolute; top:0px; left:0px;
+	width:100%; height:100%;
+	background-repeat:no-repeat;
+	background-color:transparent;
+	zoom:100%;
+}
+
+/**
+ * [parts] 読み上げブラウザ対応のための隠しナビゲーション
+ */
+.aural{
+	display: block;
+	visibility: hidden;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	overflow: hidden;
+	width: 0px;
+	height: 0px;
+	background-color: transparent;
+}
+
+/**
+ * [parts] カレントページ
+ */
+.current{
+	font-weight:bold;
+}
+
+/**
+ * [unit] ユニット
+ * モジュールの単位となる。前後にデフォルトマージン付加
+ */
+div.unit{
+	margin-top:1em;
+	margin-bottom:1.5em;
+	clear:both;
+}
+
+/**
+ * [static] .clearfix (and [unit] unit)
  */
 .unit,
 .clearfix{
@@ -223,41 +456,7 @@ div.unit{
 }
 
 /**
- * カレントページ
- */
-.current{
-	font-weight:bold;
-}
-
-/**
- * [parts] デフォルトテーブルスタイル
- */
-table.def {
-	border:none;
-	border-collapse: collapse;
-	text-align: left;
-}
-table.def th,
-table.def td {
-	border: 1px solid #999999;
-	background: #ffffff;
-	padding: 10px;
-}
-table.def th {
-	background: #e7e7e7;
-}
-table.def thead th,
-table.def tfoot th{
-	background: #d9d9d9;
-	text-align:center;
-}
-table.def thead td,
-table.def tfoot td{
-	background: #eeeeee;
-}
-
-/**
- * カラムレイアウト
+ * [unit] カラムレイアウト
  */
 .cols{
 	margin-left:-20px;
@@ -289,6 +488,408 @@ table.def tfoot td{
 	float:right;
 	/margin-right:-10px;
 }
+
+/**
+ * [parts] 通常のリスト
+ */
+ul{}
+ul li{
+	list-style-type:disc;
+	text-indent:0;
+}
+
+/**
+ * [parts] 注釈リスト
+ */
+ul.notes{}
+ul.notes li.notes-li{
+	list-style-type:none;
+	text-indent:-1em;
+}
+
+/**
+ * [parts] リストマークがないリスト
+ */
+ul.nomark{
+	padding-left:0;
+}
+ul.nomark li.nomark-li{
+	list-style-type:none;
+	padding-left:0;
+}
+
+
+/**
+ * 注釈定義リスト
+ */
+dl.notes{
+	padding:0px 0px 0px 0px;
+	margin-left:0px;
+	margin-right:0px;
+}
+dl.notes dt.notes-dt{
+	padding:0px 0px 0px 0px;
+	margin:0px 0px 0px 0px;
+	float:left;
+	clear:left;
+	border:0px none;
+	font-weight:normal;
+}
+dl.notes dd.notes-dd{
+	padding:0px 0px 0px 5px;
+	margin:0px 0px 0px 0px;
+	float:none;
+	font-weight:normal;
+	display:block;
+	overflow:hidden;
+	zoom:100%;
+}
+
+/**
+ * [parts] デフォルトテーブルスタイル
+ */
+table.def {
+	border:none;
+	border-collapse: collapse;
+	text-align: left;
+}
+table.def th,
+table.def td {
+	border: 1px solid #999999;
+	background: #ffffff;
+	padding: 10px;
+}
+table.def th {
+	background: #e7e7e7;
+}
+table.def thead th,
+table.def tfoot th{
+	background: #d9d9d9;
+	text-align:center;
+}
+table.def thead td,
+table.def tfoot td{
+	background: #eeeeee;
+}
+
+
+/**
+ * [parts] ソースコード
+ */
+.code{
+	margin:1em 0;
+}
+.code pre{
+	margin:0px;
+}
+.code code,
+.code textarea{
+	border:1px solid #999999;
+	background:#f5f5f5;
+	padding:1em;
+	font-size:small;
+	line-height:1.5;
+}
+.code code{
+	display:block;
+	width:auto;
+	background:#e8e8e8;
+	border:1px dashed #999999;
+	overflow:auto;
+}
+.code textarea{
+	display:block;
+	width:100%;
+	box-sizing:border-box;
+	height:16em;
+}
+
+
+/**
+ * [parts] 日付入りリスト .date_list
+ */
+.date_list{
+}
+.date_list table{
+	width:100%;
+	border:none;
+	border-collapse: collapse;
+}
+.date_list table th,
+.date_list table td {
+	border-top: 1px solid #999999;
+	border-bottom: 1px solid #999999;
+	padding: 10px;
+}
+.date_list table th {
+	background: #e7e7e7;
+}
+.date_list table thead th,
+.date_list table tfoot th{
+	background: #d9d9d9;
+}
+.date_list table thead td,
+.date_list table tfoot td{
+	background: #eeeeee;
+}
+.date_list table th{
+	white-space:nowrap;
+}
+.date_list table thead{
+	text-align:center;
+}
+
+/**
+ * [parts] フォーム要素
+ */
+table.form_elements {
+	border:none;
+	border-collapse: collapse;
+	text-align: left;
+	width:100%;
+}
+table.form_elements thead{
+	display:none;
+}
+table.form_elements th,
+table.form_elements td {
+	border: 1px solid #999999;
+	padding: 10px;
+}
+table.form_elements th {
+	background: #e7e7e7;
+}
+table.form_elements thead th,
+table.form_elements tfoot th{
+	background: #d9d9d9;
+	text-align:center;
+}
+table.form_elements thead td,
+table.form_elements tfoot td{
+	background: #eeeeee;
+}
+table.form_elements tbody th {
+	width:30%;
+}
+table.form_elements tbody td {
+	width:70%;
+}
+table.form_elements .form_elements-notes {
+	font-size:86%;
+	color:#999999;
+	margin:0px; padding:0px;
+}
+table.form_elements .form_elements-notes li{
+	list-style-type:none;
+	margin:0px;
+}
+table.form_elements .form_elements-list{
+	margin:0px; padding:0px;
+}
+table.form_elements .form_elements-list li{
+	margin:0px; padding:0px;
+	list-style-type:none;
+}
+table.form_elements .form_elements-list_horizontal{
+	margin:0px; padding:0px;
+}
+table.form_elements .form_elements-list_horizontal li{
+	margin:0px; padding:0px;
+	list-style-type:none;
+	display:inline;
+}
+table.form_elements .form_elements-must{
+	color:#ff0000;
+	font-weight:bold;
+	display:block;
+}
+table.form_elements .form_elements-error{
+}
+table.form_elements .form_elements-error th{
+	background-color:#ffcccc;
+}
+table.form_elements .form_elements-error td{
+	background-color:#fff2f2;
+}
+table.form_elements ul.form_elements-errors{
+	color:#ff0000;
+	margin:0px; padding:0px;
+}
+table.form_elements ul.form_elements-errors li{
+	list-style-type:none;
+	margin:0px;
+}
+
+/**
+ * [unit] フォーム送信ボタン
+ */
+.form_buttons {
+	position:relative;
+	text-align:center;
+}
+.form_buttons ul ,
+.form_buttons ul li{
+	margin:0; padding:0;
+	list-style-type:none;
+}
+.form_buttons ul li.form_buttons-revise{
+	position:absolute; left:0px; bottom:0px;
+}
+
+/**
+ * [unit] エラー通知ボックス
+ */
+.form_error_box {
+	border: 2px solid #ff9900;
+	padding:0 20px;
+	background-color:#fff5f5;
+	color:#ff0000;
+	margin-left:20px;
+	margin-right:20px;
+	border-radius:10px;
+}
+.form_error_box a{
+	color:#ff0000;
+}
+
+/**
+ * [unit] 注意喚起ユニット
+ */
+.attention {
+	border:1px solid #999999;
+	padding:0 20px;
+	margin-left:20px;
+	margin-right:20px;
+	border-radius:10px;
+	background-color:#f9f9f9;
+}
+.attention .attention-heading{
+	font-weight:bold;
+	margin:1em 0;
+	font-size:120%;
+}
+
+/**
+ * [unit] ページャー
+ */
+.pager{
+}
+.pager ul{
+	text-align:center;
+	padding:0px;
+	margin:0px;
+}
+.pager ul li{
+	display:inline;
+	list-style-type:none;
+	padding:0px 5px 0px 5px;
+}
+
+/**
+ * [unit] サムネイルリスト
+ */
+.thumb_list{
+}
+.thumb_list ul{
+	text-align:left;
+	padding:0px;
+	margin:0px;
+	font-size:0px;
+	margin-left:-10px; zoom:1;
+}
+.thumb_list ul li{
+	display:inline-block;
+	>display:inline; zoom:1;
+	list-style-type:none;
+	width:25%;
+	>width:24.9%;
+	margin:0px;
+	margin-bottom:10px;
+	padding:0px;
+	vertical-align:top;
+	font-size:small;
+}
+.thumb_list ul li .thumb_list-pad{
+	margin-left:10px;
+}
+.thumb_list ul li a{
+	display:block;
+	width:100%;
+	height:100%;
+}
+.thumb_list ul li img{
+	width:100%;
+	height:auto;
+}
+.thumb_list ul li:nth-child(4n+1){
+	clear:left;
+}
+
+/**
+ * [unit] 回り込み画像
+ */
+.float_image{
+}
+.float_image .float_image-r50per{
+	float:right;
+	width:50%;
+	margin-left:20px;
+	margin-bottom:20px;
+}
+.float_image .float_image-l50per{
+	float:left;
+	width:50%;
+	margin-right:20px;
+	margin-bottom:20px;
+}
+.float_image .float_image-r33per{
+	float:right;
+	width:33%;
+	margin-left:20px;
+	margin-bottom:20px;
+}
+.float_image .float_image-l33per{
+	float:left;
+	width:33%;
+	margin-right:20px;
+	margin-bottom:20px;
+}
+.float_image .float_image-r25per{
+	float:right;
+	width:25%;
+	margin-left:20px;
+	margin-bottom:20px;
+}
+.float_image .float_image-l25per{
+	float:left;
+	width:25%;
+	margin-right:20px;
+	margin-bottom:20px;
+}
+.float_image .float_image-l50per img,
+.float_image .float_image-l33per img,
+.float_image .float_image-l25per img,
+.float_image .float_image-r50per img,
+.float_image .float_image-r33per img,
+.float_image .float_image-r25per img{
+	width:100%;
+	height:auto;
+}
+.float_image .float_image-image{
+	margin-top:0px;
+}
+.float_image .float_image-caption{
+	font-size:86%;
+}
+.float_image .float_image-body{
+}
+.float_image .float_image-body_rect{
+	overflow:hidden;
+}
+.float_image .float_image-body_rect *:first-child{
+	margin-top:0px;
+}
+
 <?php
 		return ob_get_clean();
 	}

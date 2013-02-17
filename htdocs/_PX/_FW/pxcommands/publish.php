@@ -15,6 +15,7 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 	private $queue_items = array();//←パブリッシュ対象の一覧
 	private $done_items = array();//←パブリッシュ完了した対象の一覧
 	private $path_target = null;//←パブリッシュ対象パス
+	private $internal_errors = array();//←その他の内部エラー
 
 	/**
 	 * コンストラクタ
@@ -67,6 +68,22 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 			$src .= '		<li>'.t::h( $this->path_target ).'</li>'."\n";
 			$src .= '	</ul>'."\n";
 			$src .= '</div><!-- /.unit -->'."\n";
+			$internal_errors = $this->get_internal_error_log();
+			if( count($internal_errors) ){
+				$src .= '<div class="unit form_error_box">'."\n";
+				$src .= '	<p>次のエラーがありました。</p>'."\n";
+				$src .= '	<ul>'."\n";
+				foreach($internal_errors as $error_row){
+					$src .= '		<li>'.t::h($error_row['message']).'</li>'."\n";
+				}
+				$src .= '	</ul>'."\n";
+				$src .= '</div><!-- /.form_error_box -->'."\n";
+				$src .= '<div class="unit">'."\n";
+				$src .= '	<p>パブリッシュを実行する前に、設定を変更し、エラーを解消してください。</p>'."\n";
+				$src .= '</div><!-- /.unit -->'."\n";
+
+			}
+
 			$src .= '<div class="unit">'."\n";
 			$src .= '	<p>次のボタンをクリックしてパブリッシュを実行してください。</p>'."\n";
 			$src .= '	<form action="?" method="get" target="_blank">'."\n";
@@ -74,6 +91,7 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 			$src .= '	<div><input type="hidden" name="PX" value="publish.run" /></div>'."\n";
 			$src .= '	</form>'."\n";
 			$src .= '</div><!-- /.unit -->'."\n";
+
 		}
 		print $this->html_template($src);
 		exit;
@@ -200,6 +218,20 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 
 		$this->unlock();//ロック解除
 
+		$internal_errors = $this->get_internal_error_log();
+		if( count($internal_errors) ){
+			print '------'."\n";
+			print 'Internal error.'."\n";
+			foreach($internal_errors as $error_row){
+				print '    - '.$error_row['message']."\n";
+				$this->publish_error_log(array(
+					'error'=>$error_row['message'],
+					'path'=>null
+				));
+			}
+			print ''."\n";
+		}
+
 		print '------'."\n";
 		print 'publish completed.'."\n";
 		print date('Y-m-d H:i:s')."\n";
@@ -234,7 +266,7 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 			if(!strlen($row)){ continue; }
 			$row_realpath = t::realpath($this->path_docroot_dir.'/'.$row);
 			if( !is_string($row_realpath) || !file_exists($row_realpath) ){
-				$this->px->error()->error_log('[ERROR] error on path_ignore ['.$row.']. see "mainconf.ini".',__FILE__,__LINE__);
+				$this->internal_error_log('[ERROR] error on paths_ignore ['.$row.']. See "mainconf.ini".',__FILE__,__LINE__);
 				continue;
 			}
 			array_push( $this->paths_ignore , $row_realpath );
@@ -583,6 +615,21 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 		unlink( $lockfilepath );
 		return	$RTN;
 	}//unlock()
+
+	/**
+	 * その他の内部エラーを記録
+	 */
+	private function internal_error_log($message){
+		array_push($this->internal_errors, array('message'=>$message));
+		return true;
+	}
+
+	/**
+	 * その他の内部エラーを取得
+	 */
+	private function get_internal_error_log(){
+		return $this->internal_errors;
+	}
 
 }
 
