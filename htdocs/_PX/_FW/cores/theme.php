@@ -224,7 +224,13 @@ class px_cores_theme{
 		$href = preg_replace('/\/index\.html$/si','/',$href); // index.htmlを省略
 		$label = (!is_null($label)?$label:$href); // labelがnullの場合、リンク先をラベルとする
 
-		$rtn = '<a href="'.t::h($href).'"'.($is_current?' class="current"':'').''.($is_popup?' onclick="window.open(this.href);return false;"':'').'>'.t::h($label).'</a>';
+		if( !$options['no_escape'] ){
+			// no_escape(エスケープしない)指示がなければ、
+			// HTMLをエスケープする。
+			$label = t::h($label);
+		}
+
+		$rtn = '<a href="'.t::h($href).'"'.($is_current?' class="current"':'').''.($is_popup?' onclick="window.open(this.href);return false;"':'').'>'.$label.'</a>';
 		return $rtn;
 	}
 
