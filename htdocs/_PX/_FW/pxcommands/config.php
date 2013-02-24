@@ -79,6 +79,7 @@ class px_pxcommands_config extends px_bases_pxcommand{
 		$src .= '<colgroup><col width="30%" /><col width="30%" /><col width="40%" /></colgroup>' . "\n";
 		$src .= $this->mk_config_unit('system.allow_pxcommands','PX Commands の実行を許可するフラグ(1=許可, 0=不許可)','bool');
 		$src .= $this->mk_config_unit('system.session_name','セッションID');
+		$src .= $this->mk_config_unit('system.session_expire','セッションの有効期限(秒)');
 		$src .= $this->mk_config_unit('system.default_theme_id','デフォルトのテーマID');
 		$src .= $this->mk_config_unit('system.filesystem_encoding','ファイル名の文字エンコード');
 		$src .= $this->mk_config_unit('system.output_encoding','出力エンコード');

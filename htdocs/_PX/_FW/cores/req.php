@@ -180,7 +180,7 @@ class px_cores_req{
 	 * セッションを開始
 	 */
 	private function session_start( $sid = null ){
-		$expire = 1800;//30min
+		$expire = intval($this->px->get_conf('system.session_expire'));
 		$cache_limiter = 'nocache';
 		$session_name = 'PXSID';
 		if( strlen( $this->px->get_conf('system.session_name') ) ){

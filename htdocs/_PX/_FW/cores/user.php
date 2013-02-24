@@ -28,6 +28,7 @@ class px_cores_user{
 	 * @return true
 	 */
 	public function update_login_status( $user_account , $user_pw ){
+		$expire = intval($this->px->get_conf('system.session_expire'));
 		$is_login = false;
 		$is_starting = false;
 		$dao_user = $this->factory_dao_user();
@@ -48,7 +49,7 @@ class px_cores_user{
 		if( $is_login ){
 			//  ログインが成立したら
 			$this->px->req()->set_session('USER_ID',$tmp_user_info['id']);
-			$this->px->req()->set_session('USER_EXPIRE',time()+1800);
+			$this->px->req()->set_session('USER_EXPIRE',time()+$expire);
 			$this->login_user_info = $tmp_user_info;
 			if( $is_starting ){
 				//  ログインが成立したてなら、IDとPWを外してリダイレクトする
