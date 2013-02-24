@@ -114,6 +114,7 @@ class px_pxcommands_config extends px_bases_pxcommand{
 			$src .= '				<th>object</th>'."\n";
 			$src .= '				<th>initialize</th>'."\n";
 			$src .= '				<th>pxcommand</th>'."\n";
+			$src .= '				<th>outputfilter</th>'."\n";
 			$src .= '			</tr>'."\n";
 			$src .= '		</thead>'."\n";
 			$src .= '		<tbody>'."\n";
@@ -123,6 +124,7 @@ class px_pxcommands_config extends px_bases_pxcommand{
 				$src .= '				<td class="center">'.(is_file( $tmp_path_plugins_base_dir.$tmp_plugin_name.'/register/object.php' )?'○':'-').'</td>'."\n";
 				$src .= '				<td class="center">'.(is_file( $tmp_path_plugins_base_dir.$tmp_plugin_name.'/register/initialize.php' )?'○':'-').'</td>'."\n";
 				$src .= '				<td class="center">'.(is_file( $tmp_path_plugins_base_dir.$tmp_plugin_name.'/register/pxcommand.php' )?'○':'-').'</td>'."\n";
+				$src .= '				<td class="center">'.(is_file( $tmp_path_plugins_base_dir.$tmp_plugin_name.'/register/outputfilter.php' )?'○':'-').'</td>'."\n";
 				$src .= '			</tr>'."\n";
 			}
 			$src .= '		</tbody>'."\n";

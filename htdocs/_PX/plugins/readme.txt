@@ -281,3 +281,52 @@ class pxplugin_{$plugin_name}_register_pxcommand extends px_bases_pxcommand{
 ?>
 <!--- / ここまでサンプルコード --->
 
+
+■outputfilter
+
+最終的なHTMLの出力時に一定の加工処理を加えることができます。
+
+- 格納先: <plugins>/{$plugin_name}/register/outputfilter.php
+- クラス名: pxplugin_{$plugin_name}_register_outputfilter
+- コンストラクタ引数: $px
+- API
+-- トリガーメソッド: $instance->execute()
+
+下記は実装例。
+
+<!--- ここからサンプルコード --->
+<?php
+
+/**
+ * PX Plugin "{$plugin_name}"
+ */
+class pxplugin_{$plugin_name}_register_outputfilter{
+	private $px;
+
+	/**
+	 * コンストラクタ
+	 * @param $px = PxFWコアオブジェクト
+	 */
+	public function __construct( $px ){
+		$this->px = $px;
+	}
+
+	/**
+	 * 変換処理を実行する
+	 */
+	public function execute($src){
+		/*
+			$src には、テーマの処理が完了したあとの
+			完成されたHTMLソースが渡されます。
+			(ただし、文字コード変換処理の前の状態です)
+			このメソッドに、変換処理を実装し、
+			変換後のソースを返してください。
+		*/
+		return $src;
+	}
+
+}
+
+?>
+<!--- / ここまでサンプルコード --->
+

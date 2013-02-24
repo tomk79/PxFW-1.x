@@ -121,11 +121,47 @@ class px_cores_theme{
 		@include( $path_template_file );
 		$src = ob_get_clean();
 
+		//  プラグインの outputfilter を適用
+		$tmp_path_plugins_base_dir = $this->px->get_conf('paths.px_dir').'plugins/';
+		$tmp_plugin_list = $this->px->dbh()->ls( $tmp_path_plugins_base_dir );
+		foreach( $tmp_plugin_list as $tmp_plugin_name ){
+			if( is_file( $tmp_path_plugins_base_dir.$tmp_plugin_name.'/register/outputfilter.php' ) ){
+				$tmp_class_name = $this->px->load_px_plugin_class($tmp_plugin_name.'/register/outputfilter.php');
+				if($tmp_class_name){
+					$tmp_plugin_output = new $tmp_class_name($this->px);
+					$src = $tmp_plugin_output->execute($src);
+				}
+			}
+		}
+		unset($tmp_path_plugins_base_dir,$tmp_plugin_list,$tmp_plugin_name,$tmp_class_name,$tmp_plugin_output);
+
+		//  テーマ個別の outputfilter 処理
+		$class_name = $this->px->load_pxtheme_class('/styles/outputfilter.php');
+		if( $class_name !== false ){
+			$obj_outputfilter = new $class_name( $this->px );
+			$src = $obj_outputfilter->execute( $src );
+		}
+		unset($class_name, $obj_outputfilter);
+
 		if(strlen($this->px->get_conf('system.output_encoding'))){
 			//出力ソースの文字コード変換
 			$src = preg_replace('/<meta\s+charset\="[a-zA-Z0-9\_\-\.]+"\s*\/?'.'>/si','<meta charset="'.t::h($output_encoding).'" />',$src);
 			$src = preg_replace('/<meta\s+http\-equiv\="Content-Type"\s+content\="text\/html\;\s+charset\=[a-zA-Z0-9\_\-\.]+"\s*\/?'.'>/si','<meta http-equiv="Content-Type" content="text/html; charset='.t::h($output_encoding).'" />',$src);
-			$src = t::convert_encoding($src,$this->px->get_conf('system.output_encoding'),'utf-8');
+			switch(strtolower($output_encoding)){
+				case 'sjis':
+				case 'sjis-win':
+				case 'shift_jis':
+					$src = t::convert_encoding($src,'SJIS-win','utf-8');
+					break;
+				case 'eucjp':
+				case 'eucjp-win':
+				case 'euc-jp':
+					$src = t::convert_encoding($src,'eucJP-win','utf-8');
+					break;
+				default:
+					$src = t::convert_encoding($src,$output_encoding,'utf-8');
+					break;
+			}
 		}
 		if(strlen($this->px->get_conf('system.output_eof_coding'))){
 			//出力ソースの改行コード変換
