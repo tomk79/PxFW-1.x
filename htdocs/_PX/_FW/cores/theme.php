@@ -17,6 +17,9 @@ class px_cores_theme{
 	 */
 	public function __construct( $px ){
 		$this->px = $px;
+		if(strlen($this->px->get_conf('system.default_theme_id'))){
+			$this->theme_id = trim($this->px->get_conf('system.default_theme_id'));
+		}
 		if( strlen( $this->px->req()->get_session('THEME') ) ){
 			$this->theme_id = $this->px->req()->get_session('THEME');
 		}
@@ -35,8 +38,15 @@ class px_cores_theme{
 			$this->px->error()->error_log('存在しないテーマ['.$theme_id.']を選択しました。',__FILE__,__LINE__);
 			return false;
 		}
-		$this->px->req()->set_session('THEME',$theme_id);
-		$this->theme_id = $this->px->req()->get_session('THEME');
+		$this->theme_id = $theme_id;
+
+		$default_theme_id = trim( $this->px->get_conf('system.default_theme_id') );
+		if(!strlen($default_theme_id)){ $default_theme_id = 'default'; }
+		if($this->theme_id == $default_theme_id){
+			$this->px->req()->delete_session('THEME');
+		}else{
+			$this->px->req()->set_session('THEME',$this->theme_id);
+		}
 		return true;
 	}
 	/**
