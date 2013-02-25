@@ -11,6 +11,8 @@ class px_extensions_md extends px_bases_extension{
 	 * @return string 出力ソース
 	 */
 	public function execute( $path_content ){
+		@header('Content-type: text/html; charset=UTF-8');//デフォルトのヘッダー
+
 		$src = @file_get_contents( $path_content );
 
 		//  PHP Markdownライブラリをロード
@@ -18,7 +20,9 @@ class px_extensions_md extends px_bases_extension{
 		@require_once( $this->px->get_conf('paths.px_dir').'libs/PHPMarkdown/markdown.php' );
 
 		$src = Markdown($src);
-		print $this->px->theme()->bind_contents( $src );
+		$src = $this->px->theme()->bind_contents( $src );
+		$src = $this->px->theme()->output_filter($src, 'html');
+		print $src;
 		return true;
 	}
 

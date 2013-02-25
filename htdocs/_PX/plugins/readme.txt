@@ -314,13 +314,16 @@ class pxplugin_{$plugin_name}_register_outputfilter{
 	/**
 	 * 変換処理を実行する
 	 */
-	public function execute($src){
+	public function execute($src, $extension){
 		/*
 			$src には、テーマの処理が完了したあとの
 			完成されたHTMLソースが渡されます。
 			(ただし、文字コード変換処理の前の状態です)
 			このメソッドに、変換処理を実装し、
 			変換後のソースを返してください。
+			すべてのextensionについて、このメソッドを通ります。
+			対象となるextensionの種類は、
+			$extensionで受け取ることができます。
 		*/
 		return $src;
 	}

@@ -7,26 +7,12 @@ class px_extensions_js extends px_bases_extension{
 	 * @return string 出力ソース
 	 */
 	public function execute( $path_content ){
-		$output_encoding = $this->px->get_conf('system.output_encoding');
-		if(!strlen($output_encoding)){ $output_encoding = 'UTF-8'; }
-		@header('Content-type: text/javascript; charset='.$output_encoding);
+		@header('Content-type: text/javascript; charset=UTF-8');//デフォルトのヘッダー
 
-		$src = @file_get_contents( $path_content );
-		if(strlen($this->px->get_conf('system.output_encoding'))){
-			//出力ソースの文字コード変換
-			$src = t::convert_encoding($src,$this->px->get_conf('system.output_encoding'),'utf-8');
-		}
-		if(strlen($this->px->get_conf('system.output_eof_coding'))){
-			//出力ソースの改行コード変換
-			$eof_code = "\r\n";
-			switch( strtolower( $this->px->get_conf('system.output_eof_coding') ) ){
-				case 'cr':     $eof_code = "\r"; break;
-				case 'lf':     $eof_code = "\n"; break;
-				case 'crlf':
-				default:       $eof_code = "\r\n"; break;
-			}
-			$src = preg_replace('/\r\n|\r|\n/si',$eof_code,$src);
-		}
+		ob_start();
+		@include( $path_content );
+		$src = ob_get_clean();
+		$src = $this->px->theme()->output_filter($src, 'js');
 		print $src;
 		return true;
 	}

@@ -7,23 +7,16 @@ class px_extensions_html extends px_bases_extension{
 	 * @return string 出力ソース
 	 */
 	public function execute( $path_content ){
-		$src = $this->execute_content($path_content);
-		$src = $this->px->theme()->bind_contents( $src );
-		print $src;
-		return true;
-	}
+		@header('Content-type: text/html; charset=UTF-8');//デフォルトのヘッダー
 
-	/**
-	 * コンテンツを実行し、出力ソースを返す
-	 */
-	private function execute_content( $path_content ){
-
-		$px = $this->px;
 		ob_start();
+		$px = $this->px;
 		@include( $path_content );
 		$src = ob_get_clean();
-
-		return $src;
+		$src = $this->px->theme()->bind_contents( $src );
+		$src = $this->px->theme()->output_filter($src, 'html');
+		print $src;
+		return true;
 	}
 
 }

@@ -7,7 +7,7 @@ class px_extensions_download extends px_bases_extension{
 	 * @return string 出力ソース
 	 */
 	public function execute( $path_content ){
-		@header('Content-type: application/x-download');
+		@header('Content-type: application/x-download');//デフォルトのヘッダー
 		ob_start();
 		$px = $this->px;
 		@include( $path_content );

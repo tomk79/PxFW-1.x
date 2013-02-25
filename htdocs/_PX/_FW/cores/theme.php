@@ -94,10 +94,6 @@ class px_cores_theme{
 		//  / コンテンツソースの事後加工処理
 		//------------
 
-		$output_encoding = $this->px->get_conf('system.output_encoding');
-		if(!strlen($output_encoding)){ $output_encoding = 'UTF-8'; }
-		@header('Content-type: text/html; charset='.$output_encoding);//デフォルトのヘッダー
-
 		$template_path = $this->px->dbh()->get_realpath($this->px->get_conf('paths.px_dir').'themes/'.$this->get_theme_id()).'/';
 		$page_info = $this->px->site()->get_current_page_info();
 		if( is_null( $page_info ) ){
@@ -121,6 +117,15 @@ class px_cores_theme{
 		@include( $path_template_file );
 		$src = ob_get_clean();
 
+		return $src;
+	}//bind_contents();
+
+	/**
+	 * 最終出力処理
+	 * この処理は、標準出力の直前にextensionsによって呼び出されます。
+	 */
+	public function output_filter( $src, $extension ){
+
 		//  プラグインの outputfilter を適用
 		$tmp_path_plugins_base_dir = $this->px->get_conf('paths.px_dir').'plugins/';
 		$tmp_plugin_list = $this->px->dbh()->ls( $tmp_path_plugins_base_dir );
@@ -129,7 +134,7 @@ class px_cores_theme{
 				$tmp_class_name = $this->px->load_px_plugin_class($tmp_plugin_name.'/register/outputfilter.php');
 				if($tmp_class_name){
 					$tmp_plugin_output = new $tmp_class_name($this->px);
-					$src = $tmp_plugin_output->execute($src);
+					$src = $tmp_plugin_output->execute($src, $extension);
 				}
 			}
 		}
@@ -139,29 +144,51 @@ class px_cores_theme{
 		$class_name = $this->px->load_pxtheme_class('/styles/outputfilter.php');
 		if( $class_name !== false ){
 			$obj_outputfilter = new $class_name( $this->px );
-			$src = $obj_outputfilter->execute( $src );
+			$src = $obj_outputfilter->execute( $src, $extension );
 		}
 		unset($class_name, $obj_outputfilter);
 
 		if(strlen($this->px->get_conf('system.output_encoding'))){
-			//出力ソースの文字コード変換
-			$src = preg_replace('/<meta\s+charset\="[a-zA-Z0-9\_\-\.]+"\s*\/?'.'>/si','<meta charset="'.t::h($output_encoding).'" />',$src);
-			$src = preg_replace('/<meta\s+http\-equiv\="Content-Type"\s+content\="text\/html\;\s+charset\=[a-zA-Z0-9\_\-\.]+"\s*\/?'.'>/si','<meta http-equiv="Content-Type" content="text/html; charset='.t::h($output_encoding).'" />',$src);
-			switch(strtolower($output_encoding)){
-				case 'sjis':
-				case 'sjis-win':
-				case 'shift_jis':
-					$src = t::convert_encoding($src,'SJIS-win','utf-8');
-					break;
-				case 'eucjp':
-				case 'eucjp-win':
-				case 'euc-jp':
-					$src = t::convert_encoding($src,'eucJP-win','utf-8');
-					break;
-				default:
+			$output_encoding = $this->px->get_conf('system.output_encoding');
+			if(!strlen($output_encoding)){ $output_encoding = 'UTF-8'; }
+			switch(strtolower($extension)){
+				case 'css':
+					@header('Content-type: text/css; charset='.$output_encoding);//デフォルトのヘッダー
+
+					//出力ソースの文字コード変換
+					$src = preg_replace('/\@charset\s+"[a-zA-Z0-9\_\-\.]+"\;/si','@charset "'.t::h($output_encoding).'";',$src);
 					$src = t::convert_encoding($src,$output_encoding,'utf-8');
 					break;
+				case 'js':
+					@header('Content-type: text/javascript; charset='.$output_encoding);//デフォルトのヘッダー
+
+					//出力ソースの文字コード変換
+					$src = t::convert_encoding($src,$output_encoding,'utf-8');
+					break;
+				default:
+					@header('Content-type: text/html; charset='.$output_encoding);//デフォルトのヘッダー
+
+					//出力ソースの文字コード変換(HTML)
+					$src = preg_replace('/<meta\s+charset\="[a-zA-Z0-9\_\-\.]+"\s*\/?'.'>/si','<meta charset="'.t::h($output_encoding).'" />',$src);
+					$src = preg_replace('/<meta\s+http\-equiv\="Content-Type"\s+content\="text\/html\;\s+charset\=[a-zA-Z0-9\_\-\.]+"\s*\/?'.'>/si','<meta http-equiv="Content-Type" content="text/html; charset='.t::h($output_encoding).'" />',$src);
+					switch(strtolower($output_encoding)){
+						case 'sjis':
+						case 'sjis-win':
+						case 'shift_jis':
+							$src = t::convert_encoding($src,'SJIS-win','utf-8');
+							break;
+						case 'eucjp':
+						case 'eucjp-win':
+						case 'euc-jp':
+							$src = t::convert_encoding($src,'eucJP-win','utf-8');
+							break;
+						default:
+							$src = t::convert_encoding($src,$output_encoding,'utf-8');
+							break;
+					}
+					break;
 			}
+
 		}
 		if(strlen($this->px->get_conf('system.output_eof_coding'))){
 			//出力ソースの改行コード変換
@@ -176,7 +203,7 @@ class px_cores_theme{
 		}
 
 		return $src;
-	}//bind_contents();
+	}//output_filter()
 
 	/**
 	 * リンク先を調整する。
