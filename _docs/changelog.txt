@@ -2,7 +2,7 @@
  * PxFW(Pickles Framework) 更新履歴
  */
 
-■PxFW 1.0.0b3 (****/**/**)
+■PxFW 1.0.0b3 (2013/3/2)
 
 - PX=api.hash を追加。
 - PX=plugins を追加。プラグインにPX Commandインターフェイスを実装できるようになった。
