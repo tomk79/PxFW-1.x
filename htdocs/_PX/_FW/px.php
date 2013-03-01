@@ -23,7 +23,7 @@ class px_px{
 	 * @return string バージョン番号を示す文字列
 	 */
 	public function get_version(){
-		return '1.0.0b3';
+		return '1.0.0b3-nb';
 
 		//  [バージョン番号のルール]
 		//    基本
