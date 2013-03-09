@@ -37,6 +37,24 @@
 ?>
 
 </div><!-- /#content -->
+<?php
+	$page_prev = $px->site()->get_bros_prev();
+	$page_parent = $px->site()->get_parent();
+	$page_next = $px->site()->get_bros_next();
+	if($page_parent!==false || $page_next!==false || $page_prev!==false){
+		print '<div class="unit pager">'."\n";
+		print '	<ul>'."\n";
+		if($page_prev!==false){
+			print '<li class="pager-prev">'.$px->theme()->mk_link($page_prev,array('label'=>'<前へ')).'</li>'."\n";
+		}
+		print '		<li class="pager-prev"></li>'."\n";
+		if($page_next!==false){
+			print '<li class="pager-prev">'.$px->theme()->mk_link($page_next,array('label'=>'次へ>')).'</li>'."\n";
+		}
+		print '	</ul>'."\n";
+		print '</div><!-- /.pager -->'."\n";
+	}
+?>
 </div><!-- /.theme_column1 -->
 <div class="theme_column2">
 <div class="theme_localnavi">
@@ -69,6 +87,40 @@
 </ul>
 <?php }//if ?>
 </div><!-- /.theme_localnavi -->
+
+<?php
+	$page_prev = $px->site()->get_bros_prev();
+	$page_parent = $px->site()->get_parent();
+	$page_next = $px->site()->get_bros_next();
+	if($page_parent!==false || $page_next!==false || $page_prev!==false){
+		print '<div class="unit pager">'."\n";
+		print '	<ul>'."\n";
+		if($page_prev!==false){
+			print '<li class="pager-prev">'.$px->theme()->mk_link($page_prev,array('label'=>'<前へ')).'</li>'."\n";
+		}
+		print '		<li class="pager-prev"></li>'."\n";
+		if($page_next!==false){
+			print '<li class="pager-prev">'.$px->theme()->mk_link($page_next,array('label'=>'次へ>')).'</li>'."\n";
+		}
+		print '	</ul>'."\n";
+		print '</div><!-- /.pager -->'."\n";
+
+		print '<div>'."\n";
+		print '<ul class="nomark">'."\n";
+		if($page_prev!==false){
+			print '<li class="nomark-li">前：'.$px->theme()->mk_link($page_prev).'</li>'."\n";
+		}
+		if($page_parent!==false){
+			print '<li class="nomark-li">上：'.$px->theme()->mk_link($page_parent).'</li>'."\n";
+		}
+		if($page_next!==false){
+			print '<li class="nomark-li">次：'.$px->theme()->mk_link($page_next).'</li>'."\n";
+		}
+		print '</ul>'."\n";
+		print '</div>'."\n";
+	}
+?>
+
 </div><!-- /.theme_column2 -->
 </div><!-- /.theme_middle -->
 <div class="theme_footer">

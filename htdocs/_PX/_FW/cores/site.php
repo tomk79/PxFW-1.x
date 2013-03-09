@@ -235,10 +235,18 @@ class px_cores_site{
 		if( is_null( $path ) ){
 			$path = $this->px->req()->get_request_file_path();
 		}
+		if(!strlen($this->get_page_info($path,'id'))){
+			// トップページの親はいない。
+			return false;
+		}
 		$logical_path = $this->get_page_info( $path , 'logical_path' );
 		if( !strlen($logical_path) ){return '';}
 		$logical_paths = explode('>',$logical_path);
-		return $logical_paths[count($logical_paths)-1];
+		$rtn = $logical_paths[count($logical_paths)-1];
+		if(is_null($rtn)){
+			return false;
+		}
+		return $rtn;
 	}
 
 	/**
@@ -544,6 +552,58 @@ class px_cores_site{
 		$bros = $this->get_children( $parent );
 		return $bros;
 	}//get_bros()
+
+	/**
+	 * 同じ階層の次のページのIDを取得する
+	 * @param $path
+	 */
+	public function get_bros_next( $path = null ){
+		if( is_null( $path ) ){
+			$path = $this->px->req()->get_request_file_path();
+		}
+		$bros = $this->get_bros($path);
+		$page_info = $this->get_page_info($path);
+		if( !strlen($page_info['id']) ){
+			//トップページの次の兄弟はいない。
+			return false;
+		}
+
+		foreach($bros as $num=>$row){
+			if( $row == $page_info['id'] ){
+				if(!is_null($bros[$num+1])){
+					return $bros[$num+1];
+				}
+				return false;
+			}
+		}
+		return false;
+	}//get_bros_next()
+
+	/**
+	 * 同じ階層の前のページのIDを取得する
+	 * @param $path
+	 */
+	public function get_bros_prev( $path = null ){
+		if( is_null( $path ) ){
+			$path = $this->px->req()->get_request_file_path();
+		}
+		$bros = $this->get_bros($path);
+		$page_info = $this->get_page_info($path);
+		if( !strlen($page_info['id']) ){
+			//トップページの前の兄弟はいない。
+			return false;
+		}
+
+		foreach($bros as $num=>$row){
+			if( $row == $page_info['id'] ){
+				if(!is_null($bros[$num-1])){
+					return $bros[$num-1];
+				}
+				return false;
+			}
+		}
+		return false;
+	}//get_bros_prev()
 
 	/**
 	 * パンくず配列を取得する
