@@ -2,6 +2,10 @@
  * PxFW(Pickles Framework) 更新履歴
  */
 
+■PxFW 1.0.0b4 (****/**/**)
+
+- $site->get_bros_next(), $site->get_bros_prev() を追加。
+
 ■PxFW 1.0.0b3 (2013/3/2)
 
 - PX=api.hash を追加。
