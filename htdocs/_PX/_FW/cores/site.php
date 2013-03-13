@@ -460,10 +460,13 @@ class px_cores_site{
 	 * 子階層のページの一覧を取得する
 	 * @param $path
 	 */
-	public function get_children( $path = null ){
+	public function get_children( $path = null, $opt = array() ){
 		if( is_null( $path ) ){
 			$path = $this->px->req()->get_request_file_path();
 		}
+		$filter = true;
+		if(!is_null($opt['filter'])){ $filter = !empty($opt['filter']); }
+
 		$page_info = $this->get_page_info( $path );
 
 		$tmp_children_orderby_manual = array();
@@ -483,8 +486,10 @@ class px_cores_site{
 			if( !strlen($row['id']) ){
 				continue;
 			}
-			if( !$row['list_flg'] ){
-				continue;
+			if($filter){
+				if( !$row['list_flg'] ){
+					continue;
+				}
 			}
 
 			$target_layer = '';
@@ -539,7 +544,7 @@ class px_cores_site{
 	 * 同じ階層のページの一覧を取得する
 	 * @param $path
 	 */
-	public function get_bros( $path = null ){
+	public function get_bros( $path = null, $opt = array() ){
 		if( is_null( $path ) ){
 			$path = $this->px->req()->get_request_file_path();
 		}
@@ -549,7 +554,7 @@ class px_cores_site{
 			return array('');
 		}
 		$parent = $this->get_parent( $path );
-		$bros = $this->get_children( $parent );
+		$bros = $this->get_children( $parent, $opt );
 		return $bros;
 	}//get_bros()
 
@@ -557,11 +562,14 @@ class px_cores_site{
 	 * 同じ階層の次のページのIDを取得する
 	 * @param $path
 	 */
-	public function get_bros_next( $path = null ){
+	public function get_bros_next( $path = null, $opt = array() ){
 		if( is_null( $path ) ){
 			$path = $this->px->req()->get_request_file_path();
 		}
-		$bros = $this->get_bros($path);
+		$filter = true;
+		if(!is_null($opt['filter'])){ $filter = !empty($opt['filter']); }
+
+		$bros = $this->get_bros($path,$opt);
 		$page_info = $this->get_page_info($path);
 		if( !strlen($page_info['id']) ){
 			//トップページの次の兄弟はいない。
@@ -570,10 +578,15 @@ class px_cores_site{
 
 		foreach($bros as $num=>$row){
 			if( $row == $page_info['id'] ){
-				if(!is_null($bros[$num+1])){
-					return $bros[$num+1];
-				}
+				break;
+			}
+		}
+		for($i = $num+1; !is_null($bros[$i]); $i ++){
+			if(is_null($bros[$i])){
 				return false;
+			}
+			if($filter===false || $this->get_page_info($bros[$i], 'layout') != 'popup' && $this->get_path_type($this->get_page_info($bros[$i], 'path')) != 'alias' ){
+				return $bros[$i];
 			}
 		}
 		return false;
@@ -583,11 +596,14 @@ class px_cores_site{
 	 * 同じ階層の前のページのIDを取得する
 	 * @param $path
 	 */
-	public function get_bros_prev( $path = null ){
+	public function get_bros_prev( $path = null, $opt = array() ){
 		if( is_null( $path ) ){
 			$path = $this->px->req()->get_request_file_path();
 		}
-		$bros = $this->get_bros($path);
+		$filter = true;
+		if(!is_null($opt['filter'])){ $filter = !empty($opt['filter']); }
+
+		$bros = $this->get_bros($path,$opt);
 		$page_info = $this->get_page_info($path);
 		if( !strlen($page_info['id']) ){
 			//トップページの前の兄弟はいない。
@@ -596,14 +612,93 @@ class px_cores_site{
 
 		foreach($bros as $num=>$row){
 			if( $row == $page_info['id'] ){
-				if(!is_null($bros[$num-1])){
-					return $bros[$num-1];
-				}
+				break;
+			}
+		}
+		for($i = $num-1; !is_null($bros[$i]); $i --){
+			if(is_null($bros[$i])){
 				return false;
+			}
+			if($filter===false || $this->get_page_info($bros[$i], 'layout') != 'popup' && $this->get_path_type( $this->get_page_info($bros[$i], 'path') ) != 'alias' ){
+				return $bros[$i];
 			}
 		}
 		return false;
 	}//get_bros_prev()
+
+	/**
+	 * 次のページのIDを取得する。
+	 */
+	public function get_next( $path = null, $opt = array() ){
+		if( is_null( $path ) ){
+			$path = $this->px->req()->get_request_file_path();
+		}
+		$filter = true;
+		if(!is_null($opt['filter'])){ $filter = !empty($opt['filter']); }
+
+		//  子供がいたら
+		if(!$opt['skip_children']){
+			$children = $this->get_children($path,$opt);
+			if(is_array($children) && count($children)){
+				foreach($children as $child){
+					if($filter===true){
+						if($this->get_page_info($child,'layout') == 'popup'){//popupページは含まない
+							continue;
+						}
+						if($this->get_path_type($this->px->site()->get_page_info($child,'path')) == 'alias'){//エイリアスは含まない
+							continue;
+						}
+					}
+					return $child;
+				}
+			}
+		}
+
+		//  次の兄弟がいたら、そのひとがnext
+		$page_bros_next = $this->get_bros_next($path,$opt);
+		if($page_bros_next!==false){return $page_bros_next;}
+
+		//  親の兄弟
+		$parent = $this->get_parent($path);
+		if($parent===false){return false;}
+
+		$rtn = $this->get_next($parent, array('skip_children'=>true,'filter'=>$filter));
+		return $rtn;
+	}
+
+	/**
+	 * 前のページのIDを取得する。
+	 */
+	public function get_prev( $path = null, $opt = array() ){
+		if( is_null( $path ) ){
+			$path = $this->px->req()->get_request_file_path();
+		}
+		$filter = true;
+		if(!is_null($opt['filter'])){ $filter = !empty($opt['filter']); }
+
+		//  前の兄弟がいたら、そのひとがprev
+		$page_bros_prev = $this->get_bros_prev($path,$opt);
+		if($page_bros_prev!==false){
+			// 前の兄弟の子供を調べる。 該当する子供がいたらそのひとがprev
+			$prev_children = $this->get_children($page_bros_prev,$opt);
+			if(is_array($prev_children) && count($prev_children)){
+				if( $filter===false || $this->get_page_info($prev_children[count($prev_children)-1], 'layout') != 'popup' && $this->get_path_type($this->get_page_info($prev_children[count($prev_children)-1], 'path')) != 'alias'){
+					return $prev_children[count($prev_children)-1];
+				}
+				$child_prev = $this->get_bros_prev($prev_children[count($prev_children)-1],$opt);
+				if( $child_prev !== false ){
+					return $child_prev;
+				}
+			}
+			return $page_bros_prev;
+		}
+
+		//  親の兄弟
+		$parent = $this->get_parent($path);
+		if($parent===false){return false;}
+
+		return $parent;
+	}
 
 	/**
 	 * パンくず配列を取得する
