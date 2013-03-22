@@ -25,6 +25,7 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 
 		$this->path_target = $this->px->dbh()->get_realpath( $this->px->get_install_path() ).$_SERVER['PATH_INFO'];
 		$this->path_target = preg_replace('/^\/+/s','/',$this->path_target);
+		$this->path_target = preg_replace('/\/index\.html$/s','/',$this->path_target);
 
 		$command = $this->get_command();
 		$this->setup();
