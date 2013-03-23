@@ -7,6 +7,7 @@
 - $site->get_next(), $site->get_prev(), $site->get_bros_next(), $site->get_bros_prev() を追加。
 - $site->get_bros(), $site->get_children() に、オプション filter(bool,デフォルト true) を追加。ここに false を渡すと、無条件に全部のページを対象として検索する。
 - パブリッシュ時に、環境によって /index.html しかパブリッシュされない場合がある不具合を修正。
+- ドキュメントモジュール設計を整理。.topic_box, .aside_box を追加。[unit].attention を [parts].attention_box に変更。.float_image を .float_media に変更。パーセント幅指定の命名規則を、w50per から 1of2 の形式に変更。モジュール命名規則の慣例として、*_box, *-last を追記。
 
 
 ■PxFW 1.0.0b3 (2013/3/2)
