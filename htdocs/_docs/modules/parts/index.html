@@ -97,9 +97,9 @@
 
 <h3>戻るリンク .back</h3>
 
-<p><a href="./" class="back">戻るリンク</a></p>
+<p><a href="javascript:history.back();" class="back">戻るリンク</a></p>
 <div class="unit">
-	<div class="code"><textarea readonly="readonly">&lt;a href=&quot;./&quot; class=&quot;back&quot;&gt;戻るリンク&lt;/a&gt;
+	<div class="code"><textarea readonly="readonly">&lt;a href=&quot;javascript:history.back();&quot; class=&quot;back&quot;&gt;戻るリンク&lt;/a&gt;
 </textarea></div>
 </div><!-- /.unit -->
 
@@ -148,6 +148,10 @@
 <h2>リスト</h2>
 
 <h3>通常のリスト</h3>
+<p>
+	設計基本方針 「学習しやすさを重視する。可能な限り、素のHTMLの構造のままでマークアップできるように設計する。」 に従って、通常のリストには、クラス名が与えられていません。<br />
+</p>
+
 <ul>
 	<li>リスト内容</li>
 	<li>リスト内容</li>
@@ -347,6 +351,15 @@
 </div><!-- /.unit -->
 
 
+<h2>罫線</h2>
+
+<hr />
+
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;hr /&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
 <h2>テーブル table.def</h2>
 
 <p>
@@ -441,7 +454,7 @@
 </div><!-- /.unit -->
 
 
-<h2>メディアタイプ別パーツ出し分け</h2>
+<h2>メディア別パーツ出し分け</h2>
 
 <div class="unit">
 <table class="def" style="width:100%;">
@@ -841,5 +854,91 @@
 </p>
 
 </form>
+
+
+
+<h2>ボックス</h2>
+<p>
+	背景を敷く、周囲をすべて罫線で囲む、上部または下部のみ罫線を表示するなど、枠の表現が必要な時に使用します。<br />
+</p>
+<!--
+	editors comment:
+		ボックス系のパーツモジュールは、中にユニットを1つ入れたいという要望が強い。
+		しかし、現在のところ、これを上手く規則化することができておらず、
+		"できない" という結論となった。
+		ただし、パーツモジュールを内包することは可能。
+-->
+
+
+<h3>トピックボックス .topic_box</h3>
+<div class="topic_box">
+	<p class="topic_box-heading">お知らせ</p>
+	<p>お知らせ内容を掲示します。</p>
+	<ul>
+		<li>お知らせの1つ目をここに提示します。</li>
+		<li>お知らせの2つ目をここに提示します。</li>
+		<li>お知らせの3つ目をここに提示します。</li>
+	</ul>
+</div><!-- /.topic_box -->
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;topic_box&quot;&gt;
+	&lt;p class=&quot;topic_box-heading&quot;&gt;お知らせ&lt;/p&gt;
+	&lt;p&gt;お知らせ内容を掲示します。&lt;/p&gt;
+	&lt;ul&gt;
+		&lt;li&gt;お知らせの1つ目をここに提示します。&lt;/li&gt;
+		&lt;li&gt;お知らせの2つ目をここに提示します。&lt;/li&gt;
+		&lt;li&gt;お知らせの3つ目をここに提示します。&lt;/li&gt;
+	&lt;/ul&gt;
+&lt;/div&gt;&lt;!-- /.topic_box --&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+
+<h3>付加情報ボックス .aside_box</h3>
+<div class="aside_box">
+	<p class="aside_box-heading">付加情報</p>
+	<p>記載が必要な情報を掲示します。</p>
+	<ul>
+		<li>お知らせの1つ目をここに提示します。</li>
+		<li>お知らせの2つ目をここに提示します。</li>
+		<li>お知らせの3つ目をここに提示します。</li>
+	</ul>
+</div><!-- /.topic_box -->
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;aside_box&quot;&gt;
+	&lt;p class=&quot;aside_box-heading&quot;&gt;付加情報&lt;/p&gt;
+	&lt;p&gt;記載が必要な情報を掲示します。&lt;/p&gt;
+	&lt;ul&gt;
+		&lt;li&gt;お知らせの1つ目をここに提示します。&lt;/li&gt;
+		&lt;li&gt;お知らせの2つ目をここに提示します。&lt;/li&gt;
+		&lt;li&gt;お知らせの3つ目をここに提示します。&lt;/li&gt;
+	&lt;/ul&gt;
+&lt;/div&gt;&lt;!-- /.aside_box --&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+
+<h3>注意喚起ボックス .attention_box</h3>
+<div class="attention_box">
+	<p class="attention_box-heading">ご注意ください</p>
+	<p>次のポイントにご注意ください。</p>
+	<ul>
+		<li>ご注意ポイントの1つ目をここに提示します。</li>
+		<li>ご注意ポイントの2つ目をここに提示します。</li>
+		<li>ご注意ポイントの3つ目をここに提示します。</li>
+	</ul>
+</div><!-- /.attention_box -->
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;attention_box&quot;&gt;
+	&lt;p class=&quot;attention_box-heading&quot;&gt;ご注意ください&lt;/p&gt;
+	&lt;p&gt;次のポイントにご注意ください。&lt;/p&gt;
+	&lt;ul&gt;
+		&lt;li&gt;ご注意ポイントの1つ目をここに提示します。&lt;/li&gt;
+		&lt;li&gt;ご注意ポイントの2つ目をここに提示します。&lt;/li&gt;
+		&lt;li&gt;ご注意ポイントの3つ目をここに提示します。&lt;/li&gt;
+	&lt;/ul&gt;
+&lt;/div&gt;&lt;!-- /.attention_box --&gt;
+</textarea></div>
+</div><!-- /.unit -->
 
 

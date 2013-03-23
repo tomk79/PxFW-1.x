@@ -9,7 +9,7 @@
 
 <h2>コーディング規則の設計方針</h2>
 <p>
-	コーディング規則は、次の方針に基づいて設計します。<br />
+	このコーディング規則は、次の方針に基づいて設計されています。<br />
 </p>
 <ul>
 	<li>少数(多くの場合1人)の管理者と、大勢のコンテンツ制作者との間の約束事であり、<strong>管理者が全体を効率よく管理できることを主目的として設計する</strong>。</li>
@@ -90,6 +90,13 @@
 				ただし、サブモジュール(モジュールの一部として使用されることが前提となるクラス)については、属するモジュール名の後ろにハイフンでサブモジュール名を付加するように命名します。この場合、サブモジュール名は1つだけ指定できます(ハイフンは1度しか使えません)。<br />
 				<span class="cont_exam">例：モジュール module_name に属するサブモジュール module_name-sub1, module_name-sub2 など</span><br />
 			</p>
+			<p>次にあげるのは、慣例です。</p>
+			<dl>
+				<dt>*_box</dt>
+					<dd>枠がつく・または異なる空間に見えるようにデザインされるモジュールに用います。</dd>
+				<dt>*-last</dt>
+					<dd>最後の要素につける場合は、このサブモジュール名を用います。</dd>
+			</dl>
 		</dd>
 	<dt>JavaScript</dt>
 		<dd>
@@ -100,7 +107,7 @@
 
 <h3>接頭辞 cont について</h3>
 <p>
-	接頭辞 cont は、テーマ設計者とコンテンツ制作者の名前領域を分ける目的で、コンテンツ独自のモジュールに対してつける予約語です。<br />
+	接頭辞 cont は、テーマの管理者とコンテンツ制作者の名前領域を分ける目的で、コンテンツ独自のモジュールに対してつける予約語です。<br />
 </p>
 <p>
 	<span class="cont_exam">
@@ -149,8 +156,21 @@
 </ul>
 
 <p>
-	テーマによって特に認められている項目を除き、テーマの共通モジュールの一部を拡張して利用してはいけません。この場合、まずはテーマ管理者に拡張してよいか相談した上で問題ない内容で拡張を行うか、またはモジュール単位で全体をコピーし、接頭辞 cont を付加した別のモジュールとして再定義して変更するようにします。<br />
+	テーマによって特に認められている項目を除き、テーマの共通モジュールの一部を拡張して利用してはいけません。この場合、まずはテーマ管理者に拡張してよいか相談した上で問題ない内容で拡張を行うか、またはモジュール単位で全体をコピーし、サブモジュールも含めて、接頭辞 cont を付加した別のモジュールとして再定義して変更するようにします。<br />
 </p>
+
+<p>例:colsを独自CSSとして定義する場合</p>
+
+<div class="unit"><div class="code"><pre><code>&lt;div class=&quot;<strong>cont_</strong>cols unit&quot;&gt;
+	&lt;div class=&quot;<strong>cont_</strong>cols-col <strong>cont_</strong>cols-1of2&quot;&gt;&lt;div class=&quot;<strong>cont_</strong>cols-pad&quot;&gt;
+		&lt;!-- insert parts modules --&gt;
+	&lt;/div&gt;&lt;/div&gt;
+	&lt;div class=&quot;<strong>cont_</strong>cols-col <strong>cont_</strong>cols-1of2 <strong>cont_</strong>cols-last&quot;&gt;&lt;div class=&quot;<strong>cont_</strong>cols-pad&quot;&gt;
+		&lt;!-- insert parts modules --&gt;
+	&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;!-- / .<strong>cont_</strong>cols --&gt;
+</code></pre></div>
+</div>
 
 
 

@@ -258,6 +258,7 @@ a span.pdf:after{
 	content:" (PDF)";
 }
 
+
 /**
  * [parts] エラー表示
  */
@@ -306,6 +307,46 @@ a span.pdf:after{
 .current{
 	font-weight:bold;
 }
+
+/**
+ * [parts] トピックボックス
+ */
+.topic_box{
+	padding: 0.5em 1em;
+	background-color: #dddddd;
+}
+.topic_box .topic_box-heading{
+	font-weight:bold;
+	margin:1em 0;
+	font-size:120%;
+}
+/**
+ * [parts] 付加情報ボックス
+ */
+.aside_box{
+	padding: 0.5em 1em;
+	background-color: #cceecc;
+	font-size:86%;
+}
+.aside_box .aside_box-heading{
+	font-weight:bold;
+	margin:1em 0;
+	font-size:120%;
+}
+/**
+ * [parts] 注意喚起ボックス
+ */
+.attention_box{
+	padding: 0.5em 1em;
+	background-color: #ffcccc;
+}
+.attention_box .attention_box-heading{
+	font-weight:bold;
+	margin:1em 0;
+	font-size:120%;
+}
+
+
 
 /**
  * [unit] ユニット
