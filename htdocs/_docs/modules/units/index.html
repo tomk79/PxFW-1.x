@@ -24,32 +24,32 @@
 <h2>カラムレイアウト .cols</h2>
 
 <p>
-	カラムレイアウトは、.cols モジュールで、2分割、3分割、4分割のレイアウトを吸収します。.cols をコンテナとして、カラム要素 .cols-w50per(2分割)、.cols-w33per(3分割)、.cols-w25per(4分割)を組み合わせて入れ子にして表現します。異なる幅のカラムを組み合わせて使用することもできます。例えば、.cols-w25per, .cols-w50per, .cols-w25per の順に入れ子にする、などです。幅の合計がおよそ100%になるように調整されていればよいだけです。<br />
+	カラムレイアウトは、.cols モジュールで、2分割、3分割、4分割のレイアウトを吸収します。.cols をコンテナとして、カラム要素 .cols-1of2(2分割)、.cols-1of3(3分割)、.cols-1of4(4分割)を組み合わせて入れ子にして表現します。異なる幅のカラムを組み合わせて使用することもできます。例えば、.cols-1of4, .cols-1of2, .cols-1of4 の順に入れ子にする、などです。幅の合計がおよそ100%になるように調整されていればよいだけです。<br />
 </p>
 
 <h3>2分割</h3>
 <div class="cols unit">
-	<div class="cols-col cols-w50per"><div class="cols-pad">
+	<div class="cols-col cols-1of2"><div class="cols-pad">
 		<p>cols には unit を一緒につけます。</p>
-		<p>カラム cols-w50per</p>
+		<p>カラム cols-1of2</p>
 		<p>カラム</p>
 		<p>カラム</p>
 		<p>カラム</p>
 		<p>カラム</p>
 	</div></div>
-	<div class="cols-col cols-w50per cols-last"><div class="cols-pad">
+	<div class="cols-col cols-1of2 cols-last"><div class="cols-pad">
 		<p>最後のカラムには、<code>.cols-last</code> を併記します。</p>
-		<p>カラム cols-w50per</p>
+		<p>カラム cols-1of2</p>
 		<p>.cols-last は古いIE対策。IE9以降は不要？。</p>
 	</div></div>
 </div><!-- / .cols -->
 
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;cols unit&quot;&gt;
-	&lt;div class=&quot;cols-col cols-w50per&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
+	&lt;div class=&quot;cols-col cols-1of2&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
 		&lt;!-- insert parts modules --&gt;
 	&lt;/div&gt;&lt;/div&gt;
-	&lt;div class=&quot;cols-col cols-w50per cols-last&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
+	&lt;div class=&quot;cols-col cols-1of2 cols-last&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
 		&lt;!-- insert parts modules --&gt;
 	&lt;/div&gt;&lt;/div&gt;
 &lt;/div&gt;&lt;!-- / .cols --&gt;
@@ -59,38 +59,38 @@
 
 <h3>3分割</h3>
 <div class="cols unit">
-	<div class="cols-col cols-w33per"><div class="cols-pad">
+	<div class="cols-col cols-1of3"><div class="cols-pad">
 		<p>cols には unit を一緒につけます。</p>
-		<p>カラム cols-w33per</p>
+		<p>カラム cols-1of3</p>
 		<p>カラム</p>
 		<p>カラム</p>
 		<p>カラム</p>
 		<p>カラム</p>
 	</div></div>
-	<div class="cols-col cols-w33per"><div class="cols-pad">
+	<div class="cols-col cols-1of3"><div class="cols-pad">
 		<p>cols には unit を一緒につけます。</p>
-		<p>カラム cols-w33per</p>
+		<p>カラム cols-1of3</p>
 		<p>カラム</p>
 		<p>カラム</p>
 		<p>カラム</p>
 		<p>カラム</p>
 	</div></div>
-	<div class="cols-col cols-w33per cols-last"><div class="cols-pad">
+	<div class="cols-col cols-1of3 cols-last"><div class="cols-pad">
 		<p>最後のカラムには、<code>.cols-last</code> を併記します。</p>
-		<p>カラム cols-w33per</p>
+		<p>カラム cols-1of3</p>
 		<p>.cols-last は古いIE対策。IE9以降は不要？。</p>
 	</div></div>
 </div><!-- / .cols -->
 
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;cols unit&quot;&gt;
-	&lt;div class=&quot;cols-col cols-w33per&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
+	&lt;div class=&quot;cols-col cols-1of3&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
 		&lt;!-- insert parts modules --&gt;
 	&lt;/div&gt;&lt;/div&gt;
-	&lt;div class=&quot;cols-col cols-w33per&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
+	&lt;div class=&quot;cols-col cols-1of3&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
 		&lt;!-- insert parts modules --&gt;
 	&lt;/div&gt;&lt;/div&gt;
-	&lt;div class=&quot;cols-col cols-w33per cols-last&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
+	&lt;div class=&quot;cols-col cols-1of3 cols-last&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
 		&lt;!-- insert parts modules --&gt;
 	&lt;/div&gt;&lt;/div&gt;
 &lt;/div&gt;&lt;!-- / .cols --&gt;
@@ -99,34 +99,34 @@
 
 <h3>4分割</h3>
 <div class="cols unit">
-	<div class="cols-col cols-w25per"><div class="cols-pad">
+	<div class="cols-col cols-1of4"><div class="cols-pad">
 		<p>cols には unit を一緒につけます。</p>
-		<p>カラム cols-w25per</p>
+		<p>カラム cols-1of4</p>
 		<p>カラム</p>
 		<p>カラム</p>
 		<p>カラム</p>
 		<p>カラム</p>
 	</div></div>
-	<div class="cols-col cols-w25per"><div class="cols-pad">
+	<div class="cols-col cols-1of4"><div class="cols-pad">
 		<p>cols には unit を一緒につけます。</p>
-		<p>カラム cols-w25per</p>
-		<p>カラム</p>
-		<p>カラム</p>
-		<p>カラム</p>
-		<p>カラム</p>
-		<p>カラム</p>
-	</div></div>
-	<div class="cols-col cols-w25per"><div class="cols-pad">
-		<p>cols には unit を一緒につけます。</p>
-		<p>カラム cols-w25per</p>
+		<p>カラム cols-1of4</p>
 		<p>カラム</p>
 		<p>カラム</p>
 		<p>カラム</p>
 		<p>カラム</p>
 		<p>カラム</p>
 	</div></div>
-	<div class="cols-col cols-w25per cols-last"><div class="cols-pad">
-		<p>カラム cols-w25per</p>
+	<div class="cols-col cols-1of4"><div class="cols-pad">
+		<p>cols には unit を一緒につけます。</p>
+		<p>カラム cols-1of4</p>
+		<p>カラム</p>
+		<p>カラム</p>
+		<p>カラム</p>
+		<p>カラム</p>
+		<p>カラム</p>
+	</div></div>
+	<div class="cols-col cols-1of4 cols-last"><div class="cols-pad">
+		<p>カラム cols-1of4</p>
 		<p>最後のカラムには、<code>.cols-last</code> を併記します。</p>
 		<p>.cols-last は古いIE対策。IE9以降は不要？。</p>
 	</div></div>
@@ -134,16 +134,16 @@
 
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;cols unit&quot;&gt;
-	&lt;div class=&quot;cols-col cols-w25per&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
+	&lt;div class=&quot;cols-col cols-1of4&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
 		&lt;!-- insert parts modules --&gt;
 	&lt;/div&gt;&lt;/div&gt;
-	&lt;div class=&quot;cols-col cols-w25per&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
+	&lt;div class=&quot;cols-col cols-1of4&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
 		&lt;!-- insert parts modules --&gt;
 	&lt;/div&gt;&lt;/div&gt;
-	&lt;div class=&quot;cols-col cols-w25per&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
+	&lt;div class=&quot;cols-col cols-1of4&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
 		&lt;!-- insert parts modules --&gt;
 	&lt;/div&gt;&lt;/div&gt;
-	&lt;div class=&quot;cols-col cols-w25per cols-last&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
+	&lt;div class=&quot;cols-col cols-1of4 cols-last&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
 		&lt;!-- insert parts modules --&gt;
 	&lt;/div&gt;&lt;/div&gt;
 &lt;/div&gt;&lt;!-- / .cols --&gt;
@@ -152,25 +152,25 @@
 
 <h3>変則4分割</h3>
 <div class="cols unit">
-	<div class="cols-col cols-w75per"><div class="cols-pad">
+	<div class="cols-col cols-3of4"><div class="cols-pad">
 		<p>cols には unit を一緒につけます。cols には unit を一緒につけます。cols には unit を一緒につけます。cols には unit を一緒につけます。cols には unit を一緒につけます。cols には unit を一緒につけます。cols には unit を一緒につけます。cols には unit を一緒につけます。</p>
-		<p>カラム cols-w75per</p>
+		<p>カラム cols-3of4</p>
 		<p>カラム</p>
 		<p>カラム</p>
 	</div></div>
-	<div class="cols-col cols-w25per cols-last"><div class="cols-pad">
+	<div class="cols-col cols-1of4 cols-last"><div class="cols-pad">
 		<p>最後のカラムには、<code>.cols-last</code> を併記します。</p>
 		<p>.cols-last は古いIE対策。IE9以降は不要？。</p>
-		<p>カラム cols-w25per</p>
+		<p>カラム cols-1of4</p>
 	</div></div>
 </div><!-- / .cols -->
 
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;cols unit&quot;&gt;
-	&lt;div class=&quot;cols-col cols-w75per&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
+	&lt;div class=&quot;cols-col cols-3of4&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
 		&lt;!-- insert parts modules --&gt;
 	&lt;/div&gt;&lt;/div&gt;
-	&lt;div class=&quot;cols-col cols-w25per cols-last&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
+	&lt;div class=&quot;cols-col cols-1of4 cols-last&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
 		&lt;!-- insert parts modules --&gt;
 	&lt;/div&gt;&lt;/div&gt;
 &lt;/div&gt;&lt;!-- / .cols --&gt;
@@ -179,20 +179,20 @@
 
 <h3>変則4分割</h3>
 <div class="cols unit">
-	<div class="cols-col cols-w25per"><div class="cols-pad">
+	<div class="cols-col cols-1of4"><div class="cols-pad">
 		<p>カラム</p>
-		<p>カラム cols-w25per</p>
+		<p>カラム cols-1of4</p>
 	</div></div>
-	<div class="cols-col cols-w50per"><div class="cols-pad">
+	<div class="cols-col cols-1of2"><div class="cols-pad">
 		<p>cols には unit を一緒につけます。</p>
-		<p>カラム cols-w50per</p>
+		<p>カラム cols-1of2</p>
 		<p>カラム</p>
 		<p>カラム</p>
 		<p>カラム</p>
 		<p>カラム</p>
 	</div></div>
-	<div class="cols-col cols-w25per cols-last"><div class="cols-pad">
-		<p>カラム cols-w25per</p>
+	<div class="cols-col cols-1of4 cols-last"><div class="cols-pad">
+		<p>カラム cols-1of4</p>
 		<p>カラム</p>
 		<p>.cols-last は古いIE対策。IE9以降は不要？。</p>
 	</div></div>
@@ -200,13 +200,13 @@
 
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;cols unit&quot;&gt;
-	&lt;div class=&quot;cols-col cols-w25per&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
+	&lt;div class=&quot;cols-col cols-1of4&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
 		&lt;!-- insert parts modules --&gt;
 	&lt;/div&gt;&lt;/div&gt;
-	&lt;div class=&quot;cols-col cols-w50per&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
+	&lt;div class=&quot;cols-col cols-1of2&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
 		&lt;!-- insert parts modules --&gt;
 	&lt;/div&gt;&lt;/div&gt;
-	&lt;div class=&quot;cols-col cols-w25per cols-last&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
+	&lt;div class=&quot;cols-col cols-1of4 cols-last&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
 		&lt;!-- insert parts modules --&gt;
 	&lt;/div&gt;&lt;/div&gt;
 &lt;/div&gt;&lt;!-- / .cols --&gt;
@@ -218,7 +218,7 @@
 <h2>回り込み画像 .float_image</h2>
 <h3>1/2画像右回り込み</h3>
 <div class="unit float_image">
-	<div class="float_image-r50per">
+	<div class="float_image-r1of2">
 		<div class="float_image-image"><img src="index.files/sampleimage.png" alt="サンプル画像" /></div>
 		<p class="float_image-caption">キャプションテキスト。キャプションテキスト。キャプションテキスト。</p>
 	</div>
@@ -239,7 +239,7 @@
 </div><!-- /.float_image -->
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;unit float_image&quot;&gt;
-	&lt;div class=&quot;float_image-r50per&quot;&gt;
+	&lt;div class=&quot;float_image-r1of2&quot;&gt;
 		&lt;div class=&quot;float_image-image&quot;&gt;&lt;img src=&quot;index.files/sampleimage.png&quot; alt=&quot;サンプル画像&quot; /&gt;&lt;/div&gt;
 		&lt;p class=&quot;float_image-caption&quot;&gt;キャプションテキスト。キャプションテキスト。キャプションテキスト。&lt;/p&gt;
 	&lt;/div&gt;
@@ -252,7 +252,7 @@
 
 <h3>1/3画像右回り込み</h3>
 <div class="unit float_image">
-	<div class="float_image-r33per">
+	<div class="float_image-r1of3">
 		<div class="float_image-image"><img src="index.files/sampleimage.png" alt="サンプル画像" /></div>
 		<p class="float_image-caption">キャプションテキスト。キャプションテキスト。キャプションテキスト。</p>
 	</div>
@@ -273,7 +273,7 @@
 </div><!-- /.float_image -->
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;unit float_image&quot;&gt;
-	&lt;div class=&quot;float_image-r33per&quot;&gt;
+	&lt;div class=&quot;float_image-r1of3&quot;&gt;
 		&lt;div class=&quot;float_image-image&quot;&gt;&lt;img src=&quot;index.files/sampleimage.png&quot; alt=&quot;サンプル画像&quot; /&gt;&lt;/div&gt;
 		&lt;p class=&quot;float_image-caption&quot;&gt;キャプションテキスト。キャプションテキスト。キャプションテキスト。&lt;/p&gt;
 	&lt;/div&gt;
@@ -286,7 +286,7 @@
 
 <h3>1/4画像右回り込み</h3>
 <div class="unit float_image">
-	<div class="float_image-r25per">
+	<div class="float_image-r1of4">
 		<div class="float_image-image"><img src="index.files/sampleimage.png" alt="サンプル画像" /></div>
 		<p class="float_image-caption">キャプションテキスト。キャプションテキスト。キャプションテキスト。</p>
 	</div>
@@ -307,7 +307,7 @@
 </div><!-- /.float_image -->
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;unit float_image&quot;&gt;
-	&lt;div class=&quot;float_image-r25per&quot;&gt;
+	&lt;div class=&quot;float_image-r1of4&quot;&gt;
 		&lt;div class=&quot;float_image-image&quot;&gt;&lt;img src=&quot;index.files/sampleimage.png&quot; alt=&quot;サンプル画像&quot; /&gt;&lt;/div&gt;
 		&lt;p class=&quot;float_image-caption&quot;&gt;キャプションテキスト。キャプションテキスト。キャプションテキスト。&lt;/p&gt;
 	&lt;/div&gt;
@@ -320,7 +320,7 @@
 
 <h3>1/2画像左回り込み</h3>
 <div class="unit float_image">
-	<div class="float_image-l50per">
+	<div class="float_image-l1of2">
 		<div class="float_image-image"><img src="index.files/sampleimage.png" alt="サンプル画像" /></div>
 		<p class="float_image-caption">キャプションテキスト。キャプションテキスト。キャプションテキスト。</p>
 	</div>
@@ -341,7 +341,7 @@
 </div><!-- /.float_image -->
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;unit float_image&quot;&gt;
-	&lt;div class=&quot;float_image-l50per&quot;&gt;
+	&lt;div class=&quot;float_image-l1of2&quot;&gt;
 		&lt;div class=&quot;float_image-image&quot;&gt;&lt;img src=&quot;index.files/sampleimage.png&quot; alt=&quot;サンプル画像&quot; /&gt;&lt;/div&gt;
 		&lt;p class=&quot;float_image-caption&quot;&gt;キャプションテキスト。キャプションテキスト。キャプションテキスト。&lt;/p&gt;
 	&lt;/div&gt;
@@ -354,7 +354,7 @@
 
 <h3>1/3画像左回り込み</h3>
 <div class="unit float_image">
-	<div class="float_image-l33per">
+	<div class="float_image-l1of3">
 		<div class="float_image-image"><img src="index.files/sampleimage.png" alt="サンプル画像" /></div>
 		<p class="float_image-caption">キャプションテキスト。キャプションテキスト。キャプションテキスト。</p>
 	</div>
@@ -375,7 +375,7 @@
 </div><!-- /.float_image -->
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;unit float_image&quot;&gt;
-	&lt;div class=&quot;float_image-l33per&quot;&gt;
+	&lt;div class=&quot;float_image-l1of3&quot;&gt;
 		&lt;div class=&quot;float_image-image&quot;&gt;&lt;img src=&quot;index.files/sampleimage.png&quot; alt=&quot;サンプル画像&quot; /&gt;&lt;/div&gt;
 		&lt;p class=&quot;float_image-caption&quot;&gt;キャプションテキスト。キャプションテキスト。キャプションテキスト。&lt;/p&gt;
 	&lt;/div&gt;
@@ -388,7 +388,7 @@
 
 <h3>1/4画像左回り込み</h3>
 <div class="unit float_image">
-	<div class="float_image-l25per">
+	<div class="float_image-l1of4">
 		<div class="float_image-image"><img src="index.files/sampleimage.png" alt="サンプル画像" /></div>
 		<p class="float_image-caption">キャプションテキスト。キャプションテキスト。キャプションテキスト。</p>
 	</div>
@@ -409,7 +409,7 @@
 </div><!-- /.float_image -->
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;unit float_image&quot;&gt;
-	&lt;div class=&quot;float_image-l25per&quot;&gt;
+	&lt;div class=&quot;float_image-l1of4&quot;&gt;
 		&lt;div class=&quot;float_image-image&quot;&gt;&lt;img src=&quot;index.files/sampleimage.png&quot; alt=&quot;サンプル画像&quot; /&gt;&lt;/div&gt;
 		&lt;p class=&quot;float_image-caption&quot;&gt;キャプションテキスト。キャプションテキスト。キャプションテキスト。&lt;/p&gt;
 	&lt;/div&gt;
@@ -423,7 +423,7 @@
 
 <h3>本文部分を矩形に保つ</h3>
 <div class="unit float_image">
-	<div class="float_image-l25per">
+	<div class="float_image-l1of4">
 		<div class="float_image-image"><img src="index.files/sampleimage.png" alt="サンプル画像" /></div>
 		<p class="float_image-caption">キャプションテキスト。キャプションテキスト。キャプションテキスト。</p>
 	</div>
@@ -444,7 +444,7 @@
 </div><!-- /.float_image -->
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;unit float_image&quot;&gt;
-	&lt;div class=&quot;float_image-l25per&quot;&gt;
+	&lt;div class=&quot;float_image-l1of4&quot;&gt;
 		&lt;div class=&quot;float_image-image&quot;&gt;&lt;img src=&quot;index.files/sampleimage.png&quot; alt=&quot;サンプル画像&quot; /&gt;&lt;/div&gt;
 		&lt;p class=&quot;float_image-caption&quot;&gt;キャプションテキスト。キャプションテキスト。キャプションテキスト。&lt;/p&gt;
 	&lt;/div&gt;
