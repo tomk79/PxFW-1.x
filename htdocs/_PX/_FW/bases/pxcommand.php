@@ -466,19 +466,19 @@ div.unit{
 	float:left;
 	margin:0 0 0 0;
 }
-.cols-col.cols-w75per{
+.cols-col.cols-3of4{
 	width:75%;
 }
-.cols-col.cols-w50per{
+.cols-col.cols-1of2{
 	width:50%;
 }
-.cols-col.cols-w66per{
+.cols-col.cols-2of3{
 	width:66.666%;
 }
-.cols-col.cols-w33per{
+.cols-col.cols-1of3{
 	width:33.333%;
 }
-.cols-col.cols-w25per{
+.cols-col.cols-1of4{
 	width:25%;
 }
 .cols .cols-pad{
@@ -828,65 +828,65 @@ table.form_elements ul.form_elements-errors li{
 /**
  * [unit] 回り込み画像
  */
-.float_image{
+.float_media{
 }
-.float_image .float_image-r50per{
+.float_media .float_media-r1of2{
 	float:right;
 	width:50%;
 	margin-left:20px;
 	margin-bottom:20px;
 }
-.float_image .float_image-l50per{
+.float_media .float_media-l1of2{
 	float:left;
 	width:50%;
 	margin-right:20px;
 	margin-bottom:20px;
 }
-.float_image .float_image-r33per{
+.float_media .float_media-r1of3{
 	float:right;
 	width:33%;
 	margin-left:20px;
 	margin-bottom:20px;
 }
-.float_image .float_image-l33per{
+.float_media .float_media-l1of3{
 	float:left;
 	width:33%;
 	margin-right:20px;
 	margin-bottom:20px;
 }
-.float_image .float_image-r25per{
+.float_media .float_media-r1of4{
 	float:right;
 	width:25%;
 	margin-left:20px;
 	margin-bottom:20px;
 }
-.float_image .float_image-l25per{
+.float_media .float_media-l1of4{
 	float:left;
 	width:25%;
 	margin-right:20px;
 	margin-bottom:20px;
 }
-.float_image .float_image-l50per img,
-.float_image .float_image-l33per img,
-.float_image .float_image-l25per img,
-.float_image .float_image-r50per img,
-.float_image .float_image-r33per img,
-.float_image .float_image-r25per img{
+.float_media .float_media-l1of2 img,
+.float_media .float_media-l1of3 img,
+.float_media .float_media-l1of4 img,
+.float_media .float_media-r1of2 img,
+.float_media .float_media-r1of3 img,
+.float_media .float_media-r1of4 img{
 	width:100%;
 	height:auto;
 }
-.float_image .float_image-image{
+.float_media .float_media-image{
 	margin-top:0px;
 }
-.float_image .float_image-caption{
+.float_media .float_media-caption{
 	font-size:86%;
 }
-.float_image .float_image-body{
+.float_media .float_media-body{
 }
-.float_image .float_image-body_rect{
+.float_media .float_media-body_rect{
 	overflow:hidden;
 }
-.float_image .float_image-body_rect *:first-child{
+.float_media .float_media-body_rect *:first-child{
 	margin-top:0px;
 }
 

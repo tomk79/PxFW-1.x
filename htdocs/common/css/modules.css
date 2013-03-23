@@ -715,65 +715,65 @@ table.form_elements ul.form_elements-errors li{
 /**
  * [unit] 回り込み画像
  */
-.float_image{
+.float_media{
 }
-.float_image .float_image-r1of2{
+.float_media .float_media-r1of2{
 	float:right;
 	width:50%;
 	margin-left:20px;
 	margin-bottom:20px;
 }
-.float_image .float_image-l1of2{
+.float_media .float_media-l1of2{
 	float:left;
 	width:50%;
 	margin-right:20px;
 	margin-bottom:20px;
 }
-.float_image .float_image-r1of3{
+.float_media .float_media-r1of3{
 	float:right;
 	width:33%;
 	margin-left:20px;
 	margin-bottom:20px;
 }
-.float_image .float_image-l1of3{
+.float_media .float_media-l1of3{
 	float:left;
 	width:33%;
 	margin-right:20px;
 	margin-bottom:20px;
 }
-.float_image .float_image-r1of4{
+.float_media .float_media-r1of4{
 	float:right;
 	width:25%;
 	margin-left:20px;
 	margin-bottom:20px;
 }
-.float_image .float_image-l1of4{
+.float_media .float_media-l1of4{
 	float:left;
 	width:25%;
 	margin-right:20px;
 	margin-bottom:20px;
 }
-.float_image .float_image-l1of2 img,
-.float_image .float_image-l1of3 img,
-.float_image .float_image-l1of4 img,
-.float_image .float_image-r1of2 img,
-.float_image .float_image-r1of3 img,
-.float_image .float_image-r1of4 img{
+.float_media .float_media-l1of2 img,
+.float_media .float_media-l1of3 img,
+.float_media .float_media-l1of4 img,
+.float_media .float_media-r1of2 img,
+.float_media .float_media-r1of3 img,
+.float_media .float_media-r1of4 img{
 	width:100%;
 	height:auto;
 }
-.float_image .float_image-image{
+.float_media .float_media-image{
 	margin-top:0;
 }
-.float_image .float_image-caption{
+.float_media .float_media-caption{
 	font-size:86%;
 }
-.float_image .float_image-body{
+.float_media .float_media-body{
 }
-.float_image .float_image-body_rect{
+.float_media .float_media-body_rect{
 	overflow:hidden;
 }
-.float_image .float_image-body_rect *:first-child{
+.float_media .float_media-body_rect *:first-child{
 	margin-top:0;
 }
 
