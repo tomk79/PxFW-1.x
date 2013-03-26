@@ -258,6 +258,18 @@ a span.pdf:after{
 	content:" (PDF)";
 }
 
+/**
+ * [parts] リンクリスト .anchor_links
+ */
+.anchor_links{
+}
+
+/**
+ * [parts] 詳細リンクリスト .more_links
+ */
+.more_links{
+}
+
 
 /**
  * [parts] エラー表示
@@ -309,11 +321,23 @@ a span.pdf:after{
 }
 
 /**
+ * [parts] 注意喚起ボックス
+ */
+.attention_box{
+	padding: 0.5em 1em;
+	background-color: #ffcccc;
+}
+.attention_box .attention_box-heading{
+	font-weight:bold;
+	margin:1em 0;
+	font-size:120%;
+}
+/**
  * [parts] トピックボックス
  */
 .topic_box{
 	padding: 0.5em 1em;
-	background-color: #dddddd;
+	background-color: #cceecc;
 }
 .topic_box .topic_box-heading{
 	font-weight:bold;
@@ -325,22 +349,10 @@ a span.pdf:after{
  */
 .aside_box{
 	padding: 0.5em 1em;
-	background-color: #cceecc;
+	background-color: #dddddd;
 	font-size:86%;
 }
 .aside_box .aside_box-heading{
-	font-weight:bold;
-	margin:1em 0;
-	font-size:120%;
-}
-/**
- * [parts] 注意喚起ボックス
- */
-.attention_box{
-	padding: 0.5em 1em;
-	background-color: #ffcccc;
-}
-.attention_box .attention_box-heading{
 	font-weight:bold;
 	margin:1em 0;
 	font-size:120%;

@@ -135,6 +135,66 @@
 </div><!-- /.unit -->
 
 
+<h3>リンクリスト .anchor_links</h3>
+<p>
+	リストは、ul要素の代わりにol要素を使用することもできます。.more_links-heading の要素は削除しても構いません。また、p要素の他に、h2〜h6要素を使用することもできます。<br />
+</p>
+<div class="anchor_links">
+	<p class="more_links-heading">目次</p>
+	<ul>
+		<li><a href="./">リンクリスト</a></li>
+		<li><a href="./">リンクリスト</a>
+		<ul>
+			<li><a href="./">リンクリスト</a></li>
+			<li><a href="./">リンクリスト</a></li>
+		</ul>
+		</li>
+		<li><a href="./">リンクリスト</a></li>
+	</ul>
+</div><!-- /.anchor_links -->
+
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;anchor_links&quot;&gt;
+	&lt;p class=&quot;more_links-heading&quot;&gt;目次&lt;/p&gt;
+	&lt;ul&gt;
+		&lt;li&gt;&lt;a href=&quot;./&quot;&gt;リンクリスト&lt;/a&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;a href=&quot;./&quot;&gt;リンクリスト&lt;/a&gt;
+		&lt;ul&gt;
+			&lt;li&gt;&lt;a href=&quot;./&quot;&gt;リンクリスト&lt;/a&gt;&lt;/li&gt;
+			&lt;li&gt;&lt;a href=&quot;./&quot;&gt;リンクリスト&lt;/a&gt;&lt;/li&gt;
+		&lt;/ul&gt;
+		&lt;/li&gt;
+		&lt;li&gt;&lt;a href=&quot;./&quot;&gt;リンクリスト&lt;/a&gt;&lt;/li&gt;
+	&lt;/ul&gt;
+&lt;/div&gt;&lt;!-- /.anchor_links --&gt;
+</textarea></div>
+</div>
+
+<h3>詳細リンクリスト .more_links</h3>
+<p>
+	詳細リンクリストは、リストのネストはできません。<br />
+</p>
+<div class="more_links">
+	<ul>
+		<li><a href="./">リンクリスト</a></li>
+		<li><a href="./">リンクリスト</a></li>
+		<li><a href="./">リンクリスト</a></li>
+	</ul>
+</div><!-- /.more_links -->
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;more_links&quot;&gt;
+	&lt;ul&gt;
+		&lt;li&gt;&lt;a href=&quot;./&quot;&gt;リンクリスト&lt;/a&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;a href=&quot;./&quot;&gt;リンクリスト&lt;/a&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;a href=&quot;./&quot;&gt;リンクリスト&lt;/a&gt;&lt;/li&gt;
+	&lt;/ul&gt;
+&lt;/div&gt;&lt;!-- /.more_links --&gt;
+</textarea></div>
+</div>
+
+
+
+
 <h2>その他のインライン要素</h2>
 
 <h3>エラー表示 .error</h3>
@@ -224,7 +284,7 @@
 </div><!-- /.unit -->
 
 
-<h2> 定義・説明リスト</h2>
+<h2>定義・説明リスト</h2>
 
 <h3>通常の定義・説明リスト</h3>
 
@@ -869,6 +929,29 @@
 		ただし、パーツモジュールを内包することは可能。
 -->
 
+<h3>注意喚起ボックス .attention_box</h3>
+<div class="attention_box">
+	<p class="attention_box-heading">ご注意ください</p>
+	<p>次のポイントにご注意ください。</p>
+	<ul>
+		<li>ご注意ポイントの1つ目をここに提示します。</li>
+		<li>ご注意ポイントの2つ目をここに提示します。</li>
+		<li>ご注意ポイントの3つ目をここに提示します。</li>
+	</ul>
+</div><!-- /.attention_box -->
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;attention_box&quot;&gt;
+	&lt;p class=&quot;attention_box-heading&quot;&gt;ご注意ください&lt;/p&gt;
+	&lt;p&gt;次のポイントにご注意ください。&lt;/p&gt;
+	&lt;ul&gt;
+		&lt;li&gt;ご注意ポイントの1つ目をここに提示します。&lt;/li&gt;
+		&lt;li&gt;ご注意ポイントの2つ目をここに提示します。&lt;/li&gt;
+		&lt;li&gt;ご注意ポイントの3つ目をここに提示します。&lt;/li&gt;
+	&lt;/ul&gt;
+&lt;/div&gt;&lt;!-- /.attention_box --&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
 
 <h3>トピックボックス .topic_box</h3>
 <div class="topic_box">
@@ -917,28 +1000,5 @@
 </textarea></div>
 </div><!-- /.unit -->
 
-
-<h3>注意喚起ボックス .attention_box</h3>
-<div class="attention_box">
-	<p class="attention_box-heading">ご注意ください</p>
-	<p>次のポイントにご注意ください。</p>
-	<ul>
-		<li>ご注意ポイントの1つ目をここに提示します。</li>
-		<li>ご注意ポイントの2つ目をここに提示します。</li>
-		<li>ご注意ポイントの3つ目をここに提示します。</li>
-	</ul>
-</div><!-- /.attention_box -->
-<div class="unit">
-	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;attention_box&quot;&gt;
-	&lt;p class=&quot;attention_box-heading&quot;&gt;ご注意ください&lt;/p&gt;
-	&lt;p&gt;次のポイントにご注意ください。&lt;/p&gt;
-	&lt;ul&gt;
-		&lt;li&gt;ご注意ポイントの1つ目をここに提示します。&lt;/li&gt;
-		&lt;li&gt;ご注意ポイントの2つ目をここに提示します。&lt;/li&gt;
-		&lt;li&gt;ご注意ポイントの3つ目をここに提示します。&lt;/li&gt;
-	&lt;/ul&gt;
-&lt;/div&gt;&lt;!-- /.attention_box --&gt;
-</textarea></div>
-</div><!-- /.unit -->
 
 
