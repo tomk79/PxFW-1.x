@@ -262,12 +262,40 @@ a span.pdf:after{
  * [parts] リンクリスト .anchor_links
  */
 .anchor_links{
+	padding:1.5em;
+}
+.anchor_links .anchor_links-heading{
+	text-align:center;
+	font-weight:bold;
+	margin:0 0 0.5em 0;
+}
+.anchor_links ul{
+	margin:0;
 }
 
 /**
  * [parts] 詳細リンクリスト .more_links
  */
 .more_links{
+	margin-top:0.5em;
+	margin-bottom:2em;
+	border-top:dashed 1px #dddddd;
+}
+.more_links ul{
+	margin:0.3em 0 0 0;
+	text-align:right;
+}
+.more_links ul li{
+	display:inline-block;
+	>zoom:1; >display:inline;
+	padding:0 0 0 1em;
+}
+
+/**
+ * [parts] ページトップリンク .page_top
+ */
+.page_top{
+	text-align:right;
 }
 
 

@@ -10,7 +10,7 @@
 - ドキュメントモジュール設計を整理。
 -- .topic_box, .aside_box を追加。
 -- [unit].attention を [parts].attention_box に変更。
--- .anchor_links と .more_links を追加。
+-- .anchor_links, .more_links, .page_top を追加。
 -- .float_image を .float_media に名称変更。
 -- パーセント幅指定の命名規則を、w50per から 1of2 の形式に変更。
 -- モジュール命名規則の慣例として、*_box, *-last を追記。
