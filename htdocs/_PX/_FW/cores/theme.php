@@ -457,8 +457,8 @@ class px_cores_theme{
 		$headlevel = $topheadlevel;
 		if( count( $index ) ){
 			$anchorlinks .= '<!-- autoindex -->'."\n";
-			$anchorlinks .= '<div>'."\n";
-			$anchorlinks .= '<h2>目次</h2>';
+			$anchorlinks .= '<div class="anchor_links">'."\n";
+			$anchorlinks .= '<p class="anchor_links-heading">目次</p>';
 			foreach($index as $key=>$row){
 				$csa = $row['headlevel'] - $headlevel;
 				$nextLevel = $index[$key+1]['headlevel'];
@@ -513,7 +513,7 @@ class px_cores_theme{
 				$anchorlinks .= '</li></ul>'."\n";
 				$headlevel --;
 			}
-			$anchorlinks .= '</div>'."\n";
+			$anchorlinks .= '</div><!-- /.anchor_links -->'."\n";
 			$anchorlinks .= '<!-- / autoindex -->'."\n";
 		}
 
