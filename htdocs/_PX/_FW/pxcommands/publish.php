@@ -16,6 +16,13 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 	private $done_items = array();//←パブリッシュ完了した対象の一覧
 	private $path_target = null;//←パブリッシュ対象パス
 	private $internal_errors = array();//←その他の内部エラー
+	private $publish_type_extension_map = array(//←拡張子とパブリッシュタイプのマッピング配列
+		//  'http'|'include_text'|'copy'
+		'html' =>'http' ,
+		'css'  =>'http' ,
+		'js'   =>'http' ,
+		'inc'  =>'include_text' ,
+	);
 
 	/**
 	 * コンストラクタ
@@ -436,10 +443,8 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 			return false;
 		}
 		$extension = $this->px->dbh()->get_extension( $path );
-		switch( strtolower($extension) ){
-			case 'html':
-			case 'css':
-			case 'js':
+		switch( $this->get_publish_type_by_extension($extension) ){
+			case 'http':
 				$url = 'http'.($this->px->req()->is_ssl()?'s':'').'://'.$_SERVER['HTTP_HOST'].$this->px->dbh()->get_realpath($path);
 
 				$httpaccess = $this->factory_httpaccess();
@@ -478,7 +483,7 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 					) );
 				}
 				break;
-			case 'inc':
+			case 'include_text':
 				$tmp_src = $this->px->dbh()->file_get_contents( $_SERVER['DOCUMENT_ROOT'].$path );
 				if( strlen($this->px->get_conf('system.output_encoding')) ){
 					$tmp_src = t::convert_encoding( $tmp_src , $this->px->get_conf('system.output_encoding'), 'utf-8' );
@@ -522,6 +527,27 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 				}
 				break;
 		}
+		return true;
+	}
+
+	/**
+	 * 拡張子から、パブリッシュの種類を選択する。
+	 */
+	private function get_publish_type_by_extension( $extension ){
+		if( strlen($this->publish_type_extension_map[strtolower($extension)]) ){
+			return $this->publish_type_extension_map[strtolower($extension)];
+		}
+		return 'copy';// <- default "copy"
+	}//get_publish_type_by_extension()
+
+	/**
+	 * 拡張子別パブリッシュタイプマップに登録する
+	 */
+	public function set_publish_type_extension_map($extension, $publish_type){
+		if(!strlen($extension)){
+			return false;
+		}
+		$this->publish_type_extension_map[$extension] = $publish_type;
 		return true;
 	}
 
