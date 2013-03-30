@@ -333,3 +333,71 @@ class pxplugin_{$plugin_name}_register_outputfilter{
 ?>
 <!--- / ここまでサンプルコード --->
 
+
+■publish
+
+パブリッシュ時、取得したファイルに最終的な加工を加えるAPIです。
+この加工処理は、パブリッシュ時に走るので、
+パブリッシュ前に効果を確認することはできません。
+
+- 格納先: <plugins>/{$plugin_name}/register/publish.php
+- クラス名: pxplugin_{$plugin_name}_register_publish
+- コンストラクタ引数: $px, $publish
+- API
+-- トリガーメソッド: $instance->execute()
+
+下記は実装例。
+
+<!--- ここからサンプルコード --->
+<?php
+
+/**
+ * PX Plugin "{$plugin_name}"
+ */
+class pxplugin_{$plugin_name}_register_publish{
+	private $px;
+	private $publish;
+
+	/**
+	 * コンストラクタ
+	 * @param $px = PxFWコアオブジェクト
+	 */
+	public function __construct( $px, $publish ){
+		$this->px = $px;
+		$this->publish = $publish;
+	}
+
+	/**
+	 * 変換処理を実行する
+	 */
+	public function execute($path, $extension, $publish_type){
+		/*
+			$path には、パブリッシュしたファイルの絶対パスが渡されます。
+			加工処理として、
+			まずこのファイルを開き、
+			加工を施し、
+			保存して閉じるプロセスを実装してください。
+
+			$extension は、ファイルの拡張子が渡されます。
+			おそらく、想定される多くのプラグイン処理は、
+			特定の拡張子にのみ効果を与えるものでしょう。
+			$extension の値を確認して、処理の振り分けを行なってください。
+
+			$publish_type は、パブリッシュの種類が格納されます。
+			パブリッシュの種類は、拡張子によって次の何れかが選択されます。
+				'http'
+					ウェブサーバーを経由して出力されます。
+				'include_text'
+					インクルードされるテキストファイルに適用されます。
+				'copy'
+					ウェブサーバーを介さず、単にコピーするのみで処理されます。
+		*/
+		return true;
+	}
+
+}
+
+?>
+<!--- / ここまでサンプルコード --->
+
+

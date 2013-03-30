@@ -24,6 +24,7 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 		'inc'  =>'include_text' ,
 	);
 	private $crawler_user_agent = 'PicklesCrawler';
+	private $plugins_list = array();//←publish API を持ったプラグインの一覧
 
 	/**
 	 * コンストラクタ
@@ -292,6 +293,16 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 			array_push( $this->paths_ignore , $row_realpath );
 		}
 
+		// プラグインによる加工処理
+		$path_plugin_dir = $this->px->get_conf('paths.px_dir').'plugins/';
+		$plugins_list = $this->px->dbh()->ls( $path_plugin_dir );
+		foreach( $plugins_list as $tmp_key=>$tmp_plugin_name ){
+			if( !is_file( $path_plugin_dir.$tmp_plugin_name.'/register/publish.php' ) ){
+				unset($plugins_list[$tmp_key]);
+			}
+		}
+		$this->plugins_list = $plugins_list;
+
 		return true;
 	}
 
@@ -360,7 +371,8 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 	 * パブリッシュキューを追加する
 	 * @return true
 	 */
-	private function add_queue( $path ){
+	public function add_queue( $path ){
+		// プラグインがアクセスする可能性があるため、public とする。
 		if( !preg_match( '/^\//' , $path ) ){
 			return false;
 		}
@@ -379,7 +391,8 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 	 * @param $ary_logtexts
 	 * @return true|false
 	 */
-	private function publish_log( $ary_logtexts ){
+	public function publish_log( $ary_logtexts ){
+		// プラグインがアクセスする可能性があるため、public とする。
 		$logtext = '';
 		$logtext .= date('Y-m-d H:i:s');
 		$logtext .= '	'.$ary_logtexts['message'];
@@ -393,7 +406,8 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 	 * @param $ary_logtexts
 	 * @return true|false
 	 */
-	private function publish_error_log( $ary_logtexts ){
+	public function publish_error_log( $ary_logtexts ){
+		// プラグインがアクセスする可能性があるため、public とする。
 		$logtext = '';
 		$logtext .= date('Y-m-d H:i:s').'	';
 		$logtext .= $ary_logtexts['error'].'	';
@@ -455,13 +469,6 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 			print '[ERROR] '.$path."\n";
 			return false;
 		}
-
-		// $plugins_list = $this->px->dbh()->ls( $this->path_plugin_dir );
-		// foreach( $plugins_list as $tmp_key=>$tmp_plugin_name ){
-		// 	if( !is_file( $this->path_plugin_dir.$tmp_plugin_name.'/register/pxcommand.php' ) ){
-		// 		unset($plugins_list[$tmp_key]);
-		// 	}
-		// }
 
 		$extension = $this->px->dbh()->get_extension( $path );
 		$publish_type = $this->get_publish_type_by_extension($extension);
@@ -557,6 +564,14 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 				}
 				break;
 		}
+
+		// プラグインによる加工処理
+		foreach( $this->plugins_list as $tmp_key=>$tmp_plugin_name ){
+			$tmp_class_name = $this->px->load_px_plugin_class($tmp_plugin_name.'/register/publish.php');
+			$plugin_object = new $tmp_class_name($this->px, $this);
+			$plugin_object->execute($this->px->dbh()->get_realpath($this->path_tmppublish_dir.'/htdocs/'.$path), $extension, $publish_type);
+		}
+
 		return true;
 	}
 
@@ -665,7 +680,8 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 	/**
 	 * その他の内部エラーを記録
 	 */
-	private function internal_error_log($message){
+	public function internal_error_log($message){
+		// プラグインがアクセスする可能性があるため、public とする。
 		array_push($this->internal_errors, array('message'=>$message));
 		return true;
 	}
