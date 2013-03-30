@@ -23,6 +23,7 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 		'js'   =>'http' ,
 		'inc'  =>'include_text' ,
 	);
+	private $crawler_user_agent = 'PicklesCrawler';
 
 	/**
 	 * コンストラクタ
@@ -46,6 +47,17 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 				break;
 		}
 	}//__construct()
+
+	/**
+	 * 拡張子別パブリッシュタイプマップに登録する
+	 */
+	public function set_publish_type_extension_map($extension, $publish_type){
+		if(!strlen($extension)){
+			return false;
+		}
+		$this->publish_type_extension_map[$extension] = $publish_type;
+		return true;
+	}
 
 	/**
 	 * ホームページを表示する。
@@ -203,7 +215,7 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 				break;
 			}
 			$path = array_pop( $this->queue_items );
-			print $path.''."\n";
+			flush();
 			set_time_limit(60*60);
 			$this->publish_file( $path );
 			set_time_limit(30);
@@ -369,10 +381,10 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 	 */
 	private function publish_log( $ary_logtexts ){
 		$logtext = '';
-		$logtext .= date('Y-m-d H:i:s').'	';
-		$logtext .= $ary_logtexts['message'].'	';
-		$logtext .= ($ary_logtexts['result']===true?'success':($ary_logtexts['result']===false?'FAILED':'')).'	';
-		$logtext .= $ary_logtexts['path'];
+		$logtext .= date('Y-m-d H:i:s');
+		$logtext .= '	'.$ary_logtexts['message'];
+		$logtext .= '	'.($ary_logtexts['result']===true?'success':($ary_logtexts['result']===false?'FAILED':$ary_logtexts['result']));
+		$logtext .= '	'.$ary_logtexts['path'];
 		return @error_log( $logtext."\r\n", 3, $this->path_tmppublish_dir.'publish_log.txt' );
 	}
 
@@ -440,10 +452,21 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 	 */
 	private function publish_file( $path ){
 		if( !preg_match( '/^\//' , $path ) ){
+			print '[ERROR] '.$path."\n";
 			return false;
 		}
+
+		// $plugins_list = $this->px->dbh()->ls( $this->path_plugin_dir );
+		// foreach( $plugins_list as $tmp_key=>$tmp_plugin_name ){
+		// 	if( !is_file( $this->path_plugin_dir.$tmp_plugin_name.'/register/pxcommand.php' ) ){
+		// 		unset($plugins_list[$tmp_key]);
+		// 	}
+		// }
+
 		$extension = $this->px->dbh()->get_extension( $path );
-		switch( $this->get_publish_type_by_extension($extension) ){
+		$publish_type = $this->get_publish_type_by_extension($extension);
+		print '['.$publish_type.'] '.$path;
+		switch( $publish_type ){
 			case 'http':
 				$url = 'http'.($this->px->req()->is_ssl()?'s':'').'://'.$_SERVER['HTTP_HOST'].$this->px->dbh()->get_realpath($path);
 
@@ -451,7 +474,7 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 				$httpaccess->clear_request_header();//初期化
 				$httpaccess->set_url( $url );//ダウンロードするURL
 				$httpaccess->set_method( 'GET' );//メソッド
-				$httpaccess->set_user_agent( 'PicklesCrawler' );//HTTP_USER_AGENT
+				$httpaccess->set_user_agent( $this->crawler_user_agent );//HTTP_USER_AGENT
 				if( strlen( $this->px->get_conf('project.auth_name') ) ){
 					//  基本認証、またはダイジェスト認証が設定されている場合
 					if( strlen( $this->px->get_conf('project.auth_type') ) ){
@@ -463,6 +486,10 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 				$this->px->dbh()->mkdir_all( dirname($this->path_tmppublish_dir.'/htdocs/'.$path) );
 				$httpaccess->save_http_contents( $this->path_tmppublish_dir.'/htdocs/'.$path );//ダウンロードを実行する
 
+
+				$result = $httpaccess->get_status_cd();
+				print ' [HTTP Status: '.$result.']'."\n";
+
 				$relatedlink = $httpaccess->get_response(strtolower('X-PXFW-RELATEDLINK'));
 				if( strlen($relatedlink) ){
 					foreach( explode(',',$relatedlink) as $row ){
@@ -470,10 +497,9 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 					}
 				}
 
-				$result = $httpaccess->get_status_cd();
 				$this->publish_log( array(
-					'result'=>($result==200?true:false),
-					'message'=>'http',
+					'result'=>($result),
+					'message'=>$publish_type,
 					'path'=>$this->px->dbh()->get_realpath($path),
 				) );
 				if($result!=200){
@@ -500,9 +526,11 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 					$tmp_src = preg_replace('/\r\n|\r|\n/si',$eof_code,$tmp_src);
 				}
 				$result = $this->px->dbh()->file_overwrite( $this->path_tmppublish_dir.'/htdocs/'.$path , $tmp_src );
+				print ''."\n";
+
 				$this->publish_log( array(
 					'result'=>($result?true:false),
-					'message'=>'copy'.(strlen($this->px->get_conf('system.output_encoding'))?'(and convert encoding)':''),
+					'message'=>$publish_type.(strlen($this->px->get_conf('system.output_encoding'))?' (and convert encoding)':''),
 					'path'=>$this->px->dbh()->get_realpath($path),
 				) );
 				if(!$result){
@@ -514,9 +542,11 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 				break;
 			default:
 				$result = $this->px->dbh()->copy( $_SERVER['DOCUMENT_ROOT'].$path , $this->path_tmppublish_dir.'/htdocs/'.$path );
+				print ''."\n";
+
 				$this->publish_log( array(
 					'result'=>($result?true:false),
-					'message'=>'copy',
+					'message'=>$publish_type,
 					'path'=>$this->px->dbh()->get_realpath($path),
 				) );
 				if(!$result){
@@ -539,17 +569,6 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 		}
 		return 'copy';// <- default "copy"
 	}//get_publish_type_by_extension()
-
-	/**
-	 * 拡張子別パブリッシュタイプマップに登録する
-	 */
-	public function set_publish_type_extension_map($extension, $publish_type){
-		if(!strlen($extension)){
-			return false;
-		}
-		$this->publish_type_extension_map[$extension] = $publish_type;
-		return true;
-	}
 
 	/**
 	 * HTTPAccessオブジェクトを生成して返す
@@ -633,7 +652,7 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 	/**
 	 * パブリッシュロックを解除する
 	 */
-	public function unlock(){
+	private function unlock(){
 		$lockfilepath = $this->path_tmppublish_dir.'applock.txt';
 
 		#	PHPのFileStatusCacheをクリア
