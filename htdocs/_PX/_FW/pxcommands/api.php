@@ -277,6 +277,10 @@ class px_pxcommands_api extends px_bases_pxcommand{
 	 */
 	private function api_get(){
 		switch( $this->command[2] ){
+			case 'version':
+				$val = $this->px->get_version();
+				print $this->data_convert( $val );
+				break;
 			case 'config':
 				$val = $this->px->get_conf_all();
 				print $this->data_convert( $val );

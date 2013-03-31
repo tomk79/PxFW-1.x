@@ -156,7 +156,7 @@ a){var b=F.exec(a);b&&(b[1]=(b[1]||"").toLowerCase(),b[3]=b[3]&&new RegExp("(?:^
 .mt1em  { margin-top:   1em !important; }
 .mt1p5em{ margin-top: 1.5em !important; }
 .mt2em  { margin-top:   2em !important; }
-.mt0 { margin-top:  0px !important; }
+.mt0 { margin-top:  0   !important; }
 .mt1 { margin-top:  1px !important; }
 .mt2 { margin-top:  2px !important; }
 .mt3 { margin-top:  3px !important; }
@@ -175,7 +175,7 @@ a){var b=F.exec(a);b&&(b[1]=(b[1]||"").toLowerCase(),b[3]=b[3]&&new RegExp("(?:^
 .mb1em  { margin-bottom:   1em !important; }
 .mb1p5em{ margin-bottom: 1.5em !important; }
 .mb2em  { margin-bottom:   2em !important; }
-.mb0 { margin-bottom:  0px !important; }
+.mb0 { margin-bottom:  0   !important; }
 .mb1 { margin-bottom:  1px !important; }
 .mb2 { margin-bottom:  2px !important; }
 .mb3 { margin-bottom:  3px !important; }
@@ -191,7 +191,7 @@ a){var b=F.exec(a);b&&(b[1]=(b[1]||"").toLowerCase(),b[3]=b[3]&&new RegExp("(?:^
 .mb25{ margin-bottom: 25px !important; }
 .mb30{ margin-bottom: 30px !important; }
 
-.ml0 { margin-left:  0px !important; }
+.ml0 { margin-left:  0   !important; }
 .ml1 { margin-left:  1px !important; }
 .ml2 { margin-left:  2px !important; }
 .ml3 { margin-left:  3px !important; }
@@ -207,7 +207,7 @@ a){var b=F.exec(a);b&&(b[1]=(b[1]||"").toLowerCase(),b[3]=b[3]&&new RegExp("(?:^
 .ml25{ margin-left: 25px !important; }
 .ml30{ margin-left: 30px !important; }
 
-.mr0 { margin-right:  0px !important; }
+.mr0 { margin-right:  0   !important; }
 .mr1 { margin-right:  1px !important; }
 .mr2 { margin-right:  2px !important; }
 .mr3 { margin-right:  3px !important; }
@@ -229,7 +229,7 @@ a){var b=F.exec(a);b&&(b[1]=(b[1]||"").toLowerCase(),b[3]=b[3]&&new RegExp("(?:^
 .pt1em  { padding-top:   1em !important; }
 .pt1p5em{ padding-top: 1.5em !important; }
 .pt2em  { padding-top:   2em !important; }
-.pt0 { padding-top:  0px !important; }
+.pt0 { padding-top:  0   !important; }
 .pt1 { padding-top:  1px !important; }
 .pt2 { padding-top:  2px !important; }
 .pt3 { padding-top:  3px !important; }
@@ -248,7 +248,7 @@ a){var b=F.exec(a);b&&(b[1]=(b[1]||"").toLowerCase(),b[3]=b[3]&&new RegExp("(?:^
 .pb1em  { padding-bottom:   1em !important; }
 .pb1p5em{ padding-bottom: 1.5em !important; }
 .pb2em  { padding-bottom:   2em !important; }
-.pb0 { padding-bottom:  0px !important; }
+.pb0 { padding-bottom:  0   !important; }
 .pb1 { padding-bottom:  1px !important; }
 .pb2 { padding-bottom:  2px !important; }
 .pb3 { padding-bottom:  3px !important; }
@@ -264,7 +264,7 @@ a){var b=F.exec(a);b&&(b[1]=(b[1]||"").toLowerCase(),b[3]=b[3]&&new RegExp("(?:^
 .pb25{ padding-bottom: 25px !important; }
 .pb30{ padding-bottom: 30px !important; }
 
-.pl0 { padding-left:  0px !important; }
+.pl0 { padding-left:  0   !important; }
 .pl1 { padding-left:  1px !important; }
 .pl2 { padding-left:  2px !important; }
 .pl3 { padding-left:  3px !important; }
@@ -280,7 +280,7 @@ a){var b=F.exec(a);b&&(b[1]=(b[1]||"").toLowerCase(),b[3]=b[3]&&new RegExp("(?:^
 .pl25{ padding-left: 25px !important; }
 .pl30{ padding-left: 30px !important; }
 
-.pr0 { padding-right:  0px !important; }
+.pr0 { padding-right:  0   !important; }
 .pr1 { padding-right:  1px !important; }
 .pr2 { padding-right:  2px !important; }
 .pr3 { padding-right:  3px !important; }
@@ -372,6 +372,47 @@ a span.pdf:after{
 }
 
 /**
+ * [parts] リンクリスト .anchor_links
+ */
+.anchor_links{
+	padding:1.5em;
+}
+.anchor_links .anchor_links-heading{
+	text-align:center;
+	font-weight:bold;
+	margin:0 0 0.5em 0;
+}
+.anchor_links ul{
+	margin:0;
+}
+
+/**
+ * [parts] 詳細リンクリスト .more_links
+ */
+.more_links{
+	margin-top:0.5em;
+	margin-bottom:2em;
+	border-top:dashed 1px #dddddd;
+}
+.more_links ul{
+	margin:0.3em 0 0 0;
+	text-align:right;
+}
+.more_links ul li{
+	display:inline-block;
+	>zoom:1; >display:inline;
+	padding:0 0 0 1em;
+}
+
+/**
+ * [parts] ページトップリンク .page_top
+ */
+.page_top{
+	text-align:right;
+}
+
+
+/**
  * [parts] エラー表示
  */
 .error{
@@ -384,14 +425,14 @@ a span.pdf:after{
 .imgrep{
 	display:block;
 	position:relative; top:auto; left:auto;
-	padding:0px 0px 0px 0px !important;
-	border:0px solid transparent !important;
+	padding:0 0 0 0 !important;
+	border:0 solid transparent !important;
 	overflow:hidden;
 	zoom:100%;
 }
 .imgrep .imgrep-panel{
 	display:block;
-	position:absolute; top:0px; left:0px;
+	position:absolute; top:0; left:0;
 	width:100%; height:100%;
 	background-repeat:no-repeat;
 	background-color:transparent;
@@ -405,11 +446,11 @@ a span.pdf:after{
 	display: block;
 	visibility: hidden;
 	position: absolute;
-	left: 0px;
-	top: 0px;
+	left: 0;
+	top: 0;
 	overflow: hidden;
-	width: 0px;
-	height: 0px;
+	width: 0;
+	height: 0;
 	background-color: transparent;
 }
 
@@ -419,6 +460,46 @@ a span.pdf:after{
 .current{
 	font-weight:bold;
 }
+
+/**
+ * [parts] 注意喚起ボックス
+ */
+.attention_box{
+	padding: 0.5em 1em;
+	background-color: #ffcccc;
+}
+.attention_box .attention_box-heading{
+	font-weight:bold;
+	margin:1em 0;
+	font-size:120%;
+}
+/**
+ * [parts] トピックボックス
+ */
+.topic_box{
+	padding: 0.5em 1em;
+	background-color: #cceecc;
+}
+.topic_box .topic_box-heading{
+	font-weight:bold;
+	margin:1em 0;
+	font-size:120%;
+}
+/**
+ * [parts] 付加情報ボックス
+ */
+.aside_box{
+	padding: 0.5em 1em;
+	background-color: #dddddd;
+	font-size:86%;
+}
+.aside_box .aside_box-heading{
+	font-weight:bold;
+	margin:1em 0;
+	font-size:120%;
+}
+
+
 
 /**
  * [unit] ユニット
@@ -446,7 +527,7 @@ div.unit{
 	visibility:hidden;
 	height:0.1px;
 	font-size:0.1em;
-	line-height:0px;
+	line-height:0;
 	clear:both;
 }
 .unit,
@@ -523,21 +604,21 @@ ul.nomark li.nomark-li{
  * 注釈定義リスト
  */
 dl.notes{
-	padding:0px 0px 0px 0px;
-	margin-left:0px;
-	margin-right:0px;
+	padding:0 0 0 0;
+	margin-left:0;
+	margin-right:0;
 }
 dl.notes dt.notes-dt{
-	padding:0px 0px 0px 0px;
-	margin:0px 0px 0px 0px;
+	padding:0 0 0 0;
+	margin:0 0 0 0;
 	float:left;
 	clear:left;
-	border:0px none;
+	border:0 none;
 	font-weight:normal;
 }
 dl.notes dd.notes-dd{
-	padding:0px 0px 0px 5px;
-	margin:0px 0px 0px 0px;
+	padding:0 0 0 5px;
+	margin:0 0 0 0;
 	float:none;
 	font-weight:normal;
 	display:block;
@@ -580,7 +661,7 @@ table.def tfoot td{
 	margin:1em 0;
 }
 .code pre{
-	margin:0px;
+	margin:0;
 }
 .code code,
 .code textarea{
@@ -677,24 +758,24 @@ table.form_elements tbody td {
 table.form_elements .form_elements-notes {
 	font-size:86%;
 	color:#999999;
-	margin:0px; padding:0px;
+	margin:0; padding:0;
 }
 table.form_elements .form_elements-notes li{
 	list-style-type:none;
-	margin:0px;
+	margin:0;
 }
 table.form_elements .form_elements-list{
-	margin:0px; padding:0px;
+	margin:0; padding:0;
 }
 table.form_elements .form_elements-list li{
-	margin:0px; padding:0px;
+	margin:0; padding:0;
 	list-style-type:none;
 }
 table.form_elements .form_elements-list_horizontal{
-	margin:0px; padding:0px;
+	margin:0; padding:0;
 }
 table.form_elements .form_elements-list_horizontal li{
-	margin:0px; padding:0px;
+	margin:0; padding:0;
 	list-style-type:none;
 	display:inline;
 }
@@ -713,11 +794,11 @@ table.form_elements .form_elements-error td{
 }
 table.form_elements ul.form_elements-errors{
 	color:#ff0000;
-	margin:0px; padding:0px;
+	margin:0; padding:0;
 }
 table.form_elements ul.form_elements-errors li{
 	list-style-type:none;
-	margin:0px;
+	margin:0;
 }
 
 /**
@@ -733,7 +814,7 @@ table.form_elements ul.form_elements-errors li{
 	list-style-type:none;
 }
 .form_buttons ul li.form_buttons-revise{
-	position:absolute; left:0px; bottom:0px;
+	position:absolute; left:0; bottom:0;
 }
 
 /**
@@ -776,13 +857,13 @@ table.form_elements ul.form_elements-errors li{
 }
 .pager ul{
 	text-align:center;
-	padding:0px;
-	margin:0px;
+	padding:0;
+	margin:0;
 }
 .pager ul li{
 	display:inline;
 	list-style-type:none;
-	padding:0px 5px 0px 5px;
+	padding:0 5px 0 5px;
 }
 
 /**
@@ -792,9 +873,9 @@ table.form_elements ul.form_elements-errors li{
 }
 .thumb_list ul{
 	text-align:left;
-	padding:0px;
-	margin:0px;
-	font-size:0px;
+	padding:0;
+	margin:0;
+	font-size:0;
 	margin-left:-10px; zoom:1;
 }
 .thumb_list ul li{
@@ -803,9 +884,9 @@ table.form_elements ul.form_elements-errors li{
 	list-style-type:none;
 	width:25%;
 	>width:24.9%;
-	margin:0px;
+	margin:0;
 	margin-bottom:10px;
-	padding:0px;
+	padding:0;
 	vertical-align:top;
 	font-size:small;
 }
@@ -876,7 +957,7 @@ table.form_elements ul.form_elements-errors li{
 	height:auto;
 }
 .float_media .float_media-image{
-	margin-top:0px;
+	margin-top:0;
 }
 .float_media .float_media-caption{
 	font-size:86%;
@@ -887,7 +968,7 @@ table.form_elements ul.form_elements-errors li{
 	overflow:hidden;
 }
 .float_media .float_media-body_rect *:first-child{
-	margin-top:0px;
+	margin-top:0;
 }
 
 <?php
