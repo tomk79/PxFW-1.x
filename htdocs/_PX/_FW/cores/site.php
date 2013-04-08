@@ -74,7 +74,7 @@ class px_cores_site{
 					//アスタリスク始まりの場合はコメント行とみなす。
 					continue;
 				}
-				if( !preg_match( '/^(?:\/|alias\:)/is' , $tmp_array['path'] ) ){
+				if( !preg_match( '/^(?:\/|alias\:|javascript\:|\#|[a-zA-Z0-9]+\:\/\/)/is' , $tmp_array['path'] ) ){
 					//不正な形式のチェック
 					continue;
 				}
@@ -745,6 +745,15 @@ class px_cores_site{
 		} else if( preg_match( '/^\//' , $path ) ) {
 			//  /から始まる場合
 			$path_type = 'normal';
+		} else if( preg_match( '/^javascript\:/i' , $path ) ) {
+			//  javascript: から始まる場合
+			$path_type = 'javascript';
+		} else if( preg_match( '/^\#/' , $path ) ) {
+			//  # から始まる場合
+			$path_type = 'anchor';
+		} else if( preg_match( '/^[a-zA-Z0-90-9]+\:\/\//' , $path ) ) {
+			//  http:// などURLスキーマから始まる場合
+			$path_type = 'full_url';
 		} else {
 			//  どれにも当てはまらない場合はfalseを返す
 			$path_type = false;
