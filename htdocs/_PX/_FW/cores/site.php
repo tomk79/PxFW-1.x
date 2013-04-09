@@ -85,6 +85,8 @@ class px_cores_site{
 				$tmp_array['path'] = preg_replace( '/\/$/si' , '/index.html' , $tmp_array['path'] );//index.htmlを付加する。
 				if( !strlen( $tmp_array['content'] ) ){
 					$tmp_array['content'] = $tmp_array['path'];
+					$tmp_array['content'] = preg_replace('/(?:\?|\#).*$/s','',$tmp_array['content']);
+					$tmp_array['content'] = preg_replace('/\/$/s','/index.html',$tmp_array['content']);
 				}
 				$tmp_array['content'] = preg_replace( '/\/$/si' , '/index.html' , $tmp_array['content'] );//index.htmlを付加する。
 				if( !strlen( $tmp_array['id'] ) ){
