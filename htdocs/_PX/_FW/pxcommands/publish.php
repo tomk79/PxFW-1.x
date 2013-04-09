@@ -379,6 +379,10 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 		if( !preg_match('/^'.preg_quote($this->path_target,'/').'.*/s',$path) ){
 			return false;
 		}
+
+		$path = preg_replace('/(?:\?|\#).*$/s','',$path);
+		$path = preg_replace('/\/$/s','/index.html',$path);
+
 		if( $this->done_items[$path] ){ return true; }
 		array_push( $this->queue_items , $path );
 		$this->done_items[$path] = true;
