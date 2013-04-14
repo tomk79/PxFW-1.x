@@ -280,16 +280,25 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 		array_push( $this->paths_ignore , t::realpath($this->path_docroot_dir.'/.htaccess') );
 		array_push( $this->paths_ignore , t::realpath($this->path_docroot_dir.'/_px_execute.php') );
 
-		$conf_paths_ignore = preg_split('/\r\n|\r|\n/',$this->px->get_conf('publish.paths_ignore'));
+		$conf_paths_ignore = preg_split('/\r\n|\r|\n|\,|\;/',$this->px->get_conf('publish.paths_ignore'));
 		clearstatcache();
 		foreach( $conf_paths_ignore as $row ){
 			$row = trim( $row );
 			if(!strlen($row)){ continue; }
-			$row_realpath = t::realpath($this->path_docroot_dir.'/'.$row);
-			if( !is_string($row_realpath) || !file_exists($row_realpath) ){
-				$this->internal_error_log('[ERROR] error on paths_ignore ['.$row.']. See "mainconf.ini".',__FILE__,__LINE__);
-				continue;
+			$row = preg_replace('/^\/+/','',$row);
+			$row_realpath = $this->path_docroot_dir.$row;
+
+			if( preg_match('/\*/',$row) ){
+				// ワイルドカードが使われている場合、
+				// 対象パスの存在確認を行わない。
+			}else{
+				$row_realpath = t::realpath($row_realpath);
+				if( !is_string($row_realpath) || !file_exists($row_realpath) ){
+					$this->internal_error_log('[ERROR] error on paths_ignore ['.$row.']. See "mainconf.ini".',__FILE__,__LINE__);
+					continue;
+				}
 			}
+
 			array_push( $this->paths_ignore , $row_realpath );
 		}
 
@@ -304,7 +313,7 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 		$this->plugins_list = $plugins_list;
 
 		return true;
-	}
+	}//setup()
 
 	/**
 	 * パブリッシュディレクトリを空っぽにする
@@ -604,7 +613,18 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 		$path = $this->px->dbh()->get_realpath( $path );
 		//if( !file_exists($path) ){ return true; }
 		foreach( $this->paths_ignore as $row ){
-			if( preg_match( '/^'.preg_quote($this->px->dbh()->get_realpath($row),'/').'/s' , $path ) ){
+			$preg_pattern = preg_quote($this->px->dbh()->get_realpath($row),'/');
+			if( preg_match('/\*/',$preg_pattern) ){
+				// ワイルドカードが使用されている場合
+				$preg_pattern = preg_quote($row,'/');
+				$preg_pattern = preg_replace('/'.preg_quote('\*','/').'/','(?:.*?)',$preg_pattern);//ワイルドカードをパターンに反映
+				$preg_pattern = $preg_pattern.'$';//前方・後方一致
+			}elseif(is_dir($row)){
+				$preg_pattern = preg_quote($this->px->dbh()->get_realpath($row).'/','/');
+			}elseif(is_file($row)){
+				$preg_pattern = preg_quote($this->px->dbh()->get_realpath($row),'/');
+			}
+			if( preg_match( '/^'.$preg_pattern.'/s' , $path ) ){
 				return true;
 			}
 		}
