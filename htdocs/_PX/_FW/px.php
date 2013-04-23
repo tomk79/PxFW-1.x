@@ -78,6 +78,13 @@ class px_px{
 	 * @return boolean true
 	 */
 	public function execute(){
+		static $executed_flg = false;
+		if($executed_flg){
+			// 2度目は実行できないようにするロック。
+			return false;
+		}
+		$executed_flg = true;
+
 		$this->access_log();//アクセスログを記録
 
 		//  PX Commands を実行
