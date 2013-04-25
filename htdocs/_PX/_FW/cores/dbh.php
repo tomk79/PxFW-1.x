@@ -745,9 +745,10 @@ class px_cores_dbh{
 		return	false;
 	}
 
-	#--------------------------------------
-	#	エンコーディングをあらわす文字の変換
-	function translateencoding_db2php( $db_encoding ){
+	/**
+	 * エンコーディング名の形式をDBの呼び方からPHPの呼び方に変換
+	 */
+	public function translateencoding_db2php( $db_encoding ){
 		$db_encoding = strtolower( $db_encoding );
 		switch( $db_encoding ){
 			case 'unicode':
@@ -762,7 +763,10 @@ class px_cores_dbh{
 		}
 		return	$db_encoding;
 	}
-	function translateencoding_php2db( $php_encoding ){
+	/**
+	 * エンコーディング名の形式をPHPの呼び方からDBの呼び方に変換
+	 */
+	public function translateencoding_php2db( $php_encoding ){
 		$php_encoding = strtolower( $php_encoding );
 		if( preg_match( '/utf/i' , $php_encoding ) ){
 			if( $this->get_db_conf('dbms') == 'postgresql' ){
@@ -1757,7 +1761,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	/**
 	 * ファイルのリソースを取得する。
 	 */
-	function &get_file_resource( $filepath ){
+	public function &get_file_resource( $filepath ){
 		$filepath = $this->get_realpath($filepath);
 		return	$this->file[$filepath]['res'];
 	}//get_file_resource()
@@ -2131,12 +2135,15 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	}
 
 	/**
-	 * データベースコネクションを切断する
+	 * すべてのデータベースコネクションを切断する
 	 */
-	function disconnect_all(){
+	public function disconnect_all(){
 		return $this->disconnect();
 	}
-	function disconnect(){
+	/**
+	 * データベースコネクションを切断する
+	 */
+	private function disconnect(){
 		if( !$this->check_connection() ){return true;}
 		if( $this->is_transaction() ){
 			if( $this->auto_commit_flg ){
