@@ -748,7 +748,7 @@ class px_cores_dbh{
 	/**
 	 * エンコーディング名の形式をDBの呼び方からPHPの呼び方に変換
 	 */
-	public function translateencoding_db2php( $db_encoding ){
+	public function translate_encoding_db2php( $db_encoding ){
 		$db_encoding = strtolower( $db_encoding );
 		switch( $db_encoding ){
 			case 'unicode':
@@ -766,7 +766,7 @@ class px_cores_dbh{
 	/**
 	 * エンコーディング名の形式をPHPの呼び方からDBの呼び方に変換
 	 */
-	public function translateencoding_php2db( $php_encoding ){
+	public function translate_encoding_php2db( $php_encoding ){
 		$php_encoding = strtolower( $php_encoding );
 		if( preg_match( '/utf/i' , $php_encoding ) ){
 			if( $this->get_db_conf('dbms') == 'postgresql' ){
@@ -927,10 +927,6 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 		$this->add_error( '未対応のデータベースです。' , 'get_table_definition' , __FILE__ , __LINE__ );
 		return	false;
 	}
-
-
-	#******************************************************************************************************************
-	#	DB関連データ変換
 
 	/**
 	 * date型の値を、time()形式に変換
@@ -1428,7 +1424,10 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	}//rename_complete()
 
 	/**
-	 * ルート相対パスを得る
+	 * 絶対パスを得る
+	 * 
+	 * パス情報を受け取り、スラッシュから始まるサーバー内部絶対パスに変換して返す。
+	 * 
 	 * ※このメソッドは、realpath()と違い、
 	 * 　存在しないアイテムもフルパスに変換します。
 	 * 　ただし、ルート直下のディレクトリまでは一致している必要があり、
