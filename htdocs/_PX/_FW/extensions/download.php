@@ -1,5 +1,9 @@
 <?php
-require_once( $this->get_conf('paths.px_dir').'_FW/bases/extension.php' );
+$this->load_px_class('/bases/extension.php');
+
+/**
+ * ダウンロードコンテンツのextensionクラス
+ */
 class px_extensions_download extends px_bases_extension{
 
 	/**
@@ -17,4 +21,5 @@ class px_extensions_download extends px_bases_extension{
 	}
 
 }
+
 ?>

@@ -8,7 +8,7 @@ class px_cores_req{
 	private $request_file_path;
 
 	/**
-	 *  初期化
+	 *  コンストラクタ
 	 */
 	public function __construct( $px ){
 		$this->px = $px;

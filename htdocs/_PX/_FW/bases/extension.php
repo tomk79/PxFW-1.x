@@ -1,7 +1,14 @@
 <?php
+
+/**
+ * extensionの基底クラス
+ */
 class px_bases_extension{
 	protected $px;
 
+	/**
+	 * コンストラクタ
+	 */
 	public function __construct( $px ){
 		$this->px = $px;
 	}//__construct()

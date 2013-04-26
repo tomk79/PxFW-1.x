@@ -12,7 +12,7 @@ class test{
 	/**
 	 * 変数の内容を展開し、文字列として返す。
 	 */
-	function preview( $value ){
+	public function preview( $value ){
 
 		if( is_array( $value ) ){
 			#	配列
@@ -150,7 +150,7 @@ class test{
 	/**
 	 * test::preview() に通して標準出力する。
 	 */
-	function var_dump(){
+	public function var_dump(){
 		$vars = func_get_args();
 		foreach( $vars as $value ){
 			print	test::preview( $value )."\n";
@@ -161,7 +161,7 @@ class test{
 	/**
 	 * オブジェクトの先祖(継承元)を一覧化する
 	 */
-	function get_history_of_object( $obj ){
+	public function get_history_of_object( $obj ){
 		if( is_string( $obj ) ){
 			#	文字列を受け取ったら、クラス名として処理。
 			return test::get_history_of_class( $obj );
@@ -180,7 +180,7 @@ class test{
 	/**
 	 * クラス名から、その先祖(継承元)を一覧化する
 	 */
-	function get_history_of_class( $class_name ){
+	public function get_history_of_class( $class_name ){
 		if( is_object( $class_name ) ){
 			#	オブジェクトを受け取ったら、オブジェクトとして処理。
 			return	test::get_history_of_object( $class_name );
@@ -205,7 +205,7 @@ class test{
 	/**
 	 * ダミー文字列を生成する
 	 */
-	function mk_dummy_text( $int_strcount = 50 ){
+	public function mk_dummy_text( $int_strcount = 50 ){
 		#	$int_strcount は、バイトじゃなくて文字数。
 
 		$int_strcount = intval( $int_strcount );

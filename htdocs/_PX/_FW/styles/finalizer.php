@@ -20,7 +20,7 @@ class px_styles_finalizer{
 	 */
 	public function finalize_contents( $src ){
 
-		/**
+		/**********
 		//このコードは、最終的なコンテンツのソースを
 		//DOM解析により置換するサンプルコードです。
 		//DOM置換の処理を実装する場合、このブロックコメントを解除して、
@@ -38,7 +38,7 @@ class px_styles_finalizer{
 
 		//変換後のソースを取得し、$srcを置き換える。
 		$src = $obj->get_src();
-		/**/
+		/**********/
 
 		return $src;
 	}//finalize_contents()
@@ -47,7 +47,8 @@ class px_styles_finalizer{
 	 * callback: h2タグを置き換える。(サンプルコード)
 	 * このメソッドはサンプルコードです。
 	 * finalize_contents() 内からコールバックメソッドとして登録されるものです。
-	 *
+	 */
+	/**********
 	public function replace_dom_h2_sample( $dom , $num ){
 
 		//属性値を復元
@@ -73,7 +74,7 @@ class px_styles_finalizer{
 
 		return $rtn;
 	}//replace_dom_h2_sample()
-	 */
+	/**********/
 
 }
 
