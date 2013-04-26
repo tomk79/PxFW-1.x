@@ -315,7 +315,7 @@ class px_cores_req{
 		return $this->request_file_path;
 	}//get_request_file_path()
 
-	/*
+	/**
 	 *  SSL通信か調べる
 	 */
 	public function is_ssl(){
