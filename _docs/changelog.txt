@@ -7,6 +7,7 @@
 - コンフィグ項目 publish.paths_ignore で、ワイルドカードを使用できるようになった。
 - コンフィグ項目 publish.paths_ignore で、改行のほか、カンマとセミコロンで区切れるようになった。
 - サイトマップのパスに、javascript:, http://, # で始まるパスを書けるようになった。
+- プラグインの publish API に、before_execute(), after_execute(), after_copying() を追加。
 - ドキュメント更新。
 
 

@@ -344,7 +344,10 @@ class pxplugin_{$plugin_name}_register_outputfilter{
 - クラス名: pxplugin_{$plugin_name}_register_publish
 - コンストラクタ引数: $px, $publish
 - API
--- トリガーメソッド: $instance->execute()
+-- パブリッシュ前処理: $instance->before_execute()
+-- ファイル単位の変換処理: $instance->execute()
+-- パブリッシュ後処理: $instance->after_execute()
+-- パブリッシュ先ディレクトリへのコピー後の処理: $instance->after_copying()
 
 下記は実装例。
 
@@ -368,7 +371,19 @@ class pxplugin_{$plugin_name}_register_publish{
 	}
 
 	/**
-	 * 変換処理を実行する
+	 * パブリッシュ前処理
+	 */
+	public function before_execute($path_tmppublish_dir){
+		/*
+			パブリッシュキューの処理が始まる直前に1回だけコールされます。
+			初期のキューのセットが完了した後です。
+			引数 $path_tmppublish_dir は、一時パブリッシュディレクトリの絶対パスです。
+		*/
+		return true;
+	}
+
+	/**
+	 * ファイル単位の変換処理を実行する
 	 */
 	public function execute($path, $extension, $publish_type){
 		/*
@@ -391,6 +406,29 @@ class pxplugin_{$plugin_name}_register_publish{
 					インクルードされるテキストファイルに適用されます。
 				'copy'
 					ウェブサーバーを介さず、単にコピーするのみで処理されます。
+		*/
+		return true;
+	}
+
+	/**
+	 * パブリッシュ後処理
+	 */
+	public function after_execute($path_tmppublish_dir){
+		/*
+			すべてのキューの処理を完了した後に1回だけコールされます。
+			引数 $path_tmppublish_dir は、一時パブリッシュディレクトリの絶対パスです。
+		*/
+		return true;
+	}
+
+	/**
+	 * パブリッシュ先ディレクトリへのコピー後の処理
+	 */
+	public function after_copying($path_publish_dir){
+		/*
+			すべてのキューの処理を完了し、
+			パブリッシュ先ディレクトリへのコピー処理が完了した後に1回だけコールされます。
+			引数 $path_publish_dir は、パブリッシュ先ディレクトリの絶対パスです。
 		*/
 		return true;
 	}

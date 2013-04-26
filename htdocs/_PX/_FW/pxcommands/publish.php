@@ -209,6 +209,15 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 			$this->add_queue( $this->px->dbh()->get_realpath($this->px->get_install_path().$page_info['path']) );
 		}
 		flush();
+
+		// プラグインによる加工処理
+		//   パブリッシュの前処理 before_execute() を実施
+		foreach( $this->plugins_list as $tmp_key=>$tmp_plugin_name ){
+			$tmp_class_name = $this->px->load_px_plugin_class($tmp_plugin_name.'/register/publish.php');
+			$plugin_object = new $tmp_class_name($this->px, $this);
+			$plugin_object->before_execute($this->px->dbh()->get_realpath($this->path_tmppublish_dir.'/htdocs/'));
+		}
+
 		print '------'."\n";
 		print '* start publishing.'."\n";
 		while( 1 ){
@@ -225,6 +234,14 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 		print 'done.'."\n";
 		print ''."\n";
 
+		// プラグインによる加工処理
+		//   パブリッシュの後処理 after_execute() を実施
+		foreach( $this->plugins_list as $tmp_key=>$tmp_plugin_name ){
+			$tmp_class_name = $this->px->load_px_plugin_class($tmp_plugin_name.'/register/publish.php');
+			$plugin_object = new $tmp_class_name($this->px, $this);
+			$plugin_object->after_execute($this->px->dbh()->get_realpath($this->path_tmppublish_dir.'/htdocs/'));
+		}
+
 		if( strlen( $this->path_publish_dir ) && is_dir( $this->path_publish_dir ) ){
 			print '------'."\n";
 			print 'copying files to publish.path_publish_dir.,,'."\n";
@@ -235,6 +252,14 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 			$this->px->dbh()->mkdir_all( $copy_to );
 			$this->px->dbh()->sync_dir( $copy_from , $copy_to );
 			print ''."\n";
+
+			// プラグインによる加工処理
+			//   パブリッシュの後処理 after_copying() を実施
+			foreach( $this->plugins_list as $tmp_key=>$tmp_plugin_name ){
+				$tmp_class_name = $this->px->load_px_plugin_class($tmp_plugin_name.'/register/publish.php');
+				$plugin_object = new $tmp_class_name($this->px, $this);
+				$plugin_object->after_copying($this->px->dbh()->get_realpath( $this->path_publish_dir ));
+			}
 		}
 
 		$this->unlock();//ロック解除
@@ -302,7 +327,7 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 			array_push( $this->paths_ignore , $row_realpath );
 		}
 
-		// プラグインによる加工処理
+		// プラグインによる加工処理(publish API を利用するプラグイン一覧を精査)
 		$path_plugin_dir = $this->px->get_conf('paths.px_dir').'plugins/';
 		$plugins_list = $this->px->dbh()->ls( $path_plugin_dir );
 		foreach( $plugins_list as $tmp_key=>$tmp_plugin_name ){
@@ -579,6 +604,7 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 		}
 
 		// プラグインによる加工処理
+		//   ファイル単位の加工処理 execute() を実施
 		foreach( $this->plugins_list as $tmp_key=>$tmp_plugin_name ){
 			$tmp_class_name = $this->px->load_px_plugin_class($tmp_plugin_name.'/register/publish.php');
 			$plugin_object = new $tmp_class_name($this->px, $this);
@@ -611,6 +637,8 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 	 */
 	private function is_ignore_path( $path ){
 		$path = $this->px->dbh()->get_realpath( $path );
+		if(is_dir($path)){$path .= '/';}
+
 		//if( !file_exists($path) ){ return true; }
 		foreach( $this->paths_ignore as $row ){
 			$preg_pattern = preg_quote($this->px->dbh()->get_realpath($row),'/');
