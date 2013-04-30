@@ -2,13 +2,15 @@
  * PxFW(Pickles Framework) 更新履歴
  */
 
-■PxFW 1.0.0 (2013/**/**)
+■PxFW 1.0.0b5 (2013/4/30)
 
 - コンフィグ項目 publish.paths_ignore で、ワイルドカードを使用できるようになった。
 - コンフィグ項目 publish.paths_ignore で、改行のほか、カンマとセミコロンで区切れるようになった。
 - サイトマップのパスに、javascript:, http://, # で始まるパスを書けるようになった。
 - プラグインの publish API に、before_execute(), after_execute(), after_copying() を追加。
+- $dbh->rmdir() を追加。普通に空っぽディレクトリを削除するメソッド。
 - ドキュメント更新。
+- その他の細かい修正。
 
 
 ■PxFW 1.0.0b4 (2013/3/31)
