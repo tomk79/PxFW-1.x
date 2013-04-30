@@ -1831,6 +1831,40 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	}//ls()
 
 	/**
+	 * ディレクトリを削除する
+	 * 
+	 * このメソッドはディレクトリを削除します。
+	 * 中身のない、空っぽのディレクトリ以外は削除できません。
+	 * 
+	 */
+	public function rmdir( $path ){
+
+		if( strlen( $this->px->get_conf('system.filesystem_encoding') ) ){
+			$path = @t::convert_encoding( $path , $this->px->get_conf('system.filesystem_encoding') );
+		}
+
+		if( !$this->is_writable( $path ) ){
+			return false;
+		}
+		$path = @realpath( $path );
+		if( $path === false ){ return false; }
+		if( @is_file( $path ) || @is_link( $path ) ){
+			#   ファイルまたはシンボリックリンクの場合の処理
+			#   ディレクトリ以外は削除できません。
+			return false;
+
+		}elseif( @is_dir( $path ) ){
+			#   ディレクトリの処理
+			#   rmdir() は再帰的削除を行いません。
+			#   再帰的に削除したい場合は、代わりに rmdir_all() を使用します。
+			$result = @rmdir( $path );
+			return	$result;
+		}
+
+		return false;
+	}//rmdir()
+
+	/**
 	 * ディレクトリを中身ごと完全に削除する
 	 * 
 	 * このメソッドは、ファイルやシンボリックリンクも削除します。
