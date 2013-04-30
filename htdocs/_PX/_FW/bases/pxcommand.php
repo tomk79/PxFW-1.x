@@ -7,6 +7,8 @@ class px_bases_pxcommand{
 	protected $px;
 	protected $pxcommand_name = null;
 
+	private $title = null;//ページタイトル
+
 	/**
 	 * コンストラクタ
 	 */
@@ -20,6 +22,21 @@ class px_bases_pxcommand{
 	 */
 	public function get_command(){
 		return $this->pxcommand_name;
+	}
+
+	/**
+	 * ページタイトルを取得する
+	 */
+	public function get_title(){
+		return $this->title;
+	}
+
+	/**
+	 * ページタイトルを取得する
+	 */
+	public function set_title( $title ){
+		$this->title = $title;
+		return true;
 	}
 
 	/**
@@ -46,9 +63,13 @@ class px_bases_pxcommand{
 		$src .= '<body>'."\n";
 		$src .= '<div class="outline">'."\n";
 		$src .= '<div class="header">'."\n";
-		$src .= '<h1>'.htmlspecialchars( $this->pxcommand_name[0] ).'<span class="xxsmall"> | Pickles Framework (version:'.t::h($this->px->get_version()).')</span></h1>'."\n";
+		$src .= '<p style="margin:0.3em 0 0 0;font-size:medium; font-weight:bold; text-align:right;">Pickles Framework (version:'.t::h($this->px->get_version()).')</p>'."\n";
+		$src .= '<h1 style="margin:0 0 0.3em 0;font-size:xx-large; font-weight:bold;">'.htmlspecialchars( $this->pxcommand_name[0].($this->pxcommand_name[0]=='plugins'&&strlen($this->pxcommand_name[1])?'.'.$this->pxcommand_name[1]:'') ).'</h1>'."\n";
 		$src .= '</div>'."\n";
 		$src .= '<div class="middle">'."\n";
+		if( strlen( $this->get_title() ) ){
+			$src .= '<p style="margin:1em 0; font-size:xx-large; font-weight:bold; border-bottom:1px solid #999;">'.htmlspecialchars($this->get_title()).'</p>'."\n";
+		}
 		$src .= '<div id="content" class="contents">'."\n";
 		$src .= $content;
 		$src .= '</div>'."\n";
