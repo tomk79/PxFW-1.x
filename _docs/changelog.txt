@@ -2,6 +2,11 @@
  * PxFW(Pickles Framework) 更新履歴
  */
 
+■PxFW 1.0.0b6 (2013/**/**)
+
+- $req->get_all_params() を追加。パラメータをすべて返す。
+
+
 ■PxFW 1.0.0b5 (2013/4/30)
 
 - コンフィグ項目 publish.paths_ignore で、ワイルドカードを使用できるようになった。

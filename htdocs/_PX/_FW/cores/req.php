@@ -126,7 +126,7 @@ class px_cores_req{
 	}//set_path_param()
 
 	/**
-	 * パラメータを受け取る
+	 * パラメータを取得する
 	 */
 	public function get_param( $key ){
 		return $this->param[$key];
@@ -139,6 +139,13 @@ class px_cores_req{
 		$this->param[$key] = $val;
 		return true;
 	}//set_param()
+
+	/**
+	 * パラメータをすべて取得する
+	 */
+	public function get_all_params(){
+		return $this->param;
+	}
 
 	/**
 	 * クッキー情報を取得
