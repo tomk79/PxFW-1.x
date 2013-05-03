@@ -78,18 +78,26 @@ class px_cores_site{
 					$tmp_array[$defrow['key']] = $row[$defrow['num']];
 				}
 				if( preg_match( '/^(?:\*)/is' , $tmp_array['path'] ) ){
-					//アスタリスク始まりの場合はコメント行とみなす。
+					// アスタリスク始まりの場合はコメント行とみなす。
 					continue;
 				}
 				if( !preg_match( '/^(?:\/|alias\:|javascript\:|\#|[a-zA-Z0-9]+\:\/\/)/is' , $tmp_array['path'] ) ){
-					//不正な形式のチェック
+					// 不正な形式のチェック
 					continue;
 				}
-				if( preg_match( '/^(?:javascript\:|\#|[a-zA-Z0-9]+\:\/\/)/is' , $tmp_array['path'] ) ){
-					//直リンク系のパスをエイリアス扱いにする
-					$tmp_array['path'] = 'alias:'.$tmp_array['path'];
+				switch( $this->get_path_type( $tmp_array['path'] ) ){
+					case 'full_url':
+					case 'javascript':
+					case 'anchor':
+						// 直リンク系のパスをエイリアス扱いにする
+						$tmp_array['path'] = 'alias:'.$tmp_array['path'];
+						break;
+					default:
+						// スラ止のパスに index.html を付加する。
+						// ただし、JS、アンカー、外部リンクには適用しない。
+						$tmp_array['path'] = preg_replace( '/\/$/si' , '/index.html' , $tmp_array['path'] );
+						break;
 				}
-				$tmp_array['path'] = preg_replace( '/\/$/si' , '/index.html' , $tmp_array['path'] );//index.htmlを付加する。
 				if( !strlen( $tmp_array['content'] ) ){
 					$tmp_array['content'] = $tmp_array['path'];
 					$tmp_array['content'] = preg_replace('/(?:\?|\#).*$/s','',$tmp_array['content']);
@@ -322,7 +330,17 @@ class px_cores_site{
 			}
 		}
 		$args = func_get_args();
-		$path = preg_replace( '/\/$/si' , '/index.html' , $path );
+
+		switch( $this->get_path_type($path) ){
+			case 'full_url':
+			case 'javascript':
+			case 'anchor':
+				break;
+			default:
+				$path = preg_replace( '/\/$/si' , '/index.html' , $path );
+				break;
+		}
+
 		$rtn = $this->sitemap_array[$path];
 		if( !is_array($rtn) ){ return null; }
 		if( !strlen( $rtn['title_breadcrumb'] ) ){ $rtn['title_breadcrumb'] = $rtn['title']; }

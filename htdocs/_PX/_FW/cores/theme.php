@@ -248,7 +248,17 @@ class px_cores_theme{
 			}
 			unset($tmp_path , $tmp_matched);
 		}
-		$path = preg_replace('/\/index\.html$/si','/',$path); // index.htmlを省略
+		switch( $this->px->site()->get_path_type( $path ) ){
+			case 'full_url':
+			case 'javascript':
+			case 'anchor':
+				break;
+			default:
+				// index.htmlを省略
+				$path = preg_replace('/\/index\.html$/si','/',$path);
+				break;
+		}
+
 		if( preg_match( '/^\//' , $path ) ){
 			//  スラッシュから始まる絶対パスの場合、
 			//  インストールパスを起点としたパスに書き変えて返す。
@@ -300,7 +310,6 @@ class px_cores_theme{
 		if( $this->px->site()->get_page_info($linkto,'layout') == 'popup' ){
 			$is_popup = true;
 		}
-		$href = preg_replace('/\/index\.html$/si','/',$href); // index.htmlを省略
 		$label = (!is_null($label)?$label:$href); // labelがnullの場合、リンク先をラベルとする
 
 		if( !$options['no_escape'] ){
