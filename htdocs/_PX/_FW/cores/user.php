@@ -1,4 +1,9 @@
 <?php
+/**
+ * PxFW core object class: User Manager
+ * 
+ * @author Tomoya Koyanagi <tomk79@gmail.com>
+ */
 class px_cores_user{
 	private $px;
 

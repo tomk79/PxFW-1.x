@@ -1,10 +1,16 @@
 <?php
+/**
+ * PxFW core object class: Site and page Manager
+ * 
+ * @author Tomoya Koyanagi <tomk79@gmail.com>
+ */
 class px_cores_site{
 	private $px;
 	private $sitemap_definition = array();
 	private $sitemap_array = array();
 	private $sitemap_id_map = array();
 	private $sitemap_dynamic_paths = array();
+	private $sitemap_page_tree = array();
 
 	/**
 	 * コンストラクタ
@@ -38,6 +44,7 @@ class px_cores_site{
 			$this->sitemap_array         = @include($path_sitemap_cache_dir.'sitemap.array');
 			$this->sitemap_id_map        = @include($path_sitemap_cache_dir.'sitemap_id_map.array');
 			$this->sitemap_dynamic_paths = @include($path_sitemap_cache_dir.'sitemap_dynamic_paths.array');
+			$this->sitemap_page_tree     = @include($path_sitemap_cache_dir.'sitemap_page_tree.array');
 			return true;
 		}
 
@@ -170,6 +177,14 @@ class px_cores_site{
 		//  ダイナミックパスを並び替え
 		usort($this->sitemap_dynamic_paths, array($this,'sort_sitemap_dynamic_paths'));
 
+		//  ページツリー情報を構成
+		$this->sitemap_page_tree = array();
+		foreach( $this->sitemap_array as $tmp_path=>$tmp_page_info ){
+			$this->get_children( $tmp_path );
+			$this->get_children( $tmp_path, array('filter'=>true) );//list_flgを無視して、全員持ってくる
+		}
+		unset($tmp_path, $tmp_page_info );
+
 		//  キャッシュディレクトリを作成
 		$this->px->dbh()->mkdir($path_sitemap_cache_dir);
 
@@ -178,6 +193,7 @@ class px_cores_site{
 		$this->px->dbh()->file_overwrite( $path_sitemap_cache_dir.'sitemap.array' , t::data2phpsrc($this->sitemap_array) );
 		$this->px->dbh()->file_overwrite( $path_sitemap_cache_dir.'sitemap_id_map.array' , t::data2phpsrc($this->sitemap_id_map) );
 		$this->px->dbh()->file_overwrite( $path_sitemap_cache_dir.'sitemap_dynamic_paths.array' , t::data2phpsrc($this->sitemap_dynamic_paths) );
+		$this->px->dbh()->file_overwrite( $path_sitemap_cache_dir.'sitemap_page_tree.array' , t::data2phpsrc($this->sitemap_page_tree) );
 
 		return true;
 	}//load_sitemap_csv();
@@ -385,6 +401,10 @@ class px_cores_site{
 		$this->sitemap_array[$tmp_array['path']] = $tmp_array;
 		$this->sitemap_id_map[$tmp_array['id']] = $tmp_array['path'];
 
+		//  ページツリーキャッシュを削除
+		$parent = $this->get_page_info_by_id( $this->get_parent( $tmp_array['path'] ) );
+		$this->sitemap_page_tree[$parent['path']] = null;
+
 		//  パブリッシュ対象にリンクを追加
 		$this->px->add_relatedlink( $this->px->theme()->href($tmp_array['path']) );
 
@@ -475,6 +495,17 @@ class px_cores_site{
 
 		$page_info = $this->get_page_info( $path );
 
+		if( is_array( $this->sitemap_page_tree[$page_info['path']] ) ){
+			//  ページキャッシュツリーがすでに作られている場合
+			$rtn = array();
+			if($filter){
+				$rtn = $this->sitemap_page_tree[$page_info['path']]['children'];
+			}else{
+				$rtn = $this->sitemap_page_tree[$page_info['path']]['children_all'];
+			}
+			return $rtn;
+		}
+
 		$tmp_children_orderby_manual = array();
 		$tmp_children_orderby_auto = array();
 
@@ -488,6 +519,7 @@ class px_cores_site{
 			}
 		}
 		unset($tmp_breadcrumb,$tmp_path,$tmp_page_info);
+
 		foreach( $this->get_sitemap() as $row ){
 			if( !strlen($row['id']) ){
 				continue;
@@ -520,6 +552,13 @@ class px_cores_site{
 
 		usort( $tmp_children_orderby_manual , array( $this , 'usort_sitemap' ) );
 		$rtn = array_merge( $tmp_children_orderby_manual , $tmp_children_orderby_auto );
+
+		//  ページキャッシュを作成しなおす
+		if($filter){
+			$this->sitemap_page_tree[$page_info['path']]['children'] = $rtn;
+		}else{
+			$this->sitemap_page_tree[$page_info['path']]['children_all'] = $rtn;
+		}
 
 		return $rtn;
 	}//get_children()

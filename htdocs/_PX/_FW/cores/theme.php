@@ -1,4 +1,9 @@
 <?php
+/**
+ * PxFW core object class: Theme and style Manager
+ * 
+ * @author Tomoya Koyanagi <tomk79@gmail.com>
+ */
 class px_cores_theme{
 	private $px;
 	private $theme_id = 'default';
@@ -215,6 +220,7 @@ class px_cores_theme{
 			$linkto = $tmp_page_info_by_id['path'];
 		}
 		unset($tmp_page_info_by_id);
+
 		$path = $linkto;
 		if( preg_match( '/^alias[0-9]*\:(.+)/' , $path , $tmp_matched ) ){
 			//  エイリアスを解決

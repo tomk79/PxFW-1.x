@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * PxFW core object class: Error Handler
+ * 
+ * @author Tomoya Koyanagi <tomk79@gmail.com>
+ */
 class px_cores_error{
 	private $px;
 

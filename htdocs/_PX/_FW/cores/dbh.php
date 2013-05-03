@@ -1,6 +1,6 @@
 <?php
 /**
- * Database Handler
+ * PxFW core object class: Database Handler
  * 
  * @author Tomoya Koyanagi <tomk79@gmail.com>
  */

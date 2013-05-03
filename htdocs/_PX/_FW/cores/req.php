@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * PxFW core object class: Request Manager
+ * 
+ * @author Tomoya Koyanagi <tomk79@gmail.com>
+ */
 class px_cores_req{
 	private $px;
 	private $param = array();
