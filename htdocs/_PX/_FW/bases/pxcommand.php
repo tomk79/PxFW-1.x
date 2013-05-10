@@ -43,6 +43,18 @@ class px_bases_pxcommand{
 	 * コンテンツをHTMLテンプレートに包んで返す
 	 */
 	protected function html_template( $content ){
+		// PxCommands の一覧 $px_command_list を作成
+		$px_command_list = array('config','sitemap_definition','sitemap','pageinfo','edit','rdb','search','publish','initialize','fillcontents');
+
+		// PxCommands プラグインの一覧 $plugins_list を作成
+		$path_plugin_dir = $this->px->get_conf('paths.px_dir').'plugins/';
+		$plugins_list = $this->px->dbh()->ls( $path_plugin_dir );
+		foreach( $plugins_list as $tmp_key=>$tmp_plugin_name ){
+			if( !is_file( $path_plugin_dir.$tmp_plugin_name.'/register/pxcommand.php' ) ){
+				unset($plugins_list[$tmp_key]);
+			}
+		}
+
 		@header( 'Content-type: text/html; charset="UTF-8"' );
 		$src = '';
 		$src .= '<!doctype html>'."\n";
@@ -64,7 +76,19 @@ class px_bases_pxcommand{
 		$src .= '<div class="outline">'."\n";
 		$src .= '<div class="header">'."\n";
 		$src .= '<p style="margin:0.3em 0 0 0;font-size:medium; font-weight:bold; text-align:right;">Pickles Framework (version:'.t::h($this->px->get_version()).')</p>'."\n";
-		$src .= '<h1 style="margin:0 0 0.3em 0;font-size:xx-large; font-weight:bold;">'.htmlspecialchars( $this->pxcommand_name[0].($this->pxcommand_name[0]=='plugins'&&strlen($this->pxcommand_name[1])?'.'.$this->pxcommand_name[1]:'') ).'</h1>'."\n";
+		$src .= '<div style="margin:0.3em 0 0 0;font-size:medium; font-weight:bold; text-align:right;"><form class="inline">'."\n";
+		$src .= '<select onchange="window.location.href=\'?PX=\'+this.options[this.selectedIndex].value;">'."\n";
+		foreach( $px_command_list as $command_name_row ){
+			$src .= '<option value="'.t::h($command_name_row).'"'.($this->pxcommand_name[0]==$command_name_row?' selected="selected"':'').'>'.t::h($command_name_row).'</option>'."\n";
+		}
+		if( count($plugins_list) ){
+			foreach($plugins_list as $plugin_name){
+				$src .= '<option value="plugins.'.t::h(urlencode($plugin_name)).'"'.(implode( '.', array($this->pxcommand_name[0], $this->pxcommand_name[1]) )=='plugins.'.$plugin_name?' selected="selected"':'').'>plugins.'.t::h($plugin_name).'</option>'."\n";
+			}
+		}
+		$src .= '</select>'."\n";
+		$src .= '</form></div>'."\n";
+		$src .= '<h1 style="margin:0 0 0.3em 0;font-size:xx-large; font-weight:bold;"><a href="?PX='.htmlspecialchars( $this->pxcommand_name[0].($this->pxcommand_name[0]=='plugins'&&strlen($this->pxcommand_name[1])?'.'.$this->pxcommand_name[1]:'') ).'" style="color:inherit; text-decoration:none;">'.htmlspecialchars( $this->pxcommand_name[0].($this->pxcommand_name[0]=='plugins'&&strlen($this->pxcommand_name[1])?'.'.$this->pxcommand_name[1]:'') ).'</a></h1>'."\n";
 		$src .= '</div>'."\n";
 		$src .= '<div class="middle">'."\n";
 		if( strlen( $this->get_title() ) ){
@@ -76,29 +100,15 @@ class px_bases_pxcommand{
 		$src .= '</div>'."\n";
 		$src .= '<div class="footer">'."\n";
 		$src .= '<ul>'."\n";
-		$src .= '<li><a href="?PX=config">config</a></li>'."\n";
-		$src .= '<li><a href="?PX=sitemap_definition">sitemap_definition</a></li>'."\n";
-		$src .= '<li><a href="?PX=sitemap">sitemap</a></li>'."\n";
-		$src .= '<li><a href="?PX=pageinfo">pageinfo</a></li>'."\n";
-		$src .= '<li><a href="?PX=edit">edit</a></li>'."\n";
-		$src .= '<li><a href="?PX=rdb">rdb</a></li>'."\n";
-		$src .= '<li><a href="?PX=search">search</a></li>'."\n";
-		$src .= '<li><a href="?PX=publish">publish</a></li>'."\n";
-		$src .= '<li><a href="?PX=initialize">initialize</a></li>'."\n";
-		$src .= '<li><a href="?PX=fillcontents">fillcontents</a></li>'."\n";
-		$src .= '</ul>'."\n";
-		$path_plugin_dir = $this->px->get_conf('paths.px_dir').'plugins/';
-		$plugins_list = $this->px->dbh()->ls( $path_plugin_dir );
-		foreach( $plugins_list as $tmp_key=>$tmp_plugin_name ){
-			if( !is_file( $path_plugin_dir.$tmp_plugin_name.'/register/pxcommand.php' ) ){
-				unset($plugins_list[$tmp_key]);
-			}
+		foreach( $px_command_list as $command_name_row ){
+			$src .= '<li><a href="?PX='.t::h($command_name_row).'"'.($this->pxcommand_name[0]==$command_name_row?' class="current"':'').'>'.t::h($command_name_row).'</a></li>'."\n";
 		}
+		$src .= '</ul>'."\n";
 		if( count($plugins_list) ){
 			$src .= '<ul>'."\n";
 			$src .= '<li>plugins: </li>'."\n";
 			foreach($plugins_list as $plugin_name){
-				$src .= '<li><a href="?PX=plugins.'.t::h(urlencode($plugin_name)).'">'.t::h($plugin_name).'</a></li>'."\n";
+				$src .= '<li><a href="?PX=plugins.'.t::h(urlencode($plugin_name)).'"'.(implode( '.', array($this->pxcommand_name[0], $this->pxcommand_name[1]) )=='plugins.'.$plugin_name?' class="current"':'').'>'.t::h($plugin_name).'</a></li>'."\n";
 			}
 			$src .= '</ul>'."\n";
 		}
