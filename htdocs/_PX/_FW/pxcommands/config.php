@@ -112,6 +112,7 @@ class px_pxcommands_config extends px_bases_pxcommand{
 			$src .= '		<thead>'."\n";
 			$src .= '			<tr>'."\n";
 			$src .= '				<th>プラグイン名</th>'."\n";
+			$src .= '				<th>version</th>'."\n";
 			$src .= '				<th>object</th>'."\n";
 			$src .= '				<th>initialize</th>'."\n";
 			$src .= '				<th>pxcommand</th>'."\n";
@@ -122,6 +123,17 @@ class px_pxcommands_config extends px_bases_pxcommand{
 			foreach( $tmp_plugin_list as $tmp_plugin_name ){
 				$src .= '			<tr>'."\n";
 				$src .= '				<th>'.t::h($tmp_plugin_name).'</th>'."\n";
+				$plugin_version = '????';
+				if( is_file( $tmp_path_plugins_base_dir.$tmp_plugin_name.'/register/info.php' ) ){
+					$class_name_info = $this->px->load_px_plugin_class('/'.$tmp_plugin_name.'/register/info.php');
+					if($class_name_info){
+						$obj_info = new $class_name_info();
+						if( is_callable( array( $obj_info, 'get_version' ) ) ){
+							$plugin_version = $obj_info->get_version();
+						}
+					}
+				}
+				$src .= '				<td class="center">'.t::h($plugin_version).'</td>'."\n";
 				$src .= '				<td class="center">'.(is_file( $tmp_path_plugins_base_dir.$tmp_plugin_name.'/register/object.php' )?'○':'-').'</td>'."\n";
 				$src .= '				<td class="center">'.(is_file( $tmp_path_plugins_base_dir.$tmp_plugin_name.'/register/initialize.php' )?'○':'-').'</td>'."\n";
 				$src .= '				<td class="center">'.(is_file( $tmp_path_plugins_base_dir.$tmp_plugin_name.'/register/pxcommand.php' )?'○':'-').'</td>'."\n";

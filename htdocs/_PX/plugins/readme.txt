@@ -33,6 +33,42 @@
 以下のクラスは、共通ルールに基づき、PxFWが自動的にロードし、実行します。
 すべて、{$plugin_name}ディレクトリ内 register ディレクトリに格納されます。
 
+
+■info
+
+プラグインに関する情報を管理しています。
+現時点では、管理対象となる情報はプラグインのバージョン情報のみです。
+
+- 格納先: <plugins>/{$plugin_name}/register/info.php
+- クラス名: pxplugin_{$plugin_name}_register_info
+- コンストラクタ引数: なし
+- API
+-- バージョン番号を取得: $instance->get_version()
+
+下記は実装例。
+
+<!--- ここからサンプルコード --->
+<?php
+
+/**
+ * PX Plugin "{$plugin_name}"
+ */
+class pxplugin_{$plugin_name}_register_info{
+
+	/**
+	 * プラグインのバージョン情報を取得する
+	 * @return string バージョン番号を示す文字列
+	 */
+	public function get_version(){
+		return '1.0.0';
+	}
+
+}
+
+?>
+<!--- / ここまでサンプルコード --->
+
+
 ■object
 
 PxFWの初期セットアップ処理の中で自動的にインスタンス化され、
