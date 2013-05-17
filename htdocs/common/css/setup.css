@@ -6,6 +6,8 @@
 body{
 	text-align:left;
 	color:#333333;
+	font-size-adjust:none;
+	-webkit-text-size-adjust:100%;/* Mobile Safari : 文字サイズの自動調整をオフに */
 }
 body,input,textarea,select,option,button{
 	font-family:sans-serif;

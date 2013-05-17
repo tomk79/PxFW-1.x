@@ -1,11 +1,11 @@
 
 <!-- インクルードエリア -->
-<meta name="viewport" content="width=device-width" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="keywords" content="<?php print t::h($page_info['keywords']); ?>" />
 <meta name="description" content="<?php print t::h($page_info['description']); ?>" />
 
-<link rel="stylesheet" href="<?php print t::h($px->get_install_path()); ?>common/css/setup.css" type="text/css" />
-<link rel="stylesheet" href="<?php print t::h($px->get_install_path()); ?>common/css/modules.css" type="text/css" />
+<link rel="stylesheet" href="<?php print t::h($px->theme()->href('/common/css/setup.css')); ?>" type="text/css" />
+<link rel="stylesheet" href="<?php print t::h($px->theme()->href('/common/css/modules.css')); ?>" type="text/css" />
 <style type="text/css">
 
 body{
@@ -181,6 +181,6 @@ table.form_elements tbody td{
 }
 
 </style>
-<script src="<?php print t::h($px->get_install_path()); ?>common/js/jquery-1.7.2.min.js" type="text/javascript"></script>
+<script src="<?php print t::h($px->theme()->href('/common/js/jquery-1.7.2.min.js')); ?>" type="text/javascript"></script>
 <!-- / インクルードエリア -->
 
