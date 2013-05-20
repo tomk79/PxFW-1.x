@@ -334,17 +334,17 @@ class t{
 		if( is_string( $value ) ){
 			#	文字列型
 			$RTN = '"'.t::escape_doublequote( $value ).'"';
-			$RTN = preg_replace( '/\r\n|\r|\n/' , '\'+"\n"+\'' , $RTN );
-			$RTN = preg_replace( '/'.preg_quote('<'.'?','/').'/' , '<\'+\'?' , $RTN );
-			$RTN = preg_replace( '/'.preg_quote('?'.'>','/').'/' , '?\'+\'>' , $RTN );
-			$RTN = preg_replace( '/'.preg_quote('/'.'*','/').'/' , '/\'+\'*' , $RTN );
-			$RTN = preg_replace( '/'.preg_quote('*'.'/','/').'/' , '*\'+\'/' , $RTN );
-			$RTN = preg_replace( '/<(scr)(ipt)/i' , '<$1\'+\'$2' , $RTN );
-			$RTN = preg_replace( '/\/(scr)(ipt)>/i' , '/$1\'+\'$2>' , $RTN );
-			$RTN = preg_replace( '/<(sty)(le)/i' , '<$1\'+\'$2' , $RTN );
-			$RTN = preg_replace( '/\/(sty)(le)>/i' , '/$1\'+\'$2>' , $RTN );
-			$RTN = preg_replace( '/<\!\-\-/i' , '<\'+\'!\'+\'--' , $RTN );
-			$RTN = preg_replace( '/\-\->/i' , '--\'+\'>' , $RTN );
+			$RTN = preg_replace( '/\r\n|\r|\n/' , '"+"\n"+"' , $RTN );
+			$RTN = preg_replace( '/'.preg_quote('<'.'?','/').'/' , '<"+"?' , $RTN );
+			$RTN = preg_replace( '/'.preg_quote('?'.'>','/').'/' , '?"+">' , $RTN );
+			$RTN = preg_replace( '/'.preg_quote('/'.'*','/').'/' , '/"+"*' , $RTN );
+			$RTN = preg_replace( '/'.preg_quote('*'.'/','/').'/' , '*"+"/' , $RTN );
+			$RTN = preg_replace( '/<(scr)(ipt)/i' , '<$1"+"$2' , $RTN );
+			$RTN = preg_replace( '/\/(scr)(ipt)>/i' , '/$1"+"$2>' , $RTN );
+			$RTN = preg_replace( '/<(sty)(le)/i' , '<$1"+"$2' , $RTN );
+			$RTN = preg_replace( '/\/(sty)(le)>/i' , '/$1"+"$2>' , $RTN );
+			$RTN = preg_replace( '/<\!\-\-/i' , '<"+"!"+"--' , $RTN );
+			$RTN = preg_replace( '/\-\->/i' , '--"+">' , $RTN );
 			return	$RTN;
 		}
 
