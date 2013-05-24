@@ -72,6 +72,7 @@ class px_cores_site{
 		foreach( $ary_sitemap_files as $basename_sitemap_csv ){
 			$tmp_sitemap = $this->px->dbh()->read_csv_utf8( $path_sitemap_dir.$basename_sitemap_csv );
 			foreach ($tmp_sitemap as $row) {
+				set_time_limit(30);//タイマー延命
 				$num_auto_pid++;
 				$tmp_array = array();
 				foreach ($this->sitemap_definition as $defrow) {
@@ -188,6 +189,7 @@ class px_cores_site{
 		//  ページツリー情報を構成
 		$this->sitemap_page_tree = array();
 		foreach( $this->sitemap_array as $tmp_path=>$tmp_page_info ){
+			set_time_limit(30);//タイマー延命
 			$this->get_children( $tmp_path );
 			$this->get_children( $tmp_path, array('filter'=>true) );//list_flgを無視して、全員持ってくる
 		}
