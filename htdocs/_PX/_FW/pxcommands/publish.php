@@ -21,6 +21,8 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 		'html' =>'http' ,
 		'css'  =>'http' ,
 		'js'   =>'http' ,
+		'php'  =>'copy' ,
+		'nopublish'=> 'nopublish' ,
 		'inc'  =>'include_text' ,
 	);
 	private $crawler_user_agent = 'PicklesCrawler';
@@ -484,8 +486,8 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 			}elseif( is_file( $current_original_path ) ){
 				//  対象がファイルだったら
 				$tmp_extension = $this->px->dbh()->get_extension( $path.'/'.$filename );
-				if( strtolower($tmp_extension) == 'php' ){
-					//PHPスクリプトファイルはスキャンしない
+				if( $this->publish_type_extension_map[$tmp_extension] == 'nopublish' ){
+					// 'nopublish' 指定のファイルはスキャンしない
 					continue;
 				}
 				$this->add_queue( $this->px->dbh()->get_realpath($this->px->get_install_path().$path.'/'.$filename) );
