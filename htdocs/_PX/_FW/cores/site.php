@@ -190,8 +190,8 @@ class px_cores_site{
 		$this->sitemap_page_tree = array();
 		foreach( $this->sitemap_array as $tmp_path=>$tmp_page_info ){
 			set_time_limit(30);//タイマー延命
-			$this->get_children( $tmp_path );
-			$this->get_children( $tmp_path, array('filter'=>true) );//list_flgを無視して、全員持ってくる
+			$this->get_children( $tmp_path, array('filter'=>true) );
+			$this->get_children( $tmp_path, array('filter'=>false) );//list_flgを無視して、全員持ってくる
 		}
 		unset($tmp_path, $tmp_page_info );
 
@@ -515,15 +515,13 @@ class px_cores_site{
 
 		$page_info = $this->get_page_info( $path );
 
-		if( is_array( $this->sitemap_page_tree[$page_info['path']] ) ){
+		if( $filter && is_array( $this->sitemap_page_tree[$page_info['path']]['children'] ) ){
 			//  ページキャッシュツリーがすでに作られている場合
-			$rtn = array();
-			if($filter){
-				$rtn = $this->sitemap_page_tree[$page_info['path']]['children'];
-			}else{
-				$rtn = $this->sitemap_page_tree[$page_info['path']]['children_all'];
-			}
-			return $rtn;
+			return $this->sitemap_page_tree[$page_info['path']]['children'];
+		}
+		if( !$filter && is_array( $this->sitemap_page_tree[$page_info['path']]['children_all'] ) ){
+			//  ページキャッシュツリーがすでに作られている場合
+			return $this->sitemap_page_tree[$page_info['path']]['children_all'];
 		}
 
 		$tmp_children_orderby_manual = array();
