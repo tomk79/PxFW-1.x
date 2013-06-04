@@ -70,6 +70,9 @@ class px_cores_site{
 		//  サイトマップをロード
 		$num_auto_pid = 0;
 		foreach( $ary_sitemap_files as $basename_sitemap_csv ){
+			if( strtolower( $this->px->dbh()->get_extension($basename_sitemap_csv) ) != 'csv' ){
+				continue;
+			}
 			$tmp_sitemap = $this->px->dbh()->read_csv_utf8( $path_sitemap_dir.$basename_sitemap_csv );
 			foreach ($tmp_sitemap as $row) {
 				set_time_limit(30);//タイマー延命
