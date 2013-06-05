@@ -99,7 +99,7 @@ class px_cores_site{
 					default:
 						// スラ止のパスに index.html を付加する。
 						// ただし、JS、アンカー、外部リンクには適用しない。
-						$tmp_array['path'] = preg_replace( '/\/$/si' , '/index.html' , $tmp_array['path'] );
+						$tmp_array['path'] = preg_replace( '/\/((?:\?|\#).*)?$/si' , '/index.html$1' , $tmp_array['path'] );
 						break;
 				}
 				if( !strlen( $tmp_array['content'] ) ){

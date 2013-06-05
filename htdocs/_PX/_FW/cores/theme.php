@@ -255,7 +255,7 @@ class px_cores_theme{
 				break;
 			default:
 				// index.htmlを省略
-				$path = preg_replace('/\/index\.html$/si','/',$path);
+				$path = preg_replace('/\/index\.html((?:\?|\#).*)?$/si','/$1',$path);
 				break;
 		}
 
