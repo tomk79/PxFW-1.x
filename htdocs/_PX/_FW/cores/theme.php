@@ -293,9 +293,11 @@ class px_cores_theme{
 				$label = $options['label'];
 			}
 		}
-		$breadcrumb = explode('>',$this->px->site()->get_page_info($hrefc,'logical_path'));
+		$breadcrumb = $this->px->site()->get_breadcrumb_array($hrefc);
 		$is_current = false;
-		if($href==$hrefc){
+		if( !is_null( $options['current'] ) ){
+			$is_current = !empty($options['current']);
+		}elseif($href==$hrefc){
 			$is_current = true;
 		}else{
 			foreach( $breadcrumb as $tmp_page_id ){
