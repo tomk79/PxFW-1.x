@@ -227,7 +227,7 @@ class px_pxcommands_api extends px_bases_pxcommand{
 			print $this->data_convert( array('result'=>0) );
 			exit;
 		}
-		if( !$this->px->dbh()->rmdir_all( $path ) ){
+		if( !$this->px->dbh()->rm( $path ) ){
 			print $this->data_convert( array('result'=>0) );
 			exit;
 		}

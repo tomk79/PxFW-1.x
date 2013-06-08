@@ -765,7 +765,7 @@ class px_px{
 		if( $option['delete'] ){
 			#	deleteオプションが指定されていたら、
 			#	ダウンロード後のファイルを削除する。
-			$this->dbh()->rmdir_all( $filepath );
+			$this->dbh()->rm( $filepath );
 		}
 
 		exit();

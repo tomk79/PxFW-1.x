@@ -1856,7 +1856,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 		}elseif( @is_dir( $path ) ){
 			#   ディレクトリの処理
 			#   rmdir() は再帰的削除を行いません。
-			#   再帰的に削除したい場合は、代わりに rmdir_all() を使用します。
+			#   再帰的に削除したい場合は、代わりに rm() を使用します。
 			$result = @rmdir( $path );
 			return	$result;
 		}
@@ -1865,13 +1865,13 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	}//rmdir()
 
 	/**
-	 * ディレクトリを中身ごと完全に削除する
-	 * 
+	 * ファイルやディレクトリを中身ごと完全に削除する
 	 * このメソッドは、ファイルやシンボリックリンクも削除します。
+	 * ディレクトリを削除する場合は、中身ごと完全に削除します。
 	 * シンボリックリンクは、その先を追わず、シンボリックリンク本体のみを削除します。
 	 * 
 	 */
-	public function rmdir_all( $path ){
+	public function rm( $path ){
 
 		if( strlen( $this->px->get_conf('system.filesystem_encoding') ) ){
 			$path = @t::convert_encoding( $path , $this->px->get_conf('system.filesystem_encoding') );
@@ -1892,7 +1892,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 			$flist = $this->ls( $path );
 			foreach ( $flist as $Line ){
 				if( $Line == '.' || $Line == '..' ){ continue; }
-				$this->rmdir_all( $path.'/'.$Line );
+				$this->rm( $path.'/'.$Line );
 			}
 			$result = @rmdir( $path );
 			return	$result;
@@ -1900,7 +1900,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 		}
 
 		return false;
-	}//rmdir_all()
+	}//rm()
 
 	/**
 	 * ディレクトリの内部を比較し、$comparisonに含まれない要素を$targetから削除する
@@ -1914,7 +1914,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 		}
 
 		if( !@file_exists( $comparison ) && @file_exists( $target ) ){
-			$this->rmdir_all( $target );
+			$this->rm( $target );
 			return true;
 		}
 
@@ -2291,7 +2291,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 		#	PHPのFileStatusCacheをクリア
 		clearstatcache();
 
-		$this->rmdir_all( $lockfilepath );
+		$this->rm( $lockfilepath );
 		$RTN = $this->file_overwrite( $lockfilepath , '' );
 		return	$RTN;
 	}//unlock()

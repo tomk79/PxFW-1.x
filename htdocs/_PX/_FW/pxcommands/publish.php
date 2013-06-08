@@ -353,9 +353,9 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 				$this->clear_publish_dir_rmdir_all( '/'.$filename );
 			}
 		}
-		$this->px->dbh()->rmdir_all( $this->path_tmppublish_dir.'/publish_log.txt' );
-		$this->px->dbh()->rmdir_all( $this->path_tmppublish_dir.'/publish_error_log.txt' );
-		$this->px->dbh()->rmdir_all( $this->path_tmppublish_dir.'/readme.txt' );
+		$this->px->dbh()->rm( $this->path_tmppublish_dir.'/publish_log.txt' );
+		$this->px->dbh()->rm( $this->path_tmppublish_dir.'/publish_error_log.txt' );
+		$this->px->dbh()->rm( $this->path_tmppublish_dir.'/readme.txt' );
 		return true;
 	}
 	/**
