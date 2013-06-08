@@ -2,7 +2,7 @@
  * PxFW(Pickles Framework) 更新履歴
  */
 
-■PxFW 1.0.0b6 (2013/**/**)
+■PxFW 1.0.0b6 (2013/6/8)
 
 - $req->get_all_params() を追加。パラメータをすべて返す。
 - プラグインに info API を追加。バージョン情報を返すインターフェイスを定義した。
