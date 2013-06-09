@@ -268,7 +268,10 @@ class px_cores_req{
 	 * アップロードされたファイルをセッションに保存
 	 */
 	public function save_uploadfile( $key , $ulfileinfo ){
-		#	base64でエンコードして、バイナリデータを持ちます
+		// base64でエンコードして、バイナリデータを持ちます。
+		// $ulfileinfo['content'] にバイナリを格納して渡すか、
+		// $ulfileinfo['tmp_name'] または $ulfileinfo['path'] のいずれかに、
+		// アップロードファイルのパスを指定してください。
 		$fileinfo = array();
 		$fileinfo['name'] = $ulfileinfo['name'];
 		$fileinfo['type'] = $ulfileinfo['type'];
@@ -281,20 +284,23 @@ class px_cores_req{
 				$filepath = $ulfileinfo['tmp_name'];
 			}elseif( @is_file( $ulfileinfo['path'] ) ){
 				$filepath = $ulfileinfo['path'];
+			}else{
+				return false;
 			}
 			$fileinfo['content'] = base64_encode( file_get_contents( $filepath ) );
 		}
 		$_SESSION['FILE'][$key] = $fileinfo;
-		return	false;
+		return	true;
 	}
 	/**
 	 * セッションに保存されたファイル情報を取得
 	 */
 	public function get_uploadfile( $key , $option = array() ){
+		if(!strlen($key)){ return false; }
+
 		$RTN = $_SESSION['FILE'][$key];
-		if( is_null( $RTN ) ){
-			return	null;
-		}
+		if( is_null( $RTN ) ){ return false; }
+
 		$RTN['content'] = base64_decode( $RTN['content'] );
 		return	$RTN;
 	}
