@@ -112,19 +112,6 @@ class px_px{
 			$this->theme()->set_layout_id($page_info['layout']);
 		}
 
-		//  プラグインオブジェクトを生成
-		$tmp_path_plugins_base_dir = $this->get_conf('paths.px_dir').'plugins/';
-		$tmp_plugin_list = $this->dbh()->ls( $tmp_path_plugins_base_dir );
-		foreach( $tmp_plugin_list as $tmp_plugin_name ){
-			if( is_file( $tmp_path_plugins_base_dir.$tmp_plugin_name.'/register/object.php' ) ){
-				$tmp_class_name = $this->load_px_plugin_class($tmp_plugin_name.'/register/object.php');
-				if($tmp_class_name){
-					$this->plugin_objects[$tmp_plugin_name] = new $tmp_class_name($this);
-				}
-			}
-		}
-		unset($tmp_path_plugins_base_dir,$tmp_plugin_list,$tmp_plugin_name,$tmp_class_name);
-
 		//  auth_levelの分岐処理
 		if( $page_info['auth_level'] ){
 			if( !$this->user()->is_login() ){
@@ -520,7 +507,18 @@ class px_px{
 	 */
 	public function get_plugin_object( $plugin_name ){
 		if( !strlen($plugin_name) ){return false;}
-		if( !is_object($this->plugin_objects[$plugin_name]) ){return false;}
+		if( !is_object($this->plugin_objects[$plugin_name]) ){
+			//  プラグインオブジェクトを生成
+			$tmp_path_plugins_base_dir = $this->get_conf('paths.px_dir').'plugins/';
+			if( !is_file( $tmp_path_plugins_base_dir.$plugin_name.'/register/object.php' ) ){
+				return false;
+			}
+			$tmp_class_name = $this->load_px_plugin_class($plugin_name.'/register/object.php');
+			if(!$tmp_class_name){
+				return false;
+			}
+			$this->plugin_objects[$plugin_name] = new $tmp_class_name($this);
+		}
 		return $this->plugin_objects[$plugin_name];
 	}//get_plugin_object()
 
