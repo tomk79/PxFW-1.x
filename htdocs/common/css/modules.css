@@ -622,6 +622,7 @@ table.form_elements thead{
 table.form_elements th,
 table.form_elements td {
 	border: 1px solid #999999;
+	background: #ffffff;
 	padding: 10px;
 }
 table.form_elements th {
