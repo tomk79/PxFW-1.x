@@ -1,20 +1,20 @@
 <?php
-	//« $page_info ‚Éƒy[ƒW‚Ìî•ñ‚ðŠi”[‚µ‚Ä‚¢‚Ü‚·B
-	//	 test::var_dump( $page_info ); ‚ÅA•Ï”‚Ì“à—e‚ðŠm”F‚Å‚«‚Ü‚·B
+	//â†“ $page_info ã«ãƒšãƒ¼ã‚¸ã®æƒ…å ±ã‚’æ ¼ç´ã—ã¦ã„ã¾ã™ã€‚
+	//	 test::var_dump( $page_info ); ã§ã€å¤‰æ•°ã®å†…å®¹ã‚’ç¢ºèªã§ãã¾ã™ã€‚
 	$page_info = $this->px->site()->get_current_page_info();
 ?><!doctype html>
 <html>
 <head>
 <meta charset="UTF-8" />
 <?php /*
-« t::h() ‚ÍAhtmlspecialchars() ‚ÌƒVƒ‡[ƒgƒJƒbƒg‚Å‚·B
+â†“ t::h() ã¯ã€htmlspecialchars() ã®ã‚·ãƒ§ãƒ¼ãƒˆã‚«ãƒƒãƒˆã§ã™ã€‚
 */ ?>
 <title><?php print t::h($page_info['title']); ?> | <?php print t::h($px->get_conf('project.name')); ?></title>
 <?php
-	include( $px->get_theme_resource_dir_realpath().'inc/setup.inc' );
+	include( $px->realpath_theme_files().'inc/setup.inc' );
 
-	//«ƒRƒ“ƒeƒ“ƒc‚©‚çŽó‚¯Žæ‚Á‚½
-	//	headƒZƒNƒVƒ‡ƒ““à—p‚Ìƒ\[ƒX‚ðo—Í‚µ‚Ä‚¢‚Ü‚·B
+	//â†“ã‚³ãƒ³ãƒ†ãƒ³ãƒ„ã‹ã‚‰å—ã‘å–ã£ãŸ
+	//	headã‚»ã‚¯ã‚·ãƒ§ãƒ³å†…ç”¨ã®ã‚½ãƒ¼ã‚¹ã‚’å‡ºåŠ›ã—ã¦ã„ã¾ã™ã€‚
 	print $px->theme()->pull_content('head');
 ?>
 </head>

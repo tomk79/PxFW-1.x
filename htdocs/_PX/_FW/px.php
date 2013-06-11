@@ -238,21 +238,21 @@ class px_px{
 	 * テーマリソースディレクトリのパスを得る
 	 * @return string ローカルリソースディレクトリのパス(スラッシュ閉じ)
 	 */
-	public function get_theme_resource_dir(){
+	public function path_theme_files(){
 		//UTODO：リソースをキャッシュディレクトリにコピーする機能が必要
 		$rtn = $this->get_install_path().'_caches/themes/'.$this->theme()->get_theme_id().'/';
 		return $rtn;
-	}//get_theme_resource_dir()
+	}//path_theme_files()
 
 	/**
 	 * テーマリソースディレクトリのサーバー内部パスを得る
 	 * @return string ローカルリソースディレクトリのサーバー内部パス(スラッシュ閉じ)
 	 */
-	public function get_theme_resource_dir_realpath(){
+	public function realpath_theme_files(){
 		$lib_realpath = $this->get_conf('paths.px_dir').'themes/'.$this->theme()->get_theme_id().'/theme.files/';
 		$rtn = $this->dbh()->get_realpath( $lib_realpath ).'/';
 		return $rtn;
-	}//get_theme_resource_dir_realpath()
+	}//realpath_theme_files()
 
 	/**
 	 * 外部ソースをインクルードする(ServerSideInclude)

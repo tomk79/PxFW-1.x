@@ -5,6 +5,8 @@
 ■PxFW 1.0.0b7 (2013/**/**)
 
 - プラグインオブジェクトを生成するタイミングを、"最初に一括して" ではなく、"初めて呼び出されたとき" に変更。
+- $px->get_theme_resource_dir() を $px->path_theme_files() に変更。
+- $px->get_theme_resource_dir_realpath() を $px->realpath_theme_files() に変更。
 
 
 ■PxFW 1.0.0b6 (2013/6/8)
