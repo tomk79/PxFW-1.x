@@ -100,6 +100,10 @@ class px_px{
 		if( strlen($this->req()->get_param('THEME')) ){
 			$this->theme()->set_theme_id( $this->req()->get_param('THEME') );
 		}
+		if( !is_dir( $_SERVER['DOCUMENT_ROOT'].$this->get_install_path().'_caches/themes/'.$this->theme()->get_theme_id().'/' ) ){
+			// テーマリソースキャッシュの一次生成
+			$this->path_theme_files('/');
+		}
 
 		//  ユーザーログイン処理
 		$this->user()->update_login_status( $this->req()->get_param('ID') , $this->req()->get_param('PW') );
@@ -238,9 +242,31 @@ class px_px{
 	 * テーマリソースディレクトリのパスを得る
 	 * @return string ローカルリソースディレクトリのパス(スラッシュ閉じ)
 	 */
-	public function path_theme_files(){
-		//UTODO：リソースをキャッシュディレクトリにコピーする機能が必要
-		$rtn = $this->get_install_path().'_caches/themes/'.$this->theme()->get_theme_id().'/';
+	public function path_theme_files( $localpath_theme_resource = null ){
+		$localpath_theme_resource = preg_replace('/^\/+/', '', $localpath_theme_resource);
+
+		$realpath_original = $this->realpath_theme_files().'/'.$localpath_theme_resource;
+		$realpath_copyto = $_SERVER['DOCUMENT_ROOT'].$this->get_install_path().'_caches/themes/'.$this->theme()->get_theme_id().'/'.$localpath_theme_resource;
+		if( is_file($realpath_original) ){
+			// 対象がファイルだったら
+			if( strtolower($this->dbh()->get_extension($realpath_copyto)) == 'nopublish' ){
+				// 拡張子 *.nopublish のファイルはコピーしない
+			}elseif( !is_file($realpath_copyto) || $this->dbh()->is_newer_a_than_b( $realpath_original, $realpath_copyto ) ){
+				// キャッシュが存在しないか、オリジナルの方が新しい場合。
+				// キャッシュを作成・更新。
+				$this->dbh()->mkdir_all( dirname($realpath_copyto) );
+				$this->dbh()->copy( $realpath_original, $realpath_copyto );
+				$this->add_relatedlink( $this->get_install_path().$localpath_theme_resource );
+			}
+		}elseif( is_dir($realpath_original) ){
+			// 対象がディレクトリだったら
+			$this->dbh()->mkdir_all( $realpath_copyto );
+			foreach( $this->dbh()->ls($realpath_original) as $tmp_basename ){
+				$this->path_theme_files( $localpath_theme_resource.'/'.$tmp_basename );
+			}
+		}
+
+		$rtn = $this->get_install_path().'_caches/themes/'.$this->theme()->get_theme_id().'/'.$localpath_theme_resource;
 		return $rtn;
 	}//path_theme_files()
 
