@@ -156,13 +156,38 @@ class px_cores_user{
 	 * ユーザパスワードを暗号化する
 	 */
 	public function crypt_user_password( $password ){
+		// [2013-05-31]
 		// ハッシュ化アルゴリズムを md5 から、
 		// より信頼性の高い sha1 に変更した。
 		// 次のようにコンフィグにアルゴリズム名を設定できるようにすることも考えたが、
-		// 一旦見送った。2013-05-31
+		// 一旦見送った。
 		// system.password_hash_algorithm = "md5" ; パスワードのハッシュアルゴリズム
 		return	sha1( $password );
 	}
 
+	/**
+	 * ワンタイムハッシュを発行する
+	 */
+	public function get_onetime_hash(){
+		$str_hash = uniqid();//ハッシュ値を生成
+		$this->px->req()->set_session('ONETIMEHASH', $str_hash);//セッションに保存
+		return $str_hash;
+	}//get_onetime_hash()
+
+	/**
+	 * ワンタイムハッシュを使用する
+	 */
+	public function use_onetime_hash($str_hash){
+		if(!strlen($str_hash)){
+			return false;
+		}
+		if( $this->px->req()->get_session('ONETIMEHASH') !== $str_hash ){
+			return false;
+		}
+		$this->px->req()->delete_session( 'ONETIMEHASH' );//ハッシュをクリアする
+		return true;
+	}//use_onetime_hash()
+
 }
+
 ?>

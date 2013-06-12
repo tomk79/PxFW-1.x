@@ -152,6 +152,7 @@ class cont_{
 		return $rtn;
 	}
 	private function page_add_user_confirm(){
+
 		$dao_user = $this->factory_dao_user();
 
 		$rtn = '';
@@ -201,6 +202,7 @@ class cont_{
 		$rtn .= '<form action="'.t::h($this->px->theme()->href( $this->px->req()->get_request_file_path() )).'" method="post">'."\n";
 		$rtn .= '<div>';
 		$rtn .= '<input type="hidden" name="mode" value="execute" />';
+		$rtn .= '<input type="hidden" name="hash" value="'.t::h($this->px->user()->get_onetime_hash()).'" />';
 		$rtn .= $hidden;
 		$rtn .= '</div>'."\n";
 		$rtn .= '<div class="unit form_buttons">'."\n";
@@ -253,6 +255,11 @@ class cont_{
 		return $rtn;
 	}
 	private function page_add_user_execute(){
+		if( !$this->px->user()->use_onetime_hash( $this->px->req()->get_param('hash') ) ){
+			// 二重送信防止
+			return $this->px->redirect( '?mode=complete' );
+		}
+
 		$new_user_info = array(
 			'user_account'=>$this->px->req()->get_param('user_account'),
 			'user_pw'=>$this->px->req()->get_param('user_pw'),

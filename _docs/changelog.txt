@@ -8,6 +8,7 @@
 - $px->get_theme_resource_dir() を $px->path_theme_files() に変更。
 - $px->get_theme_resource_dir_realpath() を $px->realpath_theme_files() に変更。
 - テーマリソースキャッシュの仕組みを実装した。
+- $user->get_onetime_hash(), $user->use_onetime_hash() を追加。二重送信防止用の機能として。
 
 
 ■PxFW 1.0.0b6 (2013/6/8)
