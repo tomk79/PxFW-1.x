@@ -306,6 +306,8 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 		array_push( $this->paths_ignore , t::realpath($this->px->get_conf('paths.px_dir')) );
 		array_push( $this->paths_ignore , t::realpath($this->path_docroot_dir.'/.htaccess') );
 		array_push( $this->paths_ignore , t::realpath($this->path_docroot_dir.'/_px_execute.php') );
+		array_push( $this->paths_ignore , '*/.DS_Store' );
+		array_push( $this->paths_ignore , '*/Thumbs.db' );
 
 		$conf_paths_ignore = preg_split('/\r\n|\r|\n|\,|\;/',$this->px->get_conf('publish.paths_ignore'));
 		clearstatcache();

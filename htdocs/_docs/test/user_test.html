@@ -8,7 +8,7 @@
 
 	$path_resource_dir = $px->path_files();
 	$realpath_resource_dir = $px->realpath_files();
-	require_once( $realpath_resource_dir.'exec.php' );
+	require_once( $realpath_resource_dir.'exec.php.nopublish' );
 	$cont_exec = new cont_exec($px);
 
 	print $cont_exec->execute();
