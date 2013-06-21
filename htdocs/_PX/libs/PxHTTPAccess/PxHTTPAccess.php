@@ -2,10 +2,10 @@
 
 ###################################################################################################################
 #
-#	PxHTTPAccess 1.0.3
+#	PxHTTPAccess 1.0.4
 #			(HTTPアクセスオブジェクト)
 #			Copyright (C)Tomoya Koyanagi, All rights reserved.
-#			LastUpdate : 12:07 2011/05/22
+#			LastUpdate : 11:50 2013/06/21
 #	--------------------------------------
 #	このライブラリは、ネットワークを経由したHTTP通信でコンテンツを取得するクラスです。
 #	OpenSSLがインストールされている環境では、HTTPSも利用可能です。
@@ -232,14 +232,14 @@ class PxHTTPAccess{
 			return	false;
 		}
 		stream_set_timeout( $res , intval( $this->stream_timeout ) );
-		$this->http_connection_resource = $res;
+		$this->http_connection_resource = &$res;
 		return	$res;
 	}
 
 	#--------------------------------------
 	#	接続を解除する
 	function http_disconnect(){
-		$res = $this->get_connection_resource();
+		$res = &$this->get_connection_resource();
 		if( !is_resource( $res ) ){ return false; }
 		if( !fclose( $res ) ){ return false; }
 		return	true;
@@ -328,7 +328,7 @@ class PxHTTPAccess{
 	#--------------------------------------
 	#	リクエストを送信する
 	function send_request( $request_header = null ){
-		$res = $this->get_connection_resource();
+		$res = &$this->get_connection_resource();
 		if( !is_resource($res) ){ return false; }
 
 		if( !strlen( $request_header ) ){
@@ -371,7 +371,7 @@ class PxHTTPAccess{
 			$save_to_path = null;
 		}
 
-		$res = $this->get_connection_resource();
+		$res = &$this->get_connection_resource();
 		if( !is_resource($res) ){ return false; }
 
 		$this->clear_response_header();//前回のレスポンスヘッダを削除(初期化)
@@ -396,7 +396,7 @@ class PxHTTPAccess{
 				$line = fread( $res , $this->fread_length );
 			}else{
 				#	テキストのデータはこっちが速い？
-				$line = fgets( $res );
+				$line = fgets( $res , $this->fread_length );
 			}
 
 			if( $status == 1 || $status == 2 ){
