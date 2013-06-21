@@ -154,7 +154,7 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 		print 'path_target => '.$this->path_target.'*'."\n";
 		print 'paths_ignore => '."\n";
 		foreach( $this->paths_ignore as $row ){
-			print '  - '.$row."\n";
+			print '  - '.(is_string($row)?$row:($row===false?'[invalid_path]':'[unknown_type]'))."\n";
 		}
 		unset($row);
 
@@ -323,7 +323,7 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 			}else{
 				$row_realpath = t::realpath($row_realpath);
 				if( !is_string($row_realpath) || !file_exists($row_realpath) ){
-					$this->internal_error_log('[ERROR] error on paths_ignore ['.$row.']. See "mainconf.ini".',__FILE__,__LINE__);
+					// $this->internal_error_log('[ERROR] error on paths_ignore ['.$row.']. See "mainconf.ini".',__FILE__,__LINE__);
 					continue;
 				}
 			}
@@ -645,6 +645,7 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 
 		//if( !file_exists($path) ){ return true; }
 		foreach( $this->paths_ignore as $row ){
+			if(!is_string($row)){continue;}
 			$preg_pattern = preg_quote($this->px->dbh()->get_realpath($row),'/');
 			if( preg_match('/\*/',$preg_pattern) ){
 				// ワイルドカードが使用されている場合
