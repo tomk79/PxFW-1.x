@@ -74,6 +74,24 @@ class px_pxcommands_config extends px_bases_pxcommand{
 		$src .= $this->mk_config_unit('dbms.charset','文字セット');
 		$src .= '</table>' . "\n";
 
+		$src .= '<h3>commands</h3>'."\n";
+		$commands = array();
+		foreach($this->config_ary as $key=>$val){
+			if( preg_match('/^commands\.(.*)$/s', $key, $command_matches) ){
+				array_push($commands, array('key'=>$key,'command'=>$command_matches[1] ));
+			}
+		}
+		if( !count($commands) ){
+			$src .= '<p>コマンドの設定はありません。</p>' . "\n";
+		}else{
+			$src .= '<table class="def" style="width:100%;">' . "\n";
+			$src .= '<colgroup><col width="30%" /><col width="30%" /><col width="40%" /></colgroup>' . "\n";
+			foreach($commands as $command){
+				$src .= $this->mk_config_unit($command['key'],$command['command'].'コマンドのパス','string');
+			}
+			$src .= '</table>' . "\n";
+		}
+
 		$src .= '<h3>system</h3>'."\n";
 		$src .= '<table class="def" style="width:100%;">' . "\n";
 		$src .= '<colgroup><col width="30%" /><col width="30%" /><col width="40%" /></colgroup>' . "\n";
