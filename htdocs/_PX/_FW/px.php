@@ -100,7 +100,7 @@ class px_px{
 		if( strlen($this->req()->get_param('THEME')) ){
 			$this->theme()->set_theme_id( $this->req()->get_param('THEME') );
 		}
-		if( !is_dir( $_SERVER['DOCUMENT_ROOT'].$this->get_install_path().'_caches/themes/'.$this->theme()->get_theme_id().'/' ) ){
+		if( !is_dir( $_SERVER['DOCUMENT_ROOT'].$this->get_install_path().'_caches/_themes/'.$this->theme()->get_theme_id().'/' ) ){
 			// テーマリソースキャッシュの一次生成
 			$this->path_theme_files('/');
 		}
@@ -246,7 +246,7 @@ class px_px{
 		$localpath_theme_resource = preg_replace('/^\/+/', '', $localpath_theme_resource);
 
 		$realpath_original = $this->realpath_theme_files().'/'.$localpath_theme_resource;
-		$realpath_copyto = $_SERVER['DOCUMENT_ROOT'].$this->get_install_path().'_caches/themes/'.$this->theme()->get_theme_id().'/'.$localpath_theme_resource;
+		$realpath_copyto = $_SERVER['DOCUMENT_ROOT'].$this->get_install_path().'_caches/_themes/'.$this->theme()->get_theme_id().'/'.$localpath_theme_resource;
 		if( is_file($realpath_original) ){
 			// 対象がファイルだったら
 			if( strtolower($this->dbh()->get_extension($realpath_copyto)) == 'nopublish' ){
@@ -266,7 +266,7 @@ class px_px{
 			}
 		}
 
-		$rtn = $this->get_install_path().'_caches/themes/'.$this->theme()->get_theme_id().'/'.$localpath_theme_resource;
+		$rtn = $this->get_install_path().'_caches/_themes/'.$this->theme()->get_theme_id().'/'.$localpath_theme_resource;
 		return $rtn;
 	}//path_theme_files()
 
