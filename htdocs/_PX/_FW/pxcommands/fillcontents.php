@@ -151,6 +151,19 @@ class px_pxcommands_fillcontents extends px_bases_pxcommand{
 		$src .= '<h2>Dummy content</h2>'."\r\n";
 		$src .= '<p>このコンテンツファイルは、PX='.t::h($command[0]).' によって自動生成されたダミーファイルです。</p>'."\r\n";
 		$src .= "\r\n";
+		$src .= ''."\r\n";
+		$src .= '<'.'?php'."\r\n";
+		$src .= '$children = $px->site()->get_children();'."\r\n";
+		$src .= 'if(count($children)){'."\r\n";
+		$src .= '	print \'<ul>\'."\\r\\n";'."\r\n";
+		$src .= '	foreach($children as $child){'."\r\n";
+		$src .= '		print \'	<li>\'.$px->theme()->mk_link($child).\'</li>\'."\\r\\n";'."\r\n";
+		$src .= '	}'."\r\n";
+		$src .= '	print \'</ul>\'."\\r\\n";'."\r\n";
+		$src .= '}'."\r\n";
+		$src .= '?'.'>'."\r\n";
+		$src .= ''."\r\n";
+
 		return $src;
 	}
 
