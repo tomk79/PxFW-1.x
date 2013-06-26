@@ -487,6 +487,18 @@ ul.nomark li.nomark-li{
 	padding-left:0;
 }
 
+/**
+ * [parts] 水平並びリスト
+ */
+ul.horizontal{
+	padding-left:0;
+}
+ul.horizontal li.horizontal-li{
+	list-style-type:none;
+	padding-left:0;
+	padding-right:20;
+	display:inline;
+}
 
 /**
  * 注釈定義リスト
