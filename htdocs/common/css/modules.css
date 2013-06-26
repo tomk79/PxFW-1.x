@@ -680,11 +680,6 @@ table.form_elements .form_elements-list_horizontal li{
 	list-style-type:none;
 	display:inline;
 }
-table.form_elements .form_elements-must{
-	color:#ff0000;
-	font-weight:bold;
-	display:block;
-}
 table.form_elements .form_elements-error{
 }
 table.form_elements .form_elements-error th{
@@ -700,6 +695,15 @@ table.form_elements ul.form_elements-errors{
 table.form_elements ul.form_elements-errors li{
 	list-style-type:none;
 	margin:0;
+}
+
+/**
+ * [parts] 必須項目
+ */
+.must{
+	color:#ff0000;
+	font-weight:bold;
+	display:block;
 }
 
 /**

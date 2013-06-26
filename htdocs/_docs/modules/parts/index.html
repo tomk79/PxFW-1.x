@@ -855,55 +855,6 @@
 
 
 
-<h3>必須項目</h3>
-
-<div class="unit">
-<table class="form_elements">
-	<thead>
-		<tr>
-			<th>入力項目名</th>
-			<th>入力フィールド</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<th>テキスト入力<span class="form_elements-must">必須</span></th>
-			<td>
-				<ul class="form_elements-notes">
-					<li>全角カナで入力してください。</li>
-					<li>8文字以上入力してください。</li>
-				</ul>
-				<input type="text" name="" value="" />
-			</td>
-		</tr>
-	</tbody>
-</table>
-</div><!-- /.unit -->
-<div class="unit">
-	<div class="code"><textarea readonly="readonly">&lt;table class=&quot;form_elements&quot;&gt;
-	&lt;thead&gt;
-		&lt;tr&gt;
-			&lt;th&gt;入力項目名&lt;/th&gt;
-			&lt;th&gt;入力フィールド&lt;/th&gt;
-		&lt;/tr&gt;
-	&lt;/thead&gt;
-	&lt;tbody&gt;
-		&lt;tr&gt;
-			&lt;th&gt;テキスト入力&lt;span class=&quot;form_elements-must&quot;&gt;必須&lt;/span&gt;&lt;/th&gt;
-			&lt;td&gt;
-				&lt;ul class=&quot;form_elements-notes&quot;&gt;
-					&lt;li&gt;全角カナで入力してください。&lt;/li&gt;
-					&lt;li&gt;8文字以上入力してください。&lt;/li&gt;
-				&lt;/ul&gt;
-				&lt;input type=&quot;text&quot; name=&quot;&quot; value=&quot;&quot; /&gt;
-			&lt;/td&gt;
-		&lt;/tr&gt;
-	&lt;/tbody&gt;
-&lt;/table&gt;
-</textarea></div>
-</div><!-- /.unit -->
-
-
 <h3>エラー表示</h3>
 
 <div class="unit">
@@ -959,6 +910,35 @@
 &lt;/table&gt;
 </textarea></div>
 </div><!-- /.unit -->
+
+
+<h3>必須項目 .must</h3>
+<div class="unit">
+<table class="form_elements">
+	<thead>
+		<tr>
+			<th>入力項目名</th>
+			<th>入力フィールド</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<th>テキスト入力<span class="must">必須</span></th>
+			<td>
+				<ul class="form_elements-notes">
+					<li>全角カナで入力してください。</li>
+					<li>8文字以上入力してください。</li>
+				</ul>
+				<input type="text" name="" value="" />
+			</td>
+		</tr>
+	</tbody>
+</table>
+</div><!-- /.unit -->
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;span class=&quot;must&quot;&gt;必須&lt;/span&gt;
+</textarea></div>
+</div>
 
 
 <h3>送信系ボタン</h3>
