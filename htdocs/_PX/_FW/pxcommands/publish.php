@@ -321,11 +321,7 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 				// ワイルドカードが使われている場合、
 				// 対象パスの存在確認を行わない。
 			}else{
-				$row_realpath = t::realpath($row_realpath);
-				if( !is_string($row_realpath) || !file_exists($row_realpath) ){
-					// $this->internal_error_log('[ERROR] error on paths_ignore ['.$row.']. See "mainconf.ini".',__FILE__,__LINE__);
-					continue;
-				}
+				$row_realpath = $this->px->dbh()->get_realpath($row_realpath);
 			}
 
 			array_push( $this->paths_ignore , $row_realpath );
