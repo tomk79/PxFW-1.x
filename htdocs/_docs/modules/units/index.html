@@ -16,7 +16,7 @@
 
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;unit&quot;&gt;
-	&lt;!-- insert parts modules --&gt;
+	{$parts|box}
 &lt;/div&gt;&lt;!-- /.unit --&gt;
 </textarea></div>
 </div><!-- /.unit -->
@@ -47,10 +47,10 @@
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;cols unit&quot;&gt;
 	&lt;div class=&quot;cols-col cols-1of2&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
-		&lt;!-- insert parts modules --&gt;
+		{$parts|box}
 	&lt;/div&gt;&lt;/div&gt;
 	&lt;div class=&quot;cols-col cols-1of2 cols-last&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
-		&lt;!-- insert parts modules --&gt;
+		{$parts|box}
 	&lt;/div&gt;&lt;/div&gt;
 &lt;/div&gt;&lt;!-- / .cols --&gt;
 </textarea></div>
@@ -85,13 +85,13 @@
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;cols unit&quot;&gt;
 	&lt;div class=&quot;cols-col cols-1of3&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
-		&lt;!-- insert parts modules --&gt;
+		{$parts|box}
 	&lt;/div&gt;&lt;/div&gt;
 	&lt;div class=&quot;cols-col cols-1of3&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
-		&lt;!-- insert parts modules --&gt;
+		{$parts|box}
 	&lt;/div&gt;&lt;/div&gt;
 	&lt;div class=&quot;cols-col cols-1of3 cols-last&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
-		&lt;!-- insert parts modules --&gt;
+		{$parts|box}
 	&lt;/div&gt;&lt;/div&gt;
 &lt;/div&gt;&lt;!-- / .cols --&gt;
 </textarea></div>
@@ -135,16 +135,16 @@
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;cols unit&quot;&gt;
 	&lt;div class=&quot;cols-col cols-1of4&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
-		&lt;!-- insert parts modules --&gt;
+		{$parts|box}
 	&lt;/div&gt;&lt;/div&gt;
 	&lt;div class=&quot;cols-col cols-1of4&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
-		&lt;!-- insert parts modules --&gt;
+		{$parts|box}
 	&lt;/div&gt;&lt;/div&gt;
 	&lt;div class=&quot;cols-col cols-1of4&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
-		&lt;!-- insert parts modules --&gt;
+		{$parts|box}
 	&lt;/div&gt;&lt;/div&gt;
 	&lt;div class=&quot;cols-col cols-1of4 cols-last&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
-		&lt;!-- insert parts modules --&gt;
+		{$parts|box}
 	&lt;/div&gt;&lt;/div&gt;
 &lt;/div&gt;&lt;!-- / .cols --&gt;
 </textarea></div>
@@ -168,10 +168,10 @@
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;cols unit&quot;&gt;
 	&lt;div class=&quot;cols-col cols-3of4&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
-		&lt;!-- insert parts modules --&gt;
+		{$parts|box}
 	&lt;/div&gt;&lt;/div&gt;
 	&lt;div class=&quot;cols-col cols-1of4 cols-last&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
-		&lt;!-- insert parts modules --&gt;
+		{$parts|box}
 	&lt;/div&gt;&lt;/div&gt;
 &lt;/div&gt;&lt;!-- / .cols --&gt;
 </textarea></div>
@@ -201,13 +201,13 @@
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;cols unit&quot;&gt;
 	&lt;div class=&quot;cols-col cols-1of4&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
-		&lt;!-- insert parts modules --&gt;
+		{$parts|box}
 	&lt;/div&gt;&lt;/div&gt;
 	&lt;div class=&quot;cols-col cols-1of2&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
-		&lt;!-- insert parts modules --&gt;
+		{$parts|box}
 	&lt;/div&gt;&lt;/div&gt;
 	&lt;div class=&quot;cols-col cols-1of4 cols-last&quot;&gt;&lt;div class=&quot;cols-pad&quot;&gt;
-		&lt;!-- insert parts modules --&gt;
+		{$parts|box}
 	&lt;/div&gt;&lt;/div&gt;
 &lt;/div&gt;&lt;!-- / .cols --&gt;
 </textarea></div>
@@ -240,11 +240,11 @@
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;unit float_media&quot;&gt;
 	&lt;div class=&quot;float_media-r1of2&quot;&gt;
-		&lt;div class=&quot;float_media-image&quot;&gt;&lt;img src=&quot;index.files/sampleimage.png&quot; alt=&quot;サンプル画像&quot; /&gt;&lt;/div&gt;
-		&lt;p class=&quot;float_media-caption&quot;&gt;キャプションテキスト。キャプションテキスト。キャプションテキスト。&lt;/p&gt;
+		&lt;div class=&quot;float_media-image&quot;&gt;&lt;img src=&quot;{$image}&quot; alt=&quot;{$text}&quot; /&gt;&lt;/div&gt;
+		&lt;p class=&quot;float_media-caption&quot;&gt;{$text}&lt;/p&gt;
 	&lt;/div&gt;
 	&lt;div class=&quot;float_media-body&quot;&gt;
-		&lt;!-- insert parts modules --&gt;
+		{$parts|box}
 	&lt;/div&gt;
 &lt;/div&gt;&lt;!-- /.float_media --&gt;
 </textarea></div>
@@ -274,11 +274,11 @@
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;unit float_media&quot;&gt;
 	&lt;div class=&quot;float_media-r1of3&quot;&gt;
-		&lt;div class=&quot;float_media-image&quot;&gt;&lt;img src=&quot;index.files/sampleimage.png&quot; alt=&quot;サンプル画像&quot; /&gt;&lt;/div&gt;
-		&lt;p class=&quot;float_media-caption&quot;&gt;キャプションテキスト。キャプションテキスト。キャプションテキスト。&lt;/p&gt;
+		&lt;div class=&quot;float_media-image&quot;&gt;&lt;img src=&quot;{$image}&quot; alt=&quot;{$text}&quot; /&gt;&lt;/div&gt;
+		&lt;p class=&quot;float_media-caption&quot;&gt;{$text}&lt;/p&gt;
 	&lt;/div&gt;
 	&lt;div class=&quot;float_media-body&quot;&gt;
-		&lt;!-- insert parts modules --&gt;
+		{$parts|box}
 	&lt;/div&gt;
 &lt;/div&gt;&lt;!-- /.float_media --&gt;
 </textarea></div>
@@ -308,11 +308,11 @@
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;unit float_media&quot;&gt;
 	&lt;div class=&quot;float_media-r1of4&quot;&gt;
-		&lt;div class=&quot;float_media-image&quot;&gt;&lt;img src=&quot;index.files/sampleimage.png&quot; alt=&quot;サンプル画像&quot; /&gt;&lt;/div&gt;
-		&lt;p class=&quot;float_media-caption&quot;&gt;キャプションテキスト。キャプションテキスト。キャプションテキスト。&lt;/p&gt;
+		&lt;div class=&quot;float_media-image&quot;&gt;&lt;img src=&quot;{$image}&quot; alt=&quot;{$text}&quot; /&gt;&lt;/div&gt;
+		&lt;p class=&quot;float_media-caption&quot;&gt;{$text}&lt;/p&gt;
 	&lt;/div&gt;
 	&lt;div class=&quot;float_media-body&quot;&gt;
-		&lt;!-- insert parts modules --&gt;
+		{$parts|box}
 	&lt;/div&gt;
 &lt;/div&gt;&lt;!-- /.float_media --&gt;
 </textarea></div>
@@ -342,11 +342,11 @@
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;unit float_media&quot;&gt;
 	&lt;div class=&quot;float_media-l1of2&quot;&gt;
-		&lt;div class=&quot;float_media-image&quot;&gt;&lt;img src=&quot;index.files/sampleimage.png&quot; alt=&quot;サンプル画像&quot; /&gt;&lt;/div&gt;
-		&lt;p class=&quot;float_media-caption&quot;&gt;キャプションテキスト。キャプションテキスト。キャプションテキスト。&lt;/p&gt;
+		&lt;div class=&quot;float_media-image&quot;&gt;&lt;img src=&quot;{$image}&quot; alt=&quot;{$text}&quot; /&gt;&lt;/div&gt;
+		&lt;p class=&quot;float_media-caption&quot;&gt;{$text}&lt;/p&gt;
 	&lt;/div&gt;
 	&lt;div class=&quot;float_media-body&quot;&gt;
-		&lt;!-- insert parts modules --&gt;
+		{$parts|box}
 	&lt;/div&gt;
 &lt;/div&gt;&lt;!-- /.float_media --&gt;
 </textarea></div>
@@ -376,11 +376,11 @@
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;unit float_media&quot;&gt;
 	&lt;div class=&quot;float_media-l1of3&quot;&gt;
-		&lt;div class=&quot;float_media-image&quot;&gt;&lt;img src=&quot;index.files/sampleimage.png&quot; alt=&quot;サンプル画像&quot; /&gt;&lt;/div&gt;
-		&lt;p class=&quot;float_media-caption&quot;&gt;キャプションテキスト。キャプションテキスト。キャプションテキスト。&lt;/p&gt;
+		&lt;div class=&quot;float_media-image&quot;&gt;&lt;img src=&quot;{$image}&quot; alt=&quot;{$text}&quot; /&gt;&lt;/div&gt;
+		&lt;p class=&quot;float_media-caption&quot;&gt;{$text}&lt;/p&gt;
 	&lt;/div&gt;
 	&lt;div class=&quot;float_media-body&quot;&gt;
-		&lt;!-- insert parts modules --&gt;
+		{$parts|box}
 	&lt;/div&gt;
 &lt;/div&gt;&lt;!-- /.float_media --&gt;
 </textarea></div>
@@ -410,11 +410,11 @@
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;unit float_media&quot;&gt;
 	&lt;div class=&quot;float_media-l1of4&quot;&gt;
-		&lt;div class=&quot;float_media-image&quot;&gt;&lt;img src=&quot;index.files/sampleimage.png&quot; alt=&quot;サンプル画像&quot; /&gt;&lt;/div&gt;
-		&lt;p class=&quot;float_media-caption&quot;&gt;キャプションテキスト。キャプションテキスト。キャプションテキスト。&lt;/p&gt;
+		&lt;div class=&quot;float_media-image&quot;&gt;&lt;img src=&quot;{$image}&quot; alt=&quot;{$text}&quot; /&gt;&lt;/div&gt;
+		&lt;p class=&quot;float_media-caption&quot;&gt;{$text}&lt;/p&gt;
 	&lt;/div&gt;
 	&lt;div class=&quot;float_media-body&quot;&gt;
-		&lt;!-- insert parts modules --&gt;
+		{$parts|box}
 	&lt;/div&gt;
 &lt;/div&gt;&lt;!-- /.float_media --&gt;
 </textarea></div>
@@ -445,11 +445,11 @@
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;unit float_media&quot;&gt;
 	&lt;div class=&quot;float_media-l1of4&quot;&gt;
-		&lt;div class=&quot;float_media-image&quot;&gt;&lt;img src=&quot;index.files/sampleimage.png&quot; alt=&quot;サンプル画像&quot; /&gt;&lt;/div&gt;
-		&lt;p class=&quot;float_media-caption&quot;&gt;キャプションテキスト。キャプションテキスト。キャプションテキスト。&lt;/p&gt;
+		&lt;div class=&quot;float_media-image&quot;&gt;&lt;img src=&quot;{$image}&quot; alt=&quot;{$text}&quot; /&gt;&lt;/div&gt;
+		&lt;p class=&quot;float_media-caption&quot;&gt;{$text}&lt;/p&gt;
 	&lt;/div&gt;
 	&lt;div class=&quot;float_media-body_rect&quot;&gt;
-		&lt;!-- insert parts modules --&gt;
+		{$parts|box}
 	&lt;/div&gt;
 &lt;/div&gt;&lt;!-- /.float_media --&gt;
 </textarea></div>
@@ -482,16 +482,16 @@ UTODO: ガイドラインを提示すべき。
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;unit thumb_list&quot;&gt;
 	&lt;ul&gt;
-		&lt;li&gt;&lt;div class=&quot;thumb_list-pad&quot;&gt;&lt;a href=&quot;#&quot;&gt;&lt;img src=&quot;index.files/sampleimage.png&quot; alt=&quot;サンプル画像&quot; /&gt;&lt;span class=&quot;thumb_list-caption&quot;&gt;サムネイルラベル&lt;/span&gt;&lt;/a&gt;&lt;/div&gt;&lt;/li&gt;
-		&lt;li&gt;&lt;div class=&quot;thumb_list-pad&quot;&gt;&lt;a href=&quot;#&quot;&gt;&lt;img src=&quot;index.files/sampleimage.png&quot; alt=&quot;サンプル画像&quot; /&gt;&lt;span class=&quot;thumb_list-caption&quot;&gt;サムネイルラベル&lt;/span&gt;&lt;/a&gt;&lt;/div&gt;&lt;/li&gt;
-		&lt;li&gt;&lt;div class=&quot;thumb_list-pad&quot;&gt;&lt;a href=&quot;#&quot;&gt;&lt;img src=&quot;index.files/sampleimage.png&quot; alt=&quot;サンプル画像&quot; /&gt;&lt;span class=&quot;thumb_list-caption&quot;&gt;サムネイルラベルサムネイルラベルサムネイルラベルサムネイルラベル&lt;/span&gt;&lt;/a&gt;&lt;/div&gt;&lt;/li&gt;
-		&lt;li&gt;&lt;div class=&quot;thumb_list-pad&quot;&gt;&lt;a href=&quot;#&quot;&gt;&lt;img src=&quot;index.files/sampleimage.png&quot; alt=&quot;サンプル画像&quot; /&gt;&lt;span class=&quot;thumb_list-caption&quot;&gt;サムネイルラベル&lt;/span&gt;&lt;/a&gt;&lt;/div&gt;&lt;/li&gt;
-		&lt;li&gt;&lt;div class=&quot;thumb_list-pad&quot;&gt;&lt;a href=&quot;#&quot;&gt;&lt;img src=&quot;index.files/sampleimage.png&quot; alt=&quot;サンプル画像&quot; /&gt;&lt;span class=&quot;thumb_list-caption&quot;&gt;サムネイルラベル&lt;/span&gt;&lt;/a&gt;&lt;/div&gt;&lt;/li&gt;
-		&lt;li&gt;&lt;div class=&quot;thumb_list-pad&quot;&gt;&lt;a href=&quot;#&quot;&gt;&lt;img src=&quot;index.files/sampleimage.png&quot; alt=&quot;サンプル画像&quot; /&gt;&lt;span class=&quot;thumb_list-caption&quot;&gt;サムネイルラベルサムネイルラベルサムネイルラベルサムネイルラベル&lt;/span&gt;&lt;/a&gt;&lt;/div&gt;&lt;/li&gt;
-		&lt;li&gt;&lt;div class=&quot;thumb_list-pad&quot;&gt;&lt;a href=&quot;#&quot;&gt;&lt;img src=&quot;index.files/sampleimage.png&quot; alt=&quot;サンプル画像&quot; /&gt;&lt;span class=&quot;thumb_list-caption&quot;&gt;サムネイルラベル&lt;/span&gt;&lt;/a&gt;&lt;/div&gt;&lt;/li&gt;
-		&lt;li&gt;&lt;div class=&quot;thumb_list-pad&quot;&gt;&lt;a href=&quot;#&quot;&gt;&lt;img src=&quot;index.files/sampleimage.png&quot; alt=&quot;サンプル画像&quot; /&gt;&lt;span class=&quot;thumb_list-caption&quot;&gt;サムネイルラベル&lt;/span&gt;&lt;/a&gt;&lt;/div&gt;&lt;/li&gt;
-		&lt;li&gt;&lt;div class=&quot;thumb_list-pad&quot;&gt;&lt;a href=&quot;#&quot;&gt;&lt;img src=&quot;index.files/sampleimage.png&quot; alt=&quot;サンプル画像&quot; /&gt;&lt;span class=&quot;thumb_list-caption&quot;&gt;サムネイルラベル&lt;/span&gt;&lt;/a&gt;&lt;/div&gt;&lt;/li&gt;
-		&lt;li&gt;&lt;div class=&quot;thumb_list-pad&quot;&gt;&lt;img src=&quot;index.files/sampleimage.png&quot; alt=&quot;サンプル画像&quot; /&gt;&lt;span class=&quot;thumb_list-caption&quot;&gt;サムネイルラベル(リンクしない場合の例)&lt;/span&gt;&lt;/div&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;div class=&quot;thumb_list-pad&quot;&gt;&lt;a href=&quot;{$href}&quot;&gt;&lt;img src=&quot;{$image}&quot; alt=&quot;{$text}&quot; /&gt;&lt;span class=&quot;thumb_list-caption&quot;&gt;{$text}&lt;/span&gt;&lt;/a&gt;&lt;/div&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;div class=&quot;thumb_list-pad&quot;&gt;&lt;a href=&quot;{$href}&quot;&gt;&lt;img src=&quot;{$image}&quot; alt=&quot;{$text}&quot; /&gt;&lt;span class=&quot;thumb_list-caption&quot;&gt;{$text}&lt;/span&gt;&lt;/a&gt;&lt;/div&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;div class=&quot;thumb_list-pad&quot;&gt;&lt;a href=&quot;{$href}&quot;&gt;&lt;img src=&quot;{$image}&quot; alt=&quot;{$text}&quot; /&gt;&lt;span class=&quot;thumb_list-caption&quot;&gt;{$text}&lt;/span&gt;&lt;/a&gt;&lt;/div&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;div class=&quot;thumb_list-pad&quot;&gt;&lt;a href=&quot;{$href}&quot;&gt;&lt;img src=&quot;{$image}&quot; alt=&quot;{$text}&quot; /&gt;&lt;span class=&quot;thumb_list-caption&quot;&gt;{$text}&lt;/span&gt;&lt;/a&gt;&lt;/div&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;div class=&quot;thumb_list-pad&quot;&gt;&lt;a href=&quot;{$href}&quot;&gt;&lt;img src=&quot;{$image}&quot; alt=&quot;{$text}&quot; /&gt;&lt;span class=&quot;thumb_list-caption&quot;&gt;{$text}&lt;/span&gt;&lt;/a&gt;&lt;/div&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;div class=&quot;thumb_list-pad&quot;&gt;&lt;a href=&quot;{$href}&quot;&gt;&lt;img src=&quot;{$image}&quot; alt=&quot;{$text}&quot; /&gt;&lt;span class=&quot;thumb_list-caption&quot;&gt;{$text}&lt;/span&gt;&lt;/a&gt;&lt;/div&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;div class=&quot;thumb_list-pad&quot;&gt;&lt;a href=&quot;{$href}&quot;&gt;&lt;img src=&quot;{$image}&quot; alt=&quot;{$text}&quot; /&gt;&lt;span class=&quot;thumb_list-caption&quot;&gt;{$text}&lt;/span&gt;&lt;/a&gt;&lt;/div&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;div class=&quot;thumb_list-pad&quot;&gt;&lt;a href=&quot;{$href}&quot;&gt;&lt;img src=&quot;{$image}&quot; alt=&quot;{$text}&quot; /&gt;&lt;span class=&quot;thumb_list-caption&quot;&gt;{$text}&lt;/span&gt;&lt;/a&gt;&lt;/div&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;div class=&quot;thumb_list-pad&quot;&gt;&lt;a href=&quot;{$href}&quot;&gt;&lt;img src=&quot;{$image}&quot; alt=&quot;{$text}&quot; /&gt;&lt;span class=&quot;thumb_list-caption&quot;&gt;{$text}&lt;/span&gt;&lt;/a&gt;&lt;/div&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;div class=&quot;thumb_list-pad&quot;&gt;&lt;img src=&quot;{$image}&quot; alt=&quot;{$text}&quot; /&gt;&lt;span class=&quot;thumb_list-caption&quot;&gt;{$text}&lt;/span&gt;&lt;/div&gt;&lt;/li&gt;
 	&lt;/ul&gt;
 &lt;/div&gt;&lt;!-- /.thumb_list --&gt;
 </textarea></div>
@@ -521,15 +521,15 @@ UTODO: ガイドラインを提示すべき。
 	&lt;ul&gt;
 		&lt;li class=&quot;pager-first&quot;&gt;&lt;span&gt;&amp;lt;&amp;lt;最初&lt;/span&gt;&lt;/li&gt;
 		&lt;li class=&quot;pager-prev&quot;&gt;&lt;span&gt;&amp;lt;前へ&lt;/span&gt;&lt;/li&gt;
-		&lt;li&gt;&lt;span class=&quot;current&quot;&gt;1&lt;/span&gt;&lt;/li&gt;
-		&lt;li&gt;&lt;a href=&quot;#&quot;&gt;2&lt;/a&gt;&lt;/li&gt;
-		&lt;li&gt;&lt;a href=&quot;#&quot;&gt;3&lt;/a&gt;&lt;/li&gt;
-		&lt;li&gt;&lt;a href=&quot;#&quot;&gt;4&lt;/a&gt;&lt;/li&gt;
-		&lt;li&gt;&lt;a href=&quot;#&quot;&gt;5&lt;/a&gt;&lt;/li&gt;
-		&lt;li&gt;&lt;a href=&quot;#&quot;&gt;6&lt;/a&gt;&lt;/li&gt;
-		&lt;li&gt;&lt;a href=&quot;#&quot;&gt;7&lt;/a&gt;&lt;/li&gt;
-		&lt;li class=&quot;pager-next&quot;&gt;&lt;a href=&quot;#&quot;&gt;次へ&amp;gt;&lt;/a&gt;&lt;/li&gt;
-		&lt;li class=&quot;pager-last&quot;&gt;&lt;a href=&quot;#&quot;&gt;最後&amp;gt;&amp;gt;&lt;/a&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;span class=&quot;current&quot;&gt;{$int}&lt;/span&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;a href=&quot;{$href}&quot;&gt;{$int}&lt;/a&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;a href=&quot;{$href}&quot;&gt;{$int}&lt;/a&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;a href=&quot;{$href}&quot;&gt;{$int}&lt;/a&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;a href=&quot;{$href}&quot;&gt;{$int}&lt;/a&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;a href=&quot;{$href}&quot;&gt;{$int}&lt;/a&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;a href=&quot;{$href}&quot;&gt;{$int}&lt;/a&gt;&lt;/li&gt;
+		&lt;li class=&quot;pager-next&quot;&gt;&lt;a href=&quot;{$int}&quot;&gt;次へ&amp;gt;&lt;/a&gt;&lt;/li&gt;
+		&lt;li class=&quot;pager-last&quot;&gt;&lt;a href=&quot;{$int}&quot;&gt;最後&amp;gt;&amp;gt;&lt;/a&gt;&lt;/li&gt;
 	&lt;/ul&gt;
 &lt;/div&gt;&lt;!-- /.pager --&gt;
 </textarea></div>
@@ -613,10 +613,10 @@ UTODO: ガイドラインを提示すべき。
 
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;unit form_error_box&quot;&gt;
-	&lt;p&gt;次のエラーがありました。&lt;/p&gt;
+	&lt;p&gt;{$text}&lt;/p&gt;
 	&lt;ul&gt;
-		&lt;li&gt;&lt;a href=&quot;#cont_onamae&quot;&gt;お名前を入力してください。&lt;/a&gt;&lt;/li&gt;
-		&lt;li&gt;パスワードは8文字以上で入力してください。&lt;/li&gt;
+		&lt;li&gt;&lt;a href=&quot;#{$anchor}&quot;&gt;{$text}&lt;/a&gt;&lt;/li&gt;
+		&lt;li&gt;{$text}&lt;/li&gt;
 	&lt;/ul&gt;
 &lt;/div&gt;&lt;!-- /.form_error_box --&gt;
 </textarea></div>

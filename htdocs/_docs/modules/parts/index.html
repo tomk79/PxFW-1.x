@@ -15,7 +15,7 @@
 <p>段落は、p要素を用いて表現します。</p>
 
 <div class="unit">
-	<div class="code"><textarea readonly="readonly">&lt;p&gt;段落は、p要素を用いて表現します。&lt;/p&gt;
+	<div class="code"><textarea readonly="readonly">&lt;p&gt;{$inline}&lt;/p&gt;
 </textarea></div>
 </div><!-- /.unit -->
 
@@ -28,11 +28,11 @@
 </p>
 
 <div class="unit">
-	<div class="code"><textarea readonly="readonly">&lt;h2&gt;見出し&lt;/h2&gt;
-&lt;h3&gt;見出し&lt;/h3&gt;
-&lt;h4&gt;見出し&lt;/h4&gt;
-&lt;h5&gt;見出し&lt;/h5&gt;
-&lt;h6&gt;見出し&lt;/h6&gt;
+	<div class="code"><textarea readonly="readonly">&lt;h2&gt;{$inline}&lt;/h2&gt;
+&lt;h3&gt;{$inline}&lt;/h3&gt;
+&lt;h4&gt;{$inline}&lt;/h4&gt;
+&lt;h5&gt;{$inline}&lt;/h5&gt;
+&lt;h6&gt;{$inline}&lt;/h6&gt;
 </textarea></div>
 </div><!-- /.unit -->
 
@@ -68,7 +68,7 @@
 
 <p><a href="./">通常のインラインリンク</a></p>
 <div class="unit">
-	<div class="code"><textarea readonly="readonly">&lt;a href=&quot;./&quot;&gt;通常のインラインリンク&lt;/a&gt;</textarea></div>
+	<div class="code"><textarea readonly="readonly">&lt;a href=&quot;{$href}&quot;&gt;{$text}&lt;/a&gt;</textarea></div>
 </div><!-- /.unit -->
 
 
@@ -76,23 +76,23 @@
 
 <p><a href="./" class="icon">アイコン付きリンク</a></p>
 <div class="unit">
-	<div class="code"><textarea readonly="readonly">&lt;a href=&quot;./&quot; class=&quot;icon&quot;&gt;サイト内リンク&lt;/a&gt;
+	<div class="code"><textarea readonly="readonly">&lt;a href=&quot;{$href}&quot; class=&quot;icon&quot;&gt;{$text}&lt;/a&gt;
 </textarea></div>
 </div><!-- /.unit -->
 
 <h3>ページ内リンク(下向き) .down</h3>
 
-<p><a href="#" class="down">ページ内リンク(下向き)</a></p>
+<p><a href="./" class="down">ページ内リンク(下向き)</a></p>
 <div class="unit">
-	<div class="code"><textarea readonly="readonly">&lt;a href=&quot;#&quot; class=&quot;down&quot;&gt;ページ内リンク(下向き)&lt;/a&gt;
+	<div class="code"><textarea readonly="readonly">&lt;a href=&quot;{$href}&quot; class=&quot;down&quot;&gt;{$text}&lt;/a&gt;
 </textarea></div>
 </div><!-- /.unit -->
 
 <h3>ページ内リンク(上向き) .up</h3>
 
-<p><a href="#" class="up">ページ内リンク(上向き)</a></p>
+<p><a href="./" class="up">ページ内リンク(上向き)</a></p>
 <div class="unit">
-	<div class="code"><textarea readonly="readonly">&lt;a href=&quot;#&quot; class=&quot;up&quot;&gt;ページ内リンク(上向き)&lt;/a&gt;
+	<div class="code"><textarea readonly="readonly">&lt;a href=&quot;{$href}&quot; class=&quot;up&quot;&gt;{$text}&lt;/a&gt;
 </textarea></div>
 </div><!-- /.unit -->
 
@@ -100,7 +100,7 @@
 
 <p><a href="javascript:history.back();" class="back">戻るリンク</a></p>
 <div class="unit">
-	<div class="code"><textarea readonly="readonly">&lt;a href=&quot;javascript:history.back();&quot; class=&quot;back&quot;&gt;戻るリンク&lt;/a&gt;
+	<div class="code"><textarea readonly="readonly">&lt;a href=&quot;javascript:history.back();&quot; class=&quot;back&quot;&gt;{$text}&lt;/a&gt;
 </textarea></div>
 </div><!-- /.unit -->
 
@@ -115,7 +115,7 @@
 
 <p><a href="./" target="_blank"><span class="blank">別ウィンドウリンク</span></a></p>
 <div class="unit">
-	<div class="code"><textarea readonly="readonly">&lt;p&gt;&lt;a href=&quot;./&quot; target=&quot;_blank&quot;&gt;&lt;span class=&quot;blank&quot;&gt;別ウィンドウリンク&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+	<div class="code"><textarea readonly="readonly">&lt;p&gt;&lt;a href=&quot;{$href}&quot; target=&quot;_blank&quot;&gt;&lt;span class=&quot;blank&quot;&gt;{$text}&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 </textarea></div>
 </div><!-- /.unit -->
 
@@ -124,7 +124,7 @@
 
 <p><a href="./"><span class="download">ダウンロードリンク</span></a></p>
 <div class="unit">
-	<div class="code"><textarea readonly="readonly">&lt;p&gt;&lt;a href=&quot;./&quot;&gt;&lt;span class=&quot;download&quot;&gt;ダウンロードリンク&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+	<div class="code"><textarea readonly="readonly">&lt;p&gt;&lt;a href=&quot;{$href}&quot;&gt;&lt;span class=&quot;download&quot;&gt;{$text}&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 </textarea></div>
 </div><!-- /.unit -->
 
@@ -132,7 +132,7 @@
 
 <p><a href="./"><span class="pdf">PDFファイル名</span></a></p>
 <div class="unit">
-	<div class="code"><textarea readonly="readonly">&lt;p&gt;&lt;a href=&quot;./&quot;&gt;&lt;span class=&quot;pdf&quot;&gt;PDFファイル名&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+	<div class="code"><textarea readonly="readonly">&lt;p&gt;&lt;a href=&quot;{$href}&quot;&gt;&lt;span class=&quot;pdf&quot;&gt;{$text}&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 </textarea></div>
 </div><!-- /.unit -->
 
@@ -159,14 +159,14 @@
 	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;anchor_links&quot;&gt;
 	&lt;p class=&quot;anchor_links-heading&quot;&gt;目次&lt;/p&gt;
 	&lt;ul&gt;
-		&lt;li&gt;&lt;a href=&quot;#&quot;&gt;ページ内リンク&lt;/a&gt;&lt;/li&gt;
-		&lt;li&gt;&lt;a href=&quot;#&quot;&gt;ページ内リンク&lt;/a&gt;
+		&lt;li&gt;&lt;a href=&quot;{$href}&quot;&gt;{$text}&lt;/a&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;a href=&quot;{$href}&quot;&gt;{$text}&lt;/a&gt;
 		&lt;ul&gt;
-			&lt;li&gt;&lt;a href=&quot;#&quot;&gt;ページ内リンク&lt;/a&gt;&lt;/li&gt;
-			&lt;li&gt;&lt;a href=&quot;#&quot;&gt;ページ内リンク&lt;/a&gt;&lt;/li&gt;
+			&lt;li&gt;&lt;a href=&quot;{$href}&quot;&gt;{$text}&lt;/a&gt;&lt;/li&gt;
+			&lt;li&gt;&lt;a href=&quot;{$href}&quot;&gt;{$text}&lt;/a&gt;&lt;/li&gt;
 		&lt;/ul&gt;
 		&lt;/li&gt;
-		&lt;li&gt;&lt;a href=&quot;#&quot;&gt;ページ内リンク&lt;/a&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;a href=&quot;{$href}&quot;&gt;{$text}&lt;/a&gt;&lt;/li&gt;
 	&lt;/ul&gt;
 &lt;/div&gt;&lt;!-- /.anchor_links --&gt;
 </textarea></div>
@@ -186,9 +186,9 @@
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;more_links&quot;&gt;
 	&lt;ul&gt;
-		&lt;li&gt;&lt;a href=&quot;./&quot;&gt;詳しくはこちら&lt;/a&gt;&lt;/li&gt;
-		&lt;li&gt;&lt;a href=&quot;./&quot;&gt;詳しくはこちら&lt;/a&gt;&lt;/li&gt;
-		&lt;li&gt;&lt;a href=&quot;./&quot;&gt;詳しくはこちら&lt;/a&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;a href=&quot;{$href}&quot;&gt;{$text}&lt;/a&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;a href=&quot;{$href}&quot;&gt;{$text}&lt;/a&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;a href=&quot;{$href}&quot;&gt;{$text}&lt;/a&gt;&lt;/li&gt;
 	&lt;/ul&gt;
 &lt;/div&gt;&lt;!-- /.more_links --&gt;
 </textarea></div>
@@ -212,7 +212,7 @@
 <h3>エラー表示 .error</h3>
 <p><span class="error">この文言はエラー表示です。</span></p>
 <div class="unit">
-	<div class="code"><textarea readonly="readonly">&lt;span class=&quot;error&quot;&gt;この文言はエラー表示です。&lt;/span&gt;
+	<div class="code"><textarea readonly="readonly">&lt;span class=&quot;error&quot;&gt;{$inline}&lt;/span&gt;
 </textarea></div>
 </div><!-- /.unit -->
 
@@ -235,11 +235,11 @@
 </ul>
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;ul&gt;
-	&lt;li&gt;リスト内容&lt;/li&gt;
-	&lt;li&gt;リスト内容
+	&lt;li&gt;{$parts|box}&lt;/li&gt;
+	&lt;li&gt;{$parts|box}
 		&lt;ul&gt;
-			&lt;li&gt;リスト内容&lt;/li&gt;
-			&lt;li&gt;リスト内容&lt;/li&gt;
+			&lt;li&gt;{$parts|box}&lt;/li&gt;
+			&lt;li&gt;{$parts|box}&lt;/li&gt;
 		&lt;/ul&gt;
 	&lt;/li&gt;
 &lt;/ul&gt;
@@ -261,8 +261,9 @@
 </ul>
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;ul class=&quot;notes&quot;&gt;
-	&lt;li class=&quot;notes-li&quot;&gt;※リスト内容&lt;/li&gt;
-	&lt;li class=&quot;notes-li&quot;&gt;※リスト内容&lt;/li&gt;
+	&lt;li class=&quot;notes-li&quot;&gt;※{$inline}&lt;/li&gt;
+	&lt;li class=&quot;notes-li&quot;&gt;※{$inline}&lt;/li&gt;
+	&lt;li class=&quot;notes-li&quot;&gt;※{$inline}&lt;/li&gt;
 &lt;/ul&gt;
 </textarea></div>
 </div><!-- /.unit -->
@@ -282,8 +283,9 @@
 </ul>
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;ul class=&quot;nomark&quot;&gt;
-	&lt;li class=&quot;nomark-li&quot;&gt;リスト内容&lt;/li&gt;
-	&lt;li class=&quot;nomark-li&quot;&gt;リスト内容&lt;/li&gt;
+	&lt;li class=&quot;nomark-li&quot;&gt;{$inline}&lt;/li&gt;
+	&lt;li class=&quot;nomark-li&quot;&gt;{$inline}&lt;/li&gt;
+	&lt;li class=&quot;nomark-li&quot;&gt;{$inline}&lt;/li&gt;
 &lt;/ul&gt;
 </textarea></div>
 </div><!-- /.unit -->
@@ -303,10 +305,9 @@
 
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;ul class=&quot;horizontal&quot;&gt;
-	&lt;li class=&quot;horizontal-li&quot;&gt;リスト内容&lt;/li&gt;
-	&lt;li class=&quot;horizontal-li&quot;&gt;リスト内容&lt;/li&gt;
-	&lt;li class=&quot;horizontal-li&quot;&gt;リスト内容&lt;/li&gt;
-	&lt;li class=&quot;horizontal-li&quot;&gt;リスト内容&lt;/li&gt;
+	&lt;li class=&quot;horizontal-li&quot;&gt;{$inline}&lt;/li&gt;
+	&lt;li class=&quot;horizontal-li&quot;&gt;{$inline}&lt;/li&gt;
+	&lt;li class=&quot;horizontal-li&quot;&gt;{$inline}&lt;/li&gt;
 &lt;/ul&gt;
 </textarea></div>
 </div>
@@ -327,11 +328,11 @@
 
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;ol&gt;
-	&lt;li&gt;リスト内容&lt;/li&gt;
-	&lt;li&gt;リスト内容
+	&lt;li&gt;{$parts|box}&lt;/li&gt;
+	&lt;li&gt;{$parts|box}
 		&lt;ol&gt;
-			&lt;li&gt;リスト内容&lt;/li&gt;
-			&lt;li&gt;リスト内容&lt;/li&gt;
+			&lt;li&gt;{$parts|box}&lt;/li&gt;
+			&lt;li&gt;{$parts|box}&lt;/li&gt;
 		&lt;/ol&gt;
 	&lt;/li&gt;
 &lt;/ol&gt;
@@ -353,12 +354,12 @@
 </dl>
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;dl&gt;
-	&lt;dt&gt;定義語句&lt;/dt&gt;
-		&lt;dd&gt;定義や説明テキスト。定義や説明テキスト。定義や説明テキスト。定義や説明テキスト。&lt;/dd&gt;
-	&lt;dt&gt;定義語句&lt;/dt&gt;
-		&lt;dd&gt;定義や説明テキスト。定義や説明テキスト。定義や説明テキスト。定義や説明テキスト。&lt;/dd&gt;
-	&lt;dt&gt;定義語句&lt;/dt&gt;
-		&lt;dd&gt;定義や説明テキスト。定義や説明テキスト。定義や説明テキスト。定義や説明テキスト。&lt;/dd&gt;
+	&lt;dt&gt;{$text}&lt;/dt&gt;
+		&lt;dd&gt;{$parts|box}&lt;/dd&gt;
+	&lt;dt&gt;{$text}&lt;/dt&gt;
+		&lt;dd&gt;{$parts|box}&lt;/dd&gt;
+	&lt;dt&gt;{$text}&lt;/dt&gt;
+		&lt;dd&gt;{$parts|box}&lt;/dd&gt;
 &lt;/dl&gt;
 </textarea></div>
 </div><!-- /.unit -->
@@ -383,10 +384,10 @@
 </dl>
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;dl class=&quot;notes&quot;&gt;
-	&lt;dt class=&quot;notes-dt&quot;&gt;※1 語句&lt;/dt&gt;
-		&lt;dd class=&quot;notes-dd&quot;&gt;定義や説明テキスト。定義や説明テキスト。定義や説明テキスト。定義や説明テキスト。&lt;/dd&gt;
-	&lt;dt class=&quot;notes-dt&quot;&gt;※2 語句&lt;/dt&gt;
-		&lt;dd class=&quot;notes-dd&quot;&gt;定義や説明テキスト。定義や説明テキスト。定義や説明テキスト。定義や説明テキスト。&lt;/dd&gt;
+	&lt;dt class=&quot;notes-dt&quot;&gt;※{$text} {$text}&lt;/dt&gt;
+		&lt;dd class=&quot;notes-dd&quot;&gt;{$parts|box}&lt;/dd&gt;
+	&lt;dt class=&quot;notes-dt&quot;&gt;※{$text} {$text}&lt;/dt&gt;
+		&lt;dd class=&quot;notes-dd&quot;&gt;{$parts|box}&lt;/dd&gt;
 &lt;/dl&gt;
 </textarea></div>
 </div><!-- /.unit -->
@@ -444,19 +445,19 @@
 		&lt;/thead&gt;
 		&lt;tbody&gt;
 			&lt;tr&gt;
-				&lt;th&gt;2012年9月24日&lt;/th&gt;
-				&lt;td class=&quot;date_list-flag&quot;&gt;[NEW!][CATEGORY]&lt;/td&gt;
-				&lt;td&gt;&lt;a href=&quot;#&quot;&gt;新着ニュースへのリンク&lt;/a&gt;&lt;/td&gt;
+				&lt;th&gt;{$date}&lt;/th&gt;
+				&lt;td class=&quot;date_list-flag&quot;&gt;{$text}&lt;/td&gt;
+				&lt;td&gt;&lt;a href=&quot;{$href}&quot;&gt;{$text}&lt;/a&gt;&lt;/td&gt;
 			&lt;/tr&gt;
 			&lt;tr&gt;
-				&lt;th&gt;2012年9月24日&lt;/th&gt;
-				&lt;td class=&quot;date_list-flag&quot;&gt;[NEW!][CATEGORY]&lt;/td&gt;
-				&lt;td&gt;&lt;a href=&quot;#&quot;&gt;新着ニュースへのリンク新着ニュースへのリンク新着ニュースへのリンク新着ニュースへのリンク&lt;/a&gt;&lt;/td&gt;
+				&lt;th&gt;{$date}&lt;/th&gt;
+				&lt;td class=&quot;date_list-flag&quot;&gt;{$text}&lt;/td&gt;
+				&lt;td&gt;&lt;a href=&quot;{$href}&quot;&gt;{$text}&lt;/a&gt;&lt;/td&gt;
 			&lt;/tr&gt;
 			&lt;tr&gt;
-				&lt;th&gt;2012年9月24日&lt;/th&gt;
-				&lt;td class=&quot;date_list-flag&quot;&gt;[NEW!][CATEGORY]&lt;/td&gt;
-				&lt;td&gt;&lt;a href=&quot;#&quot;&gt;新着ニュースへのリンク&lt;/a&gt;&lt;/td&gt;
+				&lt;th&gt;{$date}&lt;/th&gt;
+				&lt;td class=&quot;date_list-flag&quot;&gt;{$text}&lt;/td&gt;
+				&lt;td&gt;&lt;a href=&quot;{$href}&quot;&gt;{$text}&lt;/a&gt;&lt;/td&gt;
 			&lt;/tr&gt;
 		&lt;/tbody&gt;
 	&lt;/table&gt;
@@ -519,28 +520,28 @@
 	<div class="code"><textarea readonly="readonly">&lt;table class=&quot;def&quot;&gt;
 	&lt;thead&gt;
 		&lt;tr&gt;
-			&lt;th&gt;thead ヘッダセル&lt;/th&gt;
-			&lt;td&gt;thead セル&lt;/td&gt;
-			&lt;td&gt;thead セル&lt;/td&gt;
+			&lt;th&gt;{$text}&lt;/th&gt;
+			&lt;td&gt;{$text}&lt;/td&gt;
+			&lt;td&gt;{$text}&lt;/td&gt;
 		&lt;/tr&gt;
 	&lt;/thead&gt;
 	&lt;tfoot&gt;
 		&lt;tr&gt;
-			&lt;th&gt;tfoot ヘッダセル&lt;/th&gt;
-			&lt;td&gt;tfoot セル&lt;/td&gt;
-			&lt;td&gt;tfoot セル&lt;/td&gt;
+			&lt;th&gt;{$text}&lt;/th&gt;
+			&lt;td&gt;{$text}&lt;/td&gt;
+			&lt;td&gt;{$text}&lt;/td&gt;
 		&lt;/tr&gt;
 	&lt;/tfoot&gt;
 	&lt;tbody&gt;
 		&lt;tr&gt;
-			&lt;th&gt;tbody ヘッダセル&lt;/th&gt;
-			&lt;td&gt;tbody セル&lt;/td&gt;
-			&lt;td&gt;tbody セル&lt;/td&gt;
+			&lt;th&gt;{$text}&lt;/th&gt;
+			&lt;td&gt;{$parts|box}&lt;/td&gt;
+			&lt;td&gt;{$parts|box}&lt;/td&gt;
 		&lt;/tr&gt;
 		&lt;tr&gt;
-			&lt;th&gt;tbody ヘッダセル&lt;/th&gt;
-			&lt;td&gt;tbody セル&lt;/td&gt;
-			&lt;td&gt;tbody セル&lt;/td&gt;
+			&lt;th&gt;{$text}&lt;/th&gt;
+			&lt;td&gt;{$parts|box}&lt;/td&gt;
+			&lt;td&gt;{$parts|box}&lt;/td&gt;
 		&lt;/tr&gt;
 	&lt;/tbody&gt;
 &lt;/table&gt;
@@ -556,16 +557,16 @@
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;?php ob_start(); ?&gt;
 &lt;style type=&quot;text/css&quot;&gt;
-	.cont_sample{
-		width:130px;
-		height:86px;
+	.cont_{$text}{
+		width:{$int}px;
+		height:{$int}px;
 	}
 	.cont_sample .imgrep-panel{
-		background-image:url(&quot;./sample.files/sample_image.png&quot;);
+		background-image:url(&quot;{$image}&quot;);
 	}
 &lt;/style&gt;
 &lt;?php $px-&gt;theme()-&gt;send_content( ob_get_clean(), 'head' ); ?&gt;
-&lt;a href=&quot;***&quot; class=&quot;imgrep cont_sample&quot;&gt;リンクラベル&lt;span class=&quot;imgrep-panel&quot;&gt;&lt;/span&gt;&lt;/a&gt;</textarea></div>
+&lt;a href=&quot;{$href}&quot; class=&quot;imgrep cont_{$text}&quot;&gt;{$text}&lt;span class=&quot;imgrep-panel&quot;&gt;&lt;/span&gt;&lt;/a&gt;</textarea></div>
 </div><!-- /.unit -->
 
 
@@ -582,15 +583,7 @@
 			<td>読み上げブラウザ対応のための隠しナビゲーションを表現します。視覚メディアには表示されませんが、音声読み上げブラウザには読み上げられます。</td>
 			<td style="width:50%;">
 <div class="unit">
-	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;aural&quot;&gt;&lt;a href=&quot;#content&quot;&gt;本文へ&lt;/a&gt;&lt;/div&gt;
-
-&lt;div class=&quot;breadcrumb&quot;&gt;
-&lt;span class=&quot;aural&quot;&gt;現在のページ:&lt;/span&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;/&quot;&gt;ホーム&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&amp;gt; ページA&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
+	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;aural&quot;&gt;{$parts|box}&lt;/div&gt;
 </textarea></div>
 </div>
 			</td>
@@ -609,7 +602,7 @@
 <p><a href="***" class="current">カレントページ</a></p>
 
 <div class="unit">
-	<div class="code"><textarea readonly="readonly">&lt;a href=&quot;***&quot; class=&quot;current&quot;&gt;カレントページ&lt;/a&gt;
+	<div class="code"><textarea readonly="readonly">&lt;a href=&quot;{$href}&quot; class=&quot;current&quot;&gt;{$text}&lt;/a&gt;
 </textarea></div>
 </div><!-- /.unit -->
 
@@ -626,7 +619,7 @@
 
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;unit&quot;&gt;
-	&lt;div class=&quot;code&quot;&gt;&lt;textarea readonly=&quot;readonly&quot;&gt;&amp;lt;h2&amp;gt;ああああ&amp;lt;/h2&amp;gt;
+	&lt;div class=&quot;code&quot;&gt;&lt;textarea readonly=&quot;readonly&quot;&gt;{$text}
 &lt;/textarea&gt;&lt;/div&gt;
 &lt;/div&gt;
 </textarea></div>
@@ -642,7 +635,7 @@
 
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;unit&quot;&gt;
-	&lt;div class=&quot;code&quot;&gt;&lt;pre&gt;&lt;code&gt;&amp;lt;h2&amp;gt;ああああ&amp;lt;/h2&amp;gt;
+	&lt;div class=&quot;code&quot;&gt;&lt;pre&gt;&lt;code&gt;{$text}
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 </textarea></div>
@@ -765,92 +758,92 @@
 	&lt;/thead&gt;
 	&lt;tbody&gt;
 		&lt;tr&gt;
-			&lt;th&gt;テキスト入力&lt;/th&gt;
+			&lt;th&gt;{$text}&lt;/th&gt;
 			&lt;td&gt;
 				&lt;ul class=&quot;form_elements-notes&quot;&gt;
-					&lt;li&gt;全角カナで入力してください。&lt;/li&gt;
-					&lt;li&gt;8文字以上入力してください。&lt;/li&gt;
+					&lt;li&gt;{$text}&lt;/li&gt;
+					&lt;li&gt;{$text}&lt;/li&gt;
 				&lt;/ul&gt;
 				&lt;input type=&quot;text&quot; name=&quot;&quot; value=&quot;&quot; /&gt;
 			&lt;/td&gt;
 		&lt;/tr&gt;
 		&lt;tr&gt;
-			&lt;th&gt;テキストエリア入力&lt;/th&gt;
+			&lt;th&gt;{$text}&lt;/th&gt;
 			&lt;td&gt;
 				&lt;ul class=&quot;form_elements-notes&quot;&gt;
-					&lt;li&gt;複数行の入力ができます。&lt;/li&gt;
+					&lt;li&gt;{$text}&lt;/li&gt;
 				&lt;/ul&gt;
 				&lt;textarea name=&quot;&quot;&gt;&lt;/textarea&gt;
 			&lt;/td&gt;
 		&lt;/tr&gt;
 		&lt;tr&gt;
-			&lt;th&gt;パスワード入力&lt;/th&gt;
+			&lt;th&gt;{$text}&lt;/th&gt;
 			&lt;td&gt;
 				&lt;ul class=&quot;form_elements-notes&quot;&gt;
-					&lt;li&gt;8文字以上入力してください。&lt;/li&gt;
+					&lt;li&gt;{$text}&lt;/li&gt;
 				&lt;/ul&gt;
 				&lt;input type=&quot;password&quot; name=&quot;&quot; value=&quot;&quot; /&gt;
 			&lt;/td&gt;
 		&lt;/tr&gt;
 		&lt;tr&gt;
-			&lt;th&gt;ラジオボタン入力&lt;/th&gt;
+			&lt;th&gt;{$text}&lt;/th&gt;
 			&lt;td&gt;
 				&lt;ul class=&quot;form_elements-notes&quot;&gt;
-					&lt;li&gt;一つだけ選択してください。&lt;/li&gt;
+					&lt;li&gt;{$text}&lt;/li&gt;
 				&lt;/ul&gt;
 				&lt;ul class=&quot;form_elements-list&quot;&gt;
-					&lt;li&gt;&lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;radio1&quot; value=&quot;&quot; /&gt; 選択肢1&lt;/label&gt;&lt;/li&gt;
-					&lt;li&gt;&lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;radio1&quot; value=&quot;&quot; /&gt; 選択肢2&lt;/label&gt;&lt;/li&gt;
-					&lt;li&gt;&lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;radio1&quot; value=&quot;&quot; /&gt; 選択肢3&lt;/label&gt;&lt;/li&gt;
+					&lt;li&gt;&lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;radio1&quot; value=&quot;&quot; /&gt; {$text}&lt;/label&gt;&lt;/li&gt;
+					&lt;li&gt;&lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;radio1&quot; value=&quot;&quot; /&gt; {$text}&lt;/label&gt;&lt;/li&gt;
+					&lt;li&gt;&lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;radio1&quot; value=&quot;&quot; /&gt; {$text}&lt;/label&gt;&lt;/li&gt;
 				&lt;/ul&gt;
 			&lt;/td&gt;
 		&lt;/tr&gt;
 		&lt;tr&gt;
-			&lt;th&gt;チェックボックス入力&lt;/th&gt;
+			&lt;th&gt;{$text}&lt;/th&gt;
 			&lt;td&gt;
 				&lt;ul class=&quot;form_elements-notes&quot;&gt;
-					&lt;li&gt;複数選択が可能です。&lt;/li&gt;
+					&lt;li&gt;{$text}&lt;/li&gt;
 				&lt;/ul&gt;
 				&lt;ul class=&quot;form_elements-list&quot;&gt;
-					&lt;li&gt;&lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;&quot; value=&quot;&quot; /&gt; 選択肢1&lt;/label&gt;&lt;/li&gt;
-					&lt;li&gt;&lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;&quot; value=&quot;&quot; /&gt; 選択肢2&lt;/label&gt;&lt;/li&gt;
-					&lt;li&gt;&lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;&quot; value=&quot;&quot; /&gt; 選択肢3&lt;/label&gt;&lt;/li&gt;
+					&lt;li&gt;&lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;&quot; value=&quot;&quot; /&gt; {$text}&lt;/label&gt;&lt;/li&gt;
+					&lt;li&gt;&lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;&quot; value=&quot;&quot; /&gt; {$text}&lt;/label&gt;&lt;/li&gt;
+					&lt;li&gt;&lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;&quot; value=&quot;&quot; /&gt; {$text}&lt;/label&gt;&lt;/li&gt;
 				&lt;/ul&gt;
 			&lt;/td&gt;
 		&lt;/tr&gt;
 		&lt;tr&gt;
-			&lt;th&gt;リストを水平に並べるサンプル&lt;/th&gt;
+			&lt;th&gt;{$text}&lt;/th&gt;
 			&lt;td&gt;
 				&lt;ul class=&quot;form_elements-notes&quot;&gt;
-					&lt;li&gt;この項目は、リストを水平に並べています。(.form_elements-list_horizontal を使用)&lt;/li&gt;
+					&lt;li&gt;{$text}&lt;/li&gt;
 				&lt;/ul&gt;
 				&lt;ul class=&quot;form_elements-list_horizontal&quot;&gt;
-					&lt;li&gt;&lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;&quot; value=&quot;&quot; /&gt; 選択肢1&lt;/label&gt;&lt;/li&gt;
-					&lt;li&gt;&lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;&quot; value=&quot;&quot; /&gt; 選択肢2&lt;/label&gt;&lt;/li&gt;
-					&lt;li&gt;&lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;&quot; value=&quot;&quot; /&gt; 選択肢3&lt;/label&gt;&lt;/li&gt;
+					&lt;li&gt;&lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;&quot; value=&quot;&quot; /&gt; {$text}&lt;/label&gt;&lt;/li&gt;
+					&lt;li&gt;&lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;&quot; value=&quot;&quot; /&gt; {$text}&lt;/label&gt;&lt;/li&gt;
+					&lt;li&gt;&lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;&quot; value=&quot;&quot; /&gt; {$text}&lt;/label&gt;&lt;/li&gt;
 				&lt;/ul&gt;
 			&lt;/td&gt;
 		&lt;/tr&gt;
 		&lt;tr&gt;
-			&lt;th&gt;プルダウン選択入力&lt;/th&gt;
+			&lt;th&gt;{$text}&lt;/th&gt;
 			&lt;td&gt;
 				&lt;ul class=&quot;form_elements-notes&quot;&gt;
-					&lt;li&gt;１つだけ選択してください。&lt;/li&gt;
+					&lt;li&gt;{$text}&lt;/li&gt;
 				&lt;/ul&gt;
 				&lt;select name=&quot;&quot;&gt;
 					&lt;option value=&quot;&quot;&gt;選択してください&lt;/option&gt;
-					&lt;option value=&quot;&quot;&gt;選択肢1&lt;/option&gt;
-					&lt;option value=&quot;&quot;&gt;選択肢2&lt;/option&gt;
-					&lt;option value=&quot;&quot;&gt;選択肢3&lt;/option&gt;
+					&lt;option value=&quot;&quot;&gt;{$text}&lt;/option&gt;
+					&lt;option value=&quot;&quot;&gt;{$text}&lt;/option&gt;
+					&lt;option value=&quot;&quot;&gt;{$text}&lt;/option&gt;
 				&lt;/select&gt;
 			&lt;/td&gt;
 		&lt;/tr&gt;
 		&lt;tr&gt;
-			&lt;th&gt;ボタン&lt;/th&gt;
+			&lt;th&gt;{$text}&lt;/th&gt;
 			&lt;td&gt;
-				&lt;button onclick=&quot;alert('ボタンをクリックしました。');return false;&quot;&gt;ボタン&lt;/button&gt;
-				&lt;input type=&quot;button&quot; value=&quot;ボタン&quot; onclick=&quot;alert('ボタンをクリックしました。');return false;&quot; /&gt;
-				&lt;input type=&quot;submit&quot; value=&quot;ボタン&quot; onclick=&quot;alert('ボタンをクリックしました。');return false;&quot; /&gt;
+				&lt;button onclick=&quot;{$JavaScriptCode}&quot;&gt;{$text}&lt;/button&gt;
+				&lt;input type=&quot;button&quot; value=&quot;{$text}&quot; onclick=&quot;{$JavaScriptCode}&quot; /&gt;
+				&lt;input type=&quot;submit&quot; value=&quot;{$text}&quot; onclick=&quot;{$JavaScriptCode}&quot; /&gt;
 			&lt;/td&gt;
 		&lt;/tr&gt;
 	&lt;/tbody&gt;
@@ -897,15 +890,15 @@
 	&lt;/thead&gt;
 	&lt;tbody&gt;
 		&lt;tr class=&quot;form_elements-error&quot;&gt;
-			&lt;th&gt;テキスト入力&lt;span&gt;必須&lt;/span&gt;&lt;/th&gt;
+			&lt;th&gt;{$text}&lt;span&gt;必須&lt;/span&gt;&lt;/th&gt;
 			&lt;td&gt;
 				&lt;ul class=&quot;form_elements-notes&quot;&gt;
-					&lt;li&gt;全角カナで入力してください。&lt;/li&gt;
-					&lt;li&gt;8文字以上入力してください。&lt;/li&gt;
+					&lt;li&gt;{$text}&lt;/li&gt;
+					&lt;li&gt;{$text}&lt;/li&gt;
 				&lt;/ul&gt;
 				&lt;ul class=&quot;form_elements-errors&quot;&gt;
-					&lt;li&gt;全角カナで入力してください。&lt;/li&gt;
-					&lt;li&gt;8文字以上入力してください。&lt;/li&gt;
+					&lt;li&gt;{$text}&lt;/li&gt;
+					&lt;li&gt;{$text}&lt;/li&gt;
 				&lt;/ul&gt;
 				&lt;input type=&quot;text&quot; name=&quot;&quot; value=&quot;&quot; /&gt;
 			&lt;/td&gt;
@@ -952,91 +945,6 @@
 </p>
 
 </form>
-
-
-
-<h2>ボックス</h2>
-<p>
-	背景を敷く、周囲をすべて罫線で囲む、上部または下部のみ罫線を表示するなど、枠の表現が必要な時に使用します。<br />
-</p>
-<!--
-	editors comment:
-		ボックス系のパーツモジュールは、中にユニットを1つ入れたいという要望が強い。
-		しかし、現在のところ、これを上手く規則化することができておらず、
-		"できない" という結論となった。
-		ただし、パーツモジュールを内包することは可能。
--->
-
-<h3>注意喚起ボックス .attention_box</h3>
-<div class="attention_box">
-	<p class="attention_box-heading">ご注意ください</p>
-	<p>次のポイントにご注意ください。</p>
-	<ul>
-		<li>ご注意ポイントの1つ目をここに提示します。</li>
-		<li>ご注意ポイントの2つ目をここに提示します。</li>
-		<li>ご注意ポイントの3つ目をここに提示します。</li>
-	</ul>
-</div><!-- /.attention_box -->
-<div class="unit">
-	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;attention_box&quot;&gt;
-	&lt;p class=&quot;attention_box-heading&quot;&gt;ご注意ください&lt;/p&gt;
-	&lt;p&gt;次のポイントにご注意ください。&lt;/p&gt;
-	&lt;ul&gt;
-		&lt;li&gt;ご注意ポイントの1つ目をここに提示します。&lt;/li&gt;
-		&lt;li&gt;ご注意ポイントの2つ目をここに提示します。&lt;/li&gt;
-		&lt;li&gt;ご注意ポイントの3つ目をここに提示します。&lt;/li&gt;
-	&lt;/ul&gt;
-&lt;/div&gt;&lt;!-- /.attention_box --&gt;
-</textarea></div>
-</div><!-- /.unit -->
-
-
-<h3>トピックボックス .topic_box</h3>
-<div class="topic_box">
-	<p class="topic_box-heading">お知らせ</p>
-	<p>お知らせ内容を掲示します。</p>
-	<ul>
-		<li>お知らせの1つ目をここに提示します。</li>
-		<li>お知らせの2つ目をここに提示します。</li>
-		<li>お知らせの3つ目をここに提示します。</li>
-	</ul>
-</div><!-- /.topic_box -->
-<div class="unit">
-	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;topic_box&quot;&gt;
-	&lt;p class=&quot;topic_box-heading&quot;&gt;お知らせ&lt;/p&gt;
-	&lt;p&gt;お知らせ内容を掲示します。&lt;/p&gt;
-	&lt;ul&gt;
-		&lt;li&gt;お知らせの1つ目をここに提示します。&lt;/li&gt;
-		&lt;li&gt;お知らせの2つ目をここに提示します。&lt;/li&gt;
-		&lt;li&gt;お知らせの3つ目をここに提示します。&lt;/li&gt;
-	&lt;/ul&gt;
-&lt;/div&gt;&lt;!-- /.topic_box --&gt;
-</textarea></div>
-</div><!-- /.unit -->
-
-
-<h3>付加情報ボックス .aside_box</h3>
-<div class="aside_box">
-	<p class="aside_box-heading">付加情報</p>
-	<p>記載が必要な情報を掲示します。</p>
-	<ul>
-		<li>お知らせの1つ目をここに提示します。</li>
-		<li>お知らせの2つ目をここに提示します。</li>
-		<li>お知らせの3つ目をここに提示します。</li>
-	</ul>
-</div><!-- /.topic_box -->
-<div class="unit">
-	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;aside_box&quot;&gt;
-	&lt;p class=&quot;aside_box-heading&quot;&gt;付加情報&lt;/p&gt;
-	&lt;p&gt;記載が必要な情報を掲示します。&lt;/p&gt;
-	&lt;ul&gt;
-		&lt;li&gt;お知らせの1つ目をここに提示します。&lt;/li&gt;
-		&lt;li&gt;お知らせの2つ目をここに提示します。&lt;/li&gt;
-		&lt;li&gt;お知らせの3つ目をここに提示します。&lt;/li&gt;
-	&lt;/ul&gt;
-&lt;/div&gt;&lt;!-- /.aside_box --&gt;
-</textarea></div>
-</div><!-- /.unit -->
 
 
 

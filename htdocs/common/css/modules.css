@@ -263,6 +263,7 @@ a span.pdf:after{
  */
 .anchor_links{
 	padding:1.5em;
+	border:1px solid #999999;
 }
 .anchor_links .anchor_links-heading{
 	text-align:center;
