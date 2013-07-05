@@ -132,6 +132,8 @@ class px_cores_site{
 					$tmp_path_top = preg_replace( '/\/$/si' , '/index.html' , $tmp_path_top );//index.htmlを付加する。
 					if( $tmp_array['path'] == $tmp_path_top ){
 						$tmp_array['id'] = '';
+					}elseif( !strlen($tmp_array['id']) ){
+						$tmp_array['id'] = ':auto_page_id.'.($num_auto_pid);
 					}
 					unset($tmp_path_top);
 				}
