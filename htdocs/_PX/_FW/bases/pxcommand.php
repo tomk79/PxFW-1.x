@@ -411,6 +411,7 @@ a span.pdf:after{
  */
 .anchor_links{
 	padding:1.5em;
+	border:1px solid #999999;
 }
 .anchor_links .anchor_links-heading{
 	text-align:center;
@@ -419,6 +420,7 @@ a span.pdf:after{
 }
 .anchor_links ul{
 	margin:0;
+	padding:0 0 0 1.5em;
 }
 
 /**
@@ -634,6 +636,18 @@ ul.nomark li.nomark-li{
 	padding-left:0;
 }
 
+/**
+ * [parts] 水平並びリスト
+ */
+ul.horizontal{
+	padding-left:0;
+}
+ul.horizontal li.horizontal-li{
+	list-style-type:none;
+	padding-left:0;
+	padding-right:20;
+	display:inline;
+}
 
 /**
  * 注釈定義リスト
@@ -770,6 +784,7 @@ table.form_elements thead{
 table.form_elements th,
 table.form_elements td {
 	border: 1px solid #999999;
+	background: #ffffff;
 	padding: 10px;
 }
 table.form_elements th {
@@ -814,11 +829,6 @@ table.form_elements .form_elements-list_horizontal li{
 	list-style-type:none;
 	display:inline;
 }
-table.form_elements .form_elements-must{
-	color:#ff0000;
-	font-weight:bold;
-	display:block;
-}
 table.form_elements .form_elements-error{
 }
 table.form_elements .form_elements-error th{
@@ -834,6 +844,15 @@ table.form_elements ul.form_elements-errors{
 table.form_elements ul.form_elements-errors li{
 	list-style-type:none;
 	margin:0;
+}
+
+/**
+ * [parts] 必須項目
+ */
+.must{
+	color:#ff0000;
+	font-weight:bold;
+	display:block;
 }
 
 /**
@@ -1004,69 +1023,6 @@ table.form_elements ul.form_elements-errors li{
 }
 .float_media .float_media-body_rect *:first-child{
 	margin-top:0;
-}
-
-<?php
-		return ob_get_clean();
-	}//create_src_modules_css()
-
-
-	/**
-	 * layout.css のソースを返す。
-	 */
-	private function create_src_layout_css(){
-		ob_start();
-		?>
-@charset "UTF-8";
-body{
-	text-align:center;
-	background-color:#eeeeee;
-	color:#000000;
-	font-family:"メイリオ","ＭＳ Ｐゴシック";
-	font-size:small;
-}
-a{
-	color:#3333ff;
-}
-.outline{
-	text-align:left;
-	max-width:980px;
-	margin:10px auto;
-}
-
-.header h1 span{
-	padding-left:20px;
-}
-.middle{
-	background-color:#ffffff;
-	padding:20px;
-	border:6px solid #dddddd;
-	border-radius:20px;
-	min-height:280px;
-}
-
-.contents{
-	text-align:left;
-	color:#333333;
-	background-color:#ffffff;
-}
-.contents h2{
-	padding:2px;
-	border-bottom:1px solid #999999;
-}
-.footer{
-	margin:10px auto;
-}
-.footer ul{
-	display:block;
-	text-align:center;
-	padding:0px;
-}
-.footer ul li{
-	list-style-type:none;
-	margin:0px;
-	padding:0px;
-	display:inline;
 }
 
 <?php
