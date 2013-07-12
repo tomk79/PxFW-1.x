@@ -210,37 +210,42 @@ class px_px{
 
 	/**
 	 * ローカルリソースディレクトリのパスを得る
-	 * @param $path_content コンテンツのパス。省略時、カレントコンテンツを採用。
-	 * @return string ローカルリソースディレクトリのパス(スラッシュ閉じ)
+	 * @param $localpath_resource ローカルリソースのパス。
+	 * @return string ローカルリソースのパス
 	 */
-	public function path_files( $path_content = null ){
-		if( !strlen( $path_content ) ){
-			$tmp_page_info = $this->site()->get_page_info($this->req()->get_request_file_path());
-			$path_content = $tmp_page_info['content'];
-			if( is_null($path_content) ){
-				$path_content = $this->req()->get_request_file_path();
-			}
-			unset($tmp_page_info);
+	public function path_files( $localpath_resource = null ){
+		$tmp_page_info = $this->site()->get_page_info($this->req()->get_request_file_path());
+		$path_content = $tmp_page_info['content'];
+		if( is_null($path_content) ){
+			$path_content = $this->req()->get_request_file_path();
 		}
-		$rtn = $this->dbh()->get_realpath($this->get_install_path().$path_content);
-		$rtn = $this->dbh()->trim_extension($rtn).'.files/';
+		unset($tmp_page_info);
+
+		$rtn = $this->get_install_path().$path_content;
+		$rtn = $this->dbh()->get_realpath($this->dbh()->trim_extension($rtn).'.files/'.$localpath_resource);
+		if( is_dir($_SERVER['DOCUMENT_ROOT'].$rtn) ){
+			$rtn .= '/';
+		}
 		return $rtn;
 	}//path_files()
 
 	/**
 	 * ローカルリソースディレクトリのサーバー内部パスを得る
-	 * @param $path_content コンテンツのパス。省略時、カレントコンテンツを採用。
-	 * @return string ローカルリソースディレクトリのサーバー内部パス(スラッシュ閉じ)
+	 * @param $localpath_resource ローカルリソースのパス。
+	 * @return string ローカルリソースのサーバー内部パス
 	 */
-	public function realpath_files( $path_content = null ){
-		$rtn = $this->path_files( $path_content );
-		$rtn = $this->dbh()->get_realpath( $_SERVER['DOCUMENT_ROOT'].$rtn ).'/';
+	public function realpath_files( $localpath_resource = null ){
+		$rtn = $this->path_files( $localpath_resource );
+		$rtn = $this->dbh()->get_realpath( $_SERVER['DOCUMENT_ROOT'].$rtn );
+		if( is_dir($rtn) ){
+			$rtn .= '/';
+		}
 		return $rtn;
 	}//realpath_files()
 
 	/**
 	 * テーマリソースディレクトリのパスを得る
-	 * @return string ローカルリソースディレクトリのパス(スラッシュ閉じ)
+	 * @return string テーマリソースのパス
 	 */
 	public function path_theme_files( $localpath_theme_resource = null ){
 		$localpath_theme_resource = preg_replace('/^\/+/', '', $localpath_theme_resource);
@@ -271,12 +276,15 @@ class px_px{
 	}//path_theme_files()
 
 	/**
-	 * テーマリソースディレクトリのサーバー内部パスを得る
-	 * @return string ローカルリソースディレクトリのサーバー内部パス(スラッシュ閉じ)
+	 * テーマリソースのサーバー内部パスを得る
+	 * @return string テーマリソースのサーバー内部パス
 	 */
-	public function realpath_theme_files(){
+	public function realpath_theme_files( $localpath_theme_resource = null ){
 		$lib_realpath = $this->get_conf('paths.px_dir').'themes/'.$this->theme()->get_theme_id().'/theme.files/';
-		$rtn = $this->dbh()->get_realpath( $lib_realpath ).'/';
+		$rtn = $this->dbh()->get_realpath( $lib_realpath.$localpath_theme_resource );
+		if( is_dir($rtn) ){
+			$rtn .= '/';
+		}
 		return $rtn;
 	}//realpath_theme_files()
 

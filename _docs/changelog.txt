@@ -7,6 +7,8 @@
 - プラグインオブジェクトを生成するタイミングを、"最初に一括して" ではなく、"初めて呼び出されたとき" に変更。
 - $px->get_theme_resource_dir() を $px->path_theme_files() に変更。
 - $px->get_theme_resource_dir_realpath() を $px->realpath_theme_files() に変更。
+- $px->realpath_theme_files() の引数に、リソースのパスを指定できるようにした。
+- $px->path_files(), $px->realpath_files() の引数を、リソースのパスに変更。
 - ドキュメントモジュール仕様を更新。
 -- 新たに、ボックスモジュールのカテゴリを追加。
 -- .must を追加。.form_elements から独立。
