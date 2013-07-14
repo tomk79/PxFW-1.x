@@ -1027,6 +1027,69 @@ table.form_elements ul.form_elements-errors li{
 
 <?php
 		return ob_get_clean();
+	}//create_src_modules_css()
+
+
+	/**
+	 * layout.css のソースを返す。
+	 */
+	private function create_src_layout_css(){
+		ob_start();
+		?>
+@charset "UTF-8";
+body{
+	text-align:center;
+	background-color:#eeeeee;
+	color:#000000;
+	font-family:"メイリオ","ＭＳ Ｐゴシック";
+	font-size:small;
+}
+a{
+	color:#3333ff;
+}
+.outline{
+	text-align:left;
+	max-width:980px;
+	margin:10px auto;
+}
+
+.header h1 span{
+	padding-left:20px;
+}
+.middle{
+	background-color:#ffffff;
+	padding:20px;
+	border:6px solid #dddddd;
+	border-radius:20px;
+	min-height:280px;
+}
+
+.contents{
+	text-align:left;
+	color:#333333;
+	background-color:#ffffff;
+}
+.contents h2{
+	padding:2px;
+	border-bottom:1px solid #999999;
+}
+.footer{
+	margin:10px auto;
+}
+.footer ul{
+	display:block;
+	text-align:center;
+	padding:0px;
+}
+.footer ul li{
+	list-style-type:none;
+	margin:0px;
+	padding:0px;
+	display:inline;
+}
+
+<?php
+		return ob_get_clean();
 	}//create_src_layout_css()
 
 }
