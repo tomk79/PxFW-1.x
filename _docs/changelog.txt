@@ -15,6 +15,9 @@
 -- ul.horizontal を追加。
 - テーマリソースキャッシュの仕組みを実装した。
 - $user->get_onetime_hash(), $user->use_onetime_hash() を追加。二重送信防止用の機能として。
+- $site->is_page_in_breadcrumb() を追加。
+- $site->get_page_id_by_path() を追加。
+- $site->get_page_path_by_id() を追加。
 - コンフィグにコマンドのパスを設定する commands を追加。
 - コンフィグの publish.paths_ignore に、物理的に存在しないがサイトマップに登録しているパスを設定している場合に、除外されない不具合を修正。
 - コンフィグの project.path_top に "/" 以外のパスを設定している場合に、トップページではない "/" がサイトマップ上に存在すると、ただしい階層解釈ができなくなる不具合を修正。

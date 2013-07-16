@@ -71,8 +71,8 @@
 <?php foreach( $local_bros_page_info as $local_page_id ){ ?>
 <?php $local_page_info = $px->site()->get_page_info($local_page_id); ?>
 <li><?php print $px->theme()->mk_link($local_page_info['path']); ?>
-<?php if( $local_page_info['id']==$page_info['id'] ){ ?>
-<?php $local_children = $px->site()->get_children(); ?>
+<?php if( $px->site()->is_page_in_breadcrumb( $local_page_info['id'] ) ){ ?>
+<?php $local_children = $px->site()->get_children( $local_page_info['id'] ); ?>
 <?php if( count($local_children) ){ ?>
 <ul>
 <?php foreach( $local_children as $local_child_page_id ){ ?>
@@ -146,6 +146,7 @@
 		print '</ul>'."\n";
 		print '</div>'."\n";
 	}
+
 ?>
 
 </div><!-- /.theme_column2 -->

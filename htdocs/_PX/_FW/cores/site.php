@@ -440,9 +440,26 @@ class px_cores_site{
 	 * ページIDからページ情報を得る
 	 */
 	public function get_page_info_by_id( $page_id ){
-		$path = $this->sitemap_id_map[$page_id];
-		return $this->get_page_info($path);
+		return $this->get_page_info($page_id);
 	}
+
+	/**
+	 * パスからページIDを得る
+	 */
+	public function get_page_id_by_path( $path ){
+		$page_info = $this->get_page_info($path);
+		return $page_info['id'];
+	}
+
+	/**
+	 * ページIDからパスを得る
+	 */
+	public function get_page_path_by_id( $page_id ){
+		$page_info = $this->get_page_info($page_id);
+		return $page_info['path'];
+	}
+
+
 
 	/**
 	 * 現在のページの情報を得る
@@ -770,7 +787,7 @@ class px_cores_site{
 
 	/**
 	 * パンくず配列を取得する
-	 * @param 基点とするページのパス。またはID。
+	 * @param $path = 基点とするページのパス、またはID。(省略時カレントページ)
 	 * @return 親ページまでのパンくず階層をあらわす配列。自身を含まない。$pathがトップページを示す場合は、空の配列。
 	 */
 	public function get_breadcrumb_array( $path = null ){
@@ -790,6 +807,29 @@ class px_cores_site{
 
 		return $rtn;
 	}//get_breadcrumb_array()
+
+	/**
+	 * ページが、パンくず内に存在しているか調べる
+	 * @param $page_path = 調べる対象のページのパス、またはID。
+	 * @param $path = 基点とするページのパス、またはID。(省略時カレントページ)
+	 */
+	public function is_page_in_breadcrumb( $page_path, $path = null ){
+		if( is_null($path) ){
+			$path = $this->px->req()->get_request_file_path();
+		}
+		$breadcrumb = $this->get_breadcrumb_array($path);
+		$current_page_id = $this->get_page_id_by_path($path);
+		$target_page_id = $this->get_page_id_by_path($page_path);
+		if( $current_page_id == $target_page_id ){
+			return true;
+		}
+		foreach( $breadcrumb as $row ){
+			if( $target_page_id == $this->get_page_id_by_path($row) ){
+				return true;
+			}
+		}
+		return false;
+	}// is_page_in_breadcrumb()
 
 	/**
 	 * パス文字列を受け取り、種類を判定する。
