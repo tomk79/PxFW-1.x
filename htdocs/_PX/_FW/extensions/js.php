@@ -14,6 +14,7 @@ class px_extensions_js extends px_bases_extension{
 		@header('Content-type: text/javascript; charset=UTF-8');//デフォルトのヘッダー
 
 		ob_start();
+		$px = $this->px;
 		@include( $path_content );
 		$src = ob_get_clean();
 		$src = $this->px->theme()->output_filter($src, 'js');
