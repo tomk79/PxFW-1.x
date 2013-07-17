@@ -299,14 +299,8 @@ class px_cores_theme{
 			$is_current = !empty($options['current']);
 		}elseif($href==$hrefc){
 			$is_current = true;
-		}else{
-			foreach( $breadcrumb as $tmp_page_id ){
-				if(!strlen($tmp_page_id)){continue;}
-				if( $page_id == $tmp_page_id ){
-					$is_current = true;
-					break;
-				}
-			}
+		}elseif( $this->px->site()->is_page_in_breadcrumb($linkto) ){
+			$is_current = true;
 		}
 		$is_popup = false;
 		if( $this->px->site()->get_page_info($linkto,'layout') == 'popup' ){
