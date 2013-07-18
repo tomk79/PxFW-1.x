@@ -75,7 +75,7 @@ class px_bases_pxcommand{
 		$src .= '<body>'."\n";
 		$src .= '<div class="outline">'."\n";
 		$src .= '<div class="header">'."\n";
-		$src .= '<p style="margin:0.3em 0 0 0;font-size:medium; font-weight:bold; text-align:right;">Pickles Framework (version:'.t::h($this->px->get_version()).')</p>'."\n";
+		$src .= '<p style="margin:0.3em 0 0 0;font-size:medium; font-weight:bold; text-align:right;">'.t::h($this->px->get_conf('project.name')).' ('.t::h($this->px->get_conf('project.id')).') | Pickles Framework (version:'.t::h($this->px->get_version()).')</p>'."\n";
 		$src .= '<div style="margin:0.3em 0 0 0;font-size:medium; font-weight:bold; text-align:right;"><form class="inline">'."\n";
 		$src .= '<select onchange="window.location.href=\'?PX=\'+this.options[this.selectedIndex].value;">'."\n";
 		foreach( $px_command_list as $command_name_row ){

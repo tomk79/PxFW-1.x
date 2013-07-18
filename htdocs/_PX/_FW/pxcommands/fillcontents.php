@@ -49,6 +49,7 @@ class px_pxcommands_fillcontents extends px_bases_pxcommand{
 
 		@header('Content-type: text/plain');
 		print $command[0].' | Pickles Framework (version:'.$this->px->get_version().')'."\n";
+		print 'project "'.$this->px->get_conf('project.name').'" ('.$this->px->get_conf('project.id').')'."\n";
 		print "\n";
 		print '* start fillcontents.'."\n";
 		print "\n";

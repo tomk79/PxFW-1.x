@@ -130,6 +130,7 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 		@header('Content-type: text/plain');
 		error_reporting(0);
 		print ''.$command[0].' | Pickles Framework (version:'.$this->px->get_version().')'."\n";
+		print 'project "'.$this->px->get_conf('project.name').'" ('.$this->px->get_conf('project.id').')'."\n";
 		print '------'."\n";
 		print 'PX command "'.$command[0].'" executed.'."\n";
 		if( $this->px->req()->is_cmd() ){

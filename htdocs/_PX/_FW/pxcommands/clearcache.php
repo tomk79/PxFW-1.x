@@ -24,6 +24,7 @@ class px_pxcommands_clearcache extends px_bases_pxcommand{
 		$this->setup();
 		@header('Content-type: text/plain');
 		print ''.$command[0].' | Pickles Framework (version:'.$this->px->get_version().')'."\n";
+		print 'project "'.$this->px->get_conf('project.name').'" ('.$this->px->get_conf('project.id').')'."\n";
 		print '------'."\n";
 		print 'PX command "'.$command[0].'" executed.'."\n";
 		print '------'."\n";
