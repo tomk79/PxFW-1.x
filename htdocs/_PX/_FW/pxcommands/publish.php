@@ -572,6 +572,7 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 					}
 					$tmp_src = preg_replace('/\r\n|\r|\n/si',$eof_code,$tmp_src);
 				}
+				$this->px->dbh()->mkdir_all( dirname($this->path_tmppublish_dir.'/htdocs/'.$path) );
 				$result = $this->px->dbh()->file_overwrite( $this->path_tmppublish_dir.'/htdocs/'.$path , $tmp_src );
 				print ''."\n";
 
@@ -588,6 +589,7 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 				}
 				break;
 			default:
+				$this->px->dbh()->mkdir_all( dirname($this->path_tmppublish_dir.'/htdocs/'.$path) );
 				$result = $this->px->dbh()->copy( $_SERVER['DOCUMENT_ROOT'].$path , $this->path_tmppublish_dir.'/htdocs/'.$path );
 				print ''."\n";
 
