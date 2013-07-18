@@ -244,6 +244,50 @@ class px_px{
 	}//realpath_files()
 
 	/**
+	 * ローカルリソースのキャッシュディレクトリのパスを得る
+	 * @param $localpath_resource ローカルリソースのパス。
+	 * @return string ローカルリソースキャッシュのパス
+	 */
+	public function path_files_cache( $localpath_resource = null ){
+		$tmp_page_info = $this->site()->get_page_info($this->req()->get_request_file_path());
+		$path_content = $tmp_page_info['content'];
+		if( is_null($path_content) ){
+			$path_content = $this->req()->get_request_file_path();
+		}
+		unset($tmp_page_info);
+
+		$path_original = $this->get_install_path().$path_content;
+		$path_original = $this->dbh()->get_realpath($this->dbh()->trim_extension($path_original).'.files/'.$localpath_resource);
+		$rtn = $this->get_install_path().'/_caches/_contents'.$path_content;
+		$rtn = $this->dbh()->get_realpath($this->dbh()->trim_extension($rtn).'.files/'.$localpath_resource);
+		if( file_exists( $_SERVER['DOCUMENT_ROOT'].$path_original ) ){
+			if( is_dir($_SERVER['DOCUMENT_ROOT'].$path_original) ){
+				$rtn .= '/';
+				$this->dbh()->mkdir_all( $_SERVER['DOCUMENT_ROOT'].$rtn );
+			}else{
+				$this->dbh()->mkdir_all( dirname( $_SERVER['DOCUMENT_ROOT'].$rtn ) );
+			}
+			$this->dbh()->copy_all( $_SERVER['DOCUMENT_ROOT'].$path_original, $_SERVER['DOCUMENT_ROOT'].$rtn );
+		}
+		$this->add_relatedlink($rtn);
+		return $rtn;
+	}//path_files_cache()
+
+	/**
+	 * ローカルリソースのキャッシュディレクトリのサーバー内部パスを得る
+	 * @param $localpath_resource ローカルリソースのパス。
+	 * @return string ローカルリソースキャッシュのサーバー内部パス
+	 */
+	public function realpath_files_cache( $localpath_resource = null ){
+		$rtn = $this->path_files_cache( $localpath_resource );
+		$rtn = $this->dbh()->get_realpath( $_SERVER['DOCUMENT_ROOT'].$rtn );
+		if( is_dir($rtn) ){
+			$rtn .= '/';
+		}
+		return $rtn;
+	}//realpath_files_cache()
+
+	/**
 	 * テーマリソースディレクトリのパスを得る
 	 * @return string テーマリソースのパス
 	 */
