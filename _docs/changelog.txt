@@ -2,7 +2,7 @@
  * PxFW(Pickles Framework) 更新履歴
  */
 
-■PxFW 1.0.0b7 (2013/**/**)
+■PxFW 1.0.0b7 (2013/7/20)
 
 - プラグインオブジェクトを生成するタイミングを、"最初に一括して" ではなく、"初めて呼び出されたとき" に変更。
 - $px->get_theme_resource_dir() を $px->path_theme_files() に変更。
