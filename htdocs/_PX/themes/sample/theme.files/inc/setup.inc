@@ -6,7 +6,7 @@
 
 <link rel="stylesheet" href="<?php print t::h($px->theme()->href('/common/css/setup.css')); ?>" type="text/css" />
 <link rel="stylesheet" href="<?php print t::h($px->theme()->href('/common/css/modules.css')); ?>" type="text/css" />
-<link rel="stylesheet" href="<?php print t::h($px->path_theme_files('css/layout.css')); ?>" type="text/css" />
+<link rel="stylesheet" href="<?php print t::h($px->path_theme_files('/css/common.css')); ?>" type="text/css" />
 
 <script src="<?php print t::h($px->theme()->href('/common/js/jquery-1.10.1.min.js')); ?>" type="text/javascript"></script>
 <!-- / インクルードエリア -->

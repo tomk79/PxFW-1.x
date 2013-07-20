@@ -5,34 +5,34 @@ body{
 	padding:0px 0px 0px 0px;
 	margin:0px 0px 0px 0px;
 }
-body > .outline{
+body .theme_outline{
 	text-align:left;
 	width:800px;
 	margin:0px auto;
 }
-body > .outline > .header{
+body .theme_outline .theme_header{
 }
-body > .outline > .header > .logo{
+body .theme_outline .theme_header .theme_logo{
 }
-body > .outline > .header > .logo a{
+body .theme_outline .theme_header .theme_logo a{
 	font-size:150%;
 	font-weight:bold;
 }
 
-body > .outline > .middle{
+body .theme_outline .theme_middle{
 	clear:both;
 }
-body > .outline > .middle > .column1{
+body .theme_outline .theme_middle .theme_column1{
 	width:74%;
 	float:left;
 }
 
-body > .outline > .middle > .column2{
+body .theme_outline .theme_middle .theme_column2{
 	width:24%;
 	float:right;
 }
 
-body > .outline > .footer{
+body .theme_outline .theme_footer{
 	clear:both;
 }
 

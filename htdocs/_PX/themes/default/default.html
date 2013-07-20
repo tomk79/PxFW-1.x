@@ -16,7 +16,9 @@
 <?php
 	print $px->ssi($px->theme()->href('/common/inc/common_setup.inc'));
 ?>
-		<link rel="stylesheet" href="<?php print t::h($px->theme()->href('/common/css/common.css')); ?>" type="text/css" />
+		<link rel="stylesheet" href="<?php print t::h($px->theme()->href('/common/css/setup.css')); ?>" type="text/css" />
+		<link rel="stylesheet" href="<?php print t::h($px->theme()->href('/common/css/modules.css')); ?>" type="text/css" />
+		<link rel="stylesheet" href="<?php print t::h($px->path_theme_files('/css/common.css')); ?>" type="text/css" />
 <?php
 	//↓コンテンツから受け取った
 	//	headセクション内用のソースを出力しています。
@@ -24,12 +26,12 @@
 ?>
 	</head>
 	<body>
-		<div class="outline" id="page_top">
-			<div class="header">
-				<div class="logo"><a href="<?php print t::h( $px->theme()->href('') ); ?>"><?php print t::h($px->get_conf('project.name')); ?></a></div>
-			</div><!-- /.header -->
-			<div class="middle">
-				<div class="column1">
+		<div class="theme_outline" id="page_top">
+			<div class="theme_header">
+				<div class="theme_logo"><a href="<?php print t::h( $px->theme()->href('') ); ?>"><?php print t::h($px->get_conf('project.name')); ?></a></div>
+			</div><!-- /.theme_header -->
+			<div class="theme_middle">
+				<div class="theme_column1">
 					<h1><?php print t::text2html( $page_info['title_h1'] ); ?></h1>
 					<div id="content" class="contents">
 
@@ -40,8 +42,8 @@
 ?>
 
 					</div><!-- /#content -->
-				</div><!-- /.column1 -->
-				<div class="column2">
+				</div><!-- /.theme_column1 -->
+				<div class="theme_column2">
 					<div class="localnavi">
 <?php /*
 ↓ ここからの記述は、ローカルナビゲーションの自動生成ロジックです。
@@ -79,13 +81,13 @@
 					</div><!-- /.localnavi -->
 
 
-				</div><!-- /.column2 -->
-			</div><!-- /.middle -->
-			<div class="footer">
+				</div><!-- /.theme_column2 -->
+			</div><!-- /.theme_middle -->
+			<div class="theme_footer">
 				<div class="right small">[<a href="#page_top" class="up">ページの先頭へ戻る</a>]</div>
 				<div class="breadcrumb"><?php print $px->theme()->mk_breadcrumb(); ?></div>
 				<div class="center">[<?php print $px->theme()->mk_link(''); ?>]</div>
-			</div><!-- /.footer -->
-		</div><!-- /.outline -->
+			</div><!-- /.theme_footer -->
+		</div><!-- /.theme_outline -->
 	</body>
 </html>

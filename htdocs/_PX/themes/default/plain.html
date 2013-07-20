@@ -16,7 +16,9 @@
 <?php
 	print $px->ssi($px->theme()->href('/common/inc/common_setup.inc'));
 ?>
-		<link rel="stylesheet" href="<?php print t::h($px->theme()->href('/common/css/common.css')); ?>" type="text/css" />
+		<link rel="stylesheet" href="<?php print t::h($px->theme()->href('/common/css/setup.css')); ?>" type="text/css" />
+		<link rel="stylesheet" href="<?php print t::h($px->theme()->href('/common/css/modules.css')); ?>" type="text/css" />
+		<link rel="stylesheet" href="<?php print t::h($px->path_theme_files('/css/common.css')); ?>" type="text/css" />
 <?php
 	//↓コンテンツから受け取った
 	//	headセクション内用のソースを出力しています。
