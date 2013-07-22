@@ -704,7 +704,8 @@ table.form_elements ul.form_elements-errors li{
 .must{
 	color:#ff0000;
 	font-weight:bold;
-	display:block;
+	display:inline;
+	white-space:nowrap;
 }
 
 /**
