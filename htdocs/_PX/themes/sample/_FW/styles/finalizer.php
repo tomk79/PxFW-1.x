@@ -2,7 +2,7 @@
 
 /**
  * コンテンツの仕上げ処理を施す。
- **/
+ */
 class pxtheme_styles_finalizer{
 
 	private $px;
