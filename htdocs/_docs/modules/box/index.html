@@ -10,7 +10,6 @@
 	<li>パーツモジュールと同様、ユニットモジュールに入れ込んで使うことができます。</li>
 	<li>ボックスモジュールの中には、パーツモジュールを入れ込んで使うことができます。</li>
 	<li>ユニットモジュールに入れ込まれていない場合に限り、ボックスモジュールの中に、ユニットモジュールを1階層分入れ込むことができます。(つまり、ボックスモジュールを挟んだとしても、ユニットモジュール同士が親子の関係になることはできません)</li>
-	<li>ボックスモジュール同士が親子の関係になることはできません。</li>
 </ul>
 <p>
 	ボックスモジュールのモジュール名は、慣例として、末尾に *_box を付加するようにします。<br />
@@ -33,8 +32,8 @@
 </div><!-- /.attention_box -->
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;attention_box&quot;&gt;
-	&lt;p class=&quot;attention_box-heading&quot;&gt;{$text}&lt;/p&gt;
-	{$parts|unit}
+	&lt;p class=&quot;attention_box-heading&quot;&gt;{$string}&lt;/p&gt;
+	{$parts|unit|box}
 &lt;/div&gt;&lt;!-- /.attention_box --&gt;
 </textarea></div>
 </div><!-- /.unit -->
@@ -52,8 +51,8 @@
 </div><!-- /.topic_box -->
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;topic_box&quot;&gt;
-	&lt;p class=&quot;topic_box-heading&quot;&gt;{$text}&lt;/p&gt;
-	{$parts|unit}
+	&lt;p class=&quot;topic_box-heading&quot;&gt;{$string}&lt;/p&gt;
+	{$parts|unit|box}
 &lt;/div&gt;&lt;!-- /.topic_box --&gt;
 </textarea></div>
 </div><!-- /.unit -->
@@ -71,8 +70,8 @@
 </div><!-- /.topic_box -->
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;aside_box&quot;&gt;
-	&lt;p class=&quot;aside_box-heading&quot;&gt;{$text}&lt;/p&gt;
-	{$parts|unit}
+	&lt;p class=&quot;aside_box-heading&quot;&gt;{$string}&lt;/p&gt;
+	{$parts|unit|box}
 &lt;/div&gt;&lt;!-- /.aside_box --&gt;
 </textarea></div>
 </div><!-- /.unit -->

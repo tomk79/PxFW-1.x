@@ -15,7 +15,7 @@
 <p>段落は、p要素を用いて表現します。</p>
 
 <div class="unit">
-	<div class="code"><textarea readonly="readonly">&lt;p&gt;{$inline}&lt;/p&gt;
+	<div class="code"><textarea readonly="readonly">&lt;p&gt;{$string|parts}&lt;/p&gt;
 </textarea></div>
 </div><!-- /.unit -->
 
@@ -28,11 +28,11 @@
 </p>
 
 <div class="unit">
-	<div class="code"><textarea readonly="readonly">&lt;h2&gt;{$inline}&lt;/h2&gt;
-&lt;h3&gt;{$inline}&lt;/h3&gt;
-&lt;h4&gt;{$inline}&lt;/h4&gt;
-&lt;h5&gt;{$inline}&lt;/h5&gt;
-&lt;h6&gt;{$inline}&lt;/h6&gt;
+	<div class="code"><textarea readonly="readonly">&lt;h2&gt;{$string|parts}&lt;/h2&gt;
+&lt;h3&gt;{$string|parts}&lt;/h3&gt;
+&lt;h4&gt;{$string|parts}&lt;/h4&gt;
+&lt;h5&gt;{$string|parts}&lt;/h5&gt;
+&lt;h6&gt;{$string|parts}&lt;/h6&gt;
 </textarea></div>
 </div><!-- /.unit -->
 
@@ -48,13 +48,13 @@
 		<tr><th>モジュール名称</th><th>用途</th><th>サンプル</th></tr>
 	</thead>
 	<tbody>
-		<tr><th>.xxlarge</th><td>文字を最大サイズにする。</td><td>&lt;p class=&quot;xxlarge&quot;&gt;文字&lt;/p&gt;</td></tr>
-		<tr><th>.xlarge</th><td>文字をさらに大きいサイズにする。</td><td>&lt;p class=&quot;xlarge&quot;&gt;文字&lt;/p&gt;</td></tr>
-		<tr><th>.large</th><td>文字を大きいサイズにする。</td><td>&lt;p class=&quot;large&quot;&gt;文字&lt;/p&gt;</td></tr>
-		<tr><th>.medium</th><td>文字を標準サイズにする。</td><td>&lt;p class=&quot;medium&quot;&gt;文字&lt;/p&gt;</td></tr>
-		<tr><th>.small</th><td>文字を小さいサイズにする。</td><td>&lt;p class=&quot;small&quot;&gt;文字&lt;/p&gt;</td></tr>
-		<tr><th>.xsmall</th><td>文字をさらに小さいサイズにする。</td><td>&lt;p class=&quot;xsmall&quot;&gt;文字&lt;/p&gt;</td></tr>
-		<tr><th>.xxsmall</th><td>文字を最小サイズにする。</td><td>&lt;p class=&quot;xxsmall&quot;&gt;文字&lt;/p&gt;</td></tr>
+		<tr><th>.xxlarge</th><td>文字を最大サイズにする。</td><td>&lt;p class=&quot;xxlarge&quot;&gt;{$string}&lt;/p&gt;</td></tr>
+		<tr><th>.xlarge</th><td>文字をさらに大きいサイズにする。</td><td>&lt;p class=&quot;xlarge&quot;&gt;{$string}&lt;/p&gt;</td></tr>
+		<tr><th>.large</th><td>文字を大きいサイズにする。</td><td>&lt;p class=&quot;large&quot;&gt;{$string}&lt;/p&gt;</td></tr>
+		<tr><th>.medium</th><td>文字を標準サイズにする。</td><td>&lt;p class=&quot;medium&quot;&gt;{$string}&lt;/p&gt;</td></tr>
+		<tr><th>.small</th><td>文字を小さいサイズにする。</td><td>&lt;p class=&quot;small&quot;&gt;{$string}&lt;/p&gt;</td></tr>
+		<tr><th>.xsmall</th><td>文字をさらに小さいサイズにする。</td><td>&lt;p class=&quot;xsmall&quot;&gt;{$string}&lt;/p&gt;</td></tr>
+		<tr><th>.xxsmall</th><td>文字を最小サイズにする。</td><td>&lt;p class=&quot;xxsmall&quot;&gt;{$string}&lt;/p&gt;</td></tr>
 	</tbody>
 </table>
 </div><!-- /.unit -->
@@ -68,7 +68,7 @@
 
 <p><a href="./">通常のインラインリンク</a></p>
 <div class="unit">
-	<div class="code"><textarea readonly="readonly">&lt;a href=&quot;{$href}&quot;&gt;{$text}&lt;/a&gt;</textarea></div>
+	<div class="code"><textarea readonly="readonly">&lt;a href=&quot;{$string}&quot;&gt;{$string}&lt;/a&gt;</textarea></div>
 </div><!-- /.unit -->
 
 
@@ -76,7 +76,7 @@
 
 <p><a href="./" class="icon">アイコン付きリンク</a></p>
 <div class="unit">
-	<div class="code"><textarea readonly="readonly">&lt;a href=&quot;{$href}&quot; class=&quot;icon&quot;&gt;{$text}&lt;/a&gt;
+	<div class="code"><textarea readonly="readonly">&lt;a href=&quot;{$string}&quot; class=&quot;icon&quot;&gt;{$string}&lt;/a&gt;
 </textarea></div>
 </div><!-- /.unit -->
 
@@ -84,7 +84,7 @@
 
 <p><a href="./" class="down">ページ内リンク(下向き)</a></p>
 <div class="unit">
-	<div class="code"><textarea readonly="readonly">&lt;a href=&quot;{$href}&quot; class=&quot;down&quot;&gt;{$text}&lt;/a&gt;
+	<div class="code"><textarea readonly="readonly">&lt;a href=&quot;{$string}&quot; class=&quot;down&quot;&gt;{$string}&lt;/a&gt;
 </textarea></div>
 </div><!-- /.unit -->
 
@@ -92,7 +92,7 @@
 
 <p><a href="./" class="up">ページ内リンク(上向き)</a></p>
 <div class="unit">
-	<div class="code"><textarea readonly="readonly">&lt;a href=&quot;{$href}&quot; class=&quot;up&quot;&gt;{$text}&lt;/a&gt;
+	<div class="code"><textarea readonly="readonly">&lt;a href=&quot;{$string}&quot; class=&quot;up&quot;&gt;{$string}&lt;/a&gt;
 </textarea></div>
 </div><!-- /.unit -->
 
@@ -100,7 +100,7 @@
 
 <p><a href="javascript:history.back();" class="back">戻るリンク</a></p>
 <div class="unit">
-	<div class="code"><textarea readonly="readonly">&lt;a href=&quot;javascript:history.back();&quot; class=&quot;back&quot;&gt;{$text}&lt;/a&gt;
+	<div class="code"><textarea readonly="readonly">&lt;a href=&quot;javascript:history.back();&quot; class=&quot;back&quot;&gt;{$string}&lt;/a&gt;
 </textarea></div>
 </div><!-- /.unit -->
 
@@ -115,7 +115,7 @@
 
 <p><a href="./" target="_blank"><span class="blank">別ウィンドウリンク</span></a></p>
 <div class="unit">
-	<div class="code"><textarea readonly="readonly">&lt;p&gt;&lt;a href=&quot;{$href}&quot; target=&quot;_blank&quot;&gt;&lt;span class=&quot;blank&quot;&gt;{$text}&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+	<div class="code"><textarea readonly="readonly">&lt;p&gt;&lt;a href=&quot;{$string}&quot; target=&quot;_blank&quot;&gt;&lt;span class=&quot;blank&quot;&gt;{$string}&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 </textarea></div>
 </div><!-- /.unit -->
 
@@ -124,7 +124,7 @@
 
 <p><a href="./"><span class="download">ダウンロードリンク</span></a></p>
 <div class="unit">
-	<div class="code"><textarea readonly="readonly">&lt;p&gt;&lt;a href=&quot;{$href}&quot;&gt;&lt;span class=&quot;download&quot;&gt;{$text}&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+	<div class="code"><textarea readonly="readonly">&lt;p&gt;&lt;a href=&quot;{$string}&quot;&gt;&lt;span class=&quot;download&quot;&gt;{$string}&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 </textarea></div>
 </div><!-- /.unit -->
 
@@ -132,7 +132,7 @@
 
 <p><a href="./"><span class="pdf">PDFファイル名</span></a></p>
 <div class="unit">
-	<div class="code"><textarea readonly="readonly">&lt;p&gt;&lt;a href=&quot;{$href}&quot;&gt;&lt;span class=&quot;pdf&quot;&gt;{$text}&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+	<div class="code"><textarea readonly="readonly">&lt;p&gt;&lt;a href=&quot;{$string}&quot;&gt;&lt;span class=&quot;pdf&quot;&gt;{$string}&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 </textarea></div>
 </div><!-- /.unit -->
 
@@ -159,14 +159,14 @@
 	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;anchor_links&quot;&gt;
 	&lt;p class=&quot;anchor_links-heading&quot;&gt;目次&lt;/p&gt;
 	&lt;ul&gt;
-		&lt;li&gt;&lt;a href=&quot;{$href}&quot;&gt;{$text}&lt;/a&gt;&lt;/li&gt;
-		&lt;li&gt;&lt;a href=&quot;{$href}&quot;&gt;{$text}&lt;/a&gt;
+		&lt;li&gt;&lt;a href=&quot;{$string}&quot;&gt;{$string}&lt;/a&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;a href=&quot;{$string}&quot;&gt;{$string}&lt;/a&gt;
 		&lt;ul&gt;
-			&lt;li&gt;&lt;a href=&quot;{$href}&quot;&gt;{$text}&lt;/a&gt;&lt;/li&gt;
-			&lt;li&gt;&lt;a href=&quot;{$href}&quot;&gt;{$text}&lt;/a&gt;&lt;/li&gt;
+			&lt;li&gt;&lt;a href=&quot;{$string}&quot;&gt;{$string}&lt;/a&gt;&lt;/li&gt;
+			&lt;li&gt;&lt;a href=&quot;{$string}&quot;&gt;{$string}&lt;/a&gt;&lt;/li&gt;
 		&lt;/ul&gt;
 		&lt;/li&gt;
-		&lt;li&gt;&lt;a href=&quot;{$href}&quot;&gt;{$text}&lt;/a&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;a href=&quot;{$string}&quot;&gt;{$string}&lt;/a&gt;&lt;/li&gt;
 	&lt;/ul&gt;
 &lt;/div&gt;&lt;!-- /.anchor_links --&gt;
 </textarea></div>
@@ -186,9 +186,9 @@
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;more_links&quot;&gt;
 	&lt;ul&gt;
-		&lt;li&gt;&lt;a href=&quot;{$href}&quot;&gt;{$text}&lt;/a&gt;&lt;/li&gt;
-		&lt;li&gt;&lt;a href=&quot;{$href}&quot;&gt;{$text}&lt;/a&gt;&lt;/li&gt;
-		&lt;li&gt;&lt;a href=&quot;{$href}&quot;&gt;{$text}&lt;/a&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;a href=&quot;{$string}&quot;&gt;{$string}&lt;/a&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;a href=&quot;{$string}&quot;&gt;{$string}&lt;/a&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;a href=&quot;{$string}&quot;&gt;{$string}&lt;/a&gt;&lt;/li&gt;
 	&lt;/ul&gt;
 &lt;/div&gt;&lt;!-- /.more_links --&gt;
 </textarea></div>
@@ -212,7 +212,7 @@
 <h3>エラー表示 .error</h3>
 <p><span class="error">この文言はエラー表示です。</span></p>
 <div class="unit">
-	<div class="code"><textarea readonly="readonly">&lt;span class=&quot;error&quot;&gt;{$inline}&lt;/span&gt;
+	<div class="code"><textarea readonly="readonly">&lt;span class=&quot;error&quot;&gt;{$string}&lt;/span&gt;
 </textarea></div>
 </div><!-- /.unit -->
 
@@ -261,9 +261,9 @@
 </ul>
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;ul class=&quot;notes&quot;&gt;
-	&lt;li class=&quot;notes-li&quot;&gt;※{$inline}&lt;/li&gt;
-	&lt;li class=&quot;notes-li&quot;&gt;※{$inline}&lt;/li&gt;
-	&lt;li class=&quot;notes-li&quot;&gt;※{$inline}&lt;/li&gt;
+	&lt;li class=&quot;notes-li&quot;&gt;※{$string}&lt;/li&gt;
+	&lt;li class=&quot;notes-li&quot;&gt;※{$string}&lt;/li&gt;
+	&lt;li class=&quot;notes-li&quot;&gt;※{$string}&lt;/li&gt;
 &lt;/ul&gt;
 </textarea></div>
 </div><!-- /.unit -->
@@ -283,9 +283,9 @@
 </ul>
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;ul class=&quot;nomark&quot;&gt;
-	&lt;li class=&quot;nomark-li&quot;&gt;{$inline}&lt;/li&gt;
-	&lt;li class=&quot;nomark-li&quot;&gt;{$inline}&lt;/li&gt;
-	&lt;li class=&quot;nomark-li&quot;&gt;{$inline}&lt;/li&gt;
+	&lt;li class=&quot;nomark-li&quot;&gt;{$string}&lt;/li&gt;
+	&lt;li class=&quot;nomark-li&quot;&gt;{$string}&lt;/li&gt;
+	&lt;li class=&quot;nomark-li&quot;&gt;{$string}&lt;/li&gt;
 &lt;/ul&gt;
 </textarea></div>
 </div><!-- /.unit -->
@@ -305,9 +305,9 @@
 
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;ul class=&quot;horizontal&quot;&gt;
-	&lt;li class=&quot;horizontal-li&quot;&gt;{$inline}&lt;/li&gt;
-	&lt;li class=&quot;horizontal-li&quot;&gt;{$inline}&lt;/li&gt;
-	&lt;li class=&quot;horizontal-li&quot;&gt;{$inline}&lt;/li&gt;
+	&lt;li class=&quot;horizontal-li&quot;&gt;{$string}&lt;/li&gt;
+	&lt;li class=&quot;horizontal-li&quot;&gt;{$string}&lt;/li&gt;
+	&lt;li class=&quot;horizontal-li&quot;&gt;{$string}&lt;/li&gt;
 &lt;/ul&gt;
 </textarea></div>
 </div>
@@ -354,11 +354,11 @@
 </dl>
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;dl&gt;
-	&lt;dt&gt;{$text}&lt;/dt&gt;
+	&lt;dt&gt;{$string}&lt;/dt&gt;
 		&lt;dd&gt;{$parts|box}&lt;/dd&gt;
-	&lt;dt&gt;{$text}&lt;/dt&gt;
+	&lt;dt&gt;{$string}&lt;/dt&gt;
 		&lt;dd&gt;{$parts|box}&lt;/dd&gt;
-	&lt;dt&gt;{$text}&lt;/dt&gt;
+	&lt;dt&gt;{$string}&lt;/dt&gt;
 		&lt;dd&gt;{$parts|box}&lt;/dd&gt;
 &lt;/dl&gt;
 </textarea></div>
@@ -384,9 +384,9 @@
 </dl>
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;dl class=&quot;notes&quot;&gt;
-	&lt;dt class=&quot;notes-dt&quot;&gt;※{$text} {$text}&lt;/dt&gt;
+	&lt;dt class=&quot;notes-dt&quot;&gt;※{$string}&lt;/dt&gt;
 		&lt;dd class=&quot;notes-dd&quot;&gt;{$parts|box}&lt;/dd&gt;
-	&lt;dt class=&quot;notes-dt&quot;&gt;※{$text} {$text}&lt;/dt&gt;
+	&lt;dt class=&quot;notes-dt&quot;&gt;※{$string}&lt;/dt&gt;
 		&lt;dd class=&quot;notes-dd&quot;&gt;{$parts|box}&lt;/dd&gt;
 &lt;/dl&gt;
 </textarea></div>
@@ -445,19 +445,19 @@
 		&lt;/thead&gt;
 		&lt;tbody&gt;
 			&lt;tr&gt;
-				&lt;th&gt;{$date}&lt;/th&gt;
-				&lt;td class=&quot;date_list-flag&quot;&gt;{$text}&lt;/td&gt;
-				&lt;td&gt;&lt;a href=&quot;{$href}&quot;&gt;{$text}&lt;/a&gt;&lt;/td&gt;
+				&lt;th&gt;{$string}&lt;/th&gt;
+				&lt;td class=&quot;date_list-flag&quot;&gt;{$string}&lt;/td&gt;
+				&lt;td&gt;&lt;a href=&quot;{$string}&quot;&gt;{$string}&lt;/a&gt;&lt;/td&gt;
 			&lt;/tr&gt;
 			&lt;tr&gt;
-				&lt;th&gt;{$date}&lt;/th&gt;
-				&lt;td class=&quot;date_list-flag&quot;&gt;{$text}&lt;/td&gt;
-				&lt;td&gt;&lt;a href=&quot;{$href}&quot;&gt;{$text}&lt;/a&gt;&lt;/td&gt;
+				&lt;th&gt;{$string}&lt;/th&gt;
+				&lt;td class=&quot;date_list-flag&quot;&gt;{$string}&lt;/td&gt;
+				&lt;td&gt;&lt;a href=&quot;{$string}&quot;&gt;{$string}&lt;/a&gt;&lt;/td&gt;
 			&lt;/tr&gt;
 			&lt;tr&gt;
-				&lt;th&gt;{$date}&lt;/th&gt;
-				&lt;td class=&quot;date_list-flag&quot;&gt;{$text}&lt;/td&gt;
-				&lt;td&gt;&lt;a href=&quot;{$href}&quot;&gt;{$text}&lt;/a&gt;&lt;/td&gt;
+				&lt;th&gt;{$string}&lt;/th&gt;
+				&lt;td class=&quot;date_list-flag&quot;&gt;{$string}&lt;/td&gt;
+				&lt;td&gt;&lt;a href=&quot;{$string}&quot;&gt;{$string}&lt;/a&gt;&lt;/td&gt;
 			&lt;/tr&gt;
 		&lt;/tbody&gt;
 	&lt;/table&gt;
@@ -520,26 +520,26 @@
 	<div class="code"><textarea readonly="readonly">&lt;table class=&quot;def&quot;&gt;
 	&lt;thead&gt;
 		&lt;tr&gt;
-			&lt;th&gt;{$text}&lt;/th&gt;
-			&lt;td&gt;{$text}&lt;/td&gt;
-			&lt;td&gt;{$text}&lt;/td&gt;
+			&lt;th&gt;{$parts}&lt;/th&gt;
+			&lt;td&gt;{$parts}&lt;/td&gt;
+			&lt;td&gt;{$parts}&lt;/td&gt;
 		&lt;/tr&gt;
 	&lt;/thead&gt;
 	&lt;tfoot&gt;
 		&lt;tr&gt;
-			&lt;th&gt;{$text}&lt;/th&gt;
-			&lt;td&gt;{$text}&lt;/td&gt;
-			&lt;td&gt;{$text}&lt;/td&gt;
+			&lt;th&gt;{$parts}&lt;/th&gt;
+			&lt;td&gt;{$parts}&lt;/td&gt;
+			&lt;td&gt;{$parts}&lt;/td&gt;
 		&lt;/tr&gt;
 	&lt;/tfoot&gt;
 	&lt;tbody&gt;
 		&lt;tr&gt;
-			&lt;th&gt;{$text}&lt;/th&gt;
+			&lt;th&gt;{$parts|box}&lt;/th&gt;
 			&lt;td&gt;{$parts|box}&lt;/td&gt;
 			&lt;td&gt;{$parts|box}&lt;/td&gt;
 		&lt;/tr&gt;
 		&lt;tr&gt;
-			&lt;th&gt;{$text}&lt;/th&gt;
+			&lt;th&gt;{$parts|box}&lt;/th&gt;
 			&lt;td&gt;{$parts|box}&lt;/td&gt;
 			&lt;td&gt;{$parts|box}&lt;/td&gt;
 		&lt;/tr&gt;
@@ -557,16 +557,16 @@
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;?php ob_start(); ?&gt;
 &lt;style type=&quot;text/css&quot;&gt;
-	.cont_{$text}{
-		width:{$int}px;
-		height:{$int}px;
+	.cont_{$string}{
+		width:{$string}px;
+		height:{$string}px;
 	}
 	.cont_sample .imgrep-panel{
-		background-image:url(&quot;{$image}&quot;);
+		background-image:url(&quot;{$string}&quot;);
 	}
 &lt;/style&gt;
 &lt;?php $px-&gt;theme()-&gt;send_content( ob_get_clean(), 'head' ); ?&gt;
-&lt;a href=&quot;{$href}&quot; class=&quot;imgrep cont_{$text}&quot;&gt;{$text}&lt;span class=&quot;imgrep-panel&quot;&gt;&lt;/span&gt;&lt;/a&gt;</textarea></div>
+&lt;a href=&quot;{$string}&quot; class=&quot;imgrep cont_{$string}&quot;&gt;{$parts}&lt;span class=&quot;imgrep-panel&quot;&gt;&lt;/span&gt;&lt;/a&gt;</textarea></div>
 </div><!-- /.unit -->
 
 
@@ -602,7 +602,7 @@
 <p><a href="***" class="current">カレントページ</a></p>
 
 <div class="unit">
-	<div class="code"><textarea readonly="readonly">&lt;a href=&quot;{$href}&quot; class=&quot;current&quot;&gt;{$text}&lt;/a&gt;
+	<div class="code"><textarea readonly="readonly">&lt;a href=&quot;{$string}&quot; class=&quot;current&quot;&gt;{$string}&lt;/a&gt;
 </textarea></div>
 </div><!-- /.unit -->
 
@@ -619,7 +619,7 @@
 
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;unit&quot;&gt;
-	&lt;div class=&quot;code&quot;&gt;&lt;textarea readonly=&quot;readonly&quot;&gt;{$text}
+	&lt;div class=&quot;code&quot;&gt;&lt;textarea readonly=&quot;readonly&quot;&gt;{$string}
 &lt;/textarea&gt;&lt;/div&gt;
 &lt;/div&gt;
 </textarea></div>
@@ -635,7 +635,7 @@
 
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;unit&quot;&gt;
-	&lt;div class=&quot;code&quot;&gt;&lt;pre&gt;&lt;code&gt;{$text}
+	&lt;div class=&quot;code&quot;&gt;&lt;pre&gt;&lt;code&gt;{$string}
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 </textarea></div>
@@ -758,92 +758,92 @@
 	&lt;/thead&gt;
 	&lt;tbody&gt;
 		&lt;tr&gt;
-			&lt;th&gt;{$text}&lt;/th&gt;
+			&lt;th&gt;{$string}&lt;/th&gt;
 			&lt;td&gt;
 				&lt;ul class=&quot;form_elements-notes&quot;&gt;
-					&lt;li&gt;{$text}&lt;/li&gt;
-					&lt;li&gt;{$text}&lt;/li&gt;
+					&lt;li&gt;{$string}&lt;/li&gt;
+					&lt;li&gt;{$string}&lt;/li&gt;
 				&lt;/ul&gt;
 				&lt;input type=&quot;text&quot; name=&quot;&quot; value=&quot;&quot; /&gt;
 			&lt;/td&gt;
 		&lt;/tr&gt;
 		&lt;tr&gt;
-			&lt;th&gt;{$text}&lt;/th&gt;
+			&lt;th&gt;{$string}&lt;/th&gt;
 			&lt;td&gt;
 				&lt;ul class=&quot;form_elements-notes&quot;&gt;
-					&lt;li&gt;{$text}&lt;/li&gt;
+					&lt;li&gt;{$string}&lt;/li&gt;
 				&lt;/ul&gt;
 				&lt;textarea name=&quot;&quot;&gt;&lt;/textarea&gt;
 			&lt;/td&gt;
 		&lt;/tr&gt;
 		&lt;tr&gt;
-			&lt;th&gt;{$text}&lt;/th&gt;
+			&lt;th&gt;{$string}&lt;/th&gt;
 			&lt;td&gt;
 				&lt;ul class=&quot;form_elements-notes&quot;&gt;
-					&lt;li&gt;{$text}&lt;/li&gt;
+					&lt;li&gt;{$string}&lt;/li&gt;
 				&lt;/ul&gt;
 				&lt;input type=&quot;password&quot; name=&quot;&quot; value=&quot;&quot; /&gt;
 			&lt;/td&gt;
 		&lt;/tr&gt;
 		&lt;tr&gt;
-			&lt;th&gt;{$text}&lt;/th&gt;
+			&lt;th&gt;{$string}&lt;/th&gt;
 			&lt;td&gt;
 				&lt;ul class=&quot;form_elements-notes&quot;&gt;
-					&lt;li&gt;{$text}&lt;/li&gt;
+					&lt;li&gt;{$string}&lt;/li&gt;
 				&lt;/ul&gt;
 				&lt;ul class=&quot;form_elements-list&quot;&gt;
-					&lt;li&gt;&lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;radio1&quot; value=&quot;&quot; /&gt; {$text}&lt;/label&gt;&lt;/li&gt;
-					&lt;li&gt;&lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;radio1&quot; value=&quot;&quot; /&gt; {$text}&lt;/label&gt;&lt;/li&gt;
-					&lt;li&gt;&lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;radio1&quot; value=&quot;&quot; /&gt; {$text}&lt;/label&gt;&lt;/li&gt;
+					&lt;li&gt;&lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;radio1&quot; value=&quot;&quot; /&gt; {$string}&lt;/label&gt;&lt;/li&gt;
+					&lt;li&gt;&lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;radio1&quot; value=&quot;&quot; /&gt; {$string}&lt;/label&gt;&lt;/li&gt;
+					&lt;li&gt;&lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;radio1&quot; value=&quot;&quot; /&gt; {$string}&lt;/label&gt;&lt;/li&gt;
 				&lt;/ul&gt;
 			&lt;/td&gt;
 		&lt;/tr&gt;
 		&lt;tr&gt;
-			&lt;th&gt;{$text}&lt;/th&gt;
+			&lt;th&gt;{$string}&lt;/th&gt;
 			&lt;td&gt;
 				&lt;ul class=&quot;form_elements-notes&quot;&gt;
-					&lt;li&gt;{$text}&lt;/li&gt;
+					&lt;li&gt;{$string}&lt;/li&gt;
 				&lt;/ul&gt;
 				&lt;ul class=&quot;form_elements-list&quot;&gt;
-					&lt;li&gt;&lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;&quot; value=&quot;&quot; /&gt; {$text}&lt;/label&gt;&lt;/li&gt;
-					&lt;li&gt;&lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;&quot; value=&quot;&quot; /&gt; {$text}&lt;/label&gt;&lt;/li&gt;
-					&lt;li&gt;&lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;&quot; value=&quot;&quot; /&gt; {$text}&lt;/label&gt;&lt;/li&gt;
+					&lt;li&gt;&lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;&quot; value=&quot;&quot; /&gt; {$string}&lt;/label&gt;&lt;/li&gt;
+					&lt;li&gt;&lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;&quot; value=&quot;&quot; /&gt; {$string}&lt;/label&gt;&lt;/li&gt;
+					&lt;li&gt;&lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;&quot; value=&quot;&quot; /&gt; {$string}&lt;/label&gt;&lt;/li&gt;
 				&lt;/ul&gt;
 			&lt;/td&gt;
 		&lt;/tr&gt;
 		&lt;tr&gt;
-			&lt;th&gt;{$text}&lt;/th&gt;
+			&lt;th&gt;{$string}&lt;/th&gt;
 			&lt;td&gt;
 				&lt;ul class=&quot;form_elements-notes&quot;&gt;
-					&lt;li&gt;{$text}&lt;/li&gt;
+					&lt;li&gt;{$string}&lt;/li&gt;
 				&lt;/ul&gt;
 				&lt;ul class=&quot;form_elements-list_horizontal&quot;&gt;
-					&lt;li&gt;&lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;&quot; value=&quot;&quot; /&gt; {$text}&lt;/label&gt;&lt;/li&gt;
-					&lt;li&gt;&lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;&quot; value=&quot;&quot; /&gt; {$text}&lt;/label&gt;&lt;/li&gt;
-					&lt;li&gt;&lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;&quot; value=&quot;&quot; /&gt; {$text}&lt;/label&gt;&lt;/li&gt;
+					&lt;li&gt;&lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;&quot; value=&quot;&quot; /&gt; {$string}&lt;/label&gt;&lt;/li&gt;
+					&lt;li&gt;&lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;&quot; value=&quot;&quot; /&gt; {$string}&lt;/label&gt;&lt;/li&gt;
+					&lt;li&gt;&lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;&quot; value=&quot;&quot; /&gt; {$string}&lt;/label&gt;&lt;/li&gt;
 				&lt;/ul&gt;
 			&lt;/td&gt;
 		&lt;/tr&gt;
 		&lt;tr&gt;
-			&lt;th&gt;{$text}&lt;/th&gt;
+			&lt;th&gt;{$string}&lt;/th&gt;
 			&lt;td&gt;
 				&lt;ul class=&quot;form_elements-notes&quot;&gt;
-					&lt;li&gt;{$text}&lt;/li&gt;
+					&lt;li&gt;{$string}&lt;/li&gt;
 				&lt;/ul&gt;
 				&lt;select name=&quot;&quot;&gt;
 					&lt;option value=&quot;&quot;&gt;選択してください&lt;/option&gt;
-					&lt;option value=&quot;&quot;&gt;{$text}&lt;/option&gt;
-					&lt;option value=&quot;&quot;&gt;{$text}&lt;/option&gt;
-					&lt;option value=&quot;&quot;&gt;{$text}&lt;/option&gt;
+					&lt;option value=&quot;&quot;&gt;{$string}&lt;/option&gt;
+					&lt;option value=&quot;&quot;&gt;{$string}&lt;/option&gt;
+					&lt;option value=&quot;&quot;&gt;{$string}&lt;/option&gt;
 				&lt;/select&gt;
 			&lt;/td&gt;
 		&lt;/tr&gt;
 		&lt;tr&gt;
-			&lt;th&gt;{$text}&lt;/th&gt;
+			&lt;th&gt;{$string}&lt;/th&gt;
 			&lt;td&gt;
-				&lt;button onclick=&quot;{$JavaScriptCode}&quot;&gt;{$text}&lt;/button&gt;
-				&lt;input type=&quot;button&quot; value=&quot;{$text}&quot; onclick=&quot;{$JavaScriptCode}&quot; /&gt;
-				&lt;input type=&quot;submit&quot; value=&quot;{$text}&quot; onclick=&quot;{$JavaScriptCode}&quot; /&gt;
+				&lt;button onclick=&quot;{$string}&quot;&gt;{$string}&lt;/button&gt;
+				&lt;input type=&quot;button&quot; value=&quot;{$string}&quot; onclick=&quot;{$string}&quot; /&gt;
+				&lt;input type=&quot;submit&quot; value=&quot;{$string}&quot; onclick=&quot;{$string}&quot; /&gt;
 			&lt;/td&gt;
 		&lt;/tr&gt;
 	&lt;/tbody&gt;
@@ -890,15 +890,15 @@
 	&lt;/thead&gt;
 	&lt;tbody&gt;
 		&lt;tr class=&quot;form_elements-error&quot;&gt;
-			&lt;th&gt;{$text}&lt;span&gt;必須&lt;/span&gt;&lt;/th&gt;
+			&lt;th&gt;{$string}&lt;span&gt;必須&lt;/span&gt;&lt;/th&gt;
 			&lt;td&gt;
 				&lt;ul class=&quot;form_elements-notes&quot;&gt;
-					&lt;li&gt;{$text}&lt;/li&gt;
-					&lt;li&gt;{$text}&lt;/li&gt;
+					&lt;li&gt;{$string}&lt;/li&gt;
+					&lt;li&gt;{$string}&lt;/li&gt;
 				&lt;/ul&gt;
 				&lt;ul class=&quot;form_elements-errors&quot;&gt;
-					&lt;li&gt;{$text}&lt;/li&gt;
-					&lt;li&gt;{$text}&lt;/li&gt;
+					&lt;li&gt;{$string}&lt;/li&gt;
+					&lt;li&gt;{$string}&lt;/li&gt;
 				&lt;/ul&gt;
 				&lt;input type=&quot;text&quot; name=&quot;&quot; value=&quot;&quot; /&gt;
 			&lt;/td&gt;
