@@ -74,16 +74,44 @@ class px_cores_site{
 				continue;
 			}
 			$tmp_sitemap = $this->px->dbh()->read_csv_utf8( $path_sitemap_dir.$basename_sitemap_csv );
-			foreach ($tmp_sitemap as $row) {
+			$tmp_sitemap_definition = $this->sitemap_definition;
+			foreach ($tmp_sitemap as $row_number=>$row) {
 				set_time_limit(30);//タイマー延命
 				$num_auto_pid++;
 				$tmp_array = array();
-				foreach ($this->sitemap_definition as $defrow) {
-					$tmp_array[$defrow['key']] = $row[$defrow['num']];
-				}
-				if( preg_match( '/^(?:\*)/is' , $tmp_array['path'] ) ){
-					// アスタリスク始まりの場合はコメント行とみなす。
+				if( preg_match( '/^(?:\*)/is' , $row[0] ) ){
+					if( $row_number > 0 ){
+						// アスタリスク始まりの場合はコメント行とみなす。
+						continue;
+					}
+					// アスタリスク始まりでも、0行目の場合は、定義行とみなす。
+					// 定義行とみなす条件: 0行目の全セルがアスタリスク始まりであること。
+					$is_definition_row = true;
+					foreach($row as $cell_value){
+						if( !preg_match( '/^(?:\*)/is' , $cell_value ) ){
+							$is_definition_row = false;
+						}
+					}
+					if( !$is_definition_row ){
+						continue;
+					}
+					$tmp_sitemap_definition = array();
+					$tmp_col_id = 'A';
+					foreach($row as $tmp_col_number=>$cell_value){
+						$cell_value = preg_replace('/^\*/si', '', $cell_value);
+						$tmp_sitemap_definition[$cell_value] = array(
+							'num'=>$tmp_col_number,
+							'col'=>$tmp_col_id++,
+							'key'=>$cell_value,
+							'name'=>$cell_value,
+						);
+					}
+					unset($is_definition_row);
+					unset($cell_value);
 					continue;
+				}
+				foreach ($tmp_sitemap_definition as $defrow) {
+					$tmp_array[$defrow['key']] = $row[$defrow['num']];
 				}
 				if( !preg_match( '/^(?:\/|alias\:|javascript\:|\#|[a-zA-Z0-9]+\:\/\/)/is' , $tmp_array['path'] ) ){
 					// 不正な形式のチェック
