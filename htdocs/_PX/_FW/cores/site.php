@@ -98,7 +98,7 @@ class px_cores_site{
 					$tmp_sitemap_definition = array();
 					$tmp_col_id = 'A';
 					foreach($row as $tmp_col_number=>$cell_value){
-						$cell_value = preg_replace('/^\*/si', '', $cell_value);
+						$cell_value = trim(preg_replace('/^\*/si', '', $cell_value));
 						$tmp_sitemap_definition[$cell_value] = array(
 							'num'=>$tmp_col_number,
 							'col'=>$tmp_col_id++,
