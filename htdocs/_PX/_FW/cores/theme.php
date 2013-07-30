@@ -68,7 +68,7 @@ class px_cores_theme{
 	 */
 	public function set_layout_id( $layout_id ){
 		if( !strlen( $layout_id ) ){ return false; }
-		if( !preg_match( '/^[a-zA-Z0-9\_\-]+$/si' , $layout_id ) ){ return false; }
+		if( !preg_match( '/^[a-zA-Z0-9\_\-\/]+$/si' , $layout_id ) ){ return false; }
 		$this->layout_id = $layout_id;
 		return true;
 	}
