@@ -302,6 +302,9 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 		if( strlen($this->px->get_conf('publish.path_publish_dir')) && @is_dir($this->px->get_conf('publish.path_publish_dir')) ){
 			$this->path_publish_dir = t::realpath($this->px->get_conf('publish.path_publish_dir')).'/';
 		}
+		if( !is_dir($this->px->get_conf('paths.px_dir').'_sys/publish/') ){
+			$this->px->dbh()->mkdir($this->px->get_conf('paths.px_dir').'_sys/publish/');
+		}
 		$this->path_tmppublish_dir = t::realpath($this->px->get_conf('paths.px_dir').'_sys/publish/').'/';
 
 		array_push( $this->paths_ignore , t::realpath($this->px->get_conf('paths.px_dir')) );
