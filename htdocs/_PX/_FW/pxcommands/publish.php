@@ -313,8 +313,8 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 		array_push( $this->paths_ignore , '*/.DS_Store' );
 		array_push( $this->paths_ignore , '*/Thumbs.db' );
 		array_push( $this->paths_ignore , '*.nopublish/*' );
-		array_push( $this->paths_ignore , '*/.svn' );
-		array_push( $this->paths_ignore , '*/.git' );
+		array_push( $this->paths_ignore , '*/.svn/' );
+		array_push( $this->paths_ignore , '*/.git/' );
 		array_push( $this->paths_ignore , '*/.gitignore' );
 
 		$conf_paths_ignore = preg_split('/\r\n|\r|\n|\,|\;/',$this->px->get_conf('publish.paths_ignore'));
