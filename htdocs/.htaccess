@@ -8,3 +8,10 @@ Options -MultiViews +FollowSymLinks
 
 php_value error_reporting 4
 php_flag display_errors Off
+
+# for unknown error
+#php_value error_reporting 32767
+#php_flag display_errors On
+
+# for large contents
+#php_value memory_limit -1

@@ -432,6 +432,7 @@ class px_cores_theme{
 		$indexCounter = array();
 		$i = 0;
 		while( 1 ){
+			set_time_limit(60*30);
 			if( !preg_match( '/^(.*?)(<\!\-\-(?:.*?)\-\->|<script(?:\s.*?)?>(?:.*?)<\/script>|<h([2-6])(?:\s.*?)?>(.*?)<\/h\3>)(.*)$/is' , $tmp_cont , $matched ) ){
 				$content .= $tmp_cont;
 				break;
@@ -462,6 +463,7 @@ class px_cores_theme{
 			$content .= $matched[2];
 			$tmp_cont = $matched[5];
 		}
+		set_time_limit(30);
 
 		$anchorlinks = '';
 		$topheadlevel = 2;
