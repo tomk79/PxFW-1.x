@@ -5,6 +5,8 @@
 ■PxFW 1.0.0b8 (2013/**/**)
 
 - コンフィグ項目に colors.main を追加。
+- PXコマンドに api.ls.px, api.dlfile.px, api.delete.px を追加。
+- PXコマンドがエラーを返却する場合に、合わせてエラー内容を返すようにした。
 - サイトマップCSVのはじめの行が、すべてアスタリスクで始まっている場合、定義行として解釈するようになった。定義行が検出されない場合は、デフォルトとして configs/sitemap_definition.csv に設定された定義に従う。
 - $px->path_theme_files() でテーマのリソースファイルにアクセスしている場合に、リソースが正しくパブリッシュされない不具合を修正。$px->path_theme_files() が、$px->add_relatedlink() に対して誤ったパスを渡していた。
 

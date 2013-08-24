@@ -75,9 +75,19 @@ class px_pxcommands_api extends px_bases_pxcommand{
 	private function api_dlfile(){
 		header('Content-type: text/plain; charset=UTF-8');
 		$path = $this->get_target_file_path();
-		if( is_null($path) || !is_file($path) ){
+		if( is_null($path) ){
 			header('Status: 404 NotFound.');
-			print 'target file is Not Found.';
+			print 'Unknown or illegal path was given.';
+			exit;
+		}
+		if( is_dir($path) ){
+			header('Status: 404 NotFound.');
+			print 'Target path is a directory.';
+			exit;
+		}
+		if( !is_file($path) ){
+			header('Status: 404 NotFound.');
+			print 'Target path is Not a file.';
 			exit;
 		}
 		$content = $this->px->dbh()->file_get_contents($path);
@@ -92,23 +102,23 @@ class px_pxcommands_api extends px_bases_pxcommand{
 		$path = $this->get_target_file_path();
 		if( is_null($path) ){
 			//nullならNG
-			print $this->data_convert( array('result'=>0) );
+			print $this->data_convert( array('result'=>0, 'message'=>'Unknown or illegal path was given.') );
 			exit;
 		}
 		if( is_dir($path) ){
 			//対象パスにディレクトリが既に存在していたらNG
-			print $this->data_convert( array('result'=>0) );
+			print $this->data_convert( array('result'=>0, 'message'=>'A directory exists.') );
 			exit;
 		}
 		if( !is_dir(dirname($path)) ){
 			//ディレクトリがなければ作る。
 			if( !$this->px->dbh()->mkdir_all(dirname($path)) ){
-				print $this->data_convert( array('result'=>0) );
+				print $this->data_convert( array('result'=>0, 'message'=>'Disable to make parent directory.') );
 				exit;
 			}
 		}
 		if( !$this->px->dbh()->save_file( $path, $this->px->req()->get_param('bin') ) ){
-			print $this->data_convert( array('result'=>0) );
+			print $this->data_convert( array('result'=>0, 'message'=>'Disable to save this file.') );
 			exit;
 		}
 		print $this->data_convert( array('result'=>1) );
@@ -123,10 +133,10 @@ class px_pxcommands_api extends px_bases_pxcommand{
 			case 'content':
 			case 'sitemap':
 			case 'theme':
-				//これ以外は削除の機能は提供しない
+			case 'px':
 				break;
 			default:
-				print $this->data_convert( array('result'=>0) );
+				print $this->data_convert( array('result'=>0, 'message'=>'Illegal command "'.$this->command[2].'" was given.') );
 				exit;
 				break;
 		}
@@ -134,17 +144,17 @@ class px_pxcommands_api extends px_bases_pxcommand{
 		$path = $this->get_target_file_path();
 		if( is_null($path) ){
 			//  ターゲットがただしく指示されていない。
-			print $this->data_convert( array('result'=>0) );
+			print $this->data_convert( array('result'=>0, 'message'=>'Unknown or illegal path was given.') );
 			exit;
 		}
 		if( is_file($path) ){
 			//  ターゲットがファイル。ディレクトリを指示しなければならない。
-			print $this->data_convert( array('result'=>0) );
+			print $this->data_convert( array('result'=>0, 'message'=>'Target is a file. Give a directory path.') );
 			exit;
 		}
 		if( !is_dir($path) ){
 			//  ターゲットがディレクトリではない。
-			print $this->data_convert( array('result'=>0) );
+			print $this->data_convert( array('result'=>0, 'message'=>'Directory is not exists.') );
 			exit;
 		}
 		if($this->command[2]=='content'){
@@ -152,7 +162,7 @@ class px_pxcommands_api extends px_bases_pxcommand{
 			$tmp_path = $this->px->dbh()->get_realpath($path);
 			if( preg_match( '/^'.preg_quote($this->px->dbh()->get_realpath($this->px->get_conf('paths.px_dir')),'/').'/' , $this->px->dbh()->get_realpath($path) ) ){
 				// _PX の中身はこのAPIからは操作できない。
-				print $this->data_convert( array('result'=>0) );
+				print $this->data_convert( array('result'=>0, 'message'=>'Directory "_PX" is not accepted to access with command "content". Please use command "px".') );
 				exit;
 			}
 		}
@@ -200,10 +210,11 @@ class px_pxcommands_api extends px_bases_pxcommand{
 			case 'content':
 			case 'sitemap':
 			case 'theme':
+			case 'px':
 				//これ以外は削除の機能は提供しない
 				break;
 			default:
-				print $this->data_convert( array('result'=>0) );
+				print $this->data_convert( array('result'=>0, 'message'=>'Illegal command "'.$this->command[2].'" was given.') );
 				exit;
 				break;
 		}
@@ -213,22 +224,22 @@ class px_pxcommands_api extends px_bases_pxcommand{
 		$input_path = preg_replace('/\\\\/','/',$input_path);
 		$input_path = preg_replace('/\/+/','/',$input_path);
 		if( !strlen( $input_path ) ){
-			print $this->data_convert( array('result'=>0) );
+			print $this->data_convert( array('result'=>0, 'message'=>'Unknown or illegal path was given.') );
 			exit;
 		}
 		if( $input_path == '/' ){
-			print $this->data_convert( array('result'=>0) );
+			print $this->data_convert( array('result'=>0, 'message'=>'Unknown or illegal path was given.') );
 			exit;
 		}
 		//  / フールプルーフ
 
 		$path = $this->get_target_file_path();
 		if( is_null($path) || !file_exists($path) ){
-			print $this->data_convert( array('result'=>0) );
+			print $this->data_convert( array('result'=>0, 'message'=>'Target file or directory is not exists.') );
 			exit;
 		}
 		if( !$this->px->dbh()->rm( $path ) ){
-			print $this->data_convert( array('result'=>0) );
+			print $this->data_convert( array('result'=>0, 'message'=>'Disable to delete file or directory.') );
 			exit;
 		}
 		print $this->data_convert( array('result'=>1) );
@@ -241,12 +252,14 @@ class px_pxcommands_api extends px_bases_pxcommand{
 	 */
 	private function get_target_file_path(){
 		$rtn = null;
+		$path = $this->px->req()->get_param('path');
 
 		$is_path = true;
-		if( !strlen( $this->px->req()->get_param('path') ) ){
-			$is_path = false;
+		if( !strlen( $path ) ){
+			$is_path = '/';
 		}
-		if( preg_match( '/(?:\/|^)\.\.(?:\/|$)/si', $this->px->req()->get_param('path') ) ){
+		if( preg_match( '/(?:\/|^)\.\.(?:\/|$)/si', $path ) ){
+			return null;
 			$is_path = false;
 		}
 
@@ -259,17 +272,21 @@ class px_pxcommands_api extends px_bases_pxcommand{
 				break;
 			case 'content':
 				if(!$is_path){ return null; }
-				$rtn = './'.$this->px->req()->get_param('path');
+				$rtn = './'.$path;
 				break;
 			case 'sitemap':
 				if(!$is_path){ return null; }
-				$rtn = $this->px->get_conf('paths.px_dir').'sitemaps/'.$this->px->req()->get_param('path');
+				$rtn = $this->px->get_conf('paths.px_dir').'sitemaps/'.$path;
 				break;
 			case 'theme':
-				$rtn = $this->px->get_conf('paths.px_dir').'themes/'.$this->command[3].'/'.$this->px->req()->get_param('path');
+				$rtn = $this->px->get_conf('paths.px_dir').'themes/'.$this->command[3].'/'.$path;
+				break;
+			case 'px':
+				if(!$is_path){ return null; }
+				$rtn = $this->px->get_conf('paths.px_dir').$path;
 				break;
 		}
-		return $rtn;
+		return $this->px->dbh()->get_realpath($rtn);
 	}
 
 	/**
