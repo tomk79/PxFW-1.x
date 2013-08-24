@@ -54,6 +54,13 @@ class px_pxcommands_config extends px_bases_pxcommand{
 		$src .= $this->mk_config_unit('paths.error_log','エラーログ出力先ファイルパス','realpath');
 		$src .= '</table>' . "\n";
 
+		$src .= '<h3>colors</h3>'."\n";
+		$src .= '<table class="def" style="width:100%;">' . "\n";
+		$src .= '<colgroup><col width="30%" /><col width="30%" /><col width="40%" /></colgroup>' . "\n";
+		$src .= $this->mk_config_unit('colors.main','メインカラー');
+		$src .= '</table>' . "\n";
+
+
 		$src .= '<h3>publish</h3>'."\n";
 		$src .= '<table class="def" style="width:100%;">' . "\n";
 		$src .= '<colgroup><col width="30%" /><col width="30%" /><col width="40%" /></colgroup>' . "\n";
