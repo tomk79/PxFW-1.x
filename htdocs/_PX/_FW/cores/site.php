@@ -48,6 +48,11 @@ class px_cores_site{
 			return true;
 		}
 
+		if( preg_match('/^clearcache(?:\\..*)?$/si', $this->px->req()->get_param('PX')) ){
+			// clearcacheを実行する際にはCSVの読み込みを行わない。どうせ直後に消されるので。
+			return true;
+		}
+
 		$path_sitemap_definition = $this->px->get_conf('paths.px_dir').'configs/sitemap_definition.csv';
 		$path_sitemap_dir = $this->px->get_conf('paths.px_dir').'sitemaps/';
 		$ary_sitemap_files = $this->px->dbh()->ls( $path_sitemap_dir );
