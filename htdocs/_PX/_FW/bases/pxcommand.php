@@ -8,6 +8,7 @@ class px_bases_pxcommand{
 	protected $pxcommand_name = null;
 
 	private $title = null;//ページタイトル
+	private $colors = array();
 
 	/**
 	 * コンストラクタ
@@ -15,7 +16,42 @@ class px_bases_pxcommand{
 	public function __construct( $pxcommand_name , $px ){
 		$this->px = $px;
 		$this->pxcommand_name = $pxcommand_name;
+
+		$this->colors = $this->setup_color( $this->px->get_conf('colors.main') );
 	}//__construct()
+
+	/**
+	 * 色を設定する
+	 */
+	private function setup_color( $colors_main ){
+		// 色を設定する
+		$colors = array();
+		$colors['main'] = $colors_main;
+		if( !strlen( $colors['main'] ) ){
+			$colors['main'] = '#000';
+		}
+		$color_h = t::color_get_hue($colors['main']);
+		$color_s = t::color_get_saturation($colors['main']);
+		$color_b = t::color_get_brightness($colors['main']);
+
+		$colors['background'] = '#f5f5f5';
+		$colors['contents_area_bg'] = '#fff';
+		$colors['text'] = '#333';
+		$colors['text_on_main'] = '#fff';
+		$colors['text_on_main_hover'] = '#ddd';
+		$colors['link'] = $colors['main'];
+		$colors['link_hover'] = t::color_hsb2hex( $color_h+30, $color_s*0.8, $color_b*0.7 );
+		$colors['hx'] = '#000';
+
+		// メインカラーが明るすぎる場合
+		if( $color_b > 70 && $color_s < 70 ){
+			$colors['text_on_main'] = '#393939';
+			$colors['text_on_main_hover'] = '#000';
+			$colors['link'] = t::color_hsb2hex( $color_h, 85, 70 );
+			$colors['link_hover'] = t::color_hsb2hex( $color_h+30, $color_s*0.8, $color_b*0.7 );
+		}
+		return $colors;
+	}
 
 	/**
 	 * コマンド名を取得する
@@ -46,6 +82,7 @@ class px_bases_pxcommand{
 	protected function html_template( $content ){
 		// PxCommands の一覧 $px_command_list を作成
 		$px_command_list = array('config','sitemap_definition','sitemap','pageinfo','edit','rdb','search','publish','initialize','fillcontents');
+		$px_command_unpaged_list = array('clearcache', 'phpinfo');
 
 		// PxCommands プラグインの一覧 $plugins_list を作成
 		$path_plugin_dir = $this->px->get_conf('paths.px_dir').'plugins/';
@@ -94,10 +131,9 @@ class px_bases_pxcommand{
 		$src .= '</div><!-- /.pxcmd-pxfw -->'."\n";
 
 		$src .= '<div class="pxcmd-header">'."\n";
+		$src .= '	<div class="pxcmd-project_title">'.t::h($this->px->get_conf('project.name')).' ('.t::h($this->px->get_conf('project.id')).')</div>'."\n";
+		$src .= '</div><!-- /.pxcmd-header -->'."\n";
 
-
-		$src .= '<div class="pxcmd-project_title">'.t::h($this->px->get_conf('project.name')).' ('.t::h($this->px->get_conf('project.id')).')</div>'."\n";
-		$src .= '</div>'."\n";
 		$src .= '<div class="pxcmd-middle">'."\n";
 		$command_title = $this->pxcommand_name[0].($this->pxcommand_name[0]=='plugins'&&strlen($this->pxcommand_name[1])?'.'.$this->pxcommand_name[1]:'');
 		$page_title = $this->get_title();
@@ -112,28 +148,30 @@ class px_bases_pxcommand{
 		$src .= '<div id="content" class="contents">'."\n";
 		$src .= $content;
 		$src .= '</div>'."\n";
-		$src .= '</div>'."\n";
+		$src .= '</div><!-- /.pxcmd-middle -->'."\n";
+
 		$src .= '<div class="pxcmd-footer">'."\n";
-		$src .= '<ul>'."\n";
+		$src .= '<dl class="clearfix">'."\n";
+		$src .= '<dt>standard:</dt>'."\n";
 		foreach( $px_command_list as $command_name_row ){
-			$src .= '<li><a href="?PX='.t::h($command_name_row).'"'.($this->pxcommand_name[0]==$command_name_row?' class="current"':'').'>'.t::h($command_name_row).'</a></li>'."\n";
+			$src .= '<dd><a href="?PX='.t::h($command_name_row).'"'.($this->pxcommand_name[0]==$command_name_row?' class="current"':'').'>'.t::h($command_name_row).'</a></dd>'."\n";
 		}
-		$src .= '</ul>'."\n";
+		$src .= '<dt>standard (unpaged functions):</dt>'."\n";
+		foreach( $px_command_unpaged_list as $command_name_row ){
+			$src .= '<dd><a href="?PX='.t::h($command_name_row).'"'.($this->pxcommand_name[0]==$command_name_row?' class="current"':'').' target="_blank">'.t::h($command_name_row).'</a></dd>'."\n";
+		}
 		if( count($plugins_list) ){
-			$src .= '<ul>'."\n";
-			$src .= '<li>plugins: </li>'."\n";
+			$src .= '<dt>plugins:</dt>'."\n";
 			foreach($plugins_list as $plugin_name){
-				$src .= '<li><a href="?PX=plugins.'.t::h(urlencode($plugin_name)).'"'.(implode( '.', array($this->pxcommand_name[0], $this->pxcommand_name[1]) )=='plugins.'.$plugin_name?' class="current"':'').'>'.t::h($plugin_name).'</a></li>'."\n";
+				$src .= '<dd><a href="?PX=plugins.'.t::h(urlencode($plugin_name)).'"'.(implode( '.', array($this->pxcommand_name[0], $this->pxcommand_name[1]) )=='plugins.'.$plugin_name?' class="current"':'').'>'.t::h($plugin_name).'</a></dd>'."\n";
 			}
-			$src .= '</ul>'."\n";
 		}
+		$src .= '</dl>'."\n";
 
-		$src .= '<ul>'."\n";
-		$src .= '<li><a href="?PX=clearcache" target="_blank">clearcache</a></li>'."\n";
-		$src .= '<li><a href="?PX=phpinfo" target="_blank">phpinfo</a></li>'."\n";
-		$src .= '</ul>'."\n";
-
-		$src .= '<p class="center">[ <a href="?">PX Commands を終了する</a> ]</p>'."\n";
+		$src .= '<form action="?" method="get">'."\n";
+		$src .= '<p class="center"><input type="submit" value="PX Commands を終了する" /></p>'."\n";
+		$src .= '</form>'."\n";
+		$src .= '<p class="pxcmd-credits"><a href="http://pickles.pxt.jp/" target="_blank">Pickles Framework</a> (C)Tomoya Koyanagi.</p>'."\n";
 		$src .= '</div><!-- /.footer -->'."\n";
 		$src .= '</div>'."\n";
 		$src .= '</body>'."\n";
@@ -163,19 +201,22 @@ u[o]&&(delete u[o],c?delete n[l]:typeof n.removeAttribute!==i?n.removeAttribute(
 	 * layout.css のソースを返す。
 	 */
 	private function create_src_layout_css(){
-		$color_main = $this->px->get_conf('colors.main');
+		$color_main = $this->colors['main'];
 		ob_start();
 		?>
 @charset "UTF-8";
 body{
 	text-align:center;
-	background-color:#f5f5f5;
-	color:#333;
+	background-color:<?php print t::h($this->colors['background']); ?>;
+	color:<?php print t::h($this->colors['text']); ?>;
 	font-family:"メイリオ","ＭＳ Ｐゴシック";
 	font-size:medium;
 }
 a{
-	color:<?php print t::h($color_main); ?>;
+	color:<?php print t::h($this->colors['link']); ?>;
+}
+a:hover{
+	color:<?php print t::h($this->colors['link_hover']); ?>;
 }
 .pxcmd-outline{
 	text-align:left;
@@ -184,8 +225,8 @@ a{
 }
 .pxcmd-pxfw{
 	background-color:<?php print t::h($color_main); ?>;
-	padding:5px 3em;
-	color:#f5f5f5;
+	padding:20px 5% 5px 5%;
+	color:<?php print t::h($this->colors['text_on_main']); ?>;
 }
 .pxcmd-pxfw .pxcmd-pxfw_l{
 	float:left;
@@ -208,8 +249,8 @@ a{
 	margin:1em 0 0.3em;
 }
 .pxcmd-middle{
-	background-color:#fff;
-	padding:2em 3em;
+	background-color:<?php print t::h($this->colors['contents_area_bg']); ?>;
+	padding:2em 5%;
 	border-top:6px solid <?php print t::h($color_main); ?>;
 	min-height:280px;
 }
@@ -227,32 +268,55 @@ a{
 
 .pxcmd-footer{
 	margin:0px auto;
-	padding:1em 3em;
+	padding:1em 5%;
 	background-color:<?php print t::h($color_main); ?>;
+	color:<?php print t::h($this->colors['text_on_main']); ?>;
 }
-.pxcmd-footer *{
-	color:#f5f5f5;
+.pxcmd-footer a{
+	color:<?php print t::h($this->colors['text_on_main']); ?>;
 }
-.pxcmd-footer ul{
+.pxcmd-footer a:hover{
+	color:<?php print t::h($this->colors['text_on_main_hover']); ?>;
+}
+.pxcmd-footer dl{
 	display:block;
-	text-align:center;
+	text-align:left;
 	padding:0px;
 }
-.pxcmd-footer ul li{
-	list-style-type:none;
-	margin:0px;
-	padding:0px;
-	display:inline;
+.pxcmd-footer dl dt{
+	font-weight:bold;
+	margin:0;
+	padding:0 1em 0 0;
+	display:block;
+	float:left;
+	clear:left;
+}
+.pxcmd-footer dl dd{
+	display: block;
+	float: left;
+	margin: 0;
+	padding: 0 0.5em 0 0.5em;
+	font-size: 80%;
+	border-left: 1px solid <?php print t::h($this->colors['text_on_main']); ?>;
+}
+.pxcmd-credits{
+	text-align: center;
+	font-size: xx-small;
 }
 
 .contents{
 	text-align:left;
-	color:#333333;
-	background-color:#fff;
+	color:<?php print t::h($this->colors['text']); ?>;
+	background-color:<?php print t::h($this->colors['contents_area_bg']); ?>;
 }
 .contents h2{
 	padding:2px;
 	border-bottom:2px solid <?php print t::h($color_main); ?>;
+}
+.contents h2,
+.contents h3,
+.contents h4{
+	color:<?php print t::h($this->colors['hx']); ?>;
 }
 
 <?php
@@ -1155,7 +1219,7 @@ table.form_elements ul.form_elements-errors li{
 	 * PxFWのSVGロゴソースを返す
 	 */
 	private function create_src_pxfw_logo_svg(){
-		$logo_color = '#f5f5f5';
+		$logo_color = $this->colors['text_on_main'];
 		ob_start();
 		?>
 <svg version="1.1" id="Pickles Framework LOGO" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"

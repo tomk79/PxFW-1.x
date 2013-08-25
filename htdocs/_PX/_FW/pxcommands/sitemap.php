@@ -25,10 +25,16 @@ class px_pxcommands_sitemap extends px_bases_pxcommand{
 		$src .= '		<li>'.t::h( realpath( $this->px->get_conf('paths.px_dir').'sitemaps/' ) ).'</li>'."\n";
 		$src .= '	</ul>'."\n";
 		$src .= '</div><!-- /.unit -->'."\n";
-		$src .= '<div class="unit">'."\n";
+
 		$sitemap = $this->px->site()->get_sitemap();
-		$src .= $this->mk_ary_table($sitemap);
-		$src .= '</div><!-- /.unit -->'."\n";
+		foreach ($sitemap as $key => $val) {
+			$src .= '<div class="unit">'."\n";
+			$src .= '<h2>' .t::h( $key ). '</h2>'."\n";
+			$src .= ''.$this->mk_ary_table($val).''."\n";
+			$src .= '</div><!-- /.unit -->'."\n";
+		}
+
+		// $src .= $this->mk_ary_table($sitemap);
 
 		print $this->html_template($src);
 		exit;
@@ -41,17 +47,17 @@ class px_pxcommands_sitemap extends px_bases_pxcommand{
 		if(is_array($ary)) {
 			if($this->is_hash($ary)) {
 				$html = '';
-				$html .= '<table class="def">' . "\n";
+				$html .= '<table class="def" style="width:100%;">' . "\n";
 				foreach ($ary as $key => $val) {
 					$html .= '<tr>' . "\n";
-					$html .= '<th>' .t::h( $key ). '</th>' . "\n";
-					$html .= '<td>' .$this->mk_ary_table($val). '</td>' . "\n";
+					$html .= '<th style="width:30%;">' .t::h( $key ). '</th>' . "\n";
+					$html .= '<td style="width:70%;">' .$this->mk_ary_table($val). '</td>' . "\n";
 					$html .= '</tr>' . "\n";
 				}
 				$html .= '</table>' . "\n";
 			} elseif(!$this->is_hash($ary)) {
 				$html = '';
-				$html .= '<table class="def">' . "\n";
+				$html .= '<table class="def" style="width:100%;">' . "\n";
 				foreach ($ary as $val) {
 					$html .= '<tr>' . "\n";
 					$html .= '<td>' .t::h( $val ). '</td>' . "\n";
@@ -60,9 +66,9 @@ class px_pxcommands_sitemap extends px_bases_pxcommand{
 				$html .= '</table>' . "\n";
 			}
 
-			} elseif(!is_array($ary)) {
-				$html = t::h( $ary );
-			}
+		} elseif(!is_array($ary)) {
+			$html = t::h( $ary );
+		}
 		return $html;
 	}//mk_ary_table()
 
