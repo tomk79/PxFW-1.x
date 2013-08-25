@@ -39,6 +39,7 @@ class px_bases_pxcommand{
 		$colors['text'] = '#333';
 		$colors['text_on_main'] = '#fff';
 		$colors['text_on_main_hover'] = '#ddd';
+		$colors['project_title'] = $colors['main'];
 		$colors['link'] = $colors['main'];
 		$colors['link_hover'] = t::color_hsb2hex( $color_h+30, $color_s*0.8, $color_b*0.7 );
 		$colors['hx'] = '#000';
@@ -47,6 +48,7 @@ class px_bases_pxcommand{
 		if( $color_b > 70 && $color_s < 70 ){
 			$colors['text_on_main'] = '#393939';
 			$colors['text_on_main_hover'] = '#000';
+			$colors['project_title'] = $colors['text_on_main'];
 			$colors['link'] = t::color_hsb2hex( $color_h, 85, 70 );
 			$colors['link_hover'] = t::color_hsb2hex( $color_h+30, $color_s*0.8, $color_b*0.7 );
 		}
@@ -209,7 +211,7 @@ body{
 	text-align:center;
 	background-color:<?php print t::h($this->colors['background']); ?>;
 	color:<?php print t::h($this->colors['text']); ?>;
-	font-family:"メイリオ","ＭＳ Ｐゴシック";
+	font-family:"ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro","メイリオ","Meiryo","ＭＳ Ｐゴシック", sans-serif;
 	font-size:medium;
 }
 a{
@@ -217,6 +219,7 @@ a{
 }
 a:hover{
 	color:<?php print t::h($this->colors['link_hover']); ?>;
+	text-decoration:none;
 }
 .pxcmd-outline{
 	text-align:left;
@@ -225,7 +228,7 @@ a:hover{
 }
 .pxcmd-pxfw{
 	background-color:<?php print t::h($color_main); ?>;
-	padding:20px 5% 5px 5%;
+	padding:10px 5% 10px 5%;
 	color:<?php print t::h($this->colors['text_on_main']); ?>;
 }
 .pxcmd-pxfw .pxcmd-pxfw_l{
@@ -242,7 +245,7 @@ a:hover{
 	padding: 1em 0 0.5em 0;
 }
 .pxcmd-project_title{
-	color:<?php print t::h($color_main); ?>;
+	color:<?php print t::h($this->colors['project_title']); ?>;
 	font-weight:bold;
 	font-size:large;
 	padding:0;
@@ -1223,7 +1226,7 @@ table.form_elements ul.form_elements-errors li{
 		ob_start();
 		?>
 <svg version="1.1" id="Pickles Framework LOGO" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
-	 y="0px" width="20px" height="25px" viewBox="0 0 40 50" enable-background="new 0 0 40 50" xml:space="preserve">
+	 y="0px" width="30px" height="40px" viewBox="0 0 40 50" enable-background="new 0 0 40 50" xml:space="preserve">
 <g>
 	<g>
 		<path fill="<?php print t::h($logo_color); ?>" d="M38.514,17.599c-0.049-0.831-0.191-1.571-0.174-2.405c0.02-0.777-0.002-1.581-0.338-2.298
