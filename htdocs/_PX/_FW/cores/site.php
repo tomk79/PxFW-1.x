@@ -127,7 +127,7 @@ class px_cores_site{
 					case 'javascript':
 					case 'anchor':
 						// 直リンク系のパスをエイリアス扱いにする
-						$tmp_array['path'] = 'alias:'.$tmp_array['path'];
+						$tmp_array['path'] = preg_replace('/^(?:alias:)?/s', 'alias:', $tmp_array['path']);
 						break;
 					default:
 						// スラ止のパスに index.html を付加する。
