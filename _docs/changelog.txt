@@ -2,6 +2,11 @@
  * PxFW(Pickles Framework) 更新履歴
  */
 
+■PxFW 1.0.0b9 (2013/**/**)
+
+- 
+
+
 ■PxFW 1.0.0b8 (2013/8/29)
 
 - コンフィグ項目に colors.main を追加。
