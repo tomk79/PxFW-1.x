@@ -309,6 +309,13 @@ a span.pdf:after{
 }
 
 /**
+ * [parts] 注釈表示
+ */
+.notes{
+	color:#999999;
+}
+
+/**
  * [parts] 画像置換
  */
 .imgrep{
