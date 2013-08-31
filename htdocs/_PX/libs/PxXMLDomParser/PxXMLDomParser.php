@@ -2,9 +2,9 @@
 
 #============================================================================
 #	PxXMLDomParser
-#	varsion 1.0.2
+#	varsion 1.0.3
 #	(C)Tomoya Koyanagi.
-#	LastUpdate : 19:18 2010/09/08
+#	LastUpdate : 2013/09/01 01:15
 
 class PxXMLDomParser{
 	var $last_find_selector = null; //←前回のfind()に使用したセレクタ文字列を記憶。
@@ -468,7 +468,7 @@ class PxXMLDomParser{
 					$tmpRTN = array();
 					$tmpRTN['tagName'] = $MEMO['tagOriginal'];
 					$tmpRTN['innerHTML'] = $searched_closetag['content_str'];
-					if( strlen( $searched_closetag['content_str'] ) ){
+					if( strlen( $searched_closetag['content_str'] ) || !strlen( $MEMO['self_closed_flg'] ) ){
 						$tmpRTN['outerHTML'] = $MEMO['start_tag'].$searched_closetag['content_str'].'</'.$MEMO['tagOriginal'].'>';
 					}else{
 						$tmpRTN['outerHTML'] = $MEMO['start_tag'];
