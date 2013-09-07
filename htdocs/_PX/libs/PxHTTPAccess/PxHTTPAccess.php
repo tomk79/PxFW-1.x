@@ -2,10 +2,10 @@
 
 ###################################################################################################################
 #
-#	PxHTTPAccess 1.0.4
+#	PxHTTPAccess 1.0.5
 #			(HTTPアクセスオブジェクト)
 #			Copyright (C)Tomoya Koyanagi, All rights reserved.
-#			LastUpdate : 11:50 2013/06/21
+#			LastUpdate : 2013/9/7
 #	--------------------------------------
 #	このライブラリは、ネットワークを経由したHTTP通信でコンテンツを取得するクラスです。
 #	OpenSSLがインストールされている環境では、HTTPSも利用可能です。
@@ -493,7 +493,20 @@ class PxHTTPAccess{
 							$this->http_response_content = $http4redirect->get_http_contents();
 						}
 						$this->clear_response_header();//初期化 23:58 2009/09/19
-						$this->put_response_header( $http4redirect->get_response_header() );
+
+						$this->http_response_header = $http4redirect->http_response_header;
+						$this->http_response_transfer_encoding = $http4redirect->http_response_transfer_encoding;
+						$this->http_response_last_modified = $http4redirect->http_response_last_modified;
+						$this->http_response_version = $http4redirect->http_response_version;
+						$this->http_response_status_cd = $http4redirect->http_response_status_cd;
+						$this->http_response_status_msg = $http4redirect->http_response_status_msg;
+						$this->http_response_content_type = $http4redirect->http_response_content_type;
+						$this->http_response_content_charset = $http4redirect->http_response_content_charset;
+						$this->http_response_content_length = $http4redirect->http_response_content_length;
+						$this->http_response_redirect_to = $http4redirect->http_response_redirect_to;
+						$this->http_response_connection = $http4redirect->http_response_connection;
+						$this->http_response_all = $http4redirect->http_response_all;
+
 						unset( $http4redirect );
 						return	$this->http_response_content;
 					}
