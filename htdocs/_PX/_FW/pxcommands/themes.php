@@ -19,8 +19,13 @@ class px_pxcommands_themes extends px_bases_pxcommand{
 		$src = '';
 		$current_theme_id = $this->px->theme()->get_theme_id();
 
-		$path_theme_dir = $this->px->dbh()->ls( $this->px->get_conf('paths.px_dir').'themes' );
-		if( !count($path_theme_dir) ){
+		$path_theme_dir = $this->px->get_conf('paths.px_dir').'themes/';
+		$theme_id_list = $this->px->dbh()->ls( $this->px->get_conf('paths.px_dir').'themes' );
+		foreach( $theme_id_list as $key=>$val ){
+			if( !is_dir( $path_theme_dir.$val ) ){ unset( $theme_id_list[$key] ); }
+		}
+
+		if( !count($theme_id_list) ){
 			$src .= '<p>テーマは登録されていません。</p>'."\n";
 		}else{
 			$src .= '<div class="unit">'."\n";
@@ -32,7 +37,7 @@ class px_pxcommands_themes extends px_bases_pxcommand{
 			$src .= '		<th>---</th>'."\n";
 			$src .= '	</tr>'."\n";
 			$src .= '	</thead>'."\n";
-			foreach( $path_theme_dir as $theme_id ){
+			foreach( $theme_id_list as $theme_id ){
 				$src .= '	<tr>'."\n";
 				$src .= '		<th>'.($current_theme_id==$theme_id?'<strong>'.t::h($theme_id).'</strong>':'<a href="?THEME='.t::h($theme_id).'">'.t::h($theme_id).'</a>').'</th>'."\n";
 				$src .= '		<td>'."\n";
