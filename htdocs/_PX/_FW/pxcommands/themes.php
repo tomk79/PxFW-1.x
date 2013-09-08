@@ -22,7 +22,8 @@ class px_pxcommands_themes extends px_bases_pxcommand{
 		$path_theme_dir = $this->px->get_conf('paths.px_dir').'themes/';
 		$theme_id_list = $this->px->dbh()->ls( $this->px->get_conf('paths.px_dir').'themes' );
 		foreach( $theme_id_list as $key=>$val ){
-			if( !is_dir( $path_theme_dir.$val ) ){ unset( $theme_id_list[$key] ); }
+			if( !is_dir( $path_theme_dir.$val ) ){ unset( $theme_id_list[$key] ); }//ディレクトリじゃない場合は除外
+			if( preg_match( '/^\./', $val ) ){ unset( $theme_id_list[$key] ); }//ドットで始まる場合は除外
 		}
 
 		if( !count($theme_id_list) ){
