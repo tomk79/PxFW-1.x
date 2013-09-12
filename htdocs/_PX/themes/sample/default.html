@@ -13,7 +13,7 @@
 */ ?>
 <title><?php print t::h($page_info['title']); ?> | <?php print t::h($px->get_conf('project.name')); ?></title>
 <?php
-	include( $px->realpath_theme_files().'inc/setup.inc' );
+	include( $px->realpath_theme_files().'inc/setup.inc.nopublish' );
 
 	//↓コンテンツから受け取った
 	//	headセクション内用のソースを出力しています。
