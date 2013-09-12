@@ -28,7 +28,7 @@ class px_pxcommands_config extends px_bases_pxcommand{
 		$src .= '		コンフィグは、次のファイルを編集して変更することができます。<br />'."\n";
 		$src .= '	</p>'."\n";
 		$src .= '	<ul>'."\n";
-		$src .= '		<li>'.t::h( realpath( $this->px->get_path_conf() ) ).'</li>'."\n";
+		$src .= '		<li style="word-break:break-all;">'.t::h( realpath( $this->px->get_path_conf() ) ).'</li>'."\n";
 		$src .= '	</ul>'."\n";
 		$src .= '</div><!-- /.unit -->'."\n";
 
@@ -137,17 +137,17 @@ class px_pxcommands_config extends px_bases_pxcommand{
 			$src .= '		<thead>'."\n";
 			$src .= '			<tr>'."\n";
 			$src .= '				<th>プラグイン名</th>'."\n";
-			$src .= '				<th>version</th>'."\n";
-			$src .= '				<th>object</th>'."\n";
-			$src .= '				<th>initialize</th>'."\n";
-			$src .= '				<th>pxcommand</th>'."\n";
-			$src .= '				<th>outputfilter</th>'."\n";
+			$src .= '				<th style="word-break:break-all;">version</th>'."\n";
+			$src .= '				<th style="word-break:break-all;">object</th>'."\n";
+			$src .= '				<th style="word-break:break-all;">initialize</th>'."\n";
+			$src .= '				<th style="word-break:break-all;">pxcommand</th>'."\n";
+			$src .= '				<th style="word-break:break-all;">outputfilter</th>'."\n";
 			$src .= '			</tr>'."\n";
 			$src .= '		</thead>'."\n";
 			$src .= '		<tbody>'."\n";
 			foreach( $tmp_plugin_list as $tmp_plugin_name ){
 				$src .= '			<tr>'."\n";
-				$src .= '				<th>'.t::h($tmp_plugin_name).'</th>'."\n";
+				$src .= '				<th style="word-break:break-all;">'.t::h($tmp_plugin_name).'</th>'."\n";
 				$plugin_version = '????';
 				if( is_file( $tmp_path_plugins_base_dir.$tmp_plugin_name.'/register/info.php' ) ){
 					$class_name_info = $this->px->load_px_plugin_class('/'.$tmp_plugin_name.'/register/info.php');
@@ -158,7 +158,7 @@ class px_pxcommands_config extends px_bases_pxcommand{
 						}
 					}
 				}
-				$src .= '				<td class="center">'.t::h($plugin_version).'</td>'."\n";
+				$src .= '				<td class="center" style="word-break:break-all;">'.t::h($plugin_version).'</td>'."\n";
 				$src .= '				<td class="center">'.(is_file( $tmp_path_plugins_base_dir.$tmp_plugin_name.'/register/object.php' )?'○':'-').'</td>'."\n";
 				$src .= '				<td class="center">'.(is_file( $tmp_path_plugins_base_dir.$tmp_plugin_name.'/register/initialize.php' )?'○':'-').'</td>'."\n";
 				$src .= '				<td class="center">'.(is_file( $tmp_path_plugins_base_dir.$tmp_plugin_name.'/register/pxcommand.php' )?'○':'-').'</td>'."\n";
@@ -181,9 +181,9 @@ class px_pxcommands_config extends px_bases_pxcommand{
 	private function mk_config_unit($key,$label,$type='string',$must = false){
 		$src = '';
 		$src .= '	<tr>'."\n";
-		$src .= '		<th>'.t::h( $key ).'</th>'."\n";
-		$src .= '		<th>'.t::h( $label ).'</th>'."\n";
-		$src .= '		<td>';
+		$src .= '		<th style="word-break:break-all;">'.t::h( $key ).'</th>'."\n";
+		$src .= '		<th style="word-break:break-all;">'.t::h( $label ).'</th>'."\n";
+		$src .= '		<td style="word-break:break-all;">';
 		if(is_null($this->config_ary[$key])){
 			$src .= '<span style="font-style:italic; color:#aaaaaa; background-color:#ffffff;">null</span>';
 		}else{
@@ -226,8 +226,8 @@ class px_pxcommands_config extends px_bases_pxcommand{
 				$html .= '<colgroup><col width="40%" /><col width="60%" /></colgroup>' . "\n";
 				foreach ($ary as $key => $val) {
 					$html .= '<tr>' . "\n";
-					$html .= '<th>' .t::h( $key ). '</th>' . "\n";
-					$html .= '<td>' .$this->mk_ary_table($val). '</td>' . "\n";
+					$html .= '<th style="word-break:break-all;">' .t::h( $key ). '</th>' . "\n";
+					$html .= '<td style="word-break:break-all;">' .$this->mk_ary_table($val). '</td>' . "\n";
 					$html .= '</tr>' . "\n";
 				}
 				$html .= '</table>' . "\n";
@@ -237,7 +237,7 @@ class px_pxcommands_config extends px_bases_pxcommand{
 				$html .= '<colgroup><col width="30%" /><col width="70%" /></colgroup>' . "\n";
 				foreach ($ary as $val) {
 					$html .= '<tr>' . "\n";
-					$html .= '<td>' .t::h( $val ). '</td>' . "\n";
+					$html .= '<td style="word-break:break-all;">' .t::h( $val ). '</td>' . "\n";
 					$html .= '</tr>' . "\n";
 				}
 				$html .= '</table>' . "\n";

@@ -88,7 +88,7 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 			$src .= '<div class="unit">'."\n";
 			$src .= '	<p>次のパスとそれ以下のページやファイルをパブリッシュします。</p>'."\n";
 			$src .= '	<ul>'."\n";
-			$src .= '		<li>'.t::h( $this->path_target ).'</li>'."\n";
+			$src .= '		<li style="word-break:break-all;">'.t::h( $this->path_target ).'</li>'."\n";
 			$src .= '	</ul>'."\n";
 			$src .= '</div><!-- /.unit -->'."\n";
 			$internal_errors = $this->get_internal_error_log();

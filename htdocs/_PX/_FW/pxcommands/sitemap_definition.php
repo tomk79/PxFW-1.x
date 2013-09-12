@@ -20,7 +20,7 @@ class px_pxcommands_sitemap_definition extends px_bases_pxcommand{
 		$src .= '<div class="unit">'."\n";
 		$src .= '	<p>サイトマップCSVの構造定義を表示します。<br />この定義は、次のファイルを編集すると変更することができます。</p>'."\n";
 		$src .= '	<ul>'."\n";
-		$src .= '		<li>'.t::h( realpath( $this->px->get_conf('paths.px_dir').'configs/sitemap_definition.csv' ) ).'</li>'."\n";
+		$src .= '		<li style="word-break:break-all;">'.t::h( realpath( $this->px->get_conf('paths.px_dir').'configs/sitemap_definition.csv' ) ).'</li>'."\n";
 		$src .= '	</ul>'."\n";
 		$src .= '</div><!-- /.unit -->'."\n";
 		$src .= '<div class="unit">'."\n";

@@ -50,7 +50,7 @@ class px_pxcommands_edit extends px_bases_pxcommand{
 		$src .= '<div class="unit">'."\n";
 		$src .= '	<p>次のコンテンツファイルを編集します。</p>'."\n";
 		$src .= '	<ul>'."\n";
-		$src .= '		<li>'.realpath( $this->path_content_src ).'</li>'."\n";
+		$src .= '		<li style="word-break:break-all;">'.realpath( $this->path_content_src ).'</li>'."\n";
 		$src .= '	</ul>'."\n";
 		$src .= '</div><!-- /.unit -->'."\n";
 

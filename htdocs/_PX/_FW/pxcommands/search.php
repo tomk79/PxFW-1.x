@@ -69,7 +69,7 @@ var contSearch = new (function(){
 					var src = '';
 					src += '<ul>';
 					for( row in ary ){
-						src += '<li>';
+						src += '<li style="word-break:break-all;">';
 						src += '<p><strong>'+ary[row].path+'</strong></p>';
 						src += '<dl>';
 						src += '<dt>type</dt><dd>'+ary[row].type+'</dd>';

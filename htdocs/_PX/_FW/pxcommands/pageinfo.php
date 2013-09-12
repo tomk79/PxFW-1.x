@@ -20,15 +20,15 @@ class px_pxcommands_pageinfo extends px_bases_pxcommand{
 		$src .= '<div class="unit">'."\n";
 		$src .= '	<p>次のパスに該当するページの情報を表示します。</p>'."\n";
 		$src .= '	<ul>'."\n";
-		$src .= '		<li>'.t::h( $_SERVER['PATH_INFO'] ).'</li>'."\n";
+		$src .= '		<li style="word-break:break-all;">'.t::h( $_SERVER['PATH_INFO'] ).'</li>'."\n";
 		$src .= '	</ul>'."\n";
 		$src .= '</div><!-- /.unit -->'."\n";
 		$src .= '<div class="unit">'."\n";
 		$src .= '<table class="def" style="width:100%;">'."\n";
 		foreach( $pageinfo as $key=>$val ){
 			$src .= '	<tr>'."\n";
-			$src .= '		<th>'.t::h($key).'</th>'."\n";
-			$src .= '		<td>'.t::h($val).'</td>'."\n";
+			$src .= '		<th style="word-break:break-all;">'.t::h($key).'</th>'."\n";
+			$src .= '		<td style="word-break:break-all;">'.t::h($val).'</td>'."\n";
 			$src .= '	</tr>'."\n";
 		}
 		$src .= '</table>'."\n";

@@ -88,7 +88,7 @@ var contSql = new (function(formElm){
 					SRC += '<table class="def">';
 					SRC += '<tr>';
 					for(var key2 in data.define){
-						SRC += '<th>';
+						SRC += '<th style="word-break:break-all;">';
 						SRC += data.define[key2];
 						SRC += '</th>';
 					}
@@ -105,7 +105,7 @@ var contSql = new (function(formElm){
 								SRC += '</td>';
 							}
 							if(data.sql=='\\d'){
-								SRC += '<td>';
+								SRC += '<td style="word-break:break-all;">';
 								SRC += '<a href="javascript:;" onclick="contSql.execSql(\'SELECT count(*) AS count FROM '+data.value[key1]['table_name']+';\');return false;">count(*)</a>|';
 								SRC += '<a href="javascript:;" onclick="contSql.execSql(\'SELECT * FROM '+data.value[key1]['table_name']+' LIMIT 0,20;\');return false;">SELECT</a>';
 								SRC += '</td>';
