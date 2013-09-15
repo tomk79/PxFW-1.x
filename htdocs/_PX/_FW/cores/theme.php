@@ -26,7 +26,7 @@ class px_cores_theme{
 			$this->theme_id = trim($this->px->get_conf('system.default_theme_id'));
 		}
 		if( strlen( $this->px->req()->get_session('THEME') ) ){
-			$this->theme_id = $this->px->req()->get_session('THEME');
+			$this->set_theme_id( $this->px->req()->get_session('THEME') );
 		}
 	}//__construct()
 
@@ -41,7 +41,7 @@ class px_cores_theme{
 			//  指定のテーマディレクトリが存在しなかったら。
 			//	※レイアウト default.html は必須です。
 			$this->px->error()->error_log('存在しないテーマ['.$theme_id.']を選択しました。',__FILE__,__LINE__);
-			return false;
+			$theme_id = 'default';
 		}
 		$this->theme_id = $theme_id;
 
