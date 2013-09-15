@@ -6,7 +6,7 @@ body{
 	margin:0px 0px 0px 0px;
 	background-color:#dddddd;
 	font-size:small;
-	font-family:"メイリオ", sans-serif;
+	font-family:"ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro","Meiryo","メイリオ", sans-serif;
 }
 body .theme_outline{
 	text-align:left;

@@ -27,6 +27,11 @@
 	カラムレイアウトは、.cols モジュールで、2分割、3分割、4分割のレイアウトを吸収します。.cols をコンテナとして、カラム要素 .cols-1of2(2分割)、.cols-1of3(3分割)、.cols-1of4(4分割)を組み合わせて入れ子にして表現します。異なる幅のカラムを組み合わせて使用することもできます。例えば、.cols-1of4, .cols-1of2, .cols-1of4 の順に入れ子にする、などです。幅の合計が100%になるように調整されていればよいだけです。<br />
 </p>
 
+<ul class="notes">
+<li class="notes-li">※商品やバナーなどのリスト用途の場合、<code>.thumb_list</code> を使用してください。</li>
+<li class="notes-li">※.colsに限らず、古いブラウザで :last-child を適用させたい要素につけるクラス名は、慣例として *-last  としてください。</li>
+</ul>
+
 <h3>2分割</h3>
 <div class="cols unit">
 	<div class="cols-col cols-1of2"><div class="cols-pad">

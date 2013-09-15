@@ -1,6 +1,6 @@
 
 <p>
-	このドキュメントは、Pickles Framework が規定する標準のドキュメントモジュールの定義や、コーディング規則について説明します。<br />
+	このドキュメントは、コンテンツを構成するドキュメントモジュールの定義を含んだ、FESSが規定する標準のコーディング規則について説明します。<br />
 </p>
 
 <?php
@@ -17,7 +17,6 @@
 	<dt>制作者</dt>
 		<dd>制作者は、コンテンツ(ページ)個別の制作を行います。サイトの規模にもよりますが、通常は設計者に対して人数は多く、5人前後から、大規模なサイトでは数十人規模になることもあります。</dd>
 </dl>
-
 
 
 <h2>設計方針</h2>
@@ -164,6 +163,11 @@
 	外部CSS、画像などのリソースファイルはこの中に管理するようにしてください。また、このディレクトリ内での格納規則や命名規則は設けません。<br />
 </p>
 
+<ul class="notes">
+	<li class="notes-li">※ディレクトリ共通の独自ファイルを設計する必要がある場合、そのディレクトリの管理者を決めるなど運用ルールを設けたうえで、この規則を調整してください。<br />
+	例えば、<code>/abc/def/*.html</code> という複数のコンテンツで使う独自ファイルを、<code>/abc/def/common/*</code> とするなどしてください。<br /></li>
+		<!-- editor comment: common.files は common.html が占有するため、この目的には使えません。 -->
+</ul>
 
 <h3>コンテンツ独自CSSを定義する</h3>
 <p>
@@ -220,33 +224,8 @@
 	以下のライブラリは、共有リソースとしてテーマによって用意されていますが、特にコンテンツが必要としない限り、ロードはされません。<br />
 </p>
 <ul>
-	<li>(未定義)</li>
+	<li>未定義(必要時応じて設計者が追加)</li>
 </ul>
-<ul class="notes">
-	<li class="notes-li">※初期状態では、定義された項目はありません。プロジェクトごとに、必要に応じて項目を追加してください。</li>
-</ul>
-
-<h3>&lt;head&gt;領域にJavaScriptやCSSを書くには</h3>
-
-<p>
-	<code>$px-&gt;theme()-&gt;send_content()</code> を通じて、コンテンツキャビネット <code>head</code> にソースを送ります。<br />
-</p>
-
-<div class="unit">
-	<div class="code"><pre><code>&lt;?php ob_start(); ?&gt;
-&lt;!-- このソースは、テーマのキャビネット &quot;head&quot; に送られます。 --&gt;
-&lt;style type=&quot;text/css&quot;&gt;
-	/*
-		コンテンツ独自のローカルCSSはここに実装します。
-	*/
-&lt;/style&gt;
-&lt;!--
-または、次のように、外部のCSSを読み込むこともできます。
----
-&lt;link rel=&quot;stylesheet&quot; href=&quot;./index.files/contents.css&quot; type=&quot;text/css&quot; /&gt;
---&gt;
-&lt;?php $px-&gt;theme()-&gt;send_content( ob_get_clean(), 'head' ); ?&gt;</code></pre></div>
-</div><!-- /.unit -->
 
 
 

@@ -10,7 +10,7 @@ body{
 	-webkit-text-size-adjust:100%;/* Mobile Safari : 文字サイズの自動調整をオフに */
 }
 body,input,textarea,select,option,button{
-	font-family:sans-serif;
+	font-family:"ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro","Meiryo","メイリオ", sans-serif;
 	font-size:medium;
 	line-height:1.7;
 }

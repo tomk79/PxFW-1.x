@@ -24,7 +24,10 @@
 
 <p>
 	見出しタグ &lt;h2&gt;～&lt;h6&gt;要素のデフォルトスタイルは、素の状態で定義されます。デザインによっては、装飾用に&lt;span&gt;要素等の階層を追加する必要がある場合も想定されますが、学習しやすさのために <q>可能な限り、素のHTMLの構造のままでマークアップできるように設計する</q> コンセプトに従い、素のままのタグとされました。<br />
-	装飾用のタグを追加する必要がある場合は、出力前にDOM変換を行う実装を、テーマコレクション内の <code>_FW/styles/finalizer.php</code> に実装することを推奨します。<br />
+	<!--
+		PxFW設計者向けコメント：
+		装飾用のタグを追加する必要がある場合は、出力前にDOM変換を行う実装を、テーマコレクション内の <code>_FW/styles/finalizer.php</code> に実装することを推奨します。<br />
+	-->
 </p>
 
 <div class="unit">
@@ -562,8 +565,7 @@
 </p>
 
 <div class="unit">
-	<div class="code"><textarea readonly="readonly">&lt;?php ob_start(); ?&gt;
-&lt;style type=&quot;text/css&quot;&gt;
+	<div class="code"><textarea readonly="readonly">&lt;style type=&quot;text/css&quot;&gt;
 	.cont_{$string}{
 		width:{$string}px;
 		height:{$string}px;
@@ -572,7 +574,6 @@
 		background-image:url(&quot;{$string}&quot;);
 	}
 &lt;/style&gt;
-&lt;?php $px-&gt;theme()-&gt;send_content( ob_get_clean(), 'head' ); ?&gt;
 &lt;a href=&quot;{$string}&quot; class=&quot;imgrep cont_{$string}&quot;&gt;{$parts}&lt;span class=&quot;imgrep-panel&quot;&gt;&lt;/span&gt;&lt;/a&gt;</textarea></div>
 </div><!-- /.unit -->
 
