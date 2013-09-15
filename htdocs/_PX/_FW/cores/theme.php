@@ -276,10 +276,11 @@ class px_cores_theme{
 	 */
 	public function mk_link( $linkto ){
 		$args = func_get_args();
+		$page_info = $this->px->site()->get_page_info($linkto);
 		$href = $this->href($linkto);
 		$hrefc = $this->href($this->px->req()->get_request_file_path());
-		$label = $this->px->site()->get_page_info($linkto,'title_label');
-		$page_id = $this->px->site()->get_page_info($linkto,'id');
+		$label = $page_info['title_label'];
+		$page_id = $page_info['id'];
 		if( is_string($args[1]) ){
 			//  第2引数が文字列なら
 			//  リンクのラベルとして採用
@@ -308,13 +309,27 @@ class px_cores_theme{
 		}
 		$label = (!is_null($label)?$label:$href); // labelがnullの場合、リンク先をラベルとする
 
+		$classes = array();
+		// CSSのクラスを付加
+		if( is_string($options['class']) ){
+			$options['class'] = preg_split( '/\s+/', trim($options['class']) );
+		}
+		if( is_array($options['class']) ){
+			foreach($options['class'] as $class_row){
+				array_push($classes, trim($class_row));
+			}
+		}
+		if($is_current){
+			array_push($classes, 'current');
+		}
+
 		if( !$options['no_escape'] ){
 			// no_escape(エスケープしない)指示がなければ、
 			// HTMLをエスケープする。
 			$label = t::h($label);
 		}
 
-		$rtn = '<a href="'.t::h($href).'"'.($is_current?' class="current"':'').''.($is_popup?' onclick="window.open(this.href);return false;"':'').'>'.$label.'</a>';
+		$rtn = '<a href="'.t::h($href).'"'.(count($classes)?' class="'.t::h(implode(' ', $classes)).'"':'').''.($is_popup?' onclick="window.open(this.href);return false;"':'').'>'.$label.'</a>';
 		return $rtn;
 	}
 

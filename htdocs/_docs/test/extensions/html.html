@@ -33,3 +33,9 @@
 <h2 class="cont_finalize_sample" style="color:#ff0000;">h2見出しサンプル(クラス＆スタイル属性付き)</h2>
 <p>テスト用コード</p>
 
+<h2>mk_link() にクラスをつけるテスト</h2>
+<ul>
+	<li><?php print $this->px->theme()->mk_link($this->px->req()->get_request_file_path(),array('class'=>'cont_test_link_class1 cont_test_link_class2')); ?></li>
+	<li><?php print $this->px->theme()->mk_link('',array('class'=>array('cont_test_link_class1','cont_test_link_class2'))); ?></li>
+</ul>
+
