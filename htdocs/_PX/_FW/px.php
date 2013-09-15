@@ -305,7 +305,7 @@ class px_px{
 				// キャッシュを作成・更新。
 				$this->dbh()->mkdir_all( dirname($realpath_copyto) );
 				$this->dbh()->copy( $realpath_original, $realpath_copyto );
-				$this->add_relatedlink( $this->get_install_path().'_caches/_themes/'.$localpath_theme_resource );
+				$this->add_relatedlink( $this->get_install_path().'_caches/_themes/'.$this->theme()->get_theme_id().'/'.$localpath_theme_resource );
 			}
 		}elseif( is_dir($realpath_original) ){
 			// 対象がディレクトリだったら
