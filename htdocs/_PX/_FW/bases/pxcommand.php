@@ -321,7 +321,13 @@ a:hover{
 .contents h4{
 	color:<?php print t::h($this->colors['hx']); ?>;
 }
-
+.contents .topic_box{
+	background-color:#eee;
+	border-radius:10px;
+	width:90%;
+	margin-left:auto;
+	margin-right:auto;
+}
 <?php
 		return ob_get_clean();
 	}//create_src_layout_css()

@@ -68,6 +68,19 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 	private function homepage(){
 		$command = $this->get_command();
 		$src = '';
+		ob_start();?>
+<script type="text/javascript">
+function contEditPublishTargetPath(){
+	$('.cont_publish_target_path_preview').hide();
+	$('.cont_publish_target_path_editor').show();
+}
+function contEditPublishTargetPathApply(formElm){
+	var path = $('input[name=path]', formElm).val();
+	window.location.href = path + '?PX=publish';
+}
+</script>
+<?php
+		$src .= ob_get_clean();
 		if( $this->is_locked() ){
 			$src .= '<div class="unit">'."\n";
 			$src .= '	<p>パブリッシュは<strong>ロックされています</strong>。</p>'."\n";
@@ -86,10 +99,32 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 			$src .= '</div><!-- /.unit -->'."\n";
 		}else{
 			$src .= '<div class="unit">'."\n";
-			$src .= '	<p>次のパスとそれ以下のページやファイルをパブリッシュします。</p>'."\n";
-			$src .= '	<ul>'."\n";
-			$src .= '		<li style="word-break:break-all;">'.t::h( $this->path_target ).'</li>'."\n";
-			$src .= '	</ul>'."\n";
+			$src .= '	<p>プロジェクト『'.t::h($this->px->get_conf('project.name')).'』をパブリッシュします。</p>'."\n";
+			$src .= '<table class="def" style="width:100%;">'."\n";
+			$src .= '	<tbody>'."\n";
+			$src .= '		<tr>'."\n";
+			$src .= '			<th style="width:30%;">パブリッシュ対象のパス</th>'."\n";
+			$src .= '			<td style="width:70%;" class="cont_publish_target_path">'."\n";
+			$src .= '				<div class="cont_publish_target_path_preview">'."\n";
+			$src .= '					<div style="word-break:break-all;">'.t::h( $this->path_target ).'</div>'."\n";
+			$src .= '					<div class="small"><a href="javascript:contEditPublishTargetPath();" class="icon">変更する</a></div>'."\n";
+			$src .= '				</div>'."\n";
+			$src .= '				<div class="cont_publish_target_path_editor" style="display:none;">'."\n";
+			$src .= '					<form action="?" method="get" onsubmit="contEditPublishTargetPathApply(this); return false;" class="inline">'."\n";
+			$src .= '						<input type="text" name="path" size="25" style="max-width:70%;" value="'.t::h( $this->path_target ).'" />'."\n";
+			$src .= '						<input type="submit" style="width:20%;" value="変更する" />'."\n";
+			$src .= '					</form>'."\n";
+			$src .= '				</div>'."\n";
+			$src .= '			</td>'."\n";
+			$src .= '		</tr>'."\n";
+			$src .= '		<tr>'."\n";
+			$src .= '			<th style="width:30%;">適用するテーマ</th>'."\n";
+			$src .= '			<td style="width:70%;">'.t::h($this->px->get_conf('system.default_theme_id')).'</td>'."\n";
+			$src .= '		</tr>'."\n";
+			$src .= '	</tbody>'."\n";
+			$src .= '</table><!-- /table.def -->'."\n";
+			$src .= ''."\n";
+
 			$src .= '</div><!-- /.unit -->'."\n";
 			$internal_errors = $this->get_internal_error_log();
 			if( count($internal_errors) ){
@@ -109,11 +144,23 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 
 			$src .= '<div class="unit">'."\n";
 			$src .= '	<p>次のボタンをクリックしてパブリッシュを実行してください。</p>'."\n";
-			$src .= '	<form action="?" method="get" target="_blank">'."\n";
-			$src .= '	<p class="center"><button>パブリッシュを実行する</button></p>'."\n";
+			$src .= '	<form action="'.t::h($this->px->theme()->href( $this->path_target )).'" method="get" target="_blank">'."\n";
+			$src .= '	<p class="center"><button class="xlarge">パブリッシュを実行する</button></p>'."\n";
 			$src .= '	<div><input type="hidden" name="PX" value="publish.run" /></div>'."\n";
 			$src .= '	</form>'."\n";
 			$src .= '</div><!-- /.unit -->'."\n";
+
+			$src .= '<div class="topic_box">'."\n";
+			$src .= '	<p class="topic_box-heading">コマンドラインから実行する</p>'."\n";
+			$src .= '   <p>パブリッシュは、次のコマンドから実行することもできます。</p>'."\n";
+			$src .= '   <dl>'."\n";
+			$src .= '		<dt>"curl" コマンドが使える場合</dt>'."\n";
+			$src .= '       	<dd>$ curl '.t::h( t::data2text('http://'.$_SERVER['HTTP_HOST'].$this->path_target.'?PX=publish.run') ).'</dd>'."\n";
+			$src .= '		<dt>"wget" コマンドが使える場合</dt>'."\n";
+			$src .= '       	<dd>$ wget '.t::h( t::data2text('http://'.$_SERVER['HTTP_HOST'].$this->path_target.'?PX=publish.run') ).'</dd>'."\n";
+			$src .= '   </dl>'."\n";
+			$src .= '</div><!-- /.topic_box -->'."\n";
+			$src .= ''."\n";
 
 		}
 		print $this->html_template($src);
@@ -138,9 +185,9 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 			print 'Please try below...'."\n";
 			print '    - If you can use "curl" command.'."\n";
 			print '      (If your system is Mac OSX, maybe you can use this.)'."\n";
-			print '        $ curl http://yourdomain/yourPxFWInstallPath/?PX=publish.run'."\n";
+			print '        $ curl http://{$yourdomain}'.$this->path_target.'?PX=publish.run'."\n";
 			print '    - If you can use "wget" command.'."\n";
-			print '        $ wget http://yourdomain/yourPxFWInstallPath/?PX=publish.run'."\n";
+			print '        $ wget http://{$yourdomain}'.$this->path_target.'?PX=publish.run'."\n";
 			print ''."\n";
 			print ''."\n";
 			print 'exit.'."\n";
@@ -284,6 +331,8 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 		print '------'."\n";
 		print 'publish completed.'."\n";
 		print date('Y-m-d H:i:s')."\n";
+		print 'see => '.(strlen( $this->path_publish_dir ) && is_dir( $this->path_publish_dir ) ? $this->path_publish_dir : $this->path_tmppublish_dir)."\n";
+		print "\n";
 		$this->publish_log( array(
 			'result'=>null,
 			'message'=>'exit;',
