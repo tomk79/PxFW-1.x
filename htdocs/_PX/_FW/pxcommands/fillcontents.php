@@ -34,7 +34,7 @@ class px_pxcommands_fillcontents extends px_bases_pxcommand{
 		$src .= '<p>サイトマップCSVの内容に従って、コンテンツファイルを生成します。</p>'."\n";
 		$src .= '<p>この操作は、サイトのセットアップ時に<strong>1度だけ実行します</strong>。すでに1度実行している場合は、この操作は行わないでください。</p>'."\n";
 		$src .= '<form action="?" method="get" target="_blank">'."\n";
-		$src .= '<p class="center"><button>fillcontentsを実行する</button></p>'."\n";
+		$src .= '<p class="center"><button class="xlarge">fillcontentsを実行する</button></p>'."\n";
 		$src .= '<div><input type="hidden" name="PX" value="'.t::h($command[0]).'.run" /></div>'."\n";
 		$src .= '</form>'."\n";
 		print $this->html_template($src);

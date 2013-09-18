@@ -83,7 +83,7 @@ class px_bases_pxcommand{
 	 */
 	protected function html_template( $content ){
 		// PxCommands の一覧 $px_command_list を作成
-		$px_command_list = array('config','sitemap_definition','sitemap','pageinfo','themes','edit','rdb','search','publish','initialize','fillcontents');
+		$px_command_list = array('config','sitemap_definition','sitemap','pageinfo','themes','edit','rdb','search','initialize','fillcontents','publish');
 		$px_command_unpaged_list = array('clearcache', 'phpinfo');
 
 		// PxCommands プラグインの一覧 $plugins_list を作成

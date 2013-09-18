@@ -44,44 +44,39 @@ class px_pxcommands_sitemap extends px_bases_pxcommand{
 	 * 配列をtableのhtmlソースに変換
 	 */
 	private function mk_ary_table( $ary ) {
+		$html = '';
 		if(is_array($ary)) {
-			if($this->is_hash($ary)) {
-				$html = '';
-				$html .= '<table class="def" style="width:100%;">' . "\n";
-				foreach ($ary as $key => $val) {
-					$html .= '<tr>' . "\n";
-					$html .= '<th style="width:30%;">' .t::h( $key ). '</th>' . "\n";
-					$html .= '<td style="width:70%; word-break:break-all;">' .$this->mk_ary_table($val). '</td>' . "\n";
-					$html .= '</tr>' . "\n";
-				}
-				$html .= '</table>' . "\n";
-			} elseif(!$this->is_hash($ary)) {
-				$html = '';
-				$html .= '<table class="def" style="width:100%;">' . "\n";
-				foreach ($ary as $val) {
-					$html .= '<tr>' . "\n";
-					$html .= '<td style="word-break:break-all;">' .t::h( $val ). '</td>' . "\n";
-					$html .= '</tr>' . "\n";
-				}
-				$html .= '</table>' . "\n";
-			}
+			$html .= '<table class="def" style="width:100%;">' . "\n";
+			foreach ($ary as $key => $val) {
+				$html .= '<tr>' . "\n";
+				$html .= '<th style="width:30%;">'.t::h( $key ).'</th>'."\n";
+				$html .= '<td style="width:70%; word-break:break-all;">';
+				if( $key == 'path' ){
+					$href = $this->px->theme()->href( $val );
+					if( preg_match( '/\?/', $href ) ){
+						$href = preg_replace( '/^(.*?)\?(.*)$/', '$1?PX=pageinfo&$2', $href );
+					}elseif( preg_match( '/\#/', $href ) ){
+						$href = preg_replace( '/^(.*?)\#(.*)$/', '$1?PX=pageinfo#$2', $href );
+					}else{
+						$href .= '?PX=pageinfo';
+					}
 
-		} elseif(!is_array($ary)) {
+					$html .= '<a href="'.t::h($href).'">'.t::h($val).'</a>';
+					unset($href);
+				}else{
+					$html .= $this->mk_ary_table($val);
+				}
+				$html .= '</td>'."\n";
+				$html .= '</tr>' . "\n";
+			}
+			$html .= '</table>' . "\n";
+
+		}else{
 			$html = t::h( $ary );
+
 		}
 		return $html;
 	}//mk_ary_table()
-
-	/**
-	 * 連想配列(true)か添付配列(false)か調べる
-	 */
-	private function is_hash( $ary ) {
-		$i = 0;
-		foreach($ary as $key => $dummy) {
-			if ( $key !== $i++ ) return true;
-		}
-		return false;
-	}
 
 }
 

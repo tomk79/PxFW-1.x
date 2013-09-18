@@ -28,6 +28,13 @@ class px_pxcommands_edit extends px_bases_pxcommand{
 			}
 		}
 
+		if( is_null($this->pageinfo) ){
+			return $this->error_end( 'ページ情報が見つかりません。' );
+		}
+		if( !strlen( $this->pageinfo['content'] ) ){
+			return $this->error_end( 'コンテンツのパスが設定されていません。' );
+		}
+
 		switch( $command[1] ){
 			case 'update':
 				$this->execute_update();
@@ -50,16 +57,25 @@ class px_pxcommands_edit extends px_bases_pxcommand{
 		$src .= '<div class="unit">'."\n";
 		$src .= '	<p>次のコンテンツファイルを編集します。</p>'."\n";
 		$src .= '	<ul>'."\n";
-		$src .= '		<li style="word-break:break-all;">'.realpath( $this->path_content_src ).'</li>'."\n";
+		$src .= '		<li style="word-break:break-all;">'.$this->px->dbh()->get_realpath( $this->path_content_src ).'</li>'."\n";
 		$src .= '	</ul>'."\n";
 		$src .= '</div><!-- /.unit -->'."\n";
+		if( is_dir($this->path_content_src) ){
+			$src .= '<p class="error">編集対象のパスはディレクトリを指しています。</p>';
+		}else{
+			$src .= '<form action="?PX='.t::h( implode('.',$this->command) ).'.update" method="post" onsubmit="return confirm(\'編集した内容でファイルを上書き保存します。よろしいですか？\');">'."\n";
+			$src .= '<p><textarea name="src" style="width:100%; height:260px;">';
+			$src .= t::h( $this->px->dbh()->file_get_contents( $this->path_content_src ) );
+			$src .= '</textarea></p>'."\n";
+			if( !is_file($this->path_content_src) ){
+				$src .= '<p>編集対象のパスには、現在ファイルはありません。この内容で新規作成します。</p>';
+				$src .= '<p class="center"><button>この内容で新規作成する</button></p>'."\n";
+			}else{
+				$src .= '<p class="center"><button>上書き保存する</button></p>'."\n";
+			}
+			$src .= '</form>'."\n";
+		}
 
-		$src .= '<form action="?PX='.t::h( implode('.',$this->command) ).'.update" method="post" onsubmit="return confirm(\'編集した内容でファイルを上書き保存します。よろしいですか？\');">'."\n";
-		$src .= '<p><textarea name="src" style="width:100%; height:260px;">';
-		$src .= t::h( $this->px->dbh()->file_get_contents( $this->path_content_src ) );
-		$src .= '</textarea></p>'."\n";
-		$src .= '<p class="center"><button>上書き保存する</button></p>'."\n";
-		$src .= '</form>'."\n";
 		print $this->html_template($src);
 		exit;
 	}
@@ -97,6 +113,18 @@ class px_pxcommands_edit extends px_bases_pxcommand{
 		$src .= '<form action="?PX='.t::h( $this->command[0] ).'" method="post">'."\n";
 		$src .= '<p class="center"><button>戻る</button></p>'."\n";
 		$src .= '</form>'."\n";
+		print $this->html_template($src);
+		exit;
+	}
+
+	/**
+	 * エラーを表示して終了する。
+	 */
+	private function error_end( $error_msg ){
+		$src = '';
+		$src .= '<div class="unit">'."\n";
+		$src .= '	<p class="error">'.t::h( $error_msg ).'</p>'."\n";
+		$src .= '</div><!-- /.unit -->'."\n";
 		print $this->html_template($src);
 		exit;
 	}

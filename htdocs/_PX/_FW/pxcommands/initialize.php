@@ -36,7 +36,7 @@ class px_pxcommands_initialize extends px_bases_pxcommand{
 		$src .= '<p>サイトの設定、データベース作成等の初期セットアップ処理を行います。</p>'."\n";
 		$src .= '<p>この操作は、サイトのセットアップ時に<strong>1度だけ実行します</strong>。すでに1度実行している場合は、この操作は行わないでください。</p>'."\n";
 		$src .= '<form action="?" method="get" target="_blank">'."\n";
-		$src .= '<p class="center"><button>イニシャライズを実行する</button></p>'."\n";
+		$src .= '<p class="center"><button class="xlarge">イニシャライズを実行する</button></p>'."\n";
 		$src .= '<div><input type="hidden" name="PX" value="'.t::h($command[0]).'.run" /></div>'."\n";
 		$src .= '</form>'."\n";
 		$src .= '<p>または、セットアップ用のSQL文をダウンロードしたい場合は、次のリンクをクリックしてください。</p>'."\n";
