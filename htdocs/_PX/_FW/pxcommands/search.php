@@ -70,7 +70,7 @@ var contSearch = new (function(){
 					src += '<ul>';
 					for( row in ary ){
 						src += '<li style="word-break:break-all;">';
-						src += '<p><strong>'+ary[row].path+'</strong></p>';
+						src += '<p><b>'+ary[row].path+'</b></p>';
 						src += '<dl>';
 						src += '<dt>type</dt><dd>'+ary[row].type+'</dd>';
 						src += '</dl>';

@@ -40,7 +40,7 @@ class px_pxcommands_themes extends px_bases_pxcommand{
 			$src .= '	</thead>'."\n";
 			foreach( $theme_id_list as $theme_id ){
 				$src .= '	<tr>'."\n";
-				$src .= '		<th style="word-break:break-all;">'.($current_theme_id==$theme_id?'<strong>'.t::h($theme_id).'</strong>':'<a href="?THEME='.t::h($theme_id).'">'.t::h($theme_id).'</a>').'</th>'."\n";
+				$src .= '		<th style="word-break:break-all;">'.($current_theme_id==$theme_id?'<span class="current">'.t::h($theme_id).'</span>':'<a href="?THEME='.t::h($theme_id).'">'.t::h($theme_id).'</a>').'</th>'."\n";
 				$src .= '		<td style="word-break:break-all;">'."\n";
 				$outline_list = $this->px->dbh()->ls( $this->px->get_conf('paths.px_dir').'themes/'.$theme_id.'/' );
 				foreach( $outline_list as $number=>$filename ){
