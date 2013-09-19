@@ -144,7 +144,7 @@ function contEditPublishTargetPathApply(formElm){
 
 			$src .= '<div class="unit">'."\n";
 			$src .= '	<p>次のボタンをクリックしてパブリッシュを実行してください。</p>'."\n";
-			$src .= '	<form action="'.t::h($this->px->theme()->href( $this->path_target )).'" method="get" target="_blank">'."\n";
+			$src .= '	<form action="?" method="get" target="_blank">'."\n";
 			$src .= '	<p class="center"><button class="xlarge">パブリッシュを実行する</button></p>'."\n";
 			$src .= '	<div><input type="hidden" name="PX" value="publish.run" /></div>'."\n";
 			$src .= '	</form>'."\n";
