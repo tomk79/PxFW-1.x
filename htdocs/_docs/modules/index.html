@@ -94,6 +94,56 @@
 </dl>
 
 
+<h3>サブモジュールの定義指針</h3>
+<p>
+	サブモジュールは、モジュールの一部として使用されることが前提となるクラスです。属するモジュールの名前を冠し、後ろにハイフンでサブモジュール名を付加するように命名します。<br />
+</p>
+<p>
+	基本的な指針としては、属するモジュールの名前領域の内で有効になるよう設計します。<br />
+</p>
+<p>
+	次の例は、モジュール <code>.module</code> と、<code>.module</code> に属するサブモジュール <code>.module-submodule</code> の関係について表しています。<br />
+</p>
+<div class="unit">
+	<div class="code"><pre><code>&lt;style type=&quot;text/css&quot;&gt;
+.module{
+	/* style */
+}
+.module .module-submodule{
+	/* style */
+}
+&lt;/style&gt;
+&lt;div class=&quot;module&quot;&gt;
+    &lt;div class=&quot;module-submodule&quot;&gt;
+    	テキスト
+    &lt;/div&gt;
+&lt;/div&gt;&lt;!-- / .module --&gt;
+</code></pre></div>
+</div>
+
+<p>
+	サブモジュールは、属するモジュールと併記するように設計することもできます。<br />
+</p>
+
+<div class="unit">
+	<div class="code"><pre><code>&lt;style type=&quot;text/css&quot;&gt;
+.module{
+	/* style */
+}
+.module.module-submodule{
+	/* style */
+}
+&lt;/style&gt;
+&lt;div class=&quot;module module-submodule&quot;&gt;
+	テキスト
+&lt;/div&gt;&lt;!-- / .module --&gt;
+</code></pre></div>
+</div>
+
+<p>
+	この場合のサブモジュールの定義は、<code>.module.module-submodule</code> とすることが望ましいですが、IE6などの古い環境を考慮する場合、単に <code>.module-submodule</code> と定義しても構いません。<br />
+</p>
+
 
 
 <h3>接頭辞 cont について</h3>
@@ -224,7 +274,7 @@
 	以下のライブラリは、共有リソースとしてテーマによって用意されていますが、特にコンテンツが必要としない限り、ロードはされません。<br />
 </p>
 <ul>
-	<li>未定義(必要時応じて設計者が追加)</li>
+	<li>未定義(必要に応じて設計者が追加)</li>
 </ul>
 
 

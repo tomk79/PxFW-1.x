@@ -1,6 +1,6 @@
 @charset "UTF-8";
 /**
- * FESS 1.1.0b1
+ * FESS 1.1.0b1-nb
  * @author Tomoya Koyanagi <tomk79@gmail.com>
  */
 
@@ -305,6 +305,23 @@ a span.pdf:after{
 	text-align:right;
 }
 
+
+/**
+ * [parts] 強調
+ */
+strong{
+	color:#ff3333;
+	font-weight:bold;
+}
+
+/**
+ * [parts] 強勢(アクセント)
+ */
+em{
+	color:#ff6600;
+	font-weight:normal;
+	font-style:normal;
+}
 
 /**
  * [parts] エラー表示
