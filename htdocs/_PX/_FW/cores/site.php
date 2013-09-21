@@ -404,6 +404,12 @@ class px_cores_site{
 		}
 
 		$before_page_info = $this->get_page_info( $path );
+		$current_page_info = $this->get_current_page_info();
+		$is_target_current_page = false;
+		if( $before_page_info === $current_page_info ){
+			$is_target_current_page = true;
+		}
+
 		if(!is_array($before_page_info) || ( $before_page_info['path'] != $path && $before_page_info['id'] != $path ) ){
 			//まったく新しいページだったら
 			$before_page_info = $this->get_current_page_info();
@@ -465,6 +471,11 @@ class px_cores_site{
 
 		//  パブリッシュ対象にリンクを追加
 		$this->px->add_relatedlink( $this->px->theme()->href($tmp_array['path']) );
+
+		// カレントページにレイアウトの指示があったら、テーマに反映する。
+		if( $is_target_current_page && strlen($page_info['layout']) ){
+			$this->px->theme()->set_layout_id( $page_info['layout'] );
+		}
 
 		return true;
 	}//set_page_info()
