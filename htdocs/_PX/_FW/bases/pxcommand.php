@@ -100,6 +100,7 @@ class px_bases_pxcommand{
 		$src .= '<!doctype html>'."\n";
 		$src .= '<html>'."\n";
 		$src .= '<head>'."\n";
+		$src .= '<meta charset="UTF-8" />'."\n";
 		$src .= '<title>'.t::h( $this->pxcommand_name[0] ).' | Pickles Framework</title>'."\n";
 
 		//  jQuery をロード
