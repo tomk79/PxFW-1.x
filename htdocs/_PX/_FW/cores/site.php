@@ -361,6 +361,8 @@ class px_cores_site{
 			//ページIDで指定された場合、パスに置き換える
 			$path = $this->sitemap_id_map[$path];
 		}
+		$path = preg_replace('/\/((?:\?|\#).*)?$/si','/index.html$1',$path);//省略された index.html を付加。
+
 		if( is_null( $this->sitemap_array[$path] ) ){
 			//  サイトマップにズバリなければ、
 			//  ダイナミックパスを検索する。
