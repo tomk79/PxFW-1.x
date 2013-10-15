@@ -72,6 +72,11 @@ class px_cores_site{
 		unset($tmp_sitemap_col);
 		//  / サイトマップ定義をロード
 
+		// $path_top の設定値をチューニング
+		$path_top = $this->px->get_conf('project.path_top');
+		if(!strlen( $path_top )){ $path_top = '/'; }
+		$path_top = preg_replace( '/\/$/si' , '/index.html' , $path_top );//index.htmlを付加する。
+
 		//  サイトマップをロード
 		$num_auto_pid = 0;
 		foreach( $ary_sitemap_files as $basename_sitemap_csv ){
@@ -160,15 +165,11 @@ class px_cores_site{
 					unset($tmp_id);
 				}
 
-				if( strlen($this->px->get_conf('project.path_top')) ){
-					$tmp_path_top = $this->px->get_conf('project.path_top');
-					$tmp_path_top = preg_replace( '/\/$/si' , '/index.html' , $tmp_path_top );//index.htmlを付加する。
-					if( $tmp_array['path'] == $tmp_path_top ){
-						$tmp_array['id'] = '';
-					}elseif( !strlen($tmp_array['id']) ){
-						$tmp_array['id'] = ':auto_page_id.'.($num_auto_pid);
-					}
-					unset($tmp_path_top);
+				// project.path_top の設定に対する処理
+				if( $tmp_array['path'] == $path_top ){
+					$tmp_array['id'] = '';
+				}elseif( !strlen($tmp_array['id']) ){
+					$tmp_array['id'] = ':auto_page_id.'.($num_auto_pid);
 				}
 
 				if($this->get_path_type( $tmp_array['path'] ) == 'dynamic'){
