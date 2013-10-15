@@ -174,8 +174,8 @@ class px_cores_theme{
 					@header('Content-type: text/html; charset='.$output_encoding);//デフォルトのヘッダー
 
 					//出力ソースの文字コード変換(HTML)
-					$src = preg_replace('/<meta\s+charset\="[a-zA-Z0-9\_\-\.]+"\s*\/?'.'>/si','<meta charset="'.t::h($output_encoding).'" />',$src);
-					$src = preg_replace('/<meta\s+http\-equiv\="Content-Type"\s+content\="text\/html\;\s+charset\=[a-zA-Z0-9\_\-\.]+"\s*\/?'.'>/si','<meta http-equiv="Content-Type" content="text/html; charset='.t::h($output_encoding).'" />',$src);
+					$src = preg_replace('/(<meta\s+charset\=")[a-zA-Z0-9\_\-\.]+("\s*\/?'.'>)/si','$1'.t::h($output_encoding).'$2',$src);
+					$src = preg_replace('/(<meta\s+http\-equiv\="Content-Type"\s+content\="[a-zA-Z0-9\_\-\+]+\/[a-zA-Z0-9\_\-\+]+\;\s*charset\=)[a-zA-Z0-9\_\-\.]+("\s*\/?'.'>)/si','$1'.t::h($output_encoding).'$2',$src);
 					switch(strtolower($output_encoding)){
 						case 'sjis':
 						case 'sjis-win':
