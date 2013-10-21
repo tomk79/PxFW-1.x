@@ -38,6 +38,7 @@ class pxtheme_custom_funcs{
 		$rtn = '';
 		$rtn .= '<ul>';
 		$rtn .= '<li><a href="'.t::h($this->px->theme()->href('')).'">'.t::h($this->px->site()->get_page_info('','title_breadcrumb')).'</a></li>';
+		$current_path = $this->px->theme()->href($current_path);
 		foreach( $array_breadcrumb as $page_id ){
 			$linkto_page_info = $this->px->site()->get_page_info($page_id);
 			$href = $this->px->theme()->href($linkto_page_info['path']);
