@@ -265,7 +265,7 @@ function contEditPublishTargetPathApply(formElm){
 		foreach( $this->plugins_list as $tmp_key=>$tmp_plugin_name ){
 			$tmp_class_name = $this->px->load_px_plugin_class($tmp_plugin_name.'/register/publish.php');
 			$plugin_object = new $tmp_class_name($this->px, $this);
-			$plugin_object->before_execute($this->px->dbh()->get_realpath($this->path_tmppublish_dir.'/htdocs/'));
+			$plugin_object->before_execute($this->px->dbh()->get_realpath($this->path_tmppublish_dir.'/htdocs/').'/');
 		}
 
 		print '------'."\n";
@@ -289,7 +289,7 @@ function contEditPublishTargetPathApply(formElm){
 		foreach( $this->plugins_list as $tmp_key=>$tmp_plugin_name ){
 			$tmp_class_name = $this->px->load_px_plugin_class($tmp_plugin_name.'/register/publish.php');
 			$plugin_object = new $tmp_class_name($this->px, $this);
-			$plugin_object->after_execute($this->px->dbh()->get_realpath($this->path_tmppublish_dir.'/htdocs/'));
+			$plugin_object->after_execute($this->px->dbh()->get_realpath($this->path_tmppublish_dir.'/htdocs/').'/');
 		}
 
 		if( strlen( $this->path_publish_dir ) && is_dir( $this->path_publish_dir ) ){
@@ -308,7 +308,7 @@ function contEditPublishTargetPathApply(formElm){
 			foreach( $this->plugins_list as $tmp_key=>$tmp_plugin_name ){
 				$tmp_class_name = $this->px->load_px_plugin_class($tmp_plugin_name.'/register/publish.php');
 				$plugin_object = new $tmp_class_name($this->px, $this);
-				$plugin_object->after_copying($this->px->dbh()->get_realpath( $this->path_publish_dir ));
+				$plugin_object->after_copying($this->px->dbh()->get_realpath( $this->path_publish_dir ).'/');
 			}
 		}
 
