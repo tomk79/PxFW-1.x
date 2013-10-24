@@ -76,17 +76,17 @@ class px_pxcommands_api extends px_bases_pxcommand{
 		header('Content-type: text/plain; charset=UTF-8');
 		$path = $this->get_target_file_path();
 		if( is_null($path) ){
-			header('Status: 404 NotFound.');
+			header('HTTP/1.1 404 NotFound');
 			print 'Unknown or illegal path was given.';
 			exit;
 		}
 		if( is_dir($path) ){
-			header('Status: 404 NotFound.');
+			header('HTTP/1.1 404 NotFound');
 			print 'Target path is a directory.';
 			exit;
 		}
 		if( !is_file($path) ){
-			header('Status: 404 NotFound.');
+			header('HTTP/1.1 404 NotFound');
 			print 'Target path is Not a file.';
 			exit;
 		}

@@ -654,6 +654,7 @@ class px_px{
 	public function redirect( $redirect_to , $options = array() ){
 		while( @ob_end_clean() );
 
+		@header( 'Content-type: text/html; charset=UTF-8');
 		@header( 'Location: '.$redirect_to );
 		$fin = '';
 		$fin .= '<!doctype html>'."\n";
@@ -680,7 +681,7 @@ class px_px{
 	public function page_notfound(){
 		while( @ob_end_clean() );
 
-		header('Status: 404 NotFound.');
+		header('HTTP/1.1 404 NotFound');
 		$this->site()->set_page_info( $this->req()->get_request_file_path(), array('title'=>'404 Not found.') );
 		$fin = '';
 		$fin .= '<p>'."\n";
@@ -696,8 +697,7 @@ class px_px{
 	public function page_forbidden(){
 		while( @ob_end_clean() );
 
-		header('Status: 403 Forbidden.');
-		$this->site()->set_page_info( $this->req()->get_request_file_path(), array('title'=>'403 Forbidden.') );
+		header('HTTP/1.1 403 Forbidden');
 		$fin = '';
 		$fin .= '<p>'."\n";
 		$fin .= 'このページの閲覧権がありません。<br />'."\n";
