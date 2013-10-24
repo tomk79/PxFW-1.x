@@ -164,10 +164,10 @@ class px_px{
 				$obj_extension = new $class_name( $this );
 				$obj_extension->execute( $path_content );
 			}else{
-				print $this->theme()->bind_contents( '<p>Unknow extension.</p>' );
+				print $this->theme()->output_filter($this->theme()->bind_contents( '<p>Unknow extension.</p>' ), 'html');
 			}
 		}else{
-			print $this->theme()->bind_contents( '<p>Content file is not found.</p>' );
+			print $this->theme()->output_filter($this->theme()->bind_contents( '<p>Content file is not found.</p>' ), 'html');
 		}
 		$final_html = @ob_get_clean();
 		if( count($this->relatedlinks) ){
@@ -681,20 +681,12 @@ class px_px{
 		while( @ob_end_clean() );
 
 		header('Status: 404 NotFound.');
+		$this->site()->set_page_info( $this->req()->get_request_file_path(), array('title'=>'404 Not found.') );
 		$fin = '';
-		$fin .= '<!doctype html>'."\n";
-		$fin .= '<html>'."\n";
-		$fin .= '<head>'."\n";
-		$fin .= '<meta charset="UTF-8" />'."\n";
-		$fin .= '<title>404 Not found</title>'."\n";
-		$fin .= '</head>'."\n";
-		$fin .= '<body>'."\n";
 		$fin .= '<p>'."\n";
 		$fin .= 'お探しのページは見つかりませんでした。<br />'."\n";
 		$fin .= '</p>'."\n";
-		$fin .= '</body>'."\n";
-		$fin .= '</html>'."\n";
-		print $fin;
+		print $this->theme()->output_filter($this->theme()->bind_contents( $fin ), 'html');
 		exit();
 	}//page_notfound()
 
@@ -705,11 +697,12 @@ class px_px{
 		while( @ob_end_clean() );
 
 		header('Status: 403 Forbidden.');
+		$this->site()->set_page_info( $this->req()->get_request_file_path(), array('title'=>'403 Forbidden.') );
 		$fin = '';
 		$fin .= '<p>'."\n";
 		$fin .= 'このページの閲覧権がありません。<br />'."\n";
 		$fin .= '</p>'."\n";
-		print $this->theme()->bind_contents( $fin );
+		print $this->theme()->output_filter($this->theme()->bind_contents( $fin ), 'html');
 		exit();
 	}//page_forbidden()
 
@@ -728,7 +721,7 @@ class px_px{
 		$fin .= '	<p><input type="password" name="PW" value="" /><br /></p>'."\n";
 		$fin .= '	<p><input type="submit" value="送信" /></p>'."\n";
 		$fin .= '</form>'."\n";
-		print $this->theme()->bind_contents( $fin );
+		print $this->theme()->output_filter($this->theme()->bind_contents( $fin ), 'html');
 		exit();
 	}//redirect()
 
