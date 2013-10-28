@@ -142,6 +142,7 @@ class px_pxcommands_config extends px_bases_pxcommand{
 			$src .= '				<th style="word-break:break-all;">initialize</th>'."\n";
 			$src .= '				<th style="word-break:break-all;">pxcommand</th>'."\n";
 			$src .= '				<th style="word-break:break-all;">outputfilter</th>'."\n";
+			$src .= '				<th style="word-break:break-all;">extensions</th>'."\n";
 			$src .= '			</tr>'."\n";
 			$src .= '		</thead>'."\n";
 			$src .= '		<tbody>'."\n";
@@ -163,6 +164,14 @@ class px_pxcommands_config extends px_bases_pxcommand{
 				$src .= '				<td class="center">'.(is_file( $tmp_path_plugins_base_dir.$tmp_plugin_name.'/register/initialize.php' )?'○':'-').'</td>'."\n";
 				$src .= '				<td class="center">'.(is_file( $tmp_path_plugins_base_dir.$tmp_plugin_name.'/register/pxcommand.php' )?'○':'-').'</td>'."\n";
 				$src .= '				<td class="center">'.(is_file( $tmp_path_plugins_base_dir.$tmp_plugin_name.'/register/outputfilter.php' )?'○':'-').'</td>'."\n";
+				$exts = array();
+				$plugin_extension_list = $this->px->dbh()->ls( $tmp_path_plugins_base_dir.$tmp_plugin_name.'/register/extensions/' );
+				foreach( $plugin_extension_list as $plugin_extension_basename ){
+					$plugin_extension_basename = $this->px->dbh()->trim_extension( $plugin_extension_basename );
+					$plugin_extension_class = $this->px->load_px_plugin_class( $tmp_plugin_name.'/register/extensions/'.$plugin_extension_basename.'.php' );
+					array_push( $exts, (strlen($plugin_extension_class)?$plugin_extension_basename:'<span class="error">'.$plugin_extension_basename.'(unavailable)</span>') );
+				}
+				$src .= '				<td class="center">'.(count($exts)?implode(', ', $exts):'---').'</td>'."\n";
 				$src .= '			</tr>'."\n";
 			}
 			$src .= '		</tbody>'."\n";

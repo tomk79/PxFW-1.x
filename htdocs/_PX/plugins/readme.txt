@@ -370,6 +370,73 @@ class pxplugin_{$plugin_name}_register_outputfilter{
 <!--- / ここまでサンプルコード --->
 
 
+■extensions
+
+コンテンツの拡張子によって処理内容を切り替える extensions の処理を、
+プラグインとして定義するAPIです。
+Pickles Framework に予め実装されている extension も、
+プラグインに定義がある場合、優先して適用されます。
+
+- 格納先: <plugins>/{$plugin_name}/register/extensions/{$extension_name}.php
+- クラス名: pxplugin_{$plugin_name}_register_extensions_{$extension_name}
+- コンストラクタ引数: $px
+- API
+-- 拡張子別の出力処理: $instance->execute($path_content)
+
+下記は、拡張子 *.md の処理をプラグインに移植した実装例。
+
+<!--- ここからサンプルコード --->
+<?php
+$this->load_px_class('bases/extension.php');
+
+/**
+ * PX Plugin "{$plugin_name}"
+ * 拡張子 *.md のextensionクラス
+ */
+class pxplugin_{$plugin_name}_register_extensions_md extends px_bases_extension{
+
+	/**
+	 * コンテンツを実行し、結果出力されるソースを返す。
+	 * @return string 出力ソース
+	 */
+	public function execute( $path_content ){
+		@header('Content-type: text/html; charset=UTF-8');//デフォルトのヘッダー
+
+		$path_cache = $this->px->get_conf('paths.px_dir').'_sys/caches/contents/'.urlencode($path_content);
+		if(!is_dir(dirname($path_cache))){
+			$this->px->dbh()->mkdir( dirname($path_cache) );
+		}
+
+		if( !is_file( $path_cache ) || $this->px->dbh()->is_newer_a_than_b( $path_content, $path_cache ) ){
+			// キャッシュがない、またはオリジナルコンテンツよりも古い場合
+			$src = @file_get_contents( $path_content );
+
+			//  PHP Markdownライブラリをロード
+			//  see: http://michelf.ca/projects/php-markdown/
+			@require_once( $this->px->get_conf('paths.px_dir').'libs/PHPMarkdown/markdown.php' );
+
+			$src = Markdown($src);
+			$this->px->dbh()->file_overwrite($path_cache, $src);
+		}
+
+		$src = '';
+		ob_start();
+		$px = $this->px;
+		include( $path_cache );
+		$src = ob_get_clean();
+
+		$src = $this->px->theme()->bind_contents( $src );
+		$src = $this->px->theme()->output_filter($src, 'html');
+		print $src;
+		return true;
+	}
+
+}
+
+?>
+<!--- / ここまでサンプルコード --->
+
+
 ■publish
 
 パブリッシュ時、取得したファイルに最終的な加工を加えるAPIです。

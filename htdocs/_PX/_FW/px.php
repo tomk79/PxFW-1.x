@@ -142,7 +142,7 @@ class px_px{
 		//------
 		//  拡張子違いのコンテンツを検索
 		//  リクエストはmod_rewriteの設定上、*.html でしかこない。
-		//  a.html のクエリでも、a.php があれば、a.php を採用できるようにしている。
+		//  a.html のクエリでも、a.html.php があれば、a.html.php を採用できるようにしている。
 		$list_extensions = $this->get_extensions_list();
 		foreach( $list_extensions as $row_extension ){
 			if( @is_file($path_content.'.'.$row_extension) ){
@@ -160,6 +160,16 @@ class px_px{
 				$extension = $page_info['extension'];
 			}
 			$class_name = $this->load_px_class( 'extensions/'.$extension.'.php' );
+			$plugins_list = $this->dbh()->ls( $this->get_conf('paths.px_dir').'plugins/' );
+			foreach( $plugins_list as $tmp_plugin_name ){
+				// プラグイン内のextensionを検索
+				$tmp_class_name = $this->load_px_plugin_class( $tmp_plugin_name.'/register/extensions/'.$extension.'.php' );
+				if( strlen($tmp_class_name) ){
+					$class_name = $tmp_class_name;
+					break;
+				}
+			}
+			unset($tmp_class_name, $tmp_plugin_name);
 			if( $class_name ){
 				$obj_extension = new $class_name( $this );
 				$obj_extension->execute( $path_content );
