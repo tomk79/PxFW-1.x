@@ -739,17 +739,24 @@ class px_px{
 		while( @ob_end_clean() );
 
 		$fin = '';
+		if( strlen($this->req()->get_param('ID')) || strlen($this->req()->get_param('PW')) ){
+			$fin .= '<div class="unit form_error_box">'."\n";
+			$fin .= '	<p>ユーザーIDまたはパスワードが違います。</p>'."\n";
+			$fin .= '</div><!-- /.form_error_box -->'."\n";
+		}
 		$fin .= '<p>'."\n";
 		$fin .= '	ログインしてください。<br />'."\n";
 		$fin .= '</p>'."\n";
 		$fin .= '<form action="'.t::h($this->theme()->href( $this->req()->get_request_file_path() )).'" method="post">'."\n";
-		$fin .= '	<p><input type="text" name="ID" value="'.t::h($this->req()->get_param('ID')).'" /><br /></p>'."\n";
-		$fin .= '	<p><input type="password" name="PW" value="" /><br /></p>'."\n";
-		$fin .= '	<p><input type="submit" value="送信" /></p>'."\n";
+		$fin .= '	<table class="def">'."\n";
+		$fin .= '		<tr><th>ユーザーID</th><td><input type="text" name="ID" value="'.t::h($this->req()->get_param('ID')).'" /></td></tr>'."\n";
+		$fin .= '		<tr><th>パスワード</th><td><input type="password" name="PW" value="" /></td></tr>'."\n";
+		$fin .= '	</table>'."\n";
+		$fin .= '	<p><input type="submit" value="ログインする" /></p>'."\n";
 		$fin .= '</form>'."\n";
 		print $this->theme()->output_filter($this->theme()->bind_contents( $fin ), 'html');
 		exit();
-	}//redirect()
+	}//page_login()
 
 	/**
 	 * ダウンロードファイルを出力する
