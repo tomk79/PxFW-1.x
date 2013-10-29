@@ -188,7 +188,7 @@ class px_pxcommands_config extends px_bases_pxcommand{
 					$plugin_extension_class = $this->px->load_px_plugin_class( $tmp_plugin_name.'/register/extensions/'.$plugin_extension_basename.'.php' );
 					array_push( $exts, (strlen($plugin_extension_class)?$plugin_extension_basename:'<span class="error">'.$plugin_extension_basename.'(unavailable)</span>') );
 				}
-				$src .= '				<td class="center">'.(count($exts)?implode(', ', $exts):'---').'</td>'."\n";
+				$src .= '				<td class="center">'.(count($exts)?implode(', ', $exts):'-').'</td>'."\n";
 				$src .= '			</tr>'."\n";
 			}
 			$src .= '		</tbody>'."\n";

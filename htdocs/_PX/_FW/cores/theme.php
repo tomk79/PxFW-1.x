@@ -304,7 +304,7 @@ class px_cores_theme{
 			$is_current = true;
 		}
 		$is_popup = false;
-		if( $this->px->site()->get_page_info($linkto,'layout') == 'popup' ){
+		if( strpos( $this->px->site()->get_page_info($linkto,'layout') , 'popup' ) === 0 ){
 			$is_popup = true;
 		}
 		$label = (!is_null($label)?$label:$href); // labelがnullの場合、リンク先をラベルとする
