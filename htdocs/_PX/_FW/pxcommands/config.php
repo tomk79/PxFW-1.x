@@ -60,13 +60,30 @@ class px_pxcommands_config extends px_bases_pxcommand{
 		$src .= $this->mk_config_unit('colors.main','メインカラー');
 		$src .= '</table>' . "\n";
 
-
 		$src .= '<h3>publish</h3>'."\n";
 		$src .= '<table class="def" style="width:100%;">' . "\n";
 		$src .= '<colgroup><col width="30%" /><col width="30%" /><col width="40%" /></colgroup>' . "\n";
 		$src .= $this->mk_config_unit('publish.path_publish_dir','パブリッシュ先ディレクトリパス','realpath');
 		$src .= $this->mk_config_unit('publish.paths_ignore','パブリッシュ対象外パスの一覧');
 		$src .= '</table>' . "\n";
+
+		$src .= '<h3>publish_extensions</h3>'."\n";
+		$extensions = array();
+		foreach($this->config_ary as $key=>$val){
+			if( preg_match('/^publish_extensions\.(.*)$/s', $key, $extension_matches) ){
+				array_push($extensions, array('extension'=>$key,'method'=>$extension_matches[1] ));
+			}
+		}
+		if( !count($extensions) ){
+			$src .= '<p>拡張子別のパブリッシュ設定はありません。</p>' . "\n";
+		}else{
+			$src .= '<table class="def" style="width:100%;">' . "\n";
+			$src .= '<colgroup><col width="30%" /><col width="30%" /><col width="40%" /></colgroup>' . "\n";
+			foreach($extensions as $extension){
+				$src .= $this->mk_config_unit($extension['extension'],'*.'.$extension['method'].' のパブリッシュ方法','string');
+			}
+			$src .= '</table>' . "\n";
+		}
 
 		$src .= '<h3>dbms</h3>'."\n";
 		$src .= '<table class="def" style="width:100%;">' . "\n";

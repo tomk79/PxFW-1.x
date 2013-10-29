@@ -17,7 +17,9 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 	private $path_target = null;//←パブリッシュ対象パス
 	private $internal_errors = array();//←その他の内部エラー
 	private $publish_type_extension_map = array(//←拡張子とパブリッシュタイプのマッピング配列
-		//  'http'|'include_text'|'copy'
+		//  'http'|'include_text'|'copy'|'nopublish'
+		// ※この設定は、mainconf.ini の publish_extensions の項目で上書きできるようになりました。
+		// 　ここに実装されている値はデフォルトです。変更する場合は、mainconf.ini を編集してください。
 		'html' =>'http' ,
 		'css'  =>'http' ,
 		'js'   =>'http' ,
@@ -382,6 +384,14 @@ function contEditPublishTargetPathApply(formElm){
 			}
 
 			array_push( $this->paths_ignore , $row_realpath );
+		}
+
+		// 拡張子別の処理方法の設定をコンフィグから読み込む
+		$config_ary = $this->px->get_conf_all();
+		foreach( $config_ary as $config_key=>$config_row ){
+			if( preg_match('/^publish_extensions\.(.*)$/s', $config_key, $command_matches) ){
+				$this->publish_type_extension_map[$command_matches[1]] = $config_row;
+			}
 		}
 
 		// プラグインによる加工処理(publish API を利用するプラグイン一覧を精査)
