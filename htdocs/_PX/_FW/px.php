@@ -417,14 +417,30 @@ class px_px{
 	}//php_setup();
 
 	/**
-	 * コンフィグ値のロード。
+	 * コンフィグ値のロード
 	 */
 	private function load_conf( $path_mainconf ){
 		$conf = array();
+		if( !is_file($path_mainconf) ){ return $conf; }
+		if( !is_readable($path_mainconf) ){ return $conf; }
 		$tmp_conf = parse_ini_file( $path_mainconf , true );
 		foreach ($tmp_conf as $key1=>$row1) {
-			foreach ($row1 as $key2=>$val) {
-				$conf[$key1.'.'.$key2] = $val;
+			if( is_array($row1) ){
+				foreach ($row1 as $key2=>$val) {
+					if( $key2 == '_include' ){
+						$tmp_conf = $this->load_conf( $val );
+						$conf = array_merge($conf, $tmp_conf);
+					}else{
+						$conf[$key1.'.'.$key2] = $val;
+					}
+				}
+			}else{
+				if( $key1 == '_include' ){
+					$tmp_conf = $this->load_conf( $row1 );
+					$conf = array_merge($conf, $tmp_conf);
+				}else{
+					$conf[$key1] = $row1;
+				}
 			}
 		}
 		unset( $tmp_conf , $key1 , $row1 , $key2 , $val );
