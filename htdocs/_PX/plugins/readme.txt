@@ -542,3 +542,46 @@ class pxplugin_{$plugin_name}_register_publish{
 <!--- / ここまでサンプルコード --->
 
 
+■funcs
+
+単機能的なAPIを集めたクラスです。
+
+- 格納先: <plugins>/{$plugin_name}/register/funcs.php
+- クラス名: pxplugin_{$plugin_name}_register_funcs
+- コンストラクタ引数: $px
+- API
+-- SSIタグ生成: $instance->ssi_static_tag()
+
+下記は実装例。
+
+<!--- ここからサンプルコード --->
+<?php
+
+/**
+ * PX Plugin "{$plugin_name}"
+ */
+class pxplugin_{$plugin_name}_register_funcs{
+	private $px;
+
+	/**
+	 * コンストラクタ
+	 * @param $px = PxFWコアオブジェクト
+	 */
+	public function __construct( $px ){
+		$this->px = $px;
+	}
+
+	/**
+	 * パブリッシュ時のSSIタグを出力する。
+	 * ssi() からコールされる。
+	 */
+	public function ssi_static_tag( $path ){
+		return '<!--#include virtual="'.htmlspecialchars( $path ).'" -->';
+	}//ssi_static_tag()
+
+}
+
+?>
+<!--- / ここまでサンプルコード --->
+
+

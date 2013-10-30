@@ -160,6 +160,7 @@ class px_pxcommands_config extends px_bases_pxcommand{
 			$src .= '				<th style="word-break:break-all;">pxcommand</th>'."\n";
 			$src .= '				<th style="word-break:break-all;">outputfilter</th>'."\n";
 			$src .= '				<th style="word-break:break-all;">extensions</th>'."\n";
+			$src .= '				<th style="word-break:break-all;">funcs</th>'."\n";
 			$src .= '			</tr>'."\n";
 			$src .= '		</thead>'."\n";
 			$src .= '		<tbody>'."\n";
@@ -189,6 +190,7 @@ class px_pxcommands_config extends px_bases_pxcommand{
 					array_push( $exts, (strlen($plugin_extension_class)?$plugin_extension_basename:'<span class="error">'.$plugin_extension_basename.'(unavailable)</span>') );
 				}
 				$src .= '				<td class="center">'.(count($exts)?implode(', ', $exts):'-').'</td>'."\n";
+				$src .= '				<td class="center">'.(is_file( $tmp_path_plugins_base_dir.$tmp_plugin_name.'/register/funcs.php' )?'○':'-').'</td>'."\n";
 				$src .= '			</tr>'."\n";
 			}
 			$src .= '		</tbody>'."\n";

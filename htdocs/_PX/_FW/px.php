@@ -370,6 +370,17 @@ class px_px{
 	 * ssi() からコールされる。
 	 */
 	private function ssi_static_tag( $path ){
+		$plugins_list = $this->dbh()->ls( $this->get_conf('paths.px_dir').'plugins/' );
+		foreach( $plugins_list as $tmp_plugin_name ){
+			// プラグイン内のextensionを検索
+			$tmp_class_name = $this->load_px_plugin_class( $tmp_plugin_name.'/register/funcs.php' );
+			if( strlen($tmp_class_name) && method_exists( $tmp_class_name, 'ssi_static_tag' ) ){
+				$obj = new $tmp_class_name($this);
+				return $obj->ssi_static_tag( $path );
+				break;
+			}
+		}
+		unset($tmp_class_name, $tmp_plugin_name);
 		return '<!--#include virtual="'.htmlspecialchars( $path ).'" -->';
 	}//ssi_static_tag()
 
