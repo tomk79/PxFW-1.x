@@ -157,9 +157,15 @@ function contEditPublishTargetPathApply(formElm){
 			$src .= '   <p>パブリッシュは、次のコマンドから実行することもできます。</p>'."\n";
 			$src .= '   <dl>'."\n";
 			$src .= '		<dt>"curl" コマンドが使える場合</dt>'."\n";
-			$src .= '       	<dd>$ curl '.t::h( t::data2text('http://'.$_SERVER['HTTP_HOST'].$this->path_target.'?PX=publish.run') ).'</dd>'."\n";
+			$auth_curl = '';
+			$auth_wget = '';
+			if( strlen( $this->px->get_conf('project.auth_name') ) || strlen( $this->px->get_conf('project.auth_password') ) ){
+				$auth_curl = '--user '.t::data2text( $this->px->get_conf('project.auth_name').':'.$this->px->get_conf('project.auth_password') ).' ';
+				$auth_wget = '--http-user='.t::data2text( $this->px->get_conf('project.auth_name') ).' --http-passwd='.t::data2text( $this->px->get_conf('project.auth_password') ).' ';
+			}
+			$src .= '       	<dd>$ curl '.t::h($auth_curl).''.t::h( t::data2text('http://'.$_SERVER['HTTP_HOST'].$this->path_target.'?PX=publish.run') ).'</dd>'."\n";
 			$src .= '		<dt>"wget" コマンドが使える場合</dt>'."\n";
-			$src .= '       	<dd>$ wget '.t::h( t::data2text('http://'.$_SERVER['HTTP_HOST'].$this->path_target.'?PX=publish.run') ).'</dd>'."\n";
+			$src .= '       	<dd>$ wget '.t::h($auth_wget).''.t::h( t::data2text('http://'.$_SERVER['HTTP_HOST'].$this->path_target.'?PX=publish.run') ).'</dd>'."\n";
 			$src .= '   </dl>'."\n";
 			$src .= '</div><!-- /.topic_box -->'."\n";
 			$src .= ''."\n";
