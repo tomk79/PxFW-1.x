@@ -17,6 +17,7 @@ class px_px{
 	private $relatedlinks = array();
 	private $path_mainconf;
 	private $plugin_objects = array();
+	private $directory_index = array();
 
 	/**
 	 * PxFWのバージョン情報を取得する
@@ -134,7 +135,7 @@ class px_px{
 		if( !strlen($localpath_current_content) ){
 			$localpath_current_content = $_SERVER['PATH_INFO'];
 			if( preg_match('/\/$/s',$localpath_current_content) ){
-				$localpath_current_content .= 'index.html';
+				$localpath_current_content .= $this->get_directory_index_primary();
 			}
 		}
 		$path_content = $this->dbh()->get_realpath( dirname($_SERVER['SCRIPT_FILENAME']).$localpath_current_content );
@@ -479,6 +480,46 @@ class px_px{
 	public function get_conf_all(){
 		return $this->conf;
 	}//get_conf_all()
+
+	/**
+	 * directory_index の一覧を得る
+	 */
+	public function get_directory_index(){
+		if( count($this->directory_index) ){
+			return $this->directory_index;
+		}
+		$tmp_di = preg_split( '/\,| |\;|\r\n|\r|\n/', $this->get_conf('project.directory_index') );
+		$this->directory_index = array();
+		foreach( $tmp_di as $file_name ){
+			$file_name = trim($file_name);
+			if( !strlen($file_name) ){ continue; }
+			array_push( $this->directory_index, $file_name );
+		}
+		if( !count( $this->directory_index ) ){
+			array_push( $this->directory_index, 'index.html' );
+		}
+		return $this->directory_index;
+	}//get_directory_index()
+
+	/**
+	 * directory_index のいずれかにマッチするためのpregパターン式を得る
+	 */
+	public function get_directory_index_preg_pattern( $delimiter = null ){
+		$directory_index = $this->get_directory_index();
+		foreach( $directory_index as $key=>$row ){
+			$directory_index[$key] = preg_quote($row, $delimiter);
+		}
+		$rtn = '(?:'.implode( '|', $directory_index ).')';
+		return $rtn;
+	}//get_directory_index_preg_pattern()
+
+	/**
+	 * 最も優先されるインデックスファイル名を得る
+	 */
+	public function get_directory_index_primary(){
+		$directory_index = $this->get_directory_index();
+		return $directory_index[0];
+	}//get_directory_index_primary()
 
 	/**
 	 * コアライブラリのインスタンス生成。

@@ -75,7 +75,7 @@ class px_cores_site{
 		// $path_top の設定値をチューニング
 		$path_top = $this->px->get_conf('project.path_top');
 		if(!strlen( $path_top )){ $path_top = '/'; }
-		$path_top = preg_replace( '/\/$/si' , '/index.html' , $path_top );//index.htmlを付加する。
+		$path_top = preg_replace( '/\/$/si' , '/'.$this->px->get_directory_index_primary() , $path_top );//index.htmlを付加する。
 
 		//  サイトマップをロード
 		$num_auto_pid = 0;
@@ -137,15 +137,15 @@ class px_cores_site{
 					default:
 						// スラ止のパスに index.html を付加する。
 						// ただし、JS、アンカー、外部リンクには適用しない。
-						$tmp_array['path'] = preg_replace( '/\/((?:\?|\#).*)?$/si' , '/index.html$1' , $tmp_array['path'] );
+						$tmp_array['path'] = preg_replace( '/\/((?:\?|\#).*)?$/si' , '/'.$this->px->get_directory_index_primary().'$1' , $tmp_array['path'] );
 						break;
 				}
 				if( !strlen( $tmp_array['content'] ) ){
 					$tmp_array['content'] = $tmp_array['path'];
 					$tmp_array['content'] = preg_replace('/(?:\?|\#).*$/s','',$tmp_array['content']);
-					$tmp_array['content'] = preg_replace('/\/$/s','/index.html',$tmp_array['content']);
+					$tmp_array['content'] = preg_replace('/\/$/s','/'.$this->px->get_directory_index_primary(), $tmp_array['content']);
 				}
-				$tmp_array['content'] = preg_replace( '/\/$/si' , '/index.html' , $tmp_array['content'] );//index.htmlを付加する。
+				$tmp_array['content'] = preg_replace( '/\/$/si' , '/'.$this->px->get_directory_index_primary() , $tmp_array['content'] );//index.htmlを付加する。
 				if( !strlen( $tmp_array['id'] ) ){
 					//ページID文字列を自動生成
 					$tmp_id = '';
@@ -362,7 +362,7 @@ class px_cores_site{
 			//ページIDで指定された場合、パスに置き換える
 			$path = $this->sitemap_id_map[$path];
 		}
-		$path = preg_replace('/\/((?:\?|\#).*)?$/si','/index.html$1',$path);//省略された index.html を付加。
+		$path = preg_replace('/\/((?:\?|\#).*)?$/si','/'.$this->px->get_directory_index_primary().'$1',$path);//省略された index.html を付加。
 
 		if( is_null( $this->sitemap_array[$path] ) ){
 			//  サイトマップにズバリなければ、
@@ -380,7 +380,7 @@ class px_cores_site{
 			case 'anchor':
 				break;
 			default:
-				$path = preg_replace( '/\/$/si' , '/index.html' , $path );
+				$path = preg_replace( '/\/$/si' , '/'.$this->px->get_directory_index_primary() , $path );
 				break;
 		}
 
@@ -403,7 +403,7 @@ class px_cores_site{
 		$path_type = $this->get_path_type($path);
 		if( is_string( $path_type ) ){
 			//  $path がスラドメされている場合に index.html を付加
-			$path = preg_replace( '/\/$/si' , '/index.html' , $path );
+			$path = preg_replace( '/\/$/si' , '/'.$this->px->get_directory_index_primary() , $path );
 		}
 
 		$before_page_info = $this->get_page_info( $path );
@@ -567,7 +567,7 @@ class px_cores_site{
 			continue;
 		}
 		unset($dynamic_path , $tmp_matched);
-		$path = preg_replace('/\/$/si','/index.html',$path); // index.htmlをつける
+		$path = preg_replace('/\/$/si','/'.$this->px->get_directory_index_primary(),$path); // index.htmlをつける
 		return $path;
 	}//bind_dynamic_path_param()
 

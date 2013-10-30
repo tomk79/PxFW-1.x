@@ -2,17 +2,19 @@
  * PxFW(Pickles Framework) 更新履歴
  */
 
-■PxFW 1.0.0 (2013/**/**)
+■PxFW 1.0.0b10 (2013/**/**)
 
+- コンフィグに拡張子別のパブリッシュ方法を設定する publish_extensions を追加。
+- コンフィグに省略するファイル名を設定する project.directory_index を追加。
+- コンフィグにインクルード機能 _include を追加。
+- プラグインに funcs API を追加。単機能制御のAPIを集約する箱として定義。パブリッシュ後のSSIタグの形式を生成する ssi_static_tag() をここに追加した。
+- $px->get_directory_index(), $px->get_directory_index_preg_pattern(), $px->get_directory_index_primary() を追加。
+- extension *.md で、PHPを書けるようにした。PxFW のAPIにアクセスできるようになった。
 - 動的に生成したページをパスで検索した場合に見つけられないことがある不具合を修正。
 - system.output_encoding の設定で文字コード変換するときに、metaタグの体裁を維持するように修正。
 - サイトマップで、トップページに当たるページにIDが振られている場合、これを無視して空白文字列に置き換えるようにした。
-- extension *.md で、PHPを書けるようにした。PxFW のAPIにアクセスできるようになった。
 - プラグインに extensions API を追加。コンテンツの拡張子別の処理をプラグインから制御できるようにした。
-- プラグインに funcs API を追加。単機能制御のAPIを集約する箱として定義。パブリッシュ後のSSIタグの形式を生成する ssi_static_tag() をここに追加した。
 - $theme->mk_link() で、リンク先ページの layout が popup だった場合に別窓のリンクを生成するが、 popup で始まるもの全てで別窓にするように挙動を変更した。
-- コンフィグに拡張子別のパブリッシュ方法を設定する publish_extensions を追加。
-- コンフィグにインクルード機能 _include を追加。
 
 
 ■PxFW 1.0.0b9 (2013/9/28)

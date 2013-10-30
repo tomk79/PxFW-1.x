@@ -22,7 +22,7 @@ class px_cores_req{
 			$this->request_file_path = '/';
 		}
 		if (preg_match('/\/$/', $this->request_file_path)) {
-			$this->request_file_path .= 'index.html';
+			$this->request_file_path .= $this->px->get_directory_index_primary();
 		}
 		$this->session_start();
 	}//__construct()
