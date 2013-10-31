@@ -301,6 +301,7 @@ function contEditPublishTargetPathApply(formElm){
 		}
 
 		if( strlen( $this->path_publish_dir ) && is_dir( $this->path_publish_dir ) ){
+			set_time_limit(60*60*24*4);
 			print '------'."\n";
 			print 'copying files to publish.path_publish_dir.,,'."\n";
 			$copy_from = $this->px->dbh()->get_realpath( $this->path_tmppublish_dir.'htdocs/'.'.'.$this->px->get_install_path().'.'.$this->path_target ).'/';
@@ -310,6 +311,7 @@ function contEditPublishTargetPathApply(formElm){
 			$this->px->dbh()->mkdir_all( $copy_to );
 			$this->px->dbh()->sync_dir( $copy_from , $copy_to );
 			print ''."\n";
+			set_time_limit(30);
 
 			// プラグインによる加工処理
 			//   パブリッシュの後処理 after_copying() を実施
