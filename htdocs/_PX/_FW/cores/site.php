@@ -148,19 +148,19 @@ class px_cores_site{
 				$tmp_array['content'] = preg_replace( '/\/$/si' , '/'.$this->px->get_directory_index_primary() , $tmp_array['content'] );//index.htmlを付加する。
 				if( !strlen( $tmp_array['id'] ) ){
 					//ページID文字列を自動生成
-					$tmp_id = '';
-					if( preg_match( '/^alias\:/s' , $tmp_array['path'] ) ){
-						//エイリアス
-						$tmp_id = ':auto_page_id.'.($num_auto_pid);
-					}else{
-						//物理ページ
-						$tmp_id = $tmp_array['path'];
-						$tmp_id = $this->px->dbh()->trim_extension($tmp_id);
-						$tmp_id = preg_replace( '/\/index$/si' , '/' , $tmp_id );
-						$tmp_id = preg_replace( '/\/+$/si' , '' , $tmp_id );
-						$tmp_id = preg_replace( '/^\/+/si' , '' , $tmp_id );
-						$tmp_id = preg_replace( '/\//si' , '.' , $tmp_id );
-					}
+					$tmp_id = ':auto_page_id.'.($num_auto_pid);
+					// if( preg_match( '/^alias\:/s' , $tmp_array['path'] ) ){
+					// 	//エイリアス
+					// 	$tmp_id = ':auto_page_id.'.($num_auto_pid);
+					// }else{
+					// 	//物理ページ
+					// 	$tmp_id = $tmp_array['path'];
+					// 	$tmp_id = $this->px->dbh()->trim_extension($tmp_id);
+					// 	$tmp_id = preg_replace( '/\/index$/si' , '/' , $tmp_id );
+					// 	$tmp_id = preg_replace( '/\/+$/si' , '' , $tmp_id );
+					// 	$tmp_id = preg_replace( '/^\/+/si' , '' , $tmp_id );
+					// 	$tmp_id = preg_replace( '/\//si' , '.' , $tmp_id );
+					// }
 					$tmp_array['id'] = $tmp_id;
 					unset($tmp_id);
 				}
