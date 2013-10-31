@@ -2,12 +2,12 @@
  * PxFW(Pickles Framework) 更新履歴
  */
 
-■PxFW 1.0.0 (2013/**/**)
+## PxFW 1.0.0 (2013/**/**)
 
 - ******
 
 
-■PxFW 1.0.0b10 (2013/10/31)
+## PxFW 1.0.0b10 (2013/10/31)
 
 - コンフィグに拡張子別のパブリッシュ方法を設定する publish_extensions を追加。
 - コンフィグに省略するファイル名を設定する project.directory_index を追加。
@@ -22,7 +22,7 @@
 - $theme->mk_link() で、リンク先ページの layout が popup だった場合に別窓のリンクを生成するが、 popup で始まるもの全てで別窓にするように挙動を変更した。
 
 
-■PxFW 1.0.0b9 (2013/9/28)
+## PxFW 1.0.0b9 (2013/9/28)
 
 - PX=themes で、ディレクトリ以外と、ドットで始まる名前をテーマとして認識しないように修正。
 - テーマのレイアウトに top(トップページ用レイアウト) を追加。
@@ -34,7 +34,7 @@
 - その他、いくつかの不具合を修正。
 
 
-■PxFW 1.0.0b8 (2013/8/29)
+## PxFW 1.0.0b8 (2013/8/29)
 
 - コンフィグ項目に colors.main を追加。
 - PXコマンドに themes, api.ls.px, api.dlfile.px, api.delete.px を追加。
@@ -44,7 +44,7 @@
 - $px->path_theme_files() でテーマのリソースファイルにアクセスしている場合に、リソースが正しくパブリッシュされない不具合を修正。$px->path_theme_files() が、$px->add_relatedlink() に対して誤ったパスを渡していた。
 
 
-■PxFW 1.0.0b7 (2013/7/20)
+## PxFW 1.0.0b7 (2013/7/20)
 
 - プラグインオブジェクトを生成するタイミングを、"最初に一括して" ではなく、"初めて呼び出されたとき" に変更。
 - $px->get_theme_resource_dir() を $px->path_theme_files() に変更。
@@ -53,9 +53,9 @@
 - $px->path_files(), $px->realpath_files() の引数を、リソースのパスに変更。
 - $px->path_files_cache(), $px->realpath_files_cache() を追加。
 - ドキュメントモジュール仕様を更新。
--- 新たに、ボックスモジュールのカテゴリを追加。
--- .must を追加。.form_elements から独立。
--- ul.horizontal を追加。
+	- 新たに、ボックスモジュールのカテゴリを追加。
+	- .must を追加。.form_elements から独立。
+	- ul.horizontal を追加。
 - テーマリソースキャッシュの仕組みを実装した。
 - $user->get_onetime_hash(), $user->use_onetime_hash() を追加。二重送信防止用の機能として。
 - $site->is_page_in_breadcrumb() を追加。
@@ -66,7 +66,7 @@
 - コンフィグの project.path_top に "/" 以外のパスを設定している場合に、トップページではない "/" がサイトマップ上に存在すると、ただしい階層解釈ができなくなる不具合を修正。
 
 
-■PxFW 1.0.0b6 (2013/6/8)
+## PxFW 1.0.0b6 (2013/6/8)
 
 - $req->get_all_params() を追加。パラメータをすべて返す。
 - プラグインに info API を追加。バージョン情報を返すインターフェイスを定義した。
@@ -82,7 +82,7 @@
 - $theme->mk_link() のオプションに current を追加。true で強制的にカレント、false で強制的にカレントなし、null で自動判別。
 
 
-■PxFW 1.0.0b5 (2013/4/30)
+## PxFW 1.0.0b5 (2013/4/30)
 
 - コンフィグ項目 publish.paths_ignore で、ワイルドカードを使用できるようになった。
 - コンフィグ項目 publish.paths_ignore で、改行のほか、カンマとセミコロンで区切れるようになった。
@@ -93,7 +93,7 @@
 - その他の細かい修正。
 
 
-■PxFW 1.0.0b4 (2013/3/31)
+## PxFW 1.0.0b4 (2013/3/31)
 
 - プラグインに publish API を追加。パブリッシュ時にファイルを加工する。
 - PX=api.get.version を追加。
@@ -101,15 +101,15 @@
 - $site->get_bros(), $site->get_children() に、オプション filter(bool,デフォルト true) を追加。ここに false を渡すと、無条件に全部のページを対象として検索する。
 - パブリッシュ時に、環境によって /index.html しかパブリッシュされない場合がある不具合を修正。
 - ドキュメントモジュール設計を整理。
--- .topic_box, .aside_box を追加。
--- [unit].attention を [parts].attention_box に変更。
--- .anchor_links, .more_links, .page_top を追加。
--- .float_image を .float_media に名称変更。
--- パーセント幅指定の命名規則を、w50per から 1of2 の形式に変更。
--- モジュール命名規則の慣例として、*_box, *-last を追記。
+	- .topic_box, .aside_box を追加。
+	- [unit].attention を [parts].attention_box に変更。
+	- .anchor_links, .more_links, .page_top を追加。
+	- .float_image を .float_media に名称変更。
+	- パーセント幅指定の命名規則を、w50per から 1of2 の形式に変更。
+	- モジュール命名規則の慣例として、*_box, *-last を追記。
 
 
-■PxFW 1.0.0b3 (2013/3/2)
+## PxFW 1.0.0b3 (2013/3/2)
 
 - PX=api.hash を追加。
 - PX=plugins を追加。プラグインにPX Commandインターフェイスを実装できるようになった。
@@ -123,7 +123,7 @@
 - その他の細かい修正。
 
 
-■PxFW 1.0.0b2 (2013/1/6)
+## PxFW 1.0.0b2 (2013/1/6)
 
 - プラグインの仕組みを追加。object, initializeプラグインの実装規則を規定。
 - サイトマップの auth_level の処理を実装。
@@ -144,7 +144,7 @@
 - autoindex機能が作成した目次が、Firefoxで正常に機能しない不具合を修正。
 
 
-■PxFW 1.0.0b1 (2012/12/6)
+## PxFW 1.0.0b1 (2012/12/6)
 
 - 初版リリース。
 
