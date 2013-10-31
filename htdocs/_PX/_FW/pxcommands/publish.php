@@ -189,13 +189,19 @@ function contEditPublishTargetPathApply(formElm){
 		print '------'."\n";
 		print 'PX command "'.$command[0].'" executed.'."\n";
 		if( $this->px->req()->is_cmd() ){
+			$auth_curl = '';
+			$auth_wget = '';
+			if( strlen( $this->px->get_conf('project.auth_name') ) || strlen( $this->px->get_conf('project.auth_password') ) ){
+				$auth_curl = '--user '.t::data2text( $this->px->get_conf('project.auth_name').':'.$this->px->get_conf('project.auth_password') ).' ';
+				$auth_wget = '--http-user='.t::data2text( $this->px->get_conf('project.auth_name') ).' --http-passwd='.t::data2text( $this->px->get_conf('project.auth_password') ).' ';
+			}
 			print 'Sorry, CUI is not supported.'."\n";
 			print 'Please try below...'."\n";
 			print '    - If you can use "curl" command.'."\n";
 			print '      (If your system is Mac OSX, maybe you can use this.)'."\n";
-			print '        $ curl http://{$yourdomain}'.$this->path_target.'?PX=publish.run'."\n";
+			print '        $ curl '.$auth_curl.'http://{$yourdomain}'.$this->path_target.'?PX=publish.run'."\n";
 			print '    - If you can use "wget" command.'."\n";
-			print '        $ wget http://{$yourdomain}'.$this->path_target.'?PX=publish.run'."\n";
+			print '        $ wget '.$auth_wget.'http://{$yourdomain}'.$this->path_target.'?PX=publish.run'."\n";
 			print ''."\n";
 			print ''."\n";
 			print 'exit.'."\n";
