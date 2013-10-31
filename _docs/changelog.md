@@ -1,6 +1,7 @@
-/**
- * PxFW(Pickles Framework) 更新履歴
- */
+
+
+# PxFW(Pickles Framework) 更新履歴
+
 
 ## PxFW 1.0.0 (2013/**/**)
 
