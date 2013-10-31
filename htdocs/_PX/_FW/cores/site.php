@@ -363,6 +363,7 @@ class px_cores_site{
 			$path = $this->sitemap_id_map[$path];
 		}
 		$path = preg_replace('/\/((?:\?|\#).*)?$/si','/'.$this->px->get_directory_index_primary().'$1',$path);//省略された index.html を付加。
+		$parsed_url = parse_url($path);
 
 		if( is_null( $this->sitemap_array[$path] ) ){
 			//  サイトマップにズバリなければ、
@@ -382,6 +383,12 @@ class px_cores_site{
 			default:
 				$path = preg_replace( '/\/$/si' , '/'.$this->px->get_directory_index_primary() , $path );
 				break;
+		}
+
+		if( is_null( $this->sitemap_array[$path] ) ){
+			//  サイトマップにズバリなければ、
+			//  引数からパラメータを外したパスだけで再検索
+			$path = $parsed_url['path'];
 		}
 
 		$rtn = $this->sitemap_array[$path];

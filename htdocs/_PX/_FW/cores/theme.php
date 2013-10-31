@@ -215,6 +215,7 @@ class px_cores_theme{
 	 * @return string href属性値
 	 */
 	public function href( $linkto ){
+		$parsed_url = parse_url($linkto);
 		$tmp_page_info_by_id = $this->px->site()->get_page_info_by_id($linkto);
 		if( $tmp_page_info_by_id['path'] ){
 			$linkto = $tmp_page_info_by_id['path'];
@@ -265,6 +266,13 @@ class px_cores_theme{
 			$path = preg_replace( '/^\/+/' , '' , $path );
 			$path = $this->px->get_install_path().$path;
 		}
+
+		// パラメータを、引数の生の状態に戻す。
+		$parsed_url_fin = parse_url($path);
+		$path = $parsed_url_fin['path'];
+		$path .= (strlen($parsed_url['query'])?'?'.$parsed_url['query']:(strlen($parsed_url_fin['query'])?'?'.$parsed_url_fin['query']:''));
+		$path .= (strlen($parsed_url['fragment'])?'#'.$parsed_url['fragment']:(strlen($parsed_url_fin['fragment'])?'?'.$parsed_url_fin['fragment']:''));
+
 		return $path;
 	}//href()
 
