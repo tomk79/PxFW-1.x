@@ -2,7 +2,7 @@
  * PxFW(Pickles Framework) 更新履歴
  */
 
-■PxFW 1.0.0b10 (2013/**/**)
+■PxFW 1.0.0b10 (2013/10/31)
 
 - コンフィグに拡張子別のパブリッシュ方法を設定する publish_extensions を追加。
 - コンフィグに省略するファイル名を設定する project.directory_index を追加。
