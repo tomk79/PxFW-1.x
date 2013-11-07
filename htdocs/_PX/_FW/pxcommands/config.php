@@ -140,13 +140,7 @@ class px_pxcommands_config extends px_bases_pxcommand{
 
 		$src .= '<div class="unit">'."\n";
 		$src .= '<h2>プラグイン</h2>'."\n";
-		$tmp_path_plugins_base_dir = $this->px->get_conf('paths.px_dir').'plugins/';
-		$tmp_plugin_list = $this->px->dbh()->ls( $tmp_path_plugins_base_dir );
-		foreach( $tmp_plugin_list as $tmp_plugin_key=>$tmp_plugin_name ){
-			if(!is_dir($tmp_path_plugins_base_dir.$tmp_plugin_name)){
-				unset( $tmp_plugin_list[$tmp_plugin_key] );
-			}
-		}
+		$tmp_plugin_list = $this->px->get_plugin_list();
 		if( !count($tmp_plugin_list) ){
 			$src .= '<p>プラグインは組み込まれていません。</p>'."\n";
 		}else{
@@ -165,11 +159,11 @@ class px_pxcommands_config extends px_bases_pxcommand{
 			$src .= '			</tr>'."\n";
 			$src .= '		</thead>'."\n";
 			$src .= '		<tbody>'."\n";
-			foreach( $tmp_plugin_list as $tmp_plugin_name ){
+			foreach( $tmp_plugin_list as $tmp_plugin_name=>$tmp_plugin_info ){
 				$src .= '			<tr>'."\n";
 				$src .= '				<th style="word-break:break-all;">'.t::h($tmp_plugin_name).'</th>'."\n";
 				$plugin_version = '????';
-				if( is_file( $tmp_path_plugins_base_dir.$tmp_plugin_name.'/register/info.php' ) ){
+				if( is_file( $tmp_plugin_info['path'].'register/info.php' ) ){
 					$class_name_info = $this->px->load_px_plugin_class('/'.$tmp_plugin_name.'/register/info.php');
 					if($class_name_info){
 						$obj_info = new $class_name_info();
@@ -179,25 +173,25 @@ class px_pxcommands_config extends px_bases_pxcommand{
 					}
 				}
 				$src .= '				<td class="center" style="word-break:break-all;">'.t::h($plugin_version).'</td>'."\n";
-				$src .= '				<td class="center">'.(is_file( $tmp_path_plugins_base_dir.$tmp_plugin_name.'/register/object.php' )?'○':'-').'</td>'."\n";
-				$src .= '				<td class="center">'.(is_file( $tmp_path_plugins_base_dir.$tmp_plugin_name.'/register/initialize.php' )?'○':'-').'</td>'."\n";
-				$src .= '				<td class="center">'.(is_file( $tmp_path_plugins_base_dir.$tmp_plugin_name.'/register/pxcommand.php' )?'○':'-').'</td>'."\n";
-				$src .= '				<td class="center">'.(is_file( $tmp_path_plugins_base_dir.$tmp_plugin_name.'/register/outputfilter.php' )?'○':'-').'</td>'."\n";
+				$src .= '				<td class="center">'.(is_file( $tmp_plugin_info['path'].'register/object.php' )?'○':'-').'</td>'."\n";
+				$src .= '				<td class="center">'.(is_file( $tmp_plugin_info['path'].'register/initialize.php' )?'○':'-').'</td>'."\n";
+				$src .= '				<td class="center">'.(is_file( $tmp_plugin_info['path'].'register/pxcommand.php' )?'○':'-').'</td>'."\n";
+				$src .= '				<td class="center">'.(is_file( $tmp_plugin_info['path'].'register/outputfilter.php' )?'○':'-').'</td>'."\n";
 				$exts = array();
-				$plugin_extension_list = $this->px->dbh()->ls( $tmp_path_plugins_base_dir.$tmp_plugin_name.'/register/extensions/' );
+				$plugin_extension_list = $this->px->dbh()->ls( $tmp_plugin_info['path'].'/register/extensions/' );
 				foreach( $plugin_extension_list as $plugin_extension_basename ){
 					$plugin_extension_basename = $this->px->dbh()->trim_extension( $plugin_extension_basename );
 					$plugin_extension_class = $this->px->load_px_plugin_class( $tmp_plugin_name.'/register/extensions/'.$plugin_extension_basename.'.php' );
 					array_push( $exts, (strlen($plugin_extension_class)?$plugin_extension_basename:'<span class="error">'.$plugin_extension_basename.'(unavailable)</span>') );
 				}
 				$src .= '				<td class="center">'.(count($exts)?implode(', ', $exts):'-').'</td>'."\n";
-				$src .= '				<td class="center">'.(is_file( $tmp_path_plugins_base_dir.$tmp_plugin_name.'/register/funcs.php' )?'○':'-').'</td>'."\n";
+				$src .= '				<td class="center">'.(is_file( $tmp_plugin_info['path'].'register/funcs.php' )?'○':'-').'</td>'."\n";
 				$src .= '			</tr>'."\n";
 			}
 			$src .= '		</tbody>'."\n";
 			$src .= '	</table>'."\n";
 		}
-		unset($tmp_path_plugins_base_dir,$tmp_plugin_list,$tmp_plugin_name,$tmp_class_name);
+		unset($tmp_plugin_list,$tmp_plugin_name,$tmp_class_name);
 		$src .= '</div><!-- /.unit -->'."\n";
 
 		print $this->html_template($src);

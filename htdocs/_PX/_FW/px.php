@@ -161,8 +161,8 @@ class px_px{
 				$extension = $page_info['extension'];
 			}
 			$class_name = $this->load_px_class( 'extensions/'.$extension.'.php' );
-			$plugins_list = $this->dbh()->ls( $this->get_conf('paths.px_dir').'plugins/' );
-			foreach( $plugins_list as $tmp_plugin_name ){
+			$plugins_list = $this->get_plugin_list();
+			foreach( $plugins_list as $tmp_plugin_name=>$tmp_plugin_info ){
 				// プラグイン内のextensionを検索
 				$tmp_class_name = $this->load_px_plugin_class( $tmp_plugin_name.'/register/extensions/'.$extension.'.php' );
 				if( strlen($tmp_class_name) ){
@@ -170,7 +170,7 @@ class px_px{
 					break;
 				}
 			}
-			unset($tmp_class_name, $tmp_plugin_name);
+			unset($tmp_class_name, $tmp_plugin_name, $tmp_plugin_info);
 			if( $class_name ){
 				$obj_extension = new $class_name( $this );
 				$obj_extension->execute( $path_content );
@@ -677,6 +677,29 @@ class px_px{
 		}
 		return $this->plugin_objects[$plugin_name];
 	}//get_plugin_object()
+
+	/**
+	 * プラグインの一覧を得る
+	 */
+	public function get_plugin_list(){
+		static $rtn = null;
+		if( is_array($rtn) ){
+			return $rtn;
+		}
+		$rtn = array();
+		$tmp_path_plugins_base_dir = $this->get_conf('paths.px_dir').'plugins/';
+		$items = $this->dbh()->ls($tmp_path_plugins_base_dir);
+		sort($items, SORT_NATURAL|SORT_FLAG_CASE);//名前順に並び替え。検索の順番を保証するため。
+		foreach( $items as $base_name ){
+			if( !is_dir($tmp_path_plugins_base_dir.$base_name) ){
+				continue;
+			}
+			$rtn[$base_name] = array();
+			$rtn[$base_name]['name'] = $base_name;
+			$rtn[$base_name]['path'] = $tmp_path_plugins_base_dir.$base_name.'/';
+		}
+		return $rtn;
+	}//get_plugin_list()
 
 	/**
 	 * PxFWのテーマが定義するクラスファイルをロードする。
