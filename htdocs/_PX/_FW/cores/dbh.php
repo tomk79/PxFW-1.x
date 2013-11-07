@@ -1827,6 +1827,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 			//PxFW 0.6.4 追加
 			$RTN = @t::convert_encoding( $RTN , mb_internal_encoding() );
 		}
+		sort($RTN, SORT_NATURAL|SORT_FLAG_CASE);
 		return	$RTN;
 	}//ls()
 
