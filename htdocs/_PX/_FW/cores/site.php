@@ -362,8 +362,21 @@ class px_cores_site{
 			//ページIDで指定された場合、パスに置き換える
 			$path = $this->sitemap_id_map[$path];
 		}
-		$path = preg_replace('/\/((?:\?|\#).*)?$/si','/'.$this->px->get_directory_index_primary().'$1',$path);//省略された index.html を付加。
+
+		$path = preg_replace('/\/'.$this->px->get_directory_index_preg_pattern().'((?:\?|\#).*)?$/si','/$1',$path);//directory_index を一旦省略
+
+		$tmp_path = $path;
+		if( is_null( $this->sitemap_array[$path] ) ){
+			foreach( $this->px->get_directory_index() as $index_file_name ){
+				$tmp_path = preg_replace('/\/((?:\?|\#).*)?$/si','/'.$index_file_name.'$1',$path);//省略された index.html を付加。
+				if( !is_null( $this->sitemap_array[$tmp_path] ) ){
+					break;
+				}
+			}
+		}
+		$path = $tmp_path;
 		$parsed_url = parse_url($path);
+		unset($tmp_path);
 
 		if( is_null( $this->sitemap_array[$path] ) ){
 			//  サイトマップにズバリなければ、
