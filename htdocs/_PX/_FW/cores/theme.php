@@ -249,7 +249,7 @@ class px_cores_theme{
 				continue;
 			}
 			unset($tmp_path , $tmp_matched);
-		}else{
+		}elseif( $this->px->site()->get_path_type( $linkto ) == 'normal' ){
 			$path = $linkto;
 		}
 
