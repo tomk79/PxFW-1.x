@@ -14,6 +14,7 @@ class px_extensions_txt extends px_bases_extension{
 		@header('Content-type: text/html; charset=UTF-8');//デフォルトのヘッダー
 
 		$src = @file_get_contents( $path_content );
+		$src = preg_replace( '/^'.preg_quote(base64_decode('77u/'),'/').'/', '', $src );//	BOMを削除する
 		$src = htmlspecialchars($src);
 		$src = preg_replace('/\r\n|\r|\n/','<br />'."\r\n",$src);
 		$src = $this->px->theme()->bind_contents( $src );

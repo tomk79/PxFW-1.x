@@ -122,6 +122,8 @@ class px_cores_theme{
 		@include( $path_template_file );
 		$src = ob_get_clean();
 
+		$src = preg_replace( '/^'.preg_quote(base64_decode('77u/'),'/').'/', '', $src );//	BOMを削除する
+
 		return $src;
 	}//bind_contents();
 

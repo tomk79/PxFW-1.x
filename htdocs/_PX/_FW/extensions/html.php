@@ -17,6 +17,10 @@ class px_extensions_html extends px_bases_extension{
 		$px = $this->px;
 		@include( $path_content );
 		$src = ob_get_clean();
+
+		$src = preg_replace( '/^'.preg_quote(base64_decode('77u/'),'/').'/', '', $src );//	BOMを削除する
+
+		//	BOMを削除する
 		$src = $this->px->theme()->bind_contents( $src );
 		$src = $this->px->theme()->output_filter($src, 'html');
 		print $src;
