@@ -314,7 +314,11 @@ function contEditPublishTargetPathApply(formElm){
 			$copy_to   = $this->px->dbh()->get_realpath( $this->path_publish_dir.'.'.$this->path_target );
 			print 'copy from: '.$copy_from ."\n";
 			print 'copy to:   '.$copy_to   ."\n";
-			$this->px->dbh()->mkdir_all( $copy_to );
+			if(is_dir($copy_from)){
+				$this->px->dbh()->mkdir_all( $copy_to );
+			}elseif(is_file($copy_from)){
+				$this->px->dbh()->mkdir_all( dirname($copy_to) );
+			}
 			$this->px->dbh()->sync_dir( $copy_from , $copy_to );
 			print ''."\n";
 			set_time_limit(30);
