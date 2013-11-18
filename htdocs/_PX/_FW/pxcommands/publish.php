@@ -310,8 +310,8 @@ function contEditPublishTargetPathApply(formElm){
 			set_time_limit(60*60*24*4);
 			print '------'."\n";
 			print 'copying files to publish.path_publish_dir...'."\n";
-			$copy_from = $this->px->dbh()->get_realpath( $this->path_tmppublish_dir.'htdocs/'.'.'.$this->px->get_install_path().'.'.$this->path_target );
-			$copy_to   = $this->px->dbh()->get_realpath( $this->path_publish_dir.'.'.$this->px->get_install_path().'.'.$this->path_target );
+			$copy_from = $this->px->dbh()->get_realpath( $this->path_tmppublish_dir.'htdocs/'.'.'.$this->path_target );
+			$copy_to   = $this->px->dbh()->get_realpath( $this->path_publish_dir.'.'.$this->path_target );
 			print 'copy from: '.$copy_from ."\n";
 			print 'copy to:   '.$copy_to   ."\n";
 			$this->px->dbh()->mkdir_all( $copy_to );
