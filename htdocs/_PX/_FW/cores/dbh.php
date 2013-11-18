@@ -49,6 +49,13 @@ class px_cores_dbh{
 	 */
 	public function __construct( $px ){
 		$this->px = $px;
+
+		if( strlen( $this->px->get_conf('system.file_default_permission') ) ){
+			$this->default_permission['file'] = octdec($this->px->get_conf('system.file_default_permission'));
+		}
+		if( strlen( $this->px->get_conf('system.dir_default_permission') ) ){
+			$this->default_permission['dir'] = octdec($this->px->get_conf('system.dir_default_permission'));
+		}
 	}
 
 	#******************************************************************************************************************

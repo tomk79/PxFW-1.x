@@ -6,6 +6,7 @@
 ## PxFW 1.0.0 (2013/\*\*/\*\*)
 
 - $px->get_plugin_list() を追加。
+- コンフィグ項目に、system.file_default_permission, system.dir_default_permission を追加。
 - $site->get_page_info() の引数 $path にパラメータやアンカーが付いている場合の処理を修正。
 - $theme->href() の引数 $linkto にパラメータやアンカーが付いている場合の処理を修正。
 
