@@ -83,7 +83,22 @@ function contEditPublishTargetPathApply(formElm){
 </script>
 <?php
 		$src .= ob_get_clean();
-		if( $this->is_locked() ){
+		if(!is_dir($this->path_docroot_dir)){
+			$src .= '<div class="unit">'."\n";
+			$src .= '	<p class="error">ドキュメントルートディレクトリが存在しません。</p>'."\n";
+			$src .= '	<ul><li style="word-break:break-all;">'.t::h( $this->path_docroot_dir ).'</li></ul>'."\n";
+			$src .= '</div><!-- /.unit -->'."\n";
+		}elseif(!is_dir($this->path_tmppublish_dir)){
+			$src .= '<div class="unit">'."\n";
+			$src .= '	<p class="error">パブリッシュ先ディレクトリが存在しません。</p>'."\n";
+			$src .= '	<ul><li style="word-break:break-all;">'.t::h( $this->path_tmppublish_dir ).'</li></ul>'."\n";
+			$src .= '</div><!-- /.unit -->'."\n";
+		}elseif(!is_writable($this->path_tmppublish_dir)){
+			$src .= '<div class="unit">'."\n";
+			$src .= '	<p class="error">パブリッシュ先ディレクトリに書き込み許可がありません。</p>'."\n";
+			$src .= '	<ul><li style="word-break:break-all;">'.t::h( $this->path_tmppublish_dir ).'</li></ul>'."\n";
+			$src .= '</div><!-- /.unit -->'."\n";
+		}elseif( $this->is_locked() ){
 			$src .= '<div class="unit">'."\n";
 			$src .= '	<p>パブリッシュは<strong>ロックされています</strong>。</p>'."\n";
 			$src .= '	<p>'."\n";
@@ -222,13 +237,19 @@ function contEditPublishTargetPathApply(formElm){
 
 		if(!is_dir($this->path_docroot_dir)){
 			print '------'."\n";
-			print 'path_docroot_dir is NOT exists.'."\n";
+			print '[ERROR] path_docroot_dir is NOT exists.'."\n";
 			print 'exit.'."\n";
 			exit;
 		}
 		if(!is_dir($this->path_tmppublish_dir)){
 			print '------'."\n";
-			print 'path_tmppublish_dir is NOT exists.'."\n";
+			print '[ERROR] path_tmppublish_dir is NOT exists.'."\n";
+			print 'exit.'."\n";
+			exit;
+		}
+		if(!is_writable($this->path_tmppublish_dir)){
+			print '------'."\n";
+			print '[ERROR] path_tmppublish_dir is NOT writable.'."\n";
 			print 'exit.'."\n";
 			exit;
 		}
@@ -374,11 +395,12 @@ function contEditPublishTargetPathApply(formElm){
 		if( !is_dir($this->px->get_conf('paths.px_dir').'_sys/publish/') ){
 			$this->px->dbh()->mkdir($this->px->get_conf('paths.px_dir').'_sys/publish/');
 		}
-		$this->path_tmppublish_dir = t::realpath($this->px->get_conf('paths.px_dir').'_sys/publish/').'/';
 
-		array_push( $this->paths_ignore , t::realpath($this->px->get_conf('paths.px_dir')) );
-		array_push( $this->paths_ignore , t::realpath($this->path_docroot_dir.'/.htaccess') );
-		array_push( $this->paths_ignore , t::realpath($this->path_docroot_dir.'/_px_execute.php') );
+		$this->path_tmppublish_dir = $this->px->dbh()->get_realpath($this->px->get_conf('paths.px_dir').'_sys/publish/').'/';
+
+		array_push( $this->paths_ignore , $this->px->dbh()->get_realpath($this->px->get_conf('paths.px_dir')) );
+		array_push( $this->paths_ignore , $this->px->dbh()->get_realpath($this->path_docroot_dir.'/.htaccess') );
+		array_push( $this->paths_ignore , $this->px->dbh()->get_realpath($this->path_docroot_dir.'/_px_execute.php') );
 		array_push( $this->paths_ignore , '*/.DS_Store' );
 		array_push( $this->paths_ignore , '*/Thumbs.db' );
 		array_push( $this->paths_ignore , '*.nopublish/*' );
