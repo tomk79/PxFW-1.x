@@ -90,13 +90,23 @@ function contEditPublishTargetPathApply(formElm){
 			$src .= '</div><!-- /.unit -->'."\n";
 		}elseif(!is_dir($this->path_tmppublish_dir)){
 			$src .= '<div class="unit">'."\n";
-			$src .= '	<p class="error">パブリッシュ先ディレクトリが存在しません。</p>'."\n";
+			$src .= '	<p class="error">パブリッシュ先一時ディレクトリが存在しません。</p>'."\n";
 			$src .= '	<ul><li style="word-break:break-all;">'.t::h( $this->path_tmppublish_dir ).'</li></ul>'."\n";
 			$src .= '</div><!-- /.unit -->'."\n";
 		}elseif(!is_writable($this->path_tmppublish_dir)){
 			$src .= '<div class="unit">'."\n";
-			$src .= '	<p class="error">パブリッシュ先ディレクトリに書き込み許可がありません。</p>'."\n";
+			$src .= '	<p class="error">パブリッシュ先一時ディレクトリに書き込み許可がありません。</p>'."\n";
 			$src .= '	<ul><li style="word-break:break-all;">'.t::h( $this->path_tmppublish_dir ).'</li></ul>'."\n";
+			$src .= '</div><!-- /.unit -->'."\n";
+		}elseif( strlen($this->px->get_conf('publish.path_publish_dir')) && !is_dir($this->px->get_conf('publish.path_publish_dir')) ){
+			$src .= '<div class="unit">'."\n";
+			$src .= '	<p class="error">パブリッシュ先ディレクトリが存在しません。</p>'."\n";
+			$src .= '	<ul><li style="word-break:break-all;">'.t::h( $this->px->dbh()->get_realpath( $this->px->get_conf('publish.path_publish_dir') ).'/' ).'</li></ul>'."\n";
+			$src .= '</div><!-- /.unit -->'."\n";
+		}elseif( strlen($this->px->get_conf('publish.path_publish_dir')) && !is_writable($this->px->get_conf('publish.path_publish_dir')) ){
+			$src .= '<div class="unit">'."\n";
+			$src .= '	<p class="error">パブリッシュ先ディレクトリに書き込み許可がありません。</p>'."\n";
+			$src .= '	<ul><li style="word-break:break-all;">'.t::h( $this->px->dbh()->get_realpath( $this->px->get_conf('publish.path_publish_dir') ).'/' ).'</li></ul>'."\n";
 			$src .= '</div><!-- /.unit -->'."\n";
 		}elseif( $this->is_locked() ){
 			$src .= '<div class="unit">'."\n";
@@ -250,6 +260,18 @@ function contEditPublishTargetPathApply(formElm){
 		if(!is_writable($this->path_tmppublish_dir)){
 			print '------'."\n";
 			print '[ERROR] path_tmppublish_dir is NOT writable.'."\n";
+			print 'exit.'."\n";
+			exit;
+		}
+		if( strlen($this->px->get_conf('publish.path_publish_dir')) && !is_dir($this->px->get_conf('publish.path_publish_dir')) ){
+			print '------'."\n";
+			print '[ERROR] path_publish_dir is NOT exists.'."\n";
+			print 'exit.'."\n";
+			exit;
+		}
+		if( strlen($this->px->get_conf('publish.path_publish_dir')) && !is_writable($this->px->get_conf('publish.path_publish_dir')) ){
+			print '------'."\n";
+			print '[ERROR] path_publish_dir is NOT writable.'."\n";
 			print 'exit.'."\n";
 			exit;
 		}
