@@ -549,7 +549,7 @@ function contEditPublishTargetPathApply(formElm){
 		if( $this->done_items[$path] ){ return true; }
 		array_push( $this->queue_items , $path );
 		$this->done_items[$path] = true;
-		print '[add_queue] '.$path."\n";
+		print '[add_queue] '.$path.' - remaining: '.count($this->queue_items).''."\n";
 		return true;
 	}
 
@@ -662,7 +662,7 @@ function contEditPublishTargetPathApply(formElm){
 
 
 				$result = $httpaccess->get_status_cd();
-				print ' [HTTP Status: '.$result.']';
+				print ' [HTTP Status: '.$result.']'.' - remaining: '.count($this->queue_items).''."\n";
 
 				$relatedlink = $httpaccess->get_response(strtolower('X-PXFW-RELATEDLINK'));
 				if( strlen($relatedlink) ){
@@ -701,7 +701,7 @@ function contEditPublishTargetPathApply(formElm){
 				}
 				$this->px->dbh()->mkdir_all( dirname($this->path_tmppublish_dir.'/htdocs/'.$path) );
 				$result = $this->px->dbh()->file_overwrite( $this->path_tmppublish_dir.'/htdocs/'.$path , $tmp_src );
-				print '';
+				print ''.' - remaining: '.count($this->queue_items).''."\n";
 
 				$this->publish_log( array(
 					'result'=>($result?true:false),
@@ -718,7 +718,7 @@ function contEditPublishTargetPathApply(formElm){
 			default:
 				$this->px->dbh()->mkdir_all( dirname($this->path_tmppublish_dir.'/htdocs/'.$path) );
 				$result = $this->px->dbh()->copy( $_SERVER['DOCUMENT_ROOT'].$path , $this->path_tmppublish_dir.'/htdocs/'.$path );
-				print '';
+				print ''.' - remaining: '.count($this->queue_items).''."\n";
 
 				$this->publish_log( array(
 					'result'=>($result?true:false),
@@ -742,7 +742,6 @@ function contEditPublishTargetPathApply(formElm){
 			$plugin_object->execute($this->px->dbh()->get_realpath($this->path_tmppublish_dir.'/htdocs/'.$path), $extension, $publish_type);
 		}
 
-		print ' - remaining: '.count($this->queue_items).''."\n";
 		return true;
 	}
 
