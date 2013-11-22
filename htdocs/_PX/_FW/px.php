@@ -856,7 +856,7 @@ class px_px{
 		if( strlen( $option['content-type'] ) ){
 			$contenttype = $option['content-type'];
 		}else{
-			$contenttype = 'x-download/download';
+			$contenttype = 'application/octet-stream';
 		}
 		if( strlen( $contenttype ) ){
 			if( strlen( $option['charset'] ) ){
@@ -916,7 +916,7 @@ class px_px{
 		if( strlen( $option['content-type'] ) ){
 			$contenttype = $option['content-type'];
 		}else{
-			$contenttype = 'x-download/download';
+			$contenttype = 'application/octet-stream';
 		}
 		if( strlen( $contenttype ) ){
 			if( strlen( $option['charset'] ) ){
