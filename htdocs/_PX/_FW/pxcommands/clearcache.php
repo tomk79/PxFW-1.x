@@ -144,14 +144,21 @@ class px_pxcommands_clearcache extends px_bases_pxcommand{
 	 * @return array
 	 */
 	private function check_status(){
+		$lockfilepath = $this->px->get_conf('paths.px_dir').'_sys/publish/applock.txt';
+		$lockfile_expire = 60*30;//有効期限は30分
+
 		$rtn = array(
 			'result'=>true,
 			'message'=>null,
 		);
-		if( is_file( $this->px->get_conf('paths.px_dir').'_sys/publish/applock.txt' ) ){
-			//パブリッシュ中はキャッシュクリアしてはいけない。
-			$rtn['result'] = false;
-			$rtn['message'] = 'PX=publish is running on background.';
+		if( is_file( $lockfilepath ) ){
+			if( ( time() - filemtime($lockfilepath) ) > $lockfile_expire ){
+				// ロックファイルの有効期限切れ
+			}else{
+				//パブリッシュ中はキャッシュクリアしてはいけない。
+				$rtn['result'] = false;
+				$rtn['message'] = 'publish is running on background. (lockfile updated: '.@date('Y-m-d H:i:s', filemtime($lockfilepath)).')';
+			}
 		}
 		return $rtn;
 	}//check_status()

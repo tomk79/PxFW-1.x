@@ -8,8 +8,9 @@ $this->load_px_class('/bases/pxcommand.php');
 class px_pxcommands_publish extends px_bases_pxcommand{
 
 	private $path_docroot_dir;
-	private $path_publish_dir;	//パブリッシュ先ディレクトリ
-	private $path_tmppublish_dir;//一時書き出しディレクトリ(固定)
+	private $path_publish_dir; //パブリッシュ先ディレクトリ
+	private $path_tmppublish_dir; //一時書き出しディレクトリ(固定)
+	private $path_lockfile; //ロックファイル
 	private $paths_ignore = array();
 
 	private $queue_items = array();//←パブリッシュ対象の一覧
@@ -118,11 +119,15 @@ function contEditPublishTargetPathApply(formElm){
 			$src .= '	<p>'."\n";
 			$src .= '		ロックファイルの内容を下記に示します。<br />'."\n";
 			$src .= '	</p>'."\n";
-			$src .= '	<blockquote><pre>'.t::h( $this->px->dbh()->file_get_contents( $this->path_tmppublish_dir.'applock.txt' ) ).'</pre></blockquote>'."\n";
+			$src .= '	<blockquote><pre>'.t::h( $this->px->dbh()->file_get_contents( $this->path_lockfile ) ).'</pre></blockquote>'."\n";
+			$src .= '	<p>'."\n";
+			$src .= '		ロックファイルは下記の時刻に更新されました。<br />'."\n";
+			$src .= '	</p>'."\n";
+			$src .= '	<blockquote><pre>'.t::h( date( 'Y-m-d H:i:s', filemtime( $this->path_lockfile ) ) ).'</pre></blockquote>'."\n";
 			$src .= '	<p>'."\n";
 			$src .= '		ロックファイルは、次のパスに存在します。<br />'."\n";
 			$src .= '	</p>'."\n";
-			$src .= '	<blockquote><pre>'.t::h( realpath( $this->path_tmppublish_dir.'applock.txt' ) ).'</pre></blockquote>'."\n";
+			$src .= '	<blockquote><pre>'.t::h( realpath( $this->path_lockfile ) ).'</pre></blockquote>'."\n";
 			$src .= '</div><!-- /.unit -->'."\n";
 		}else{
 			$src .= '<div class="unit">'."\n";
@@ -237,6 +242,7 @@ function contEditPublishTargetPathApply(formElm){
 		print '------'."\n";
 		print 'path_docroot_dir => '.$this->path_docroot_dir."\n";
 		print 'path_tmppublish_dir => '.$this->path_tmppublish_dir."\n";
+		print 'path_lockfile => '.$this->path_lockfile."\n";
 		print 'path_publish_dir => '.$this->path_publish_dir."\n";
 		print 'path_target => '.$this->path_target.'*'."\n";
 		print 'paths_ignore => '."\n";
@@ -280,6 +286,7 @@ function contEditPublishTargetPathApply(formElm){
 		if( !$this->lock() ){//ロック
 			print '------'."\n";
 			print 'publish is now locked.'."\n";
+			print '  (lockfile updated: '.@date('Y-m-d H:i:s', filemtime($this->path_lockfile)).')'."\n";
 			print 'Try again later...'."\n";
 			print 'exit.'."\n";
 			exit;
@@ -296,7 +303,7 @@ function contEditPublishTargetPathApply(formElm){
 
 		print '------'."\n";
 		print '* start scaning directory.'."\n";
-		set_time_limit(60*60);
+		set_time_limit(60*60*3);
 		$this->scan_dirs( '/' );
 		set_time_limit(300);
 		flush();
@@ -333,10 +340,11 @@ function contEditPublishTargetPathApply(formElm){
 			}
 			$path = array_pop( $this->queue_items );
 			flush();
-			set_time_limit(60*60);
+			set_time_limit(60*60*3);
 			$this->publish_file( $path );
 			set_time_limit(30);
 			flush();
+			$this->touch_lockfile();
 		}
 		print 'done.'."\n";
 		print ''."\n";
@@ -419,6 +427,7 @@ function contEditPublishTargetPathApply(formElm){
 		}
 
 		$this->path_tmppublish_dir = $this->px->dbh()->get_realpath($this->px->get_conf('paths.px_dir').'_sys/publish/').'/';
+		$this->path_lockfile = $this->path_tmppublish_dir.'applock.txt';
 
 		array_push( $this->paths_ignore , $this->px->dbh()->get_realpath($this->px->get_conf('paths.px_dir')) );
 		array_push( $this->paths_ignore , $this->px->dbh()->get_realpath($this->path_docroot_dir.'/.htaccess') );
@@ -795,7 +804,7 @@ function contEditPublishTargetPathApply(formElm){
 	 * パブリッシュをロックする
 	 */
 	private function lock(){
-		$lockfilepath = $this->path_tmppublish_dir.'applock.txt';
+		$lockfilepath = $this->path_lockfile;
 		$timeout_limit = 10;
 
 		if( !@is_dir( dirname( $lockfilepath ) ) ){
@@ -832,14 +841,11 @@ function contEditPublishTargetPathApply(formElm){
 	 * パブリッシュがロックされているか確認する
 	 */
 	private function is_locked(){
-		$lockfilepath = $this->path_tmppublish_dir.'applock.txt';
+		$lockfilepath = $this->path_lockfile;
 		$lockfile_expire = 60*30;//有効期限は30分
 
 		if( is_file($lockfilepath) ){
-			$file_bin = $this->px->dbh()->file_get_contents( $lockfilepath );
-			$file_bin_ary = explode( "\r\n" , $file_bin );
-			$file_time = $this->px->dbh()->datetime2int( $file_bin_ary[1] );
-			if( ( time() - $file_time ) > $lockfile_expire ){
+			if( ( time() - filemtime($lockfilepath) ) > $lockfile_expire ){
 				#	有効期限を過ぎていたら、ロックは成立する。
 				return false;
 			}
@@ -852,14 +858,28 @@ function contEditPublishTargetPathApply(formElm){
 	 * パブリッシュロックを解除する
 	 */
 	private function unlock(){
-		$lockfilepath = $this->path_tmppublish_dir.'applock.txt';
+		$lockfilepath = $this->path_lockfile;
 
 		#	PHPのFileStatusCacheをクリア
 		clearstatcache();
 
-		unlink( $lockfilepath );
-		return	$RTN;
+		return unlink( $lockfilepath );
 	}//unlock()
+
+	/**
+	 * パブリッシュロックファイルの更新日を更新する
+	 */
+	private function touch_lockfile(){
+		$lockfilepath = $this->path_lockfile;
+
+		#	PHPのFileStatusCacheをクリア
+		clearstatcache();
+		if( !is_file( $lockfilepath ) ){
+			return false;
+		}
+
+		return touch( $lockfilepath );
+	}//touch_lockfile()
 
 	/**
 	 * その他の内部エラーを記録
