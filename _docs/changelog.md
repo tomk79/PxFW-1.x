@@ -3,6 +3,11 @@
 # PxFW(Pickles Framework) 更新履歴
 
 
+## PxFW 1.0.0b12 (2013/\*\*/\*\*)
+
+- ------
+
+
 ## PxFW 1.0.0b11 (2013/11/30)
 
 - $px->get_plugin_list() を追加。
