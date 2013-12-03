@@ -1,0 +1,53 @@
+@charset "UTF-8";
+
+body{
+	text-align:center;
+	padding:0px 0px 0px 0px;
+	margin:0px 0px 0px 0px;
+}
+body .theme_outline{
+	text-align:left;
+	width:800px;
+	margin:0px auto;
+}
+body .theme_outline .theme_header{
+}
+body .theme_outline .theme_header .theme_logo{
+}
+body .theme_outline .theme_header .theme_logo a{
+	font-size:150%;
+	font-weight:bold;
+}
+
+body .theme_outline .theme_middle{
+	clear:both;
+}
+body .theme_outline .theme_middle .theme_column1{
+	width:74%;
+	float:left;
+}
+
+body .theme_outline .theme_middle .theme_column2{
+	width:24%;
+	float:right;
+}
+
+body .theme_outline .theme_footer{
+	clear:both;
+}
+
+/**
+ * パンくず
+ */
+.breadcrumb{
+}
+.breadcrumb ul,
+.breadcrumb ul li{
+	display: inline;
+	list-style-type: none;
+	margin:0px;
+	padding:0px;
+	font-size: 85%;
+}
+
+
