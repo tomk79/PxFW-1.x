@@ -1,3 +1,10 @@
+<?php
+	$obj_funcs = $this->px->load_pxtheme_class('/funcs.php');
+	$obj_funcs = new $obj_funcs($this->px);
+
+	$colors = $obj_funcs->get_color_scheme();
+	$hsb = t::color_hex2hsb( $colors['main'] );
+?>
 @charset "UTF-8";
 
 /*
@@ -5,3 +12,23 @@
 新しいモジュールを追加する場合は、
 このファイルに記述します。
 */
+
+
+.contents h2{
+	background-color:<?php print $colors['main2']; ?>;
+	color:<?php print $colors['main2x']; ?>;
+	padding:0.3em 1em;
+}
+.contents h3{
+	background-color:<?php print $colors['main3']; ?>;
+	color:<?php print $colors['main3x']; ?>;
+	border-bottom:1px solid <?php print $colors['main']; ?>;
+}
+
+.contents .thumb_list{}
+@media all and (max-width:620px){
+	.thumb_list ul li{
+		font-size:x-small;
+	}
+}
+

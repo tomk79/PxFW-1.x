@@ -1,4 +1,7 @@
 <?php
+	$obj_funcs = $this->px->load_pxtheme_class('/funcs.php');
+	$obj_funcs = new $obj_funcs($this->px);
+
 	//↓ $page_info にページの情報を格納しています。
 	//	 test::var_dump( $page_info ); で、変数の内容を確認できます。
 	$page_info = $this->px->site()->get_current_page_info();
@@ -27,13 +30,16 @@
 	</head>
 	<body>
 		<div class="theme_outline" id="page_top">
-			<div class="theme_header">
+			<header>
 				<div class="theme_logo"><a href="<?php print t::h( $px->theme()->href('') ); ?>"><?php print t::h($px->get_conf('project.name')); ?></a></div>
-			</div><!-- /.theme_header -->
+			</header>
 			<div class="theme_middle">
 				<div class="theme_column1">
-					<h1><?php print t::text2html( $page_info['title_h1'] ); ?></h1>
-					<div id="content" class="contents">
+					<div class="theme_column1-header">
+						<h1><?php print t::text2html( $page_info['title_h1'] ); ?></h1>
+					</div>
+					<div class="theme_column1-content">
+						<div id="content" class="contents">
 
 <?php
 	//↓コンテンツから受け取った
@@ -41,15 +47,17 @@
 	print $px->theme()->pull_content();
 ?>
 
-					</div><!-- /#content -->
+						</div><!-- /#content -->
+					</div>
 				</div><!-- /.theme_column1 -->
 				<div class="theme_column2">
-					<div class="localnavi">
+					<nav>
+						<div class="theme_localnavi">
 <?php /*
 ↓ ここからの記述は、ローカルナビゲーションの自動生成ロジックです。
 */ ?>
 <?php if( $px->site()->get_page_info($px->req()->get_request_file_path(),'id') ){ ?>
-<div><?php print $px->theme()->mk_link($px->site()->get_parent($px->req()->get_request_file_path())); ?></div>
+<div class="theme_localnavi-parent"><?php print $px->theme()->mk_link($px->site()->get_parent($px->req()->get_request_file_path())); ?></div>
 <?php } ?>
 
 <?php
@@ -79,16 +87,17 @@
 <?php /*
 ↑ ローカルナビゲーションの自動生成ロジックはここで終わりです。
 */ ?>
-					</div><!-- /.localnavi -->
+						</div><!-- /.theme_localnavi -->
+					</nav>
 
 
 				</div><!-- /.theme_column2 -->
 			</div><!-- /.theme_middle -->
-			<div class="theme_footer">
+			<footer>
 				<div class="right small">[<a href="#page_top" class="up">ページの先頭へ戻る</a>]</div>
 				<div class="breadcrumb"><?php print $px->theme()->mk_breadcrumb(); ?></div>
 				<div class="center">[<?php print $px->theme()->mk_link(''); ?>]</div>
-			</div><!-- /.theme_footer -->
+			</footer>
 		</div><!-- /.theme_outline -->
 	</body>
 </html>

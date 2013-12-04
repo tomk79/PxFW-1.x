@@ -1,39 +1,123 @@
+<?php
+	$obj_funcs = $this->px->load_pxtheme_class('/funcs.php');
+	$obj_funcs = new $obj_funcs($this->px);
+
+	$colors = $obj_funcs->get_color_scheme();
+	$hsb = t::color_hex2hsb( $colors['main'] );
+?>
 @charset "UTF-8";
 
 body{
 	text-align:center;
 	padding:0px 0px 0px 0px;
 	margin:0px 0px 0px 0px;
+	background-color:<?php print $colors['main']; ?>;
+	color:#fff;
 }
-body .theme_outline{
+a{
+	color:#fff;
+}
+
+.theme_outline{
 	text-align:left;
-	width:800px;
-	margin:0px auto;
+	max-width:980px;
+	width:auto;
+	margin:0 auto;
+	padding:0 10px;
 }
-body .theme_outline .theme_header{
+header{
+	padding:1em 0 0.5em;
 }
-body .theme_outline .theme_header .theme_logo{
+header .theme_logo{
 }
-body .theme_outline .theme_header .theme_logo a{
+header .theme_logo a{
 	font-size:150%;
 	font-weight:bold;
+	color:#fff;
+	text-decoration: none;
 }
-
-body .theme_outline .theme_middle{
+header .theme_logo a:hover{
+	text-decoration: underline;
+}
+header .theme_logo a:before{
+	content:url('data:image/svg+xml;base64,<?php print base64_encode($obj_funcs->create_src_pxfw_logo_svg(array('color'=>'#fff'))); ?>');
+	vertical-align: text-top;
+	margin-right:15px;
+}
+.theme_middle{
 	clear:both;
 }
-body .theme_outline .theme_middle .theme_column1{
+.theme_column1{
 	width:74%;
 	float:left;
+	background-color:<?php print t::color_hsb2hex($hsb['h'], 20, 97); ?>;
+	color:#333;
+}
+.theme_column1 a{
+	color:<?php print $colors['main']; ?>;
+}
+.theme_column1-header{
+	padding:0.5em 2em;
+}
+.theme_column1-content{
+	padding:0.5em 2em;
+	background-color:<?php print t::color_hsb2hex($hsb['h'], 4, 100); ?>;
 }
 
-body .theme_outline .theme_middle .theme_column2{
+.theme_column2{
 	width:24%;
 	float:right;
 }
+.theme_column2 nav{
+	background-color:<?php print t::color_hsb2hex($hsb['h'], 20, 97); ?>;
+}
 
-body .theme_outline .theme_footer{
+.theme_localnavi{
+}
+.theme_localnavi .theme_localnavi-parent{
+	background-color: #ddd;
+}
+.theme_localnavi ul{
+	margin:0;
+	padding:0;
+}
+.theme_localnavi ul li{
+	margin:0;
+	padding:0;
+	list-style-type:none;
+}
+.theme_localnavi a{
+	color:<?php print $colors['main']; ?>;
+	display:block;
+	padding:0.2em 0.5em 0.2em 1em;
+	margin:0;
+	border-bottom:1px solid <?php print $colors['main']; ?>;
+	text-decoration:none;
+}
+.theme_localnavi a:hover{
+	color:<?php print $colors['main']; ?>;
+	text-decoration:underline;
+}
+.theme_localnavi ul ul li a{
+	padding-left:2em;
+	font-size:90%;
+}
+
+footer{
 	clear:both;
+}
+
+
+@media all and (max-width:620px){
+	.theme_column1{
+		float:none;
+		width:auto;
+	}
+	.theme_column2{
+		float:none;
+		width:auto;
+	}
+
 }
 
 /**
