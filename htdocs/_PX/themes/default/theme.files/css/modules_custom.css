@@ -25,6 +25,35 @@
 	border-bottom:1px solid <?php print $colors['main']; ?>;
 }
 
+a.icon:before{
+	content:url('<?php print $obj_funcs->create_src_link_icon_uri('icon'); ?>');
+	margin-right:4px;
+}
+a.up:before{
+	content:url('<?php print $obj_funcs->create_src_link_icon_uri('up'); ?>');
+	margin-right:4px;
+}
+a.down:before{
+	content:url('<?php print $obj_funcs->create_src_link_icon_uri('down'); ?>');
+	margin-right:4px;
+}
+a.back:before{
+	content:url('<?php print $obj_funcs->create_src_link_icon_uri('back'); ?>');
+	margin-right:4px;
+}
+a span.blank:after{
+	content:url('<?php print $obj_funcs->create_src_link_icon_uri('blank'); ?>');
+	margin-left:4px;
+}
+a span.download:after{
+	content:url('<?php print $obj_funcs->create_src_link_icon_uri('download'); ?>');
+	margin-left:4px;
+}
+a span.pdf:after{
+	content:url('<?php print $obj_funcs->create_src_link_icon_uri('pdf'); ?>');
+	margin-left:4px;
+}
+
 .contents .thumb_list{}
 @media all and (max-width:620px){
 	.thumb_list ul li{

@@ -6,11 +6,9 @@ RewriteRule ^(.*)$ _px_execute.php/$1 [L]
 
 Options -MultiViews +FollowSymLinks
 
-php_value error_reporting 6135 # <- E_ALL & ~E_NOTICE
 php_flag display_errors Off
 
-# for unknown error
-#php_value error_reporting 6143 # <- E_ALL
+# for display errors
 #php_flag display_errors On
 
 # for large contents

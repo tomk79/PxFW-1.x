@@ -16,7 +16,7 @@ class t{
 	 * HTML特殊文字を変換する
 	 * htmlspecialchars() のエイリアス
 	 */
-	public function h($text){
+	public static function h($text){
 		return htmlspecialchars($text);
 	}
 
@@ -24,7 +24,7 @@ class t{
 	 * 受け取ったテキストをHTML形式に変換する
 	 * htmlspecialchars() を通した上で、改行コードを<br/>に変換する。
 	 */
-	public function text2html( $text = '' ){
+	public static function text2html( $text = '' ){
 		$text = htmlspecialchars( $text );
 		$text = preg_replace('/\r\n|\r|\n/','<br />',$text);
 		return	$text;
@@ -33,7 +33,7 @@ class t{
 	/**
 	 * HTMLソースをテキストに変換する。
 	 */
-	public function html2text( $TEXT = '' ){
+	public static function html2text( $TEXT = '' ){
 		$TEXT = preg_replace( '/<br(?: ?\/)?'.'>/is' , "\n" , $TEXT );
 		$TEXT = strip_tags( $TEXT );
 		$TEXT = preg_replace( '/&lt;/' , '<' , $TEXT );
@@ -46,10 +46,10 @@ class t{
 	/**
 	 * 特殊な HTML エンティティを文字に戻す
 	 */
-	public function htmlspecialchars_decode( $TEXT = '' ){
-		#	PxFW 0.6.6 追加
-		#	htmlspecialchars_decode()というのもあるが、
-		#	PHP5.1.0以降なので使わない。
+	public static function htmlspecialchars_decode( $TEXT = '' ){
+		//	PxFW 0.6.6 追加
+		//	htmlspecialchars_decode()というのもあるが、
+		//	PHP5.1.0以降なので使わない。
 		$TEXT = preg_replace( '/&lt;/' , '<' , $TEXT );
 		$TEXT = preg_replace( '/&gt;/' , '>' , $TEXT );
 		$TEXT = preg_replace( '/&quot;/' , '"' , $TEXT );
@@ -60,7 +60,7 @@ class t{
 	/**
 	 * シングルクオートで囲えるようにエスケープ処理する。
 	 */
-	public function escape_singlequote( $TEXT = '' ){
+	public static function escape_singlequote( $TEXT = '' ){
 		$TEXT = preg_replace( '/\\\\/' , '\\\\\\\\' , $TEXT);
 		$TEXT = preg_replace( '/\'/' , '\\\'' , $TEXT);
 		return	$TEXT;
@@ -69,7 +69,7 @@ class t{
 	/**
 	 * ダブルクオートで囲えるようにエスケープ処理する。
 	 */
-	public function escape_doublequote( $TEXT = '' ){
+	public static function escape_doublequote( $TEXT = '' ){
 		$TEXT = preg_replace( '/\\\\/' , '\\\\\\\\' , $TEXT);
 		$TEXT = preg_replace( '/"/' , '\\"' , $TEXT);
 		return	$TEXT;
@@ -78,7 +78,7 @@ class t{
 	/**
 	 * ファイル名やパス名から、拡張子を削除する
 	 */
-	public function trimext( $filename ){
+	public static function trimext( $filename ){
 		#	trim extension
 		$path_parts = pathinfo($filename);
 		$extension = $path_parts['extension'];
@@ -98,7 +98,7 @@ class t{
 	/**
 	 * 受け取ったテキストを、指定の文字コードに変換する
 	 */
-	public function convert_encoding( $TEXT = null , $encode = null , $encodefrom = null ){
+	public static function convert_encoding( $TEXT = null , $encode = null , $encodefrom = null ){
 		if( !is_callable( 'mb_internal_encoding' ) ){ return $TEXT; }
 		if( !strlen( $encodefrom ) ){ $encodefrom = mb_internal_encoding().',UTF-8,SJIS-win,eucJP-win,SJIS,EUC-JP,JIS,ASCII'; }
 		if( !strlen( $encode ) ){ $encode = mb_internal_encoding(); }
@@ -125,7 +125,7 @@ class t{
 	/**
 	 * stripslashes()処理を実行する
 	 */
-	public function stripslashes( $TEXT ){
+	public static function stripslashes( $TEXT ){
 		#	この関数は、配列を受け取ると再帰的に文字列を変換して返します。
 		if( is_array( $TEXT ) ){
 			#	配列なら
@@ -142,14 +142,14 @@ class t{
 	/**
 	 * 半角に変換する
 	 */
-	public function hankaku( $TEXT ){
+	public static function hankaku( $TEXT ){
 		return	@mb_convert_kana( $TEXT , 'a' , @mb_internal_encoding() );
 	}
 
 	/**
 	 * 変数を受け取り、PHPのシンタックスに変換する
 	 */
-	public function data2text( $value = null , $option = array() ){
+	public static function data2text( $value = null , $option = array() ){
 		#======================================
 		#	[ $option ]
 		#		delete_arrayelm_if_null
@@ -237,7 +237,7 @@ class t{
 	 * 変数をPHPのソースコードに変換する
 	 * includeしたらそのままの値を返す形になるよう変換する。
 	 */
-	public function data2phpsrc( $value = null , $option = array() ){
+	public static function data2phpsrc( $value = null , $option = array() ){
 		$RTN = '';
 		$RTN .= '<'.'?php'."\n";
 		$RTN .= '	/'.'* '.@mb_internal_encoding().' *'.'/'."\n";
@@ -249,7 +249,7 @@ class t{
 	/**
 	 * 変数をJavaScriptのシンタックスに変換する
 	 */
-	public function data2jssrc( $value = null , $option = array() ){
+	public static function data2jssrc( $value = null , $option = array() ){
 		#======================================
 		#	[ $option ]
 		#		delete_arrayelm_if_null
@@ -374,7 +374,7 @@ class t{
 	/**
 	 * 変数をXMLのシンタックスに変換する
 	 */
-	public function data2xml( $value = null , $option = array() ){
+	public static function data2xml( $value = null , $option = array() ){
 		#======================================
 		#	[ $option ]
 		#		delete_arrayelm_if_null
@@ -491,7 +491,7 @@ class t{
 	/**
 	 * realpath()のラッパ
 	 */
-	public function realpath( $path ){
+	public static function realpath( $path ){
 		#	PicklesFramework 0.2.2 追加
 		#	realpath()の動作を、
 		#	WindowsでもUNIX系と同じスラッシュ区切りのパスで得る。
@@ -516,7 +516,7 @@ class t{
 	/**
 	 * ランダムな文字列を生成する
 	 */
-	public function randomtext( $width = 8 , $option = array() ){
+	public static function randomtext( $width = 8 , $option = array() ){
 		#	$width = 文字列のバイト数。
 
 		if( !is_int($width) ){
@@ -540,7 +540,7 @@ class t{
 	/**
 	 * 16進数の色コードからRGBの10進数を得る
 	 */
-	public function color_hex2rgb( $txt_hex ){
+	public static function color_hex2rgb( $txt_hex ){
 		if( is_int( $txt_hex ) ){
 			$txt_hex = dechex( $txt_hex );
 			$txt_hex = '#'.str_pad( $txt_hex , 6 , '0' , STR_PAD_LEFT );
@@ -573,7 +573,7 @@ class t{
 	/**
 	 * RGBの10進数の色コードから16進数を得る
 	 */
-	public function color_rgb2hex( $int_r , $int_g , $int_b ){
+	public static function color_rgb2hex( $int_r , $int_g , $int_b ){
 		$hex_r = dechex( $int_r );
 		$hex_g = dechex( $int_g );
 		$hex_b = dechex( $int_b );
@@ -590,7 +590,7 @@ class t{
 	/**
 	 * 色相を調べる
 	 */
-	public function color_get_hue( $txt_hex , $int_round = 0 ){
+	public static function color_get_hue( $txt_hex , $int_round = 0 ){
 		$int_round = intval( $int_round );
 		if( $int_round < 0 ){ return false; }
 
@@ -644,7 +644,7 @@ class t{
 	/**
 	 * 彩度を調べる
 	 */
-	public function color_get_saturation( $txt_hex , $int_round = 0 ){
+	public static function color_get_saturation( $txt_hex , $int_round = 0 ){
 		$int_round = intval( $int_round );
 		if( $int_round < 0 ){ return false; }
 
@@ -673,7 +673,7 @@ class t{
 	/**
 	 * 明度を調べる
 	 */
-	public function color_get_brightness( $txt_hex , $int_round = 0 ){
+	public static function color_get_brightness( $txt_hex , $int_round = 0 ){
 		$int_round = intval( $int_round );
 		if( $int_round < 0 ){ return false; }
 
@@ -696,7 +696,7 @@ class t{
 	/**
 	 * 16進数のRGBコードからHSB値を得る
 	 */
-	public function color_hex2hsb( $txt_hex , $int_round = 0 ){
+	public static function color_hex2hsb( $txt_hex , $int_round = 0 ){
 		$int_round = intval( $int_round );
 		if( $int_round < 0 ){ return false; }
 
@@ -711,7 +711,7 @@ class t{
 	/**
 	 * RGB値からHSB値を得る
 	 */
-	public function color_rgb2hsb( $int_r , $int_g , $int_b , $int_round = 0 ){
+	public static function color_rgb2hsb( $int_r , $int_g , $int_b , $int_round = 0 ){
 		$int_round = intval( $int_round );
 		if( $int_round < 0 ){ return false; }
 
@@ -727,7 +727,7 @@ class t{
 	/**
 	 * HSB値からRGB値を得る
 	 */
-	public function color_hsb2rgb( $int_hue , $int_saturation , $int_brightness , $int_round = 0 ){
+	public static function color_hsb2rgb( $int_hue , $int_saturation , $int_brightness , $int_round = 0 ){
 		$int_round = intval( $int_round );
 		if( $int_round < 0 ){ return false; }
 
@@ -779,7 +779,7 @@ class t{
 	/**
 	 * HSB値から16進数のRGBコードを得る
 	 */
-	public function color_hsb2hex( $int_hue , $int_saturation , $int_brightness , $int_round = 0 ){
+	public static function color_hsb2hex( $int_hue , $int_saturation , $int_brightness , $int_round = 0 ){
 		$rgb = t::color_hsb2rgb( $int_hue , $int_saturation , $int_brightness , $int_round );
 		$hex = t::color_rgb2hex( $rgb['r'] , $rgb['g'] , $rgb['b'] );
 		return	$hex;
@@ -792,7 +792,7 @@ class t{
 	/**
 	 * 機種依存文字( Model Dependence Character )が含まれているかどうかを判定する。
 	 */
-	public function mdc_exists( $TEXT , $charset = null ){
+	public static function mdc_exists( $TEXT , $charset = null ){
 		#	機種依存文字判定->暫定実装 Pickles Framework 0.2.8 1:46 2008/03/22
 		#	$TEXT は、内部エンコーディングされた文字列であることが前提。
 
@@ -817,7 +817,7 @@ class t{
 	/**
 	 * Eメールアドレスとして正しい形式であるか判定
 	 */
-	public function is_email( $TEXT ){
+	public static function is_email( $TEXT ){
 		//注：このロジックは概ね拾えるが、完全ではないかも知れない。
 		if( !preg_match( '/^[\-\_\.a-zA-Z0-9]+\@[a-zA-Z0-9\-\_][\-\_\.a-zA-Z0-9]*[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/i' , $TEXT ) ){
 			return	false;
@@ -828,7 +828,7 @@ class t{
 	/**
 	 * URLとして正しい形式であるか判定
 	 */
-	public function is_url( $TEXT ){
+	public static function is_url( $TEXT ){
 		//注：このロジックは概ね拾えるが、完全ではないかも知れない。
 		if( !preg_match( '/^(?:http|https)\:\/\/[a-z0-9\-\_][\-\_\.a-z0-9]*(?:\:[0-9]+)?\/.*$/i' , $TEXT ) ){
 			return	false;
