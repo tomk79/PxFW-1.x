@@ -101,7 +101,7 @@ class px_px{
 		if( strlen($this->req()->get_param('THEME')) ){
 			$this->theme()->set_theme_id( $this->req()->get_param('THEME') );
 		}
-		if( !is_dir( $_SERVER['DOCUMENT_ROOT'].$this->get_install_path().'_caches/_themes/'.$this->theme()->get_theme_id().'/' ) ){
+		if( !is_dir( $_SERVER['DOCUMENT_ROOT'].$this->get_install_path().'_caches/themes/'.$this->theme()->get_theme_id().'/' ) ){
 			// テーマリソースキャッシュの一次生成
 			$this->path_theme_files('/');
 		}
@@ -269,7 +269,7 @@ class px_px{
 
 		$path_original = $this->get_install_path().$path_content;
 		$path_original = $this->dbh()->get_realpath($this->dbh()->trim_extension($path_original).'.files/'.$localpath_resource);
-		$rtn = $this->get_install_path().'/_caches/_contents'.$path_content;
+		$rtn = $this->get_install_path().'/_caches/contents'.$path_content;
 		$rtn = $this->dbh()->get_realpath($this->dbh()->trim_extension($rtn).'.files/'.$localpath_resource);
 		if( file_exists( $_SERVER['DOCUMENT_ROOT'].$path_original ) ){
 			if( is_dir($_SERVER['DOCUMENT_ROOT'].$path_original) ){
@@ -306,7 +306,7 @@ class px_px{
 		$localpath_theme_resource = preg_replace('/^\/+/', '', $localpath_theme_resource);
 
 		$realpath_original = $this->realpath_theme_files().'/'.$localpath_theme_resource;
-		$realpath_copyto = $_SERVER['DOCUMENT_ROOT'].$this->get_install_path().'_caches/_themes/'.$this->theme()->get_theme_id().'/'.$localpath_theme_resource;
+		$realpath_copyto = $_SERVER['DOCUMENT_ROOT'].$this->get_install_path().'_caches/themes/'.$this->theme()->get_theme_id().'/'.$localpath_theme_resource;
 		if( is_file($realpath_original) ){
 			// 対象がファイルだったら
 			if( strtolower($this->dbh()->get_extension($realpath_copyto)) == 'nopublish' ){
@@ -316,7 +316,7 @@ class px_px{
 				// キャッシュを作成・更新。
 				$this->dbh()->mkdir_all( dirname($realpath_copyto) );
 				$this->dbh()->copy( $realpath_original, $realpath_copyto );
-				$this->add_relatedlink( $this->get_install_path().'_caches/_themes/'.$this->theme()->get_theme_id().'/'.$localpath_theme_resource );
+				$this->add_relatedlink( $this->get_install_path().'_caches/themes/'.$this->theme()->get_theme_id().'/'.$localpath_theme_resource );
 			}
 		}elseif( is_dir($realpath_original) ){
 			// 対象がディレクトリだったら
@@ -326,7 +326,7 @@ class px_px{
 			}
 		}
 
-		$rtn = $this->get_install_path().'_caches/_themes/'.$this->theme()->get_theme_id().'/'.$localpath_theme_resource;
+		$rtn = $this->get_install_path().'_caches/themes/'.$this->theme()->get_theme_id().'/'.$localpath_theme_resource;
 		return $rtn;
 	}//path_theme_files()
 
