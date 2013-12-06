@@ -15,6 +15,7 @@
 		<title><?php print t::h($page_info['title']); ?> | <?php print t::h($px->get_conf('project.name')); ?></title>
 		<meta name="keywords" content="<?php print t::h($page_info['keywords']); ?>" />
 		<meta name="description" content="<?php print t::h($page_info['description']); ?>" />
+		<meta name="viewport" content="width=device-width" />
 		<script src="<?php print t::h($px->theme()->href('/common/js/jquery-1.10.1.min.js')); ?>" type="text/javascript"></script>
 <?php
 	print $px->ssi($px->theme()->href('/common/inc/common_setup.inc'));
@@ -94,9 +95,13 @@
 				</div><!-- /.theme_column2 -->
 			</div><!-- /.theme_middle -->
 			<footer>
-				<div class="right small">[<a href="#page_top" class="up">ページの先頭へ戻る</a>]</div>
+				<div class="theme_foot_back2top"><a href="#page_top" class="up">ページの先頭へ戻る</a></div>
 				<div class="breadcrumb"><?php print $px->theme()->mk_breadcrumb(); ?></div>
-				<div class="center">[<?php print $px->theme()->mk_link(''); ?>]</div>
+				<div class="theme_foot_menu">
+					<ul>
+						<li><?php print $px->theme()->mk_link(''); ?></li>
+					</ul>
+				</div>
 			</footer>
 		</div><!-- /.theme_outline -->
 	</body>

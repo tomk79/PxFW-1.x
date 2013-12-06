@@ -24,7 +24,9 @@
 	color:<?php print $colors['main3x']; ?>;
 	border-bottom:1px solid <?php print $colors['main']; ?>;
 }
-
+.contents dl{
+	margin-left:1em;
+}
 a.icon:before{
 	content:url('<?php print $obj_funcs->create_src_link_icon_uri('icon'); ?>');
 	margin-right:4px;
@@ -53,11 +55,43 @@ a span.pdf:after{
 	content:url('<?php print $obj_funcs->create_src_link_icon_uri('pdf'); ?>');
 	margin-left:4px;
 }
+a span.pdf:after{
+	content:url('<?php print $obj_funcs->create_src_link_icon_uri('pdf'); ?>');
+	margin-left:4px;
+}
+.more_links a:before{
+	content:url('<?php print $obj_funcs->create_src_link_icon_uri('icon'); ?>');
+	margin-right:4px;
+}
+.page_top a:before{
+	content:url('<?php print $obj_funcs->create_src_link_icon_uri('up'); ?>');
+	margin-right:4px;
+}
+.anchor_links{
+	margin-left:2em;
+	margin-right:2em;
+	border-radius:10px;
+}
 
 .contents .thumb_list{}
 @media all and (max-width:620px){
 	.thumb_list ul li{
 		font-size:x-small;
+	}
+	.anchor_links{
+		margin-left:1em;
+		margin-right:1em;
+	}
+	.cols {
+		margin-left:0;
+	}
+	.cols .cols-col{
+		float:none;
+		width:auto;
+		margin:1em 0;
+	}
+	.cols .cols-pad{
+		margin-left:0;
 	}
 }
 

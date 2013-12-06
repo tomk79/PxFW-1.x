@@ -13,6 +13,7 @@ body{
 	margin:0px 0px 0px 0px;
 	background-color:<?php print $colors['main']; ?>;
 	color:#fff;
+	-webkit-text-size-adjust: 100%;
 }
 a{
 	color:#fff;
@@ -30,6 +31,7 @@ header{
 }
 header .theme_logo{
 }
+header .theme_logo span,
 header .theme_logo a{
 	font-size:150%;
 	font-weight:bold;
@@ -39,6 +41,7 @@ header .theme_logo a{
 header .theme_logo a:hover{
 	text-decoration: underline;
 }
+header .theme_logo span:before,
 header .theme_logo a:before{
 	content:url('data:image/svg+xml;base64,<?php print base64_encode($obj_funcs->create_src_pxfw_logo_svg(array('color'=>'#fff'))); ?>');
 	vertical-align: text-top;
@@ -46,12 +49,14 @@ header .theme_logo a:before{
 }
 .theme_middle{
 	clear:both;
+	margin:1em 0;
 }
 .theme_column1{
 	width:74%;
 	float:left;
-	background-color:<?php print t::color_hsb2hex($hsb['h'], 20, 97); ?>;
-	color:#333;
+	background-color:<?php print $colors['main2']; ?>;
+	color:<?php print $colors['main2x']; ?>;
+	margin-bottom:1px;
 }
 .theme_column1 a{
 	color:<?php print $colors['main']; ?>;
@@ -105,8 +110,53 @@ header .theme_logo a:before{
 
 footer{
 	clear:both;
+	margin-top:1em;
 }
-
+footer .theme_foot_menu{
+	text-align: center;
+	margin:1em 0;
+}
+footer .theme_foot_menu ul{
+	padding:0; margin:0;
+}
+footer .theme_foot_menu ul li{
+	padding:0; margin:0;
+	list-style-type:none;
+}
+footer .theme_foot_menu ul li a{
+	text-decoration:none;
+}
+footer .theme_foot_menu ul li a:hover{
+	text-decoration:underline;
+}
+footer .theme_foot_menu ul li a:before{
+	content:url('<?php print $obj_funcs->create_src_link_icon_uri('icon'); ?>');
+	margin-right:4px;
+}
+footer .theme_foot_close{
+	text-align: center;
+	margin:1em 0;
+}
+footer .theme_foot_back2top{
+	padding:0.2em 1em;
+	margin:0.2em 0;
+	text-align: right;
+	background-color:<?php print $colors['main2']; ?>;
+	color:<?php print $colors['main2x']; ?>;
+}
+footer .theme_foot_back2top *{
+	color:<?php print $colors['main']; ?>;
+	text-decoration: none;
+}
+footer .breadcrumb{
+	padding:0.2em 1em;
+	margin:0.2em 0;
+	background-color:<?php print $colors['main2']; ?>;
+	color:<?php print $colors['main2x']; ?>;
+}
+footer .breadcrumb *{
+	color:<?php print $colors['main2x']; ?>;
+}
 
 @media all and (max-width:620px){
 	.theme_column1{
@@ -118,6 +168,28 @@ footer{
 		width:auto;
 	}
 
+}
+
+/**
+ * [static] .clearfix (and [unit] unit)
+ */
+.theme_middle{
+	display:block;
+	float:none;
+	clear:both;
+}
+.theme_middle:after{
+	content: " ";
+	display:block;
+	visibility:hidden;
+	height:0.1px;
+	font-size:0.1em;
+	line-height:0;
+	clear:both;
+}
+.theme_middle{
+	/* clearfix(for IE6,7) (IE8以降不要) */
+	zoom:1;
 }
 
 /**
