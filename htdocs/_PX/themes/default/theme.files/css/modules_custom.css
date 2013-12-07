@@ -27,6 +27,13 @@
 .contents dl{
 	margin-left:1em;
 }
+.contents video,
+.contents audio,
+.contents svg,
+.contents img{
+	max-width:100%;
+	max-height:100%;
+}
 a.icon:before{
 	content:url('<?php print $obj_funcs->create_src_link_icon_uri('icon'); ?>');
 	margin-right:4px;
@@ -62,6 +69,9 @@ a span.pdf:after{
 .more_links a:before{
 	content:url('<?php print $obj_funcs->create_src_link_icon_uri('icon'); ?>');
 	margin-right:4px;
+}
+.more_links ul{
+	padding:0;
 }
 .page_top a:before{
 	content:url('<?php print $obj_funcs->create_src_link_icon_uri('up'); ?>');
