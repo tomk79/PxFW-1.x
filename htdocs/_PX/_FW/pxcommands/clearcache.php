@@ -55,7 +55,7 @@ class px_pxcommands_clearcache extends px_bases_pxcommand{
 				$this->rmdir_all( $path_cache_dir.'/'.$filename );
 			}
 			print 'making readme.txt'."\n";//  gitが空ディレクトリを保持できないため
-			$this->px->dbh()->save_file( $path_cache_dir.'/readme.txt' , 'This directory is for saving cache files.' );
+			$this->px->dbh()->save_file( $path_cache_dir.'/readme.txt' , 'This directory is for saving cache and data files.' );
 			print '[Complete]'."\n";
 			print ''."\n";
 			print '---'."\n";

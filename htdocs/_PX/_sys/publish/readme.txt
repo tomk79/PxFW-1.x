@@ -1,1 +1,1 @@
-This directory is for outputting static HTML files.
+This directory is for saving cache and data files.

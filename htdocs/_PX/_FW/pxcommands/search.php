@@ -67,16 +67,26 @@ var contSearch = new (function(){
 				var htmlSrc = '';
 				function drawResultSell( ary ){
 					var src = '';
-					src += '<ul>';
+					if(!ary.length){return '';}
+					ary.sort(function(a,b){
+						if(a.path > b.path){return 1;}
+						if(a.path < b.path){return -1;}
+						return 0;
+					});
+					src += '<div class="unit"><table class="def" style="width:100%;">';
+					src += '<thead>';
+					src += '<tr>';
+					src += '<th style="width:80%">path</th>';
+					src += '<th style="width:20%">type</th>';
+					src += '</tr>';
+					src += '</thead>';
 					for( row in ary ){
-						src += '<li style="word-break:break-all;">';
-						src += '<p><b>'+ary[row].path+'</b></p>';
-						src += '<dl>';
-						src += '<dt>type</dt><dd>'+ary[row].type+'</dd>';
-						src += '</dl>';
-						src += '</li>';
+						src += '<tr>';
+						src += '<td style="word-break:break-all;">'+ary[row].path+'</td>';
+						src += '<td>'+ary[row].type+'</td>';
+						src += '</tr>';
 					}
-					src += '</ul>';
+					src += '</table></div>';
 					return src;
 				}
 				htmlSrc += '<p>検索結果: '+data['count']['total']+'件</p>';
