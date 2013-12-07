@@ -1,1 +1,1 @@
-This directory is for saving any data.
+This directory is for saving any data files by framework.
