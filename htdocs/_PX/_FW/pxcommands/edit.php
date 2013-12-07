@@ -29,7 +29,7 @@ class px_pxcommands_edit extends px_bases_pxcommand{
 		}
 
 		if( is_null($this->pageinfo) ){
-			return $this->error_end( 'ページ情報が見つかりません。' );
+			return $this->error_end( 'ページ情報が見つかりません。先にサイトマップにページを追加してください。' );
 		}
 		if( !strlen( $this->pageinfo['content'] ) ){
 			return $this->error_end( 'コンテンツのパスが設定されていません。' );
@@ -69,8 +69,14 @@ class px_pxcommands_edit extends px_bases_pxcommand{
 			$src .= '</textarea></p>'."\n";
 			if( !is_file($this->path_content_src) ){
 				$src .= '<p>編集対象のパスには、現在ファイルはありません。この内容で新規作成します。</p>';
+				if( is_dir(dirname($this->path_content_src)) && !is_writable(dirname($this->path_content_src)) ){
+					$src .= '<p class="error">格納先のディレクトリに書き込みができません。適切なパーミッションを設定してから新規作成ボタンを押してください。</p>';
+				}
 				$src .= '<p class="center"><button>この内容で新規作成する</button></p>'."\n";
 			}else{
+				if( !is_writable($this->path_content_src) ){
+					$src .= '<p class="error">編集対象のファイルに書き込みができません。適切なパーミッションを設定してから保存ボタンを押してください。</p>';
+				}
 				$src .= '<p class="center"><button>上書き保存する</button></p>'."\n";
 			}
 			$src .= '</form>'."\n";
@@ -86,10 +92,24 @@ class px_pxcommands_edit extends px_bases_pxcommand{
 	private function execute_update(){
 		$update_src = $this->px->req()->get_param('src');
 
+		//↓ディレクトリがないなら作る
+		if( !is_dir( dirname($this->path_content_src) ) ){
+			if( !$this->px->dbh()->mkdir_all(dirname($this->path_content_src)) ){
+				$src = '';
+				$src .= '<p class="error">コンテンツファイル格納先のディレクトリ '.$this->px->dbh()->get_realpath( dirname($this->px->get_install_path().$this->pageinfo['content']) ).' の作成に失敗しました。</p>'."\n";
+
+				$src .= '<form action="?PX='.t::h( $this->command[0] ).'" method="post">'."\n";
+				$src .= '<p class="center"><button>戻る</button></p>'."\n";
+				$src .= '</form>'."\n";
+				print $this->html_template($src);
+				exit;
+			}
+		}
+
 		//↓編集後のファイルを上書き
 		if( !$this->px->dbh()->file_overwrite( $this->path_content_src , $update_src ) ){
 			$src = '';
-			$src .= '<p>コンテンツファイル '.$this->px->dbh()->get_realpath( $this->px->get_install_path().$this->pageinfo['content'] ).' の更新に失敗しました。</p>'."\n";
+			$src .= '<p class="error">コンテンツファイル '.$this->px->dbh()->get_realpath( $this->px->get_install_path().$this->pageinfo['content'] ).' の更新に失敗しました。</p>'."\n";
 
 			$src .= '<form action="?PX='.t::h( $this->command[0] ).'" method="post">'."\n";
 			$src .= '<p class="center"><button>戻る</button></p>'."\n";
