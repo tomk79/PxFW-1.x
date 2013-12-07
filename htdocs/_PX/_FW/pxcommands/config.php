@@ -181,6 +181,7 @@ class px_pxcommands_config extends px_bases_pxcommand{
 				$src .= '				<td class="center">'.(is_file( $tmp_plugin_info['path'].'register/outputfilter.php' )?'○':'-').'</td>'."\n";
 				$exts = array();
 				$plugin_extension_list = $this->px->dbh()->ls( $tmp_plugin_info['path'].'/register/extensions/' );
+				if( !is_array($plugin_extension_list) ){ $plugin_extension_list = array(); }
 				foreach( $plugin_extension_list as $plugin_extension_basename ){
 					$plugin_extension_basename = $this->px->dbh()->trim_extension( $plugin_extension_basename );
 					$plugin_extension_class = $this->px->load_px_plugin_class( $tmp_plugin_name.'/register/extensions/'.$plugin_extension_basename.'.php' );
