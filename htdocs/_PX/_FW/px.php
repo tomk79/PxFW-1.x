@@ -331,7 +331,7 @@ class px_px{
 	}//path_theme_files()
 
 	/**
-	 * テーマリソースのサーバー内部パスを得る
+	 * テーマリソースのサーバー内部パスを得る。
 	 * @return string テーマリソースのサーバー内部パス
 	 */
 	public function realpath_theme_files( $localpath_theme_resource = null ){
@@ -342,6 +342,84 @@ class px_px{
 		}
 		return $rtn;
 	}//realpath_theme_files()
+
+	/**
+	 * カレントコンテンツのramdataディレクトリのサーバー内部パスを得る。
+	 */
+	public function realpath_ramdata_dir(){
+		$tmp_page_info = $this->site()->get_page_info($this->req()->get_request_file_path());
+		$path_content = $tmp_page_info['content'];
+
+		$lib_realpath = $this->get_conf('paths.px_dir').'_sys/ramdata/contents/'.$this->dbh()->trim_extension($path_content).'.files/';
+		$rtn = $this->dbh()->get_realpath( $lib_realpath ).'/';
+		if( !is_dir($rtn) ){
+			$this->dbh()->mkdir_all($rtn);
+		}
+		return $rtn;
+	}
+
+	/**
+	 * 選択されたテーマのramdataディレクトリのサーバー内部パスを得る。
+	 */
+	public function realpath_theme_ramdata_dir(){
+		$lib_realpath = $this->get_conf('paths.px_dir').'_sys/ramdata/themes/'.$this->theme()->get_theme_id().'/';
+		$rtn = $this->dbh()->get_realpath( $lib_realpath ).'/';
+		if( !is_dir($rtn) ){
+			$this->dbh()->mkdir_all($rtn);
+		}
+		return $rtn;
+	}
+
+	/**
+	 * プラグインのramdataディレクトリのサーバー内部パスを得る。
+	 */
+	public function realpath_plugin_ramdata_dir($plugin_name){
+		$lib_realpath = $this->get_conf('paths.px_dir').'_sys/ramdata/plugins/'.$plugin_name.'/';
+		$rtn = $this->dbh()->get_realpath( $lib_realpath ).'/';
+		if( !is_dir($rtn) ){
+			$this->dbh()->mkdir_all($rtn);
+		}
+		return $rtn;
+	}
+
+	/**
+	 * カレントコンテンツのプライベートキャッシュディレクトリのサーバー内部パスを得る。
+	 */
+	public function realpath_private_cache_dir(){
+		$tmp_page_info = $this->site()->get_page_info($this->req()->get_request_file_path());
+		$path_content = $tmp_page_info['content'];
+
+		$lib_realpath = $this->get_conf('paths.px_dir').'_sys/caches/contents/'.$this->dbh()->trim_extension($path_content).'.files/';
+		$rtn = $this->dbh()->get_realpath( $lib_realpath ).'/';
+		if( !is_dir($rtn) ){
+			$this->dbh()->mkdir_all($rtn);
+		}
+		return $rtn;
+	}
+
+	/**
+	 * 選択されたテーマのプライベートキャッシュディレクトリのサーバー内部パスを得る。
+	 */
+	public function realpath_theme_private_cache_dir(){
+		$lib_realpath = $this->get_conf('paths.px_dir').'_sys/caches/themes/'.$this->theme()->get_theme_id().'/';
+		$rtn = $this->dbh()->get_realpath( $lib_realpath ).'/';
+		if( !is_dir($rtn) ){
+			$this->dbh()->mkdir_all($rtn);
+		}
+		return $rtn;
+	}
+
+	/**
+	 * プラグインのプライベートキャッシュディレクトリのサーバー内部パスを得る。
+	 */
+	public function realpath_plugin_private_cache_dir($plugin_name){
+		$lib_realpath = $this->get_conf('paths.px_dir').'_sys/caches/plugins/'.$plugin_name.'/';
+		$rtn = $this->dbh()->get_realpath( $lib_realpath ).'/';
+		if( !is_dir($rtn) ){
+			$this->dbh()->mkdir_all($rtn);
+		}
+		return $rtn;
+	}
 
 	/**
 	 * 外部ソースをインクルードする(ServerSideInclude)
