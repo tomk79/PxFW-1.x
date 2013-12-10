@@ -12,6 +12,7 @@
 - $px->realpath_theme_private_cache_dir() を追加。
 - $px->realpath_plugin_private_cache_dir() を追加。
 - デフォルトテーマのデザインを変更。
+- パブリッシュログファイルのパーミッションをコンフィグの設定値にセットするようにした。
 
 
 ## PxFW 1.0.0b11 (2013/11/30)

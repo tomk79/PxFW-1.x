@@ -574,7 +574,11 @@ function contEditPublishTargetPathApply(formElm){
 		$logtext .= '	'.$ary_logtexts['message'];
 		$logtext .= '	'.($ary_logtexts['result']===true?'success':($ary_logtexts['result']===false?'FAILED':$ary_logtexts['result']));
 		$logtext .= '	'.$ary_logtexts['path'];
-		return @error_log( $logtext."\r\n", 3, $this->path_tmppublish_dir.'publish_log.txt' );
+
+		$path = $this->path_tmppublish_dir.'publish_log.txt';
+		$rtn = @error_log( $logtext."\r\n", 3, $path );
+		$this->px->dbh()->chmod($path);
+		return $rtn;
 	}
 
 	/**
@@ -588,7 +592,11 @@ function contEditPublishTargetPathApply(formElm){
 		$logtext .= date('Y-m-d H:i:s').'	';
 		$logtext .= $ary_logtexts['error'].'	';
 		$logtext .= $ary_logtexts['path'];
-		return @error_log( $logtext."\r\n", 3, $this->path_tmppublish_dir.'publish_error_log.txt' );
+
+		$path = $this->path_tmppublish_dir.'publish_error_log.txt';
+		$rtn = @error_log( $logtext."\r\n", 3, $path );
+		$this->px->dbh()->chmod($path);
+		return $rtn;
 	}
 
 	/**
