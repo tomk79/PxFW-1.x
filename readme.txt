@@ -51,7 +51,7 @@ publishディレクティブ path_publish_dir で変更できます。
 ・Apache1.3以降
 　　⇒mod_rewrite が利用可能であること
 　　⇒.htaccess が利用可能であること
-・PHP5系 (PHP4系では動作しない)
+・PHP5.3以上
 　　⇒mb_string が有効に設定されていること
 　　⇒safe_mode が無効に設定されていること
 
