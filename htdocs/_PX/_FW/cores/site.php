@@ -350,6 +350,20 @@ class px_cores_site{
 	}//get_category_top()
 
 	/**
+	 * グローバルメニューのページID一覧を取得する
+	 */
+	public function get_global_menu(){
+		$rtn = array();
+		$home_children = $this->get_children('', array('filter'=>false));
+		foreach( $home_children as $page_id ){
+			$page_info = $this->get_page_info($page_id);
+			if(!$page_info['category_top_flg']){continue;}
+			array_push($rtn, $page_id);
+		}
+		return $rtn;
+	}//get_global_menu()
+
+	/**
 	 * ページ情報を取得する。
 	 * @param パス または ページID
 	 * @param [省略可] 取り出す単一要素のキー。省略時はすべての要素を含む連想配列が返される。
