@@ -97,7 +97,7 @@ a span.pdf:after{
 	}
 	.cols .cols-col{
 		float:none;
-		width:auto;
+		width:auto !important;
 		margin:1em 0;
 	}
 	.cols .cols-pad{

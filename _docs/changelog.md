@@ -3,7 +3,7 @@
 # PxFW(Pickles Framework) 更新履歴
 
 
-## PxFW 1.0.0b12 (2013/\*\*/\*\*)
+## PxFW 1.0.0 (2013/\*\*/\*\*)
 
 - $px->realpath_ramdata_dir() を追加。
 - $px->realpath_theme_ramdata_dir() を追加。
@@ -13,6 +13,7 @@
 - $px->realpath_plugin_private_cache_dir() を追加。
 - $site->get_global_menu() を追加。
 - デフォルトテーマのデザインを変更。
+- FESS 1.1.1 に更新。
 - パブリッシュログファイルのパーミッションをコンフィグの設定値にセットするようにした。
 - システム要件にPHPのバージョンを変更した。PHP 5.3以上とした。
 
