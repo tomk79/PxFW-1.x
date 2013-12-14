@@ -1,5 +1,5 @@
 "*path","*content","*id","*title","*title_breadcrumb","*title_h1","*title_label","*logical_path","*list_flg","*auth_level","*layout","*extension","*orderby","*keywords","*description","*category_top_flg"
-"/_docs/modules/",,,"ドキュメントモジュール",,,,,1,,,,,,,
+"/_docs/modules/",,,"ドキュメントモジュール",,,,,1,,,,,,,1
 "/_docs/modules/units/",,,"ユニットモジュール",,,,"/_docs/modules/",1,,,,,,,
 "/_docs/modules/parts/",,,"パーツモジュール",,,,"/_docs/modules/",1,,,,,,,
 "/_docs/modules/statics/",,,"スタティックモジュール",,,,"/_docs/modules/",1,,,,,,,

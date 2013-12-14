@@ -1,0 +1,114 @@
+<?php
+	$obj_funcs = $this->px->load_pxtheme_class('/funcs.php');
+	$obj_funcs = new $obj_funcs($this->px);
+
+	//↓ $page_info にページの情報を格納しています。
+	//	 test::var_dump( $page_info ); で、変数の内容を確認できます。
+	$page_info = $this->px->site()->get_current_page_info();
+?><!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+<?php /*
+↓ t::h() は、htmlspecialchars() のショートカットです。
+*/ ?>
+		<title><?php print t::h($page_info['title']); ?> | <?php print t::h($px->get_conf('project.name')); ?></title>
+		<meta name="keywords" content="<?php print t::h($page_info['keywords']); ?>" />
+		<meta name="description" content="<?php print t::h($page_info['description']); ?>" />
+		<meta name="viewport" content="width=device-width" />
+		<script src="<?php print t::h($px->theme()->href('/common/js/jquery-1.10.1.min.js')); ?>" type="text/javascript"></script>
+<?php
+	print $px->ssi($px->theme()->href('/common/inc/common_setup.inc'));
+?>
+		<link rel="stylesheet" href="<?php print t::h($px->theme()->href('/common/css/setup.css')); ?>" type="text/css" />
+		<link rel="stylesheet" href="<?php print t::h($px->theme()->href('/common/css/modules.css')); ?>" type="text/css" />
+		<link rel="stylesheet" href="<?php print t::h($px->path_theme_files('/css/common.css')); ?>" type="text/css" />
+<?php
+	//↓コンテンツから受け取った
+	//	headセクション内用のソースを出力しています。
+	print $px->theme()->pull_content('head');
+?>
+	</head>
+	<body class="theme_layout_top">
+		<header id="page_top">
+			<h1 class="theme_logo"><a href="<?php print t::h( $px->theme()->href('') ); ?>"><?php print t::h($px->get_conf('project.name')); ?></a></h1>
+		</header>
+		<div class="theme_welcome">
+			<div><?php print file_get_contents( $px->realpath_theme_files('img/welcome.svg') ); ?></div>
+			<p>Pickles Framework のセットアップは完了しました。</p>
+		</div>
+		<div class="theme_outline">
+			<div class="theme_middle">
+				<div class="theme_column1">
+					<div class="theme_column1-content">
+						<div id="content" class="contents">
+
+<?php
+	//↓コンテンツから受け取った
+	//	コンテンツエリアのソースを出力しています。
+	print $px->theme()->pull_content();
+?>
+
+						</div><!-- /#content -->
+					</div>
+				</div><!-- /.theme_column1 -->
+				<div class="theme_column2">
+					<nav>
+						<div class="theme_localnavi">
+<?php /*
+↓ ここからの記述は、ローカルナビゲーションの自動生成ロジックです。
+*/ ?>
+<?php if( $px->site()->get_page_info($px->req()->get_request_file_path(),'id') ){ ?>
+<div class="theme_localnavi-parent"><?php print $px->theme()->mk_link($px->site()->get_parent($px->req()->get_request_file_path())); ?></div>
+<?php } ?>
+
+<?php
+	$local_bros_page_info = $px->site()->get_bros();
+?>
+
+<?php if( count($local_bros_page_info) ){ ?>
+<ul>
+<?php foreach( $local_bros_page_info as $local_page_id ){ ?>
+<?php $local_page_info = $px->site()->get_page_info($local_page_id); ?>
+<li><?php print $px->theme()->mk_link($local_page_info['path']); ?>
+<?php if( $px->site()->is_page_in_breadcrumb( $local_page_info['id'] ) ){ ?>
+<?php $local_children = $px->site()->get_children( $local_page_info['id'] ); ?>
+<?php if( count($local_children) ){ ?>
+<ul>
+<?php foreach( $local_children as $local_child_page_id ){ ?>
+<?php $local_child_page_info = $px->site()->get_page_info($local_child_page_id); ?>
+<li><?php print $px->theme()->mk_link($local_child_page_info['path']); ?></li>
+<?php }//foreach ?>
+</ul>
+<?php }//if ?>
+<?php }//if ?>
+</li>
+<?php }//foreach ?>
+</ul>
+<?php }//if ?>
+<?php /*
+↑ ローカルナビゲーションの自動生成ロジックはここで終わりです。
+*/ ?>
+						</div><!-- /.theme_localnavi -->
+					</nav>
+
+
+				</div><!-- /.theme_column2 -->
+			</div><!-- /.theme_middle -->
+		</div><!-- /.theme_outline -->
+		<footer><div class="theme_footer_inner">
+			<div class="theme_foot_back2top"><a href="#page_top" class="up">ページの先頭へ戻る</a></div>
+			<div class="theme_foot_menu">
+				<ul>
+					<li><?php print $px->theme()->mk_link('', array('current'=>empty($page_info['id']))); ?></li>
+<?php
+	$global_menu = $px->site()->get_global_menu();
+	foreach( $global_menu as $pid ){
+		?><li><?php print $px->theme()->mk_link($pid); ?></li><?php
+	}
+?>
+				</ul>
+			</div>
+		</div></footer>
+	</body>
+</html>
