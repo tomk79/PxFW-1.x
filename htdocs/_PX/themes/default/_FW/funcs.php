@@ -223,6 +223,43 @@ class pxtheme_funcs{
 		}
 		return 'data:image/svg+xml;base64,'.base64_encode( ob_get_clean() );
 	}//create_src_link_icon_uri()
+
+	/**
+	 * セットアップを検証する
+	 */
+	public function setup_test(){
+		$errors = array();
+
+		// システムディレクトリの確認
+		if( !is_dir( $this->px->get_conf('paths.px_dir').'_sys' ) ){
+			array_push( $errors, 'システムディレクトリ paths.px_dir が存在しません。' );
+		}elseif( !is_writable( $this->px->get_conf('paths.px_dir').'_sys' ) ){
+			array_push( $errors, 'システムディレクトリ paths.px_dir に書き込み許可がありません。' );
+		}
+
+		// 公開キャッシュディレクトリの確認
+		if( !is_dir( './_caches/' ) ){
+			array_push( $errors, '公開キャッシュディレクトリ paths.px_dir が存在しません。' );
+		}elseif( !is_writable( './_caches/' ) ){
+			array_push( $errors, '公開キャッシュディレクトリ paths.px_dir に書き込み許可がありません。' );
+		}
+
+		// 結果のエラーメッセージ(または成功メッセージ)を生成して返す。
+		$rtn = '';
+		if( count($errors) ){
+			$rtn .= '<p class="error">Pickles Framework のセットアップに、一部不備があります。次の項目を確認してください。</p>';
+			$rtn .= '<ul class="error">';
+			foreach( $errors as $error ){
+				$rtn .= '<li>'.t::h($error).'</li>';
+			}
+			$rtn .= '</ul>';
+
+		}else{
+			$rtn .= '<p>おめでとうございます！ Pickles Framework のセットアップは正常に完了しました。</p>';
+		}
+		return $rtn;
+	}
+
 }
 
 ?>

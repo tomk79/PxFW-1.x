@@ -35,7 +35,7 @@
 		</header>
 		<div class="theme_welcome">
 			<div><?php print file_get_contents( $px->realpath_theme_files('img/welcome.svg') ); ?></div>
-			<p>Pickles Framework のセットアップは完了しました。</p>
+			<?php print $obj_funcs->setup_test(); ?>
 		</div>
 		<div class="theme_outline">
 			<div class="theme_middle">
