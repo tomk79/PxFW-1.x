@@ -16,6 +16,10 @@ body{
 }
 a{
 	color: <?php print $colors['link']; ?>;
+	text-decoration: underline;
+}
+a:hover{
+	text-decoration: none;
 }
 svg,
 img{
@@ -71,7 +75,7 @@ header .theme_logo a:before{
 	background-color: <?php print $colors['main']; ?>;
 	color: <?php print $colors['white']; ?>;
 	margin-bottom:1em;
-	box-shadow: 0px 5px 30px rgba(0,0,0,0.1);
+	box-shadow: 0px 3px 5px rgba(0,0,0,0.1);
 }
 .theme_column1 a{
 }
@@ -102,6 +106,7 @@ body.theme_layout_top .theme_column2{
 .theme_column2{
 	width:24%;
 	float:right;
+	box-shadow: 0px 3px 5px rgba(0,0,0,0.1);
 }
 .theme_column2 nav{
 }
@@ -123,7 +128,7 @@ body.theme_layout_top .theme_column2{
 	list-style-type:none;
 }
 .theme_localnavi a{
-	color:<?php print $colors['main']; ?>;
+	color:<?php print $colors['link']; ?>;
 	background-color:#fff;
 	display:block;
 	padding:0.5em 0.5em 0.5em 1em;
@@ -131,11 +136,11 @@ body.theme_layout_top .theme_column2{
 	text-decoration:none;
 }
 .theme_localnavi a:before{
-	content:url('<?php print $obj_funcs->create_src_link_icon_uri('icon', array('colors'=>array('link'=>$colors['link'],'linkx'=>'#fff'))); ?>');
+	content:url('<?php print $obj_funcs->create_src_link_icon_uri('icon', array('colors'=>array('link'=>$colors['link'],'linkx'=>$colors['white']))); ?>');
 	margin-right:4px;
 }
 .theme_localnavi a:hover{
-	color: <?php print $colors['main']; ?>;
+	color: <?php print $colors['link']; ?>;
 	text-decoration:underline;
 }
 .theme_localnavi ul ul li a{
@@ -194,7 +199,7 @@ footer .theme_foot_menu ul li{
 footer .theme_foot_close a,
 footer .theme_foot_menu a{
 	text-decoration:none;
-	color:<?php print $colors['main']; ?>;
+	color:<?php print $colors['link']; ?>;
 }
 footer .theme_foot_close a:hover,
 footer .theme_foot_menu a:hover{
@@ -202,7 +207,7 @@ footer .theme_foot_menu a:hover{
 }
 footer .theme_foot_close a:before,
 footer .theme_foot_menu a:before{
-	content:url('<?php print $obj_funcs->create_src_link_icon_uri('icon', array('colors'=>array('link'=>$colors['main'],'linkx'=>'#fff'))); ?>');
+	content:url('<?php print $obj_funcs->create_src_link_icon_uri('icon', array('colors'=>array('link'=>$colors['link'],'linkx'=>$colors['white']))); ?>');
 	margin-right:4px;
 }
 footer .theme_foot_close{
@@ -217,10 +222,10 @@ footer .breadcrumb{
 	padding:0.2em 1em;
 	margin:0.2em 0;
 	background-color:transparent;
-	color:<?php print $colors['main']; ?>;
+	color:<?php print $colors['link']; ?>;
 }
 footer .breadcrumb *{
-	color:<?php print $colors['main']; ?>;
+	color:<?php print $colors['link']; ?>;
 }
 
 @media all and (max-width:620px){

@@ -26,7 +26,7 @@ class pxtheme_funcs{
 		$colors['main'] = $this->px->get_conf('colors.main');
 		$hsb = t::color_hex2hsb( $colors['main'] );
 
-		$colors['thin'] = t::color_hsb2hex($hsb['h'], 20, 97);
+		$colors['thin'] = t::color_hsb2hex($hsb['h'], $hsb['s']-($hsb['s']/4*3), $hsb['b']+((100-$hsb['b'])/4*3));
 
 		$colors['link'] = $colors['main'];
 		$colors['text'] = '#333';
@@ -35,9 +35,8 @@ class pxtheme_funcs{
 
 		if( $hsb['s'] < 50 && $hsb['b'] > 50 ){
 			// $colors['link'] = '#00f';
-			$colors['mainx'] = t::color_hsb2hex($hsb['h'], 0, 28);
+			$colors['thin'] = $colors['main'];
 			$colors['link'] = '#000';
-			$colors['linkx'] = '#fff';
 			$colors['white'] = '#333';
 			$colors['black'] = '#fff';
 		}
