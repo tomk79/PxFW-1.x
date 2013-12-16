@@ -1,3 +1,14 @@
+<?php if( !$px ){ ?>
+<meta charset="utf-8" />
+<div style="background-color:#fff; color:#f00; border:2px solid #f00; padding:20px;">
+	<p>このメッセージが表示されているということは、インストールが正常に完了していない可能性があります。</p>
+	<p>次の点を確認してください。</p>
+	<ul>
+		<li>.htaccess の設定が反映されていない可能性があります。Apache の設定で <code>AllowOverride All</code> などとして、設定の上書きを許可してください。</li>
+		<li>Apache モジュールの mod_rewrite が利用できない可能性があります。有効になるように設定する、またはモジュールのインストールを行ってください。</li>
+	</ul>
+</div>
+<?php } ?>
 
 
 <h2>Pickles Framework へようこそ！</h2>
