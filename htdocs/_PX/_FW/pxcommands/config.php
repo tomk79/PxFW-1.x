@@ -59,6 +59,11 @@ class px_pxcommands_config extends px_bases_pxcommand{
 		$src .= '<table class="def" style="width:100%;">' . "\n";
 		$src .= '<colgroup><col width="30%" /><col width="30%" /><col width="40%" /></colgroup>' . "\n";
 		$src .= $this->mk_config_unit('colors.main','メインカラー');
+		foreach( $this->config_ary as $key=>$val ){
+			// カスタム色設定を出力
+			if( !preg_match('/^colors\./', $key) ){continue;}
+			$src .= $this->mk_config_unit($key,null);
+		}
 		$src .= '</table>' . "\n";
 
 		$src .= '<h3>publish</h3>'."\n";
@@ -207,8 +212,10 @@ class px_pxcommands_config extends px_bases_pxcommand{
 	private function mk_config_unit($key,$label,$type='string',$must = false){
 		$src = '';
 		$src .= '	<tr>'."\n";
-		$src .= '		<th style="word-break:break-all;">'.t::h( $key ).'</th>'."\n";
-		$src .= '		<th style="word-break:break-all;">'.t::h( $label ).'</th>'."\n";
+		$src .= '		<th style="word-break:break-all;"'.(strlen($label)?'':' colspan="2"').'>'.t::h( $key ).'</th>'."\n";
+		if( strlen($label) ){
+			$src .= '		<th style="word-break:break-all;">'.t::h( $label ).'</th>'."\n";
+		}
 		$src .= '		<td style="word-break:break-all;">';
 		if(is_null($this->config_ary[$key])){
 			$src .= '<span style="font-style:italic; color:#aaaaaa; background-color:#ffffff;">null</span>';
@@ -222,7 +229,12 @@ class px_pxcommands_config extends px_bases_pxcommand{
 					break;
 				case 'string':
 				default:
-					$src .= $this->h( $this->config_ary[$key] );
+					if( preg_match( '/^colors\./', $key ) ){
+						// 色設定の場合に限り、カラーチップを手前に置く。
+						$src .= '<span style="color:'.t::h($this->config_ary[$key]).';">■</span>'.$this->h( $this->config_ary[$key] );
+					}else{
+						$src .= $this->h( $this->config_ary[$key] );
+					}
 					break;
 			}
 		}
