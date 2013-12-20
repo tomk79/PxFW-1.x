@@ -231,19 +231,27 @@ class pxtheme_funcs{
 		$errors = array();
 
 		// システムディレクトリの確認
-		if( !is_dir( $this->px->get_conf('paths.px_dir').'_sys' ) ){
-			array_push( $errors, 'システムディレクトリ paths.px_dir が存在しません。' );
+		$realpath = $this->px->dbh()->get_realpath( $this->px->get_conf('paths.px_dir').'_sys' );
+		if( !is_dir( $realpath ) ){
+			array_push( $errors, 'システムディレクトリ '.t::h($realpath).' が存在しません。' );
 		}elseif( !is_writable( $this->px->get_conf('paths.px_dir').'_sys' ) ){
-			array_push( $errors, 'システムディレクトリ paths.px_dir に書き込み許可がありません。' );
+			array_push( $errors, 'システムディレクトリ '.t::h($realpath).' に書き込み許可がありません。' );
 		}
 
 		// 公開キャッシュディレクトリの確認
-		if( !is_dir( './_caches/' ) ){
-			array_push( $errors, '公開キャッシュディレクトリ paths.px_dir が存在しません。' );
+		$realpath = $this->px->dbh()->get_realpath( './_caches/' );
+		if( !is_dir( $realpath ) ){
+			array_push( $errors, '公開キャッシュディレクトリ '.t::h($realpath).' が存在しません。' );
 		}elseif( !is_writable( './_caches/' ) ){
-			array_push( $errors, '公開キャッシュディレクトリ paths.px_dir に書き込み許可がありません。' );
+			array_push( $errors, '公開キャッシュディレクトリ '.t::h($realpath).' に書き込み許可がありません。' );
 		}
+		return $errors;
+	}
 
+	/**
+	 * セットアップ検証結果を表示する
+	 */
+	public function mk_setup_test( $errors = array() ){
 		// 結果のエラーメッセージ(または成功メッセージ)を生成して返す。
 		$rtn = '';
 		if( count($errors) ){

@@ -5,6 +5,17 @@
 	//↓ $page_info にページの情報を格納しています。
 	//	 test::var_dump( $page_info ); で、変数の内容を確認できます。
 	$page_info = $this->px->site()->get_current_page_info();
+	$colors = $obj_funcs->get_color_scheme();
+	$test_results = $obj_funcs->setup_test();
+	$messageBoxSetting = array();
+	$messageBoxSetting['main'] = '#ff9933';
+	$messageBoxSetting['bg'] = '#fff5f0';
+	$messageBoxSetting['radius'] = '1em';
+	if( count($test_results) ){
+		$messageBoxSetting['main'] = '#ff0000';
+		$messageBoxSetting['bg'] = '#ffeeee';
+		$messageBoxSetting['radius'] = '0px';
+	}
 ?><!doctype html>
 <html>
 	<head>
@@ -23,6 +34,38 @@
 		<link rel="stylesheet" href="<?php print t::h($px->theme()->href('/common/css/setup.css')); ?>" type="text/css" />
 		<link rel="stylesheet" href="<?php print t::h($px->theme()->href('/common/css/modules.css')); ?>" type="text/css" />
 		<link rel="stylesheet" href="<?php print t::h($px->path_theme_files('/css/common.css')); ?>" type="text/css" />
+		<style type="text/css">
+			.theme_welcome{
+				background:#fff url('data:image/svg+xml;base64,<?php print base64_encode(file_get_contents( $px->realpath_theme_files('img/welcome.svg') )); ?>') center center no-repeat;
+				min-height:300px;
+				text-align: left;
+				padding:10px;
+			}
+			.theme_welcome .theme_welcome-inner{
+				width:auto;
+				max-width:900px;
+				margin:0 auto;
+				padding:1.5em 0;
+			}
+			.theme_welcome .theme_welcome-message{
+				border:4px solid <?php print $messageBoxSetting['main']; ?>;
+				color: <?php print $messageBoxSetting['main']; ?>;
+				background-color: <?php print $messageBoxSetting['bg']; ?>;
+				border-radius: <?php print $messageBoxSetting['radius']; ?>;
+				padding:1.5em;
+				margin-right:auto;
+				max-width:400px;
+			}
+			.theme_welcome .theme_welcome-message *{
+				margin-top:0;
+				margin-bottom:0;
+			}
+			.theme_welcome .theme_welcome-title{
+				color:<?php print t::h($colors['link']); ?>;
+				font-weight:bold;
+				font-size:xx-large;
+			}
+		</style>
 <?php
 	//↓コンテンツから受け取った
 	//	headセクション内用のソースを出力しています。
@@ -34,8 +77,12 @@
 			<h1 class="theme_logo"><a href="<?php print t::h( $px->theme()->href('') ); ?>"><?php print t::h($px->get_conf('project.name')); ?></a></h1>
 		</header>
 		<div class="theme_welcome">
-			<div><?php print file_get_contents( $px->realpath_theme_files('img/welcome.svg') ); ?></div>
-			<?php print $obj_funcs->setup_test(); ?>
+			<div class="theme_welcome-inner">
+				<p class="theme_welcome-title"><?php print t::h($px->get_conf('project.name')); ?> へようこそ！</p>
+				<div class="theme_welcome-message">
+					<?php print $obj_funcs->mk_setup_test( $test_results ); ?>
+				</div>
+			</div>
 		</div>
 		<div class="theme_outline">
 			<div class="theme_middle">
