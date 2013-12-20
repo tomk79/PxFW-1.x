@@ -234,15 +234,15 @@ class pxtheme_funcs{
 		$realpath = $this->px->dbh()->get_realpath( $this->px->get_conf('paths.px_dir').'_sys' );
 		if( !is_dir( $realpath ) ){
 			array_push( $errors, 'システムディレクトリ '.t::h($realpath).' が存在しません。' );
-		}elseif( !is_writable( $this->px->get_conf('paths.px_dir').'_sys' ) ){
+		}elseif( !is_writable( $realpath ) ){
 			array_push( $errors, 'システムディレクトリ '.t::h($realpath).' に書き込み許可がありません。' );
 		}
 
 		// 公開キャッシュディレクトリの確認
-		$realpath = $this->px->dbh()->get_realpath( './_caches/' );
+		$realpath = $this->px->dbh()->get_realpath( './'.$this->px->get_conf('system.public_cache_dir').'/' );
 		if( !is_dir( $realpath ) ){
 			array_push( $errors, '公開キャッシュディレクトリ '.t::h($realpath).' が存在しません。' );
-		}elseif( !is_writable( './_caches/' ) ){
+		}elseif( !is_writable( $realpath ) ){
 			array_push( $errors, '公開キャッシュディレクトリ '.t::h($realpath).' に書き込み許可がありません。' );
 		}
 		return $errors;

@@ -101,7 +101,7 @@ class px_px{
 		if( strlen($this->req()->get_param('THEME')) ){
 			$this->theme()->set_theme_id( $this->req()->get_param('THEME') );
 		}
-		if( !is_dir( $_SERVER['DOCUMENT_ROOT'].$this->get_install_path().'_caches/themes/'.$this->theme()->get_theme_id().'/' ) ){
+		if( !is_dir( $_SERVER['DOCUMENT_ROOT'].$this->get_install_path().''.$this->get_conf('system.public_cache_dir').'/themes/'.$this->theme()->get_theme_id().'/' ) ){
 			// テーマリソースキャッシュの一次生成
 			$this->path_theme_files('/');
 		}
@@ -269,7 +269,7 @@ class px_px{
 
 		$path_original = $this->get_install_path().$path_content;
 		$path_original = $this->dbh()->get_realpath($this->dbh()->trim_extension($path_original).'.files/'.$localpath_resource);
-		$rtn = $this->get_install_path().'/_caches/contents'.$path_content;
+		$rtn = $this->get_install_path().'/'.$this->get_conf('system.public_cache_dir').'/contents'.$path_content;
 		$rtn = $this->dbh()->get_realpath($this->dbh()->trim_extension($rtn).'.files/'.$localpath_resource);
 		if( file_exists( $_SERVER['DOCUMENT_ROOT'].$path_original ) ){
 			if( is_dir($_SERVER['DOCUMENT_ROOT'].$path_original) ){
@@ -306,7 +306,7 @@ class px_px{
 		$localpath_theme_resource = preg_replace('/^\/+/', '', $localpath_theme_resource);
 
 		$realpath_original = $this->realpath_theme_files().'/'.$localpath_theme_resource;
-		$realpath_copyto = $_SERVER['DOCUMENT_ROOT'].$this->get_install_path().'_caches/themes/'.$this->theme()->get_theme_id().'/'.$localpath_theme_resource;
+		$realpath_copyto = $_SERVER['DOCUMENT_ROOT'].$this->get_install_path().''.$this->get_conf('system.public_cache_dir').'/themes/'.$this->theme()->get_theme_id().'/'.$localpath_theme_resource;
 		if( is_file($realpath_original) ){
 			// 対象がファイルだったら
 			if( strtolower($this->dbh()->get_extension($realpath_copyto)) == 'nopublish' ){
@@ -316,7 +316,7 @@ class px_px{
 				// キャッシュを作成・更新。
 				$this->dbh()->mkdir_all( dirname($realpath_copyto) );
 				$this->dbh()->copy( $realpath_original, $realpath_copyto );
-				$this->add_relatedlink( $this->get_install_path().'_caches/themes/'.$this->theme()->get_theme_id().'/'.$localpath_theme_resource );
+				$this->add_relatedlink( $this->get_install_path().''.$this->get_conf('system.public_cache_dir').'/themes/'.$this->theme()->get_theme_id().'/'.$localpath_theme_resource );
 			}
 		}elseif( is_dir($realpath_original) ){
 			// 対象がディレクトリだったら
@@ -326,7 +326,7 @@ class px_px{
 			}
 		}
 
-		$rtn = $this->get_install_path().'_caches/themes/'.$this->theme()->get_theme_id().'/'.$localpath_theme_resource;
+		$rtn = $this->get_install_path().''.$this->get_conf('system.public_cache_dir').'/themes/'.$this->theme()->get_theme_id().'/'.$localpath_theme_resource;
 		return $rtn;
 	}//path_theme_files()
 
@@ -510,7 +510,36 @@ class px_px{
 	 * コンフィグ値のロード
 	 */
 	private function load_conf( $path_mainconf ){
-		$conf = array();
+		$conf = array(
+			// デフォルト値セット
+			'paths.px_dir'=>"./_PX/",
+			'colors.main'=>"#00a0e6",
+			'publish_extensions.html'=>"http",
+			'publish_extensions.css'=>"http",
+			'publish_extensions.js'=>"http",
+			'publish_extensions.php'=>"copy",
+			'publish_extensions.nopublish'=>"nopublish",
+			'publish_extensions.inc'=>"include_text",
+			'system.allow_pxcommands'=>"0",
+			'system.session_name'=>"PXSID",
+			'system.session_expire'=>"1800",
+			'system.filesystem_encoding'=>"UTF-8",
+			'system.default_theme_id'=>"default",
+			'system.file_default_permission'=>"775",
+			'system.dir_default_permission'=>"775",
+			'system.public_cache_dir'=>"_caches",
+		);
+
+
+		$conf['colors.main'] = '#00a0e6';
+		// system.default_theme_id
+		// system.filesystem_encoding
+		// system.output_encoding
+		$conf['system.default_theme_id'] = '775';
+		$conf['system.file_default_permission'] = '775';
+		$conf['system.dir_default_permission'] = '775';
+		$conf['system.public_cache_dir'] = '_caches';
+
 		if( !is_file($path_mainconf) ){ return $conf; }
 		if( !is_readable($path_mainconf) ){ return $conf; }
 		$tmp_conf = parse_ini_file( $path_mainconf , true );
@@ -534,6 +563,7 @@ class px_px{
 			}
 		}
 		unset( $tmp_conf , $key1 , $row1 , $key2 , $val );
+
 		return $conf;
 	}//load_conf()
 

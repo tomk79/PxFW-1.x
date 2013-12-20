@@ -12,7 +12,9 @@
 - $px->realpath_theme_private_cache_dir() を追加。
 - $px->realpath_plugin_private_cache_dir() を追加。
 - $site->get_global_menu() を追加。
+- コンフィグ項目 system.public_cache_dir を追加。
 - デフォルトテーマのデザインを変更。
+- 設定ファイル読み込み時に、設定されていないいくつかの項目にデフォルトの値を適用するようにした。
 - FESS 1.1.1 に更新。
 - パブリッシュログファイルのパーミッションをコンフィグの設定値にセットするようにした。
 - システム要件にPHPのバージョンを変更した。PHP 5.3以上とした。

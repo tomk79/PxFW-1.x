@@ -134,6 +134,7 @@ class px_pxcommands_config extends px_bases_pxcommand{
 		$src .= $this->mk_config_unit('system.output_eof_coding','出力改行コード("CR"|"LF"|"CRLF")');
 		$src .= $this->mk_config_unit('system.file_default_permission','ファイル書き込み時のデフォルトのパーミッション');
 		$src .= $this->mk_config_unit('system.dir_default_permission','ディレクトリ書き込み時のデフォルトのパーミッション');
+		$src .= $this->mk_config_unit('system.public_cache_dir','公開キャッシュディレクトリのディレクトリ名');
 		$src .= '</table>' . "\n";
 
 		$src .= '</div><!-- /.unit -->'."\n";

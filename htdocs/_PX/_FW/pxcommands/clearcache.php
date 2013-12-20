@@ -120,7 +120,7 @@ class px_pxcommands_clearcache extends px_bases_pxcommand{
 	private function setup(){
 		$this->setup_add_targetpath( $this->px->get_conf('paths.px_dir').'_sys/caches/' );
 		$this->setup_add_targetpath( $this->px->get_conf('paths.px_dir').'_sys/publish/' );
-		$this->setup_add_targetpath( './_caches/' );
+		$this->setup_add_targetpath( './'.$this->px->get_conf('system.public_cache_dir').'/' );
 		return true;
 	}//setup()
 
