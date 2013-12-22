@@ -4,7 +4,7 @@ RewriteCond %{REQUEST_URI} !^.*?/_px_execute.php/
 RewriteCond %{REQUEST_URI} /(.*?\.(?:html|css|js))?$
 RewriteRule ^(.*)$ _px_execute.php/$1 [L]
 
-Options -MultiViews +FollowSymLinks
+Options -MultiViews
 
 php_flag display_errors Off
 
