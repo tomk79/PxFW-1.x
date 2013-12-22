@@ -12,21 +12,61 @@
 <?php } ?>
 
 
-<h2>Pickles Framework へようこそ！</h2>
-<p>
-	これは、Pickles Framework のトップページです。<br />
-</p>
+<h2>次のステップ</h2>
 
-<h2>コーディング規則 と ドキュメントモジュール</h2>
+<div class="cols unit">
+	<div class="cols-col cols-1of3"><div class="cols-pad">
+		<h3>サイトマップを編集します</h3>
+		<p>
+			はじめに、サイト全体の構造をサイトマップに登録します。1行が1ページで表現されるCSV形式のファイルです。<br />
+		</p>
+		<p>
+			サイトマップCSVは次のパスに置かれています。<br />
+		</p>
+		<div class="code"><pre><code>./_PX/sitemaps/</code></code></pre></div>
+
+	</div></div>
+	<div class="cols-col cols-1of3"><div class="cols-pad">
+		<h3>コンテンツを編集します</h3>
+		<p>
+			コンテンツは、コンテンツエリアのソースだけが記述されたシンプルなHTMLファイルです。<br />
+			サイトマップの path 欄に登録したパスにHTMLファイルを作成してください。
+		</p>
+	</div></div>
+	<div class="cols-col cols-1of3 cols-last"><div class="cols-pad">
+		<h3>テーマを編集します</h3>
+		<p>
+			テーマは、コンテンツエリア以外のHTMLソースを生成するPHPテンプレートです。<br />
+			次のパスに置かれています。<br />
+		</p>
+		<div class="code"><pre><code>./_PX/themes/</code></code></pre></div>
+		<p class="small">
+			テーマは、複数登録して切り替えてプレビューすることができます。パラメータに <a href="?PX=themes">?PX=themes</a> をつけてアクセスすると、テーマを選択する画面が開きます。<br />
+		</p>
+	</div></div>
+</div><!-- / .cols -->
+
+<h3>パブリッシュします</h3>
 <p>
-	Pickles Framework 標準のコーディング規則およびドキュメントモジュール定義は、次のページを参照してください。<br />
+	サイトができあがったら、そのまま静的なHTMLに書き出すことができます。<br />
+	パラメータに <a href="?PX=publish">?PX=publish</a> をつけてアクセスすると、パブリッシュの管理画面が開きます。<br />
+</p>
+<p>
+	あとは、ボタンを押すだけ。<br />
+	しばらくすると、次のパスに生成されます。<br />
+</p>
+<div class="code"><pre><code>./_PX/_sys/publish/</code></code></pre></div>
+
+<h2>コーディング規則 と ドキュメントモジュール定義</h2>
+<p>
+	Pickles Framework では、 <a href="https://github.com/tomk79/FESS" target="_blank">FESS</a> が規定するコーディング規則およびドキュメントモジュール定義を利用しています。詳しくは次のページを参照してください。<br />
 </p>
 <ul>
 	<li><a href="docs/modules/">ドキュメントモジュール</a></li>
 </ul>
 
 <p>
-	これらのドキュメントは、次のファイルに記述されています。コーディング規則やCSS実装の確認用として利用できますが、不要な場合削除しても大丈夫です。<br />
+	これらのドキュメントは、次のファイルに記述されています。不要な場合削除してください。<br />
 </p>
 <ul>
 	<li>./docs/*</li>

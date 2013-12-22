@@ -39,7 +39,7 @@
 				background:#fff url('data:image/svg+xml;base64,<?php print base64_encode(file_get_contents( $px->realpath_theme_files('img/welcome.svg') )); ?>') center center no-repeat;
 				min-height:300px;
 				text-align: left;
-				padding:10px;
+				padding:10px 2em;
 			}
 			.theme_welcome .theme_welcome-inner{
 				width:auto;
@@ -52,7 +52,7 @@
 				color: <?php print $messageBoxSetting['main']; ?>;
 				background-color: <?php print $messageBoxSetting['bg']; ?>;
 				border-radius: <?php print $messageBoxSetting['radius']; ?>;
-				padding:1.5em;
+				padding:1em 1.5em;
 				margin-right:auto;
 				max-width:400px;
 			}
@@ -64,6 +64,7 @@
 				color:<?php print t::h($colors['link']); ?>;
 				font-weight:bold;
 				font-size:xx-large;
+				margin:1em 0 0.5em 0;
 			}
 		</style>
 <?php

@@ -82,6 +82,10 @@ a span.pdf:after{
 	border-color: #bbb;
 	background-color: #fafafa;
 }
+.must{
+	margin-left:0.5em;
+	margin-right:0.5em;
+}
 
 .contents .thumb_list{}
 @media all and (max-width:620px){
@@ -105,3 +109,19 @@ a span.pdf:after{
 	}
 }
 
+table.form_elements{}
+@media all and (max-width:500px){
+	table.form_elements{
+		display:block;
+		width:auto;
+		border-bottom: 1px solid #999999;
+	}
+	table.form_elements tbody,
+	table.form_elements tbody tr,
+	table.form_elements tbody th,
+	table.form_elements tbody td{
+		display:block;
+		width:auto;
+		border-bottom-width: 0;
+	}
+}
