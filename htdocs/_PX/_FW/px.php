@@ -797,7 +797,7 @@ class px_px{
 		$rtn = array();
 		$tmp_path_plugins_base_dir = $this->get_conf('paths.px_dir').'plugins/';
 		$items = $this->dbh()->ls($tmp_path_plugins_base_dir);
-		sort($items, SORT_NATURAL|SORT_FLAG_CASE);//名前順に並び替え。検索の順番を保証するため。
+		usort($items, "strnatcmp");//名前順に並び替え。検索の順番を保証するため。
 		foreach( $items as $base_name ){
 			if( !is_dir($tmp_path_plugins_base_dir.$base_name) ){
 				continue;
