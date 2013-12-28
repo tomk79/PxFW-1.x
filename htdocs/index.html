@@ -27,13 +27,6 @@
 
 	</div></div>
 	<div class="cols-col cols-1of3"><div class="cols-pad">
-		<h3>コンテンツを編集します</h3>
-		<p>
-			コンテンツは、コンテンツエリアのソースだけが記述されたシンプルなHTMLファイルです。<br />
-			サイトマップの path 欄に登録したパスにHTMLファイルを作成してください。
-		</p>
-	</div></div>
-	<div class="cols-col cols-1of3 cols-last"><div class="cols-pad">
 		<h3>テーマを編集します</h3>
 		<p>
 			テーマは、コンテンツエリア以外のHTMLソースを生成するPHPテンプレートです。<br />
@@ -42,6 +35,13 @@
 		<div class="code"><pre><code>./_PX/themes/</code></code></pre></div>
 		<p class="small">
 			テーマは、複数登録して切り替えてプレビューすることができます。パラメータに <a href="?PX=themes">?PX=themes</a> をつけてアクセスすると、テーマを選択する画面が開きます。<br />
+		</p>
+	</div></div>
+	<div class="cols-col cols-1of3 cols-last"><div class="cols-pad">
+		<h3>コンテンツを編集します</h3>
+		<p>
+			コンテンツは、コンテンツエリアのソースだけが記述されたシンプルなHTMLファイルです。<br />
+			サイトマップの path 欄に登録したパスにHTMLファイルを作成してください。<br />
 		</p>
 	</div></div>
 </div><!-- / .cols -->
@@ -73,5 +73,16 @@
 	<li>./_PX/sitemaps/_docs.csv</li>
 </ul>
 
-
-
+<h2>PXコマンドに関する注意事項</h2>
+<p>
+	PXコマンドは、パブリッシュ機能(<a href="?PX=publish">?PX=publish</a>) や テーマ選択機能(<a href="?PX=themes">?PX=themes</a>)の他にも、Pickles Framework を便利に使うためのさまざまな機能を提供します。PXコマンドはサーバー内部の情報にアクセスしたり、サーバー上のデータを書き換えるインターフェイスを提供するため、<strong>第3者にアクセスされると大変キケンです</strong>。<br />
+	Pickles Framework をインターネット上のサーバーで動かす場合には、次のことに注意してください。<br />
+</p>
+<ul>
+	<li>ウェブ制作環境として利用する場合、利用基本認証やIP制限などの処理を施し、一般のユーザーがアクセスできない場所に設置してください。</li>
+	<li>または、Pickles Framework 上に構築したウェブアプリケーションをサービスとして公開する場合、設定ファイル (./_PX/configs/mainconf.ini) の <code>[system] allow_pxcommands</code> の値を <code>0</code> に設定し、PXコマンド機能を無効にしてください。
+		<div class="code"><pre><code>[system]
+allow_pxcommands = 0 ; PX Commands の実行を許可するフラグ(1=許可, 0=不許可)
+</code></pre></div>
+	</li>
+</ul>

@@ -171,9 +171,7 @@ class px_bases_pxcommand{
 		}
 		$src .= '</dl>'."\n";
 
-		$src .= '<form action="?" method="get">'."\n";
-		$src .= '<p class="center"><input type="submit" value="PX Commands を終了する" /></p>'."\n";
-		$src .= '</form>'."\n";
+		$src .= '<p class="center"><a href="?">PX Commands を終了する</a></p>'."\n";
 		$src .= '<p class="pxcmd-credits"><a href="http://pickles.pxt.jp/" target="_blank">Pickles Framework</a> (C)Tomoya Koyanagi.</p>'."\n";
 		$src .= '</div><!-- /.footer -->'."\n";
 		$src .= '</div>'."\n";
@@ -273,6 +271,7 @@ a:hover{
 .pxcmd-footer{
 	margin:0px auto;
 	padding:1em 5%;
+	font-size: 80%;
 	background-color:<?php print t::h($color_main); ?>;
 	color:<?php print t::h($this->colors['text_on_main']); ?>;
 }
@@ -300,7 +299,6 @@ a:hover{
 	float: left;
 	margin: 0;
 	padding: 0 0.5em 0 0.5em;
-	font-size: 80%;
 	border-left: 1px solid <?php print t::h($this->colors['text_on_main']); ?>;
 }
 .pxcmd-credits{
