@@ -49,6 +49,7 @@ header{
 header .theme_logo{
 	padding:0; margin:0;
 	font-size:x-large;
+	float:left;
 }
 header .theme_logo span,
 header .theme_logo a{
@@ -64,6 +65,33 @@ header .theme_logo a:before{
 	content:url('data:image/svg+xml;base64,<?php print base64_encode($obj_funcs->create_src_pxfw_logo_svg(array('color'=>$colors['link']))); ?>');
 	vertical-align: text-top;
 	margin-right:15px;
+}
+header .theme_head_menu{
+	text-align: center;
+	margin:1em 0;
+	float:right;
+	font-size: 80%;
+}
+header .theme_head_menu ul{
+	padding:0; margin:0;
+}
+header .theme_head_menu ul li{
+	padding:0; margin:0 0.5em;
+	list-style-type:none;
+	display:inline;
+}
+header .theme_head_menu a{
+	text-decoration:none;
+	color:<?php print $colors['link']; ?>;
+	display:inline-block;
+}
+header .theme_head_menu a.current,
+header .theme_head_menu a:hover{
+	text-decoration:underline;
+}
+header .theme_head_menu a:before{
+	content:url('<?php print $obj_funcs->create_src_link_icon_uri('icon', array('colors'=>array('link'=>$colors['link'],'linkx'=>$colors['white']))); ?>');
+	margin-right:4px;
 }
 .theme_welcome{
 	background-color:#fff;
@@ -206,6 +234,8 @@ footer .theme_foot_menu a{
 	text-decoration:none;
 	color:<?php print $colors['link']; ?>;
 }
+footer .theme_foot_close a.current,
+footer .theme_foot_menu a.current,
 footer .theme_foot_close a:hover,
 footer .theme_foot_menu a:hover{
 	text-decoration:underline;
@@ -279,6 +309,32 @@ footer .breadcrumb *{
 	margin:0px;
 	padding:0px;
 	font-size: 85%;
+}
+
+
+
+/**
+ * .clearfix
+ */
+header,
+footer {
+  display: block;
+  float: none;
+  clear: both;
+
+  /* clearfix(for IE6,7) (IE8以降不要) */
+  zoom: 1;
+}
+
+header:after,
+footer:after {
+  content: " ";
+  display: block;
+  visibility: hidden;
+  height: 0.1px;
+  font-size: 0.1em;
+  line-height: 0;
+  clear: both;
 }
 
 

@@ -84,6 +84,18 @@
 	<body class="theme_layout_top">
 		<header id="page_top">
 			<h1 class="theme_logo"><a href="<?php print t::h( $px->theme()->href('') ); ?>"><?php print t::h($px->get_conf('project.name')); ?></a></h1>
+<?php
+	$global_menu = $px->site()->get_global_menu();
+	if( count($global_menu) ){
+		print '			<div class="theme_head_menu"><nav>'."\n";
+		print '				<ul>'."\n";
+		foreach( $global_menu as $pid ){
+			?><li><?php print $px->theme()->mk_link($pid); ?></li><?php
+		}
+		print '				</ul>'."\n";
+		print '			</nav></div>'."\n";
+	}
+?>
 		</header>
 		<div class="theme_welcome">
 			<div class="theme_welcome-inner">
@@ -159,7 +171,7 @@
 		</div><!-- /.theme_outline -->
 		<footer><div class="theme_footer_inner">
 			<div class="theme_foot_back2top"><a href="#page_top" class="up">ページの先頭へ戻る</a></div>
-			<div class="theme_foot_menu">
+			<div class="theme_foot_menu"><nav>
 				<ul>
 					<li><?php print $px->theme()->mk_link('', array('current'=>empty($page_info['id']))); ?></li>
 <?php
@@ -169,7 +181,7 @@
 	}
 ?>
 				</ul>
-			</div>
+			</nav></div>
 		</div></footer>
 	</body>
 </html>
