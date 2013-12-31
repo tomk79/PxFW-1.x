@@ -471,13 +471,19 @@ class px_cores_theme{
 			$tmp = array();
 			$tmp['label'] = $matched[4];
 			$tmp['label'] = strip_tags( $tmp['label'] );//ラベルからHTMLタグを除去
-			$tmp['anch'] = 'hash_'.($tmp['label']);
+			// IDに含められない文字をアンダースコアに変換;
+			$label_for_anch = $tmp['label'];
+			$label_for_anch = preg_replace('/[ #%]/', '_', $label_for_anch);
+			$label_for_anch = preg_replace('/[\[\{\<]/', '(', $label_for_anch);
+			$label_for_anch = preg_replace('/[\]\}\>]/', ')', $label_for_anch);
+			$tmp['anch'] = 'hash_'.($label_for_anch);
 			if($indexCounter[$tmp['anch']]){
 				$indexCounter[$tmp['anch']] ++;
-				$tmp['anch'] = 'hash_'.$indexCounter[$tmp['anch']].'_'.($tmp['label']);
+				$tmp['anch'] = 'hash_'.$indexCounter[$tmp['anch']].'_'.($label_for_anch);
 			}else{
 				$indexCounter[$tmp['anch']] = 1;
 			}
+
 			$tmp['headlevel'] = intval($matched[3]);
 			if( $tmp['headlevel'] ){# 引っかかったのが見出しの場合
 				array_push( $index , $tmp );
