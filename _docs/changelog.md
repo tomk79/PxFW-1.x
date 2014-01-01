@@ -3,7 +3,7 @@
 # PxFW(Pickles Framework) 更新履歴
 
 
-## PxFW 1.0.0 (2013/\*\*/\*\*)
+## PxFW 1.0.0 (2014/1/2)
 
 - $px->realpath_ramdata_dir() を追加。
 - $px->realpath_theme_ramdata_dir() を追加。
