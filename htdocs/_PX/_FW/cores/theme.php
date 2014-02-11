@@ -222,6 +222,7 @@ class px_cores_theme{
 		$path = $linkto;
 		if( $tmp_page_info_by_id['path'] ){
 			$path = $tmp_page_info_by_id['path'];
+			$linkto = $path;
 		}
 		unset($tmp_page_info_by_id);
 
