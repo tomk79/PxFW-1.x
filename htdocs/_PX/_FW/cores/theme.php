@@ -220,20 +220,21 @@ class px_cores_theme{
 		$parsed_url = parse_url($linkto);
 		$tmp_page_info_by_id = $this->px->site()->get_page_info_by_id($linkto);
 		$path = $linkto;
+		$path_type = $this->px->site()->get_path_type( $linkto );
 		if( $tmp_page_info_by_id['path'] ){
 			$path = $tmp_page_info_by_id['path'];
-			$linkto = $path;
+			$path_type = $this->px->site()->get_path_type( $path );
 		}
 		unset($tmp_page_info_by_id);
 
 		if( preg_match( '/^alias[0-9]*\:(.+)/' , $path , $tmp_matched ) ){
 			//  エイリアスを解決
 			$path = $tmp_matched[1];
-		}elseif( $this->px->site()->get_path_type( $linkto ) == 'dynamic' ){
+		}elseif( $path_type == 'dynamic' ){
 			//  ダイナミックパスをバインド
 			// $sitemap_dynamic_path = $this->px->site()->get_dynamic_path_info( $linkto );
 			// $tmp_path = $sitemap_dynamic_path['path_original'];
-			$tmp_path = $linkto;
+			$tmp_path = $path;
 			$path = '';
 			while( 1 ){
 				if( !preg_match( '/^(.*?)\{(\$|\*)([a-zA-Z0-9\_\-]*)\}(.*)$/s' , $tmp_path , $tmp_matched ) ){
@@ -252,8 +253,6 @@ class px_cores_theme{
 				continue;
 			}
 			unset($tmp_path , $tmp_matched);
-		}elseif( $this->px->site()->get_path_type( $linkto ) == 'normal' ){
-			$path = $linkto;
 		}
 
 		switch( $this->px->site()->get_path_type( $path ) ){
