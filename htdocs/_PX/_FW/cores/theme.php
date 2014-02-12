@@ -219,6 +219,7 @@ class px_cores_theme{
 	public function href( $linkto ){
 		$parsed_url = parse_url($linkto);
 		$tmp_page_info_by_id = $this->px->site()->get_page_info_by_id($linkto);
+		if( !$tmp_page_info_by_id ){ $tmp_page_info_by_id = $this->px->site()->get_page_info_by_id($parsed_url['path']); }
 		$path = $linkto;
 		$path_type = $this->px->site()->get_path_type( $linkto );
 		if( $tmp_page_info_by_id['path'] ){
@@ -289,8 +290,10 @@ class px_cores_theme{
 	 * @return string aタグ
 	 */
 	public function mk_link( $linkto ){
+		$parsed_url = parse_url($linkto);
 		$args = func_get_args();
 		$page_info = $this->px->site()->get_page_info($linkto);
+		if( !$page_info ){ $page_info = $this->px->site()->get_page_info($parsed_url['path']); }
 		$href = $this->href($linkto);
 		$hrefc = $this->href($this->px->req()->get_request_file_path());
 		$label = $page_info['title_label'];
@@ -314,7 +317,7 @@ class px_cores_theme{
 			$is_current = !empty($options['current']);
 		}elseif($href==$hrefc){
 			$is_current = true;
-		}elseif( $this->px->site()->is_page_in_breadcrumb($linkto) ){
+		}elseif( $this->px->site()->is_page_in_breadcrumb($page_info['id']) ){
 			$is_current = true;
 		}
 		$is_popup = false;
