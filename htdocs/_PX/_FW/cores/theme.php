@@ -222,7 +222,7 @@ class px_cores_theme{
 		if( !$tmp_page_info_by_id ){ $tmp_page_info_by_id = $this->px->site()->get_page_info_by_id($parsed_url['path']); }
 		$path = $linkto;
 		$path_type = $this->px->site()->get_path_type( $linkto );
-		if( $tmp_page_info_by_id['path'] ){
+		if( $tmp_page_info_by_id['id'] == $linkto || $tmp_page_info_by_id['id'] == $parsed_url['path'] ){
 			$path = $tmp_page_info_by_id['path'];
 			$path_type = $this->px->site()->get_path_type( $path );
 		}
