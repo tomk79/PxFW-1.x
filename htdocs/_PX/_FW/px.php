@@ -178,6 +178,9 @@ class px_px{
 				print $this->theme()->output_filter($this->theme()->bind_contents( '<p>Unknow extension.</p>' ), 'html');
 			}
 		}else{
+			if( is_null($this->site()->get_current_page_info())){
+				return $this->page_notfound();
+			}
 			print $this->theme()->output_filter($this->theme()->bind_contents( '<p>Content file is not found.</p>' ), 'html');
 		}
 		$final_html = @ob_get_clean();
