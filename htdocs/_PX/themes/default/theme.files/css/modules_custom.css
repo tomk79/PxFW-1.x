@@ -18,6 +18,9 @@
 	color: <?php print $colors['white']; ?>;
 	padding:0.3em 1em;
 }
+.contents h2 *{
+	color: <?php print $colors['white']; ?>;
+}
 .contents h3{
 	color: #000;
 	border-bottom:2px solid <?php print $colors['main']; ?>;
