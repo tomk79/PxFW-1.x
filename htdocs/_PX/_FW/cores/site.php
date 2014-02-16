@@ -228,9 +228,10 @@ class px_cores_site{
 		//  ページツリー情報を構成
 		$this->sitemap_page_tree = array();
 		foreach( $this->sitemap_array as $tmp_path=>$tmp_page_info ){
-			set_time_limit(30);//タイマー延命
+			set_time_limit(0);//タイマー延命
 			$this->get_children( $tmp_path, array('filter'=>true) );
 			$this->get_children( $tmp_path, array('filter'=>false) );//list_flgを無視して、全員持ってくる
+			set_time_limit(30);//タイマーリセット
 		}
 		unset($tmp_path, $tmp_page_info );
 
