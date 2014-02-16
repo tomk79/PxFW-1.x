@@ -16,6 +16,7 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 	private $queue_items = array();//←パブリッシュ対象の一覧
 	private $done_items = array();//←パブリッシュ完了した対象の一覧
 	private $path_target = null;//←パブリッシュ対象パス
+	private $param_path_target = null;//←パブリッシュ対象パス(パラメータで指示された分)
 	private $internal_errors = array();//←その他の内部エラー
 	private $publish_type_extension_map = array(//←拡張子とパブリッシュタイプのマッピング配列
 		//  'http'|'include_text'|'copy'|'nopublish'
@@ -39,7 +40,22 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 
 		$this->path_target = $this->px->dbh()->get_realpath( $this->px->get_install_path() ).$_SERVER['PATH_INFO'];
 		$this->path_target = preg_replace('/^\/+/s','/',$this->path_target);
-		// $this->path_target = preg_replace('/\/'.$this->px->get_directory_index_preg_pattern().'$/s','/',$this->path_target);
+		$this->path_target = preg_replace('/\/'.$this->px->get_directory_index_preg_pattern().'$/s','/',$this->path_target);
+		$func_check_param_path = function($path){
+			if( !preg_match('/^\//', $path) ){
+				return false;
+			}
+			$path = preg_replace('/(?:\/|\\\\)/', '/', $path);
+			if( preg_match('/(?:^|\/)\.{1,2}(?:$|\/)/', $path) ){
+				return false;
+			}
+			return true;
+		};
+		$param_path_target = $this->px->req()->get_param('path_target');
+		if( strlen( $param_path_target ) && $param_path_target != $this->path_target && $func_check_param_path( $param_path_target ) ){
+			$this->path_target = $param_path_target;
+			$this->param_path_target = $param_path_target;
+		}
 
 		$command = $this->get_command();
 		$this->setup();
@@ -79,7 +95,7 @@ function contEditPublishTargetPath(){
 }
 function contEditPublishTargetPathApply(formElm){
 	var path = $('input[name=path]', formElm).val();
-	window.location.href = path + '?PX=publish';
+	window.location.href = path + '?PX=publish&path_target='+encodeURIComponent(path);
 }
 </script>
 <?php
@@ -178,7 +194,7 @@ function contEditPublishTargetPathApply(formElm){
 			$src .= '	<p>次のボタンをクリックしてパブリッシュを実行してください。</p>'."\n";
 			$src .= '	<form action="?" method="get" target="_blank">'."\n";
 			$src .= '	<p class="center"><button class="xlarge">パブリッシュを実行する</button></p>'."\n";
-			$src .= '	<div><input type="hidden" name="PX" value="publish.run" /></div>'."\n";
+			$src .= '	<div><input type="hidden" name="PX" value="publish.run" />'.(strlen( $this->param_path_target )?'<input type="hidden" name="path_target" value="'.t::h( $this->path_target ).'" />':'').'</div>'."\n";
 			$src .= '	</form>'."\n";
 			$src .= '</div><!-- /.unit -->'."\n";
 
@@ -193,9 +209,9 @@ function contEditPublishTargetPathApply(formElm){
 				$auth_curl = '--user '.t::data2text( $this->px->get_conf('project.auth_name').':'.$this->px->get_conf('project.auth_password') ).' ';
 				$auth_wget = '--http-user='.t::data2text( $this->px->get_conf('project.auth_name') ).' --http-passwd='.t::data2text( $this->px->get_conf('project.auth_password') ).' ';
 			}
-			$src .= '       	<dd>$ curl '.t::h($auth_curl).''.t::h( t::data2text('http://'.$_SERVER['HTTP_HOST'].$this->path_target.'?PX=publish.run') ).'</dd>'."\n";
+			$src .= '       	<dd>$ curl '.t::h($auth_curl).''.t::h( t::data2text('http://'.$_SERVER['HTTP_HOST'].$this->path_target.'?PX=publish.run'.(strlen( $this->param_path_target )?'&path_target='.urlencode( $this->path_target ):'') ) ).'</dd>'."\n";
 			$src .= '		<dt>"wget" コマンドが使える場合</dt>'."\n";
-			$src .= '       	<dd>$ wget '.t::h($auth_wget).''.t::h( t::data2text('http://'.$_SERVER['HTTP_HOST'].$this->path_target.'?PX=publish.run') ).'</dd>'."\n";
+			$src .= '       	<dd>$ wget '.t::h($auth_wget).''.t::h( t::data2text('http://'.$_SERVER['HTTP_HOST'].$this->path_target.'?PX=publish.run'.(strlen( $this->param_path_target )?'&path_target='.urlencode( $this->path_target ):'') ) ).'</dd>'."\n";
 			$src .= '   </dl>'."\n";
 			$src .= '</div><!-- /.topic_box -->'."\n";
 			$src .= ''."\n";
@@ -212,6 +228,7 @@ function contEditPublishTargetPathApply(formElm){
 	 */
 	private function execute(){
 		$command = $this->get_command();
+		while( ob_end_clean() );
 		@header('Content-type: text/plain');
 		error_reporting(0);
 		print ''.$command[0].' | Pickles Framework (version:'.$this->px->get_version().')'."\n";
