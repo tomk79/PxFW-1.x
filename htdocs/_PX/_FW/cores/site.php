@@ -228,14 +228,16 @@ class px_cores_site{
 		//  ページツリー情報を構成
 		$this->sitemap_page_tree = array();
 		foreach( $this->sitemap_array as $tmp_path=>$tmp_page_info ){
-			set_time_limit(0);//タイマー延命
-			$this->get_children( $tmp_path, array('filter'=>true) );
-			$this->get_children( $tmp_path, array('filter'=>false) );//list_flgを無視して、全員持ってくる
-			set_time_limit(30);//タイマーリセット
+			set_time_limit(30);//タイマー延命
+			$this->get_children( $tmp_path );
+			// $this->get_children( $tmp_path, array('filter'=>true) );
+			// $this->get_children( $tmp_path, array('filter'=>false) );//list_flgを無視して、全員持ってくる
 		}
+		set_time_limit(30);//タイマーリセット
 		unset($tmp_path, $tmp_page_info );
 
 		//  キャッシュディレクトリを作成
+		set_time_limit(0);//タイマー延命
 		$this->px->dbh()->mkdir($path_sitemap_cache_dir);
 
 		//  キャッシュファイルを作成
@@ -244,6 +246,7 @@ class px_cores_site{
 		$this->px->dbh()->file_overwrite( $path_sitemap_cache_dir.'sitemap_id_map.array' , t::data2phpsrc($this->sitemap_id_map) );
 		$this->px->dbh()->file_overwrite( $path_sitemap_cache_dir.'sitemap_dynamic_paths.array' , t::data2phpsrc($this->sitemap_dynamic_paths) );
 		$this->px->dbh()->file_overwrite( $path_sitemap_cache_dir.'sitemap_page_tree.array' , t::data2phpsrc($this->sitemap_page_tree) );
+		set_time_limit(30);//タイマーリセット
 
 		return true;
 	}//load_sitemap_csv();
@@ -630,56 +633,73 @@ class px_cores_site{
 
 		$tmp_children_orderby_manual = array();
 		$tmp_children_orderby_auto = array();
+		$tmp_children_orderby_listed_manual = array();
+		$tmp_children_orderby_listed_auto = array();
 
-		$current_layer = '';
-		if( strlen( trim($page_info['id']) ) ){
-			$tmp_breadcrumb = explode( '>', $page_info['logical_path'].'>'.$page_info['id'] );
-			foreach( $tmp_breadcrumb as $tmp_path ){
-				if( !strlen($tmp_path) ){continue;}
-				$tmp_page_info = $this->get_page_info( trim($tmp_path) );
-				$current_layer .= '>'.$tmp_page_info['id'];
-			}
-		}
-		unset($tmp_breadcrumb,$tmp_path,$tmp_page_info);
+		// $current_layer = '';
+		// if( strlen( trim($page_info['id']) ) ){
+		// 	$tmp_breadcrumb = explode( '>', $page_info['logical_path'].'>'.$page_info['id'] );
+		// 	foreach( $tmp_breadcrumb as $tmp_path ){
+		// 		if( !strlen($tmp_path) ){continue;}
+		// 		$tmp_page_info = $this->get_page_info( trim($tmp_path) );
+		// 		$current_layer .= '>'.$tmp_page_info['id'];
+		// 	}
+		// }
+		// unset($tmp_breadcrumb,$tmp_path,$tmp_page_info);
 
 		foreach( $this->get_sitemap() as $row ){
 			if( !strlen($row['id']) ){
 				continue;
 			}
-			if($filter){
-				if( !$row['list_flg'] ){
-					continue;
-				}
-			}
+			// if($filter){
+			// 	if( !$row['list_flg'] ){
+			// 		continue;
+			// 	}
+			// }
 
-			$target_layer = '';
+			// $target_layer = '';
+			$parent_page_id = '';
 			if( strlen( trim($row['id']) ) ){
 				$tmp_breadcrumb = explode( '>', $row['logical_path'] );
-				foreach( $tmp_breadcrumb as $tmp_path ){
-					if( !strlen($tmp_path) ){continue;}
-					$tmp_page_info = $this->get_page_info( trim($tmp_path) );
-					$target_layer .= '>'.$tmp_page_info['id'];
-				}
-				unset($tmp_breadcrumb,$tmp_path,$tmp_page_info);
-			}
+				$tmp_page_info = $this->get_page_info( trim($tmp_breadcrumb[count($tmp_breadcrumb)-1]) );
+				$parent_page_id = trim($tmp_page_info['id']);
 
-			if( $current_layer == $target_layer ){
+				// foreach( $tmp_breadcrumb as $tmp_path ){
+				// 	if( !strlen($tmp_path) ){continue;}
+				// 	$tmp_page_info = $this->get_page_info( trim($tmp_path) );
+				// 	$target_layer .= '>'.$tmp_page_info['id'];
+				// }
+			}
+			unset($tmp_breadcrumb,$tmp_path,$tmp_page_info);
+
+			if( $page_info['id'] == $parent_page_id ){
 				if(strlen($row['orderby'])){
 					array_push( $tmp_children_orderby_manual , $row['id'] );
 				}else{
 					array_push( $tmp_children_orderby_auto , $row['id'] );
 				}
+				if( $row['list_flg'] ){
+					if(strlen($row['orderby'])){
+						array_push( $tmp_children_orderby_listed_manual , $row['id'] );
+					}else{
+						array_push( $tmp_children_orderby_listed_auto , $row['id'] );
+					}
+				}
 			}
 		}
 
-		usort( $tmp_children_orderby_manual , array( $this , 'usort_sitemap' ) );
-		$rtn = array_merge( $tmp_children_orderby_manual , $tmp_children_orderby_auto );
-
 		//  ページキャッシュを作成しなおす
+		usort( $tmp_children_orderby_listed_manual , array( $this , 'usort_sitemap' ) );
+		$this->sitemap_page_tree[$page_info['path']]['children'] = array_merge( $tmp_children_orderby_listed_manual , $tmp_children_orderby_listed_auto );
+		usort( $tmp_children_orderby_manual , array( $this , 'usort_sitemap' ) );
+		$this->sitemap_page_tree[$page_info['path']]['children_all'] = array_merge( $tmp_children_orderby_manual , $tmp_children_orderby_auto );
+
+		//  return value
+		$rtn = null;
 		if($filter){
-			$this->sitemap_page_tree[$page_info['path']]['children'] = $rtn;
+			$rtn = $this->sitemap_page_tree[$page_info['path']]['children'];
 		}else{
-			$this->sitemap_page_tree[$page_info['path']]['children_all'] = $rtn;
+			$rtn = $this->sitemap_page_tree[$page_info['path']]['children_all'];
 		}
 
 		return $rtn;
