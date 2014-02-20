@@ -894,7 +894,7 @@ class px_px{
 		while( @ob_end_clean() );
 
 		header('HTTP/1.1 404 NotFound');
-		$this->site()->set_page_info( $this->req()->get_request_file_path(), array('title'=>'404 Not found.') );
+		$this->site()->set_page_info( $this->req()->get_request_file_path(), array('title'=>'404 Not found.', 'list_flg'=>0, 'category_top_flg'=>0) );
 		$fin = '';
 		$fin .= '<p>'."\n";
 		$fin .= 'お探しのページは見つかりませんでした。<br />'."\n";
