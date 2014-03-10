@@ -139,6 +139,10 @@ class px_px{
 			}
 		}
 		$path_content = $this->dbh()->get_realpath( dirname($_SERVER['SCRIPT_FILENAME']).$localpath_current_content );
+		if( is_file(dirname($_SERVER['SCRIPT_FILENAME']).$_SERVER['PATH_INFO']) ){
+			// 物理ファイルが存在する場合はそっちが優先
+			$path_content = $this->dbh()->get_realpath( dirname($_SERVER['SCRIPT_FILENAME']).$_SERVER['PATH_INFO'] );
+		}
 
 		//------
 		//  拡張子違いのコンテンツを検索
