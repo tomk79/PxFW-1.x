@@ -516,7 +516,7 @@ class px_px{
 	/**
 	 * コンフィグ値のロード
 	 */
-	private function load_conf( $path_mainconf ){
+	private function load_conf( $path_mainconf, $default = array() ){
 		$conf = array(
 			// デフォルト値セット
 			'paths.px_dir'=>"./_PX/",
@@ -536,16 +536,10 @@ class px_px{
 			'system.dir_default_permission'=>"775",
 			'system.public_cache_dir'=>"_caches",
 		);
-
-
-		$conf['colors.main'] = '#00a0e6';
-		// system.default_theme_id
-		// system.filesystem_encoding
-		// system.output_encoding
-		$conf['system.default_theme_id'] = '775';
-		$conf['system.file_default_permission'] = '775';
-		$conf['system.dir_default_permission'] = '775';
-		$conf['system.public_cache_dir'] = '_caches';
+		if( is_array($default) ){
+			// デフォルトの配列を受け取ったら、それでリセット
+			$conf = $default;
+		}
 
 		if( !is_file($path_mainconf) ){ return $conf; }
 		if( !is_readable($path_mainconf) ){ return $conf; }
@@ -554,16 +548,14 @@ class px_px{
 			if( is_array($row1) ){
 				foreach ($row1 as $key2=>$val) {
 					if( $key2 == '_include' ){
-						$tmp_conf = $this->load_conf( $val );
-						$conf = array_merge($conf, $tmp_conf);
+						$conf = $this->load_conf( $val, $conf );
 					}else{
 						$conf[$key1.'.'.$key2] = $val;
 					}
 				}
 			}else{
 				if( $key1 == '_include' ){
-					$tmp_conf = $this->load_conf( $row1 );
-					$conf = array_merge($conf, $tmp_conf);
+					$conf = $this->load_conf( $row1, $conf );
 				}else{
 					$conf[$key1] = $row1;
 				}
