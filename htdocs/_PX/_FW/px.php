@@ -536,7 +536,7 @@ class px_px{
 			'system.dir_default_permission'=>"775",
 			'system.public_cache_dir'=>"_caches",
 		);
-		if( is_array($default) ){
+		if( is_array($default) && count($default) ){
 			// デフォルトの配列を受け取ったら、それでリセット
 			$conf = $default;
 		}
