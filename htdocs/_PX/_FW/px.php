@@ -519,6 +519,7 @@ class px_px{
 	private function load_conf( $path_mainconf, $default = array() ){
 		$conf = array(
 			// デフォルト値セット
+			'project.id'=>"pxfw",
 			'paths.px_dir'=>"./_PX/",
 			'colors.main'=>"#00a0e6",
 			'publish_extensions.html'=>"http",
@@ -562,6 +563,13 @@ class px_px{
 			}
 		}
 		unset( $tmp_conf , $key1 , $row1 , $key2 , $val );
+
+		// 安全装置
+		if( strlen( $conf['system.file_default_permission'] ) != 3 ){ $conf['system.file_default_permission'] = '775'; }
+		if( strlen( $conf['system.dir_default_permission'] ) != 3 ){ $conf['system.dir_default_permission'] = '775'; }
+		if( !strlen( $conf['project.id'] ) ){ $conf['project.id'] = 'pxfw'; }
+		if( !strlen( $conf['system.default_theme_id'] ) ){ $conf['system.default_theme_id'] = 'default'; }
+		if( !strlen( $conf['system.public_cache_dir'] ) ){ $conf['system.public_cache_dir'] = '_caches'; }
 
 		return $conf;
 	}//load_conf()
