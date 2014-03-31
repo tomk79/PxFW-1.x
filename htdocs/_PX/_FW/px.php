@@ -444,7 +444,10 @@ class px_px{
 			$RTN .= $this->ssi_static_tag( $path_incfile );
 		}else{
 			if( $this->dbh()->is_file( $_SERVER['DOCUMENT_ROOT'].$path_incfile ) && $this->dbh()->is_readable( $_SERVER['DOCUMENT_ROOT'].$path_incfile ) ){
-				$RTN .= $this->dbh()->file_get_contents( $_SERVER['DOCUMENT_ROOT'].$path_incfile );
+				ob_start();
+				virtual($path_incfile);
+				$RTN .= ob_get_clean();
+				// $RTN .= $this->dbh()->file_get_contents( $_SERVER['DOCUMENT_ROOT'].$path_incfile );
 				$RTN = t::convert_encoding($RTN);
 			}
 		}
