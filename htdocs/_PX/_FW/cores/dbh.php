@@ -1327,7 +1327,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 		if( !ini_get('allow_url_fopen') ){
 			#	PHP設定値 allow_url_fopen が無効な場合は、
 			#	file() によるウェブアクセスができないため、エラーを記録。
-			$this->px->error()->error_log( 'php.ini value "allow_url_fopen" is FALSE. So, disable to get Web contents ['.$path.'] on $dbh->file_get_contents();' );
+			$this->px->error()->error_log( 'php.ini value "allow_url_fopen" is FALSE. So, disable to get Web contents ['.$path.'] on $dbh->get_http_content();' );
 			return	false;
 		}
 		if( preg_match( '/^(?:http:\/\/|https:\/\/)/' , $url ) ){

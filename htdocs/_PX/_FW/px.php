@@ -444,10 +444,32 @@ class px_px{
 			$RTN .= $this->ssi_static_tag( $path_incfile );
 		}else{
 			if( $this->dbh()->is_file( $_SERVER['DOCUMENT_ROOT'].$path_incfile ) && $this->dbh()->is_readable( $_SERVER['DOCUMENT_ROOT'].$path_incfile ) ){
-				ob_start();
-				virtual($path_incfile);
-				$RTN .= ob_get_clean();
+
+				$url = 'http'.($this->req()->is_ssl()?'s':'').'://'.$_SERVER['HTTP_HOST'].$this->dbh()->get_realpath($path_incfile);
+
+				@require_once( $this->get_conf('paths.px_dir').'libs/PxHTTPAccess/PxHTTPAccess.php' );
+				$httpaccess = new PxHTTPAccess();
+				$httpaccess->clear_request_header();//初期化
+				$httpaccess->set_url( $url );//ダウンロードするURL
+				$httpaccess->set_method( 'GET' );//メソッド
+				$httpaccess->set_user_agent( $this->crawler_user_agent );//HTTP_USER_AGENT
+				if( strlen( $this->get_conf('project.auth_name') ) ){
+					//  基本認証、またはダイジェスト認証が設定されている場合
+					if( strlen( $this->get_conf('project.auth_type') ) ){
+						$httpaccess->set_auth_type( $this->get_conf('project.auth_type') );//認証タイプ
+					}
+					$httpaccess->set_auth_user( $this->get_conf('project.auth_name') );//認証ID
+					$httpaccess->set_auth_pw( $this->get_conf('project.auth_password') );//認証パスワード
+				}
+				$this->dbh()->mkdir_all( dirname($this->path_tmppublish_dir.'/htdocs/'.$path) );
+				$RTN .= $httpaccess->get_http_contents();//ダウンロードを実行する
+
+				// ob_start();
+				// virtual($path_incfile);
+				// $RTN .= ob_get_clean();
+
 				// $RTN .= $this->dbh()->file_get_contents( $_SERVER['DOCUMENT_ROOT'].$path_incfile );
+
 				$RTN = t::convert_encoding($RTN);
 			}
 		}
