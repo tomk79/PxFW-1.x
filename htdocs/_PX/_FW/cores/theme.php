@@ -182,6 +182,7 @@ class px_cores_theme{
 						case 'sjis':
 						case 'sjis-win':
 						case 'shift_jis':
+						case 'shift-jis':
 							$src = t::convert_encoding($src,'SJIS-win','utf-8');
 							break;
 						case 'eucjp':
