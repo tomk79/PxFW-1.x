@@ -183,6 +183,8 @@ class px_cores_theme{
 						case 'sjis-win':
 						case 'shift_jis':
 						case 'shift-jis':
+						case 'x-sjis':
+							// ※ 'ms_kanji'、'windows-31j'、'cp932' は、もともと SJIS-win になる
 							$src = t::convert_encoding($src,'SJIS-win','utf-8');
 							break;
 						case 'eucjp':
