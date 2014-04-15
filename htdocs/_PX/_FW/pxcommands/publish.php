@@ -60,7 +60,7 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 		$command = $this->get_command();
 		$this->setup();
 
-		switch( $command[1] ){
+		switch( @$command[1] ){
 			case 'run':
 				$this->execute();
 				break;
@@ -228,7 +228,7 @@ function contEditPublishTargetPathApply(formElm){
 	 */
 	private function execute(){
 		$command = $this->get_command();
-		while( ob_end_clean() );
+		while( @ob_end_clean() );
 		@header('Content-type: text/plain');
 		error_reporting(0);
 		print ''.$command[0].' | Pickles Framework (version:'.$this->px->get_version().')'."\n";

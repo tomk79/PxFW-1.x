@@ -280,8 +280,8 @@ class px_cores_theme{
 		// パラメータを、引数の生の状態に戻す。
 		$parsed_url_fin = parse_url($path);
 		$path = $parsed_url_fin['path'];
-		$path .= (strlen($parsed_url['query'])?'?'.$parsed_url['query']:(strlen($parsed_url_fin['query'])?'?'.$parsed_url_fin['query']:''));
-		$path .= (strlen($parsed_url['fragment'])?'#'.$parsed_url['fragment']:(strlen($parsed_url_fin['fragment'])?'?'.$parsed_url_fin['fragment']:''));
+		$path .= (strlen(@$parsed_url['query'])?'?'.@$parsed_url['query']:(strlen(@$parsed_url_fin['query'])?'?'.@$parsed_url_fin['query']:''));
+		$path .= (strlen(@$parsed_url['fragment'])?'#'.@$parsed_url['fragment']:(strlen(@$parsed_url_fin['fragment'])?'?'.@$parsed_url_fin['fragment']:''));
 
 		return $path;
 	}//href()
@@ -483,7 +483,7 @@ class px_cores_theme{
 			$label_for_anch = preg_replace('/[\[\{\<]/', '(', $label_for_anch);
 			$label_for_anch = preg_replace('/[\]\}\>]/', ')', $label_for_anch);
 			$tmp['anch'] = 'hash_'.($label_for_anch);
-			if($indexCounter[$tmp['anch']]){
+			if(array_key_exists($tmp['anch'], $indexCounter) && $indexCounter[$tmp['anch']]){
 				$indexCounter[$tmp['anch']] ++;
 				$tmp['anch'] = 'hash_'.$indexCounter[$tmp['anch']].'_'.($label_for_anch);
 			}else{
@@ -516,7 +516,7 @@ class px_cores_theme{
 			$anchorlinks .= '<p class="anchor_links-heading">目次</p>';
 			foreach($index as $key=>$row){
 				$csa = $row['headlevel'] - $headlevel;
-				$nextLevel = $index[$key+1]['headlevel'];
+				$nextLevel = @$index[$key+1]['headlevel'];
 				$nsa = null;
 				if( strlen( $nextLevel ) ){
 					$nsa = $nextLevel - $row['headlevel'];

@@ -218,7 +218,7 @@ class px_pxcommands_config extends px_bases_pxcommand{
 			$src .= '		<th style="word-break:break-all;">'.t::h( $label ).'</th>'."\n";
 		}
 		$src .= '		<td style="word-break:break-all;">';
-		if(is_null($this->config_ary[$key])){
+		if(is_null(@$this->config_ary[$key])){
 			$src .= '<span style="font-style:italic; color:#aaaaaa; background-color:#ffffff;">null</span>';
 		}else{
 			switch(strtolower($type)){

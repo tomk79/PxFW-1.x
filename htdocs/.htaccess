@@ -10,6 +10,7 @@ php_flag display_errors Off
 
 # for display errors
 #php_flag display_errors On
+#php_value error_reporting 32767
 
 # for large contents
 #php_value memory_limit -1

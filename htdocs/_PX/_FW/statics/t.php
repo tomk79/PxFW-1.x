@@ -158,23 +158,23 @@ class t{
 		#			配列に適当なところで改行を入れる。
 		#======================================
 
-
+		$RTN = '';
 		if( is_array( $value ) ){
 			#	配列
 			$RTN .= 'array(';
-			if( $option['array_break'] ){ $RTN .= "\n"; }
+			if( @$option['array_break'] ){ $RTN .= "\n"; }
 			$keylist = array_keys( $value );
 			foreach( $keylist as $Line ){
-				if( $option['delete_arrayelm_if_null'] && is_null( $value[$Line] ) ){
+				if( @$option['delete_arrayelm_if_null'] && is_null( @$value[$Line] ) ){
 					#	配列のnull要素を削除するオプションが有効だった場合
 					continue;
 				}
 				$RTN .= ''.t::data2text( $Line ).'=>'.t::data2text( $value[$Line] , $option ).',';
-				if( $option['array_break'] ){ $RTN .= "\n"; }
+				if( @$option['array_break'] ){ $RTN .= "\n"; }
 			}
 			$RTN = preg_replace( '/,(?:\r\n|\r|\n)?$/' , '' , $RTN );
 			$RTN .= ')';
-			if( $option['array_break'] ){ $RTN .= "\n"; }
+			if( @$option['array_break'] ){ $RTN .= "\n"; }
 			return	$RTN;
 		}
 

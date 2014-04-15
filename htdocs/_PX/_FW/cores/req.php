@@ -133,6 +133,7 @@ class px_cores_req{
 	 * パラメータを取得する
 	 */
 	public function get_param( $key ){
+		if( !array_key_exists($key, $this->param) ){ return null; }
 		return $this->param[$key];
 	}//get_param()
 
@@ -244,6 +245,7 @@ class px_cores_req{
 	 * セッション情報を取得
 	 */
 	public function get_session( $key ){
+		if( !array_key_exists($key, $_SESSION) ){ return null; }
 		return $_SESSION[$key];
 	}//get_session()
 

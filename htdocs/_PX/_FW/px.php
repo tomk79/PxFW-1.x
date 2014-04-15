@@ -445,6 +445,26 @@ class px_px{
 		}else{
 			if( $this->dbh()->is_file( $_SERVER['DOCUMENT_ROOT'].$path_incfile ) && $this->dbh()->is_readable( $_SERVER['DOCUMENT_ROOT'].$path_incfile ) ){
 
+				// ------ PxFW 1.0.2 までの実装 ------
+				// インクルードファイルはスタティックなテキストとして読み込まれる。
+				// インクルードファイル内でのインクルードができない。
+				// $RTN .= $this->dbh()->file_get_contents( $_SERVER['DOCUMENT_ROOT'].$path_incfile );
+
+				// ------ PxFW 1.0.3 に向けて試してみた実装 ------
+				// PHPの virtual() メソッドは、Apacheのサブクエリを発行するので、
+				// インクルードファイル内でのSSIが処理される。
+				// しかし、output bufferを無効にしてしまう副作用があるため、
+				// PxFWの output_filter などの後処理を通らなくなる欠点があった。
+				// ob_start();
+				// virtual($path_incfile);
+				// $RTN .= ob_get_clean();
+
+				// ------ PxFW 1.0.3 で修正した実装 ------
+				// インクルードファイルをHTTPから取りに行く。
+				// あくまで内部処理ではないため、インクルードファイル内でインクルードを動かしたい場合には、
+				// インクルードファイルの拡張子をApacheで設定する必要がある。
+				// 処理は重いが一旦この実装に置き換える。
+				// より良い方法が見つかったら置き換えたい。
 				$url = 'http'.($this->req()->is_ssl()?'s':'').'://'.$_SERVER['HTTP_HOST'].$this->dbh()->get_realpath($path_incfile);
 
 				@require_once( $this->get_conf('paths.px_dir').'libs/PxHTTPAccess/PxHTTPAccess.php' );
@@ -463,12 +483,6 @@ class px_px{
 				}
 				$this->dbh()->mkdir_all( dirname($this->path_tmppublish_dir.'/htdocs/'.$path) );
 				$RTN .= $httpaccess->get_http_contents();//ダウンロードを実行する
-
-				// ob_start();
-				// virtual($path_incfile);
-				// $RTN .= ob_get_clean();
-
-				// $RTN .= $this->dbh()->file_get_contents( $_SERVER['DOCUMENT_ROOT'].$path_incfile );
 
 				$RTN = t::convert_encoding($RTN);
 			}
@@ -531,9 +545,6 @@ class px_px{
 			@ini_set( 'mbstring.detect_order' , 'UTF-8,SJIS-win,eucJP-win,SJIS,EUC-JP,JIS,ASCII' );
 			@mb_detect_order( 'UTF-8,SJIS-win,eucJP-win,SJIS,EUC-JP,JIS,ASCII' );
 		}
-
-		//  ドキュメントルートへカレントディレクトリを移動する。
-		chdir( realpath( $conf->path_docroot ) );
 
 		return true;
 	}//php_setup();
@@ -603,6 +614,7 @@ class px_px{
 	 * コンフィグ値を出力。
 	 */
 	public function get_conf( $key ){
+		if(!array_key_exists($key, $this->conf)){ return null; }
 		return $this->conf[$key];
 	}//get_conf()
 

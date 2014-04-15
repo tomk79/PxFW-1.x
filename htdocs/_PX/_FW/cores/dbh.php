@@ -1210,7 +1210,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 		if( !$this->is_writable( $filepath ) )	{ return false; }
 		if( @is_dir( $filepath ) ){ return false; }
 		if( @is_file( $filepath ) && !@is_writable( $filepath ) ){ return false; }
-		if( !is_array( $this->file[$filepath] ) ){
+		if( !is_array( @$this->file[$filepath] ) ){
 			$this->fopen( $filepath , 'w' );
 		}elseif( $this->file[$filepath]['mode'] != 'w' ){
 			$this->fclose( $filepath );
@@ -1540,15 +1540,15 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 			return	false;
 		}
 
-		if( !strlen( $options['delimiter'] ) )    { $options['delimiter'] = ','; }
-		if( !strlen( $options['enclosure'] ) )    { $options['enclosure'] = '"'; }
-		if( !strlen( $options['size'] ) )         { $options['size'] = 10000; }
-		if( !strlen( $options['charset'] ) )      { $options['charset'] = 'SJIS-win'; }
+		if( !strlen( @$options['delimiter'] ) )    { $options['delimiter'] = ','; }
+		if( !strlen( @$options['enclosure'] ) )    { $options['enclosure'] = '"'; }
+		if( !strlen( @$options['size'] ) )         { $options['size'] = 10000; }
+		if( !strlen( @$options['charset'] ) )      { $options['charset'] = 'SJIS-win'; }
 
 		$RTN = array();
 		if( !$this->fopen($path,'r') ){ return false; }
 		$filelink = $this->get_file_resource($path);
-		if( !is_resource( $filelink ) || !is_null( $this->file[$path]['contents'] ) ){
+		if( !is_resource( $filelink ) || !is_null( @$this->file[$path]['contents'] ) ){
 			return $this->file[$path]['contents'];
 		}
 		while( $SMMEMO = fgetcsv( $filelink , intval( $options['size'] ) , $options['delimiter'] , $options['enclosure'] ) ){
@@ -1705,7 +1705,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 		$filepath = $this->get_realpath( $filepath );
 
 		#	すでに開かれていたら
-		if( is_resource( $this->file[$filepath]['res'] ) ){
+		if( is_resource( @$this->file[$filepath]['res'] ) ){
 			if( $this->file[$filepath]['mode'] != $mode ){
 				#	$modeが前回のアクセスと違っていたら、
 				#	前回の接続を一旦closeして、開きなおす。
@@ -1745,7 +1745,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 			}
 		}
 
-		if( is_array( $this->file[$filepath] ) ){ $this->fclose( $filepath ); }
+		if( is_array( @$this->file[$filepath] ) ){ $this->fclose( $filepath ); }
 
 		for( $i = 0; $i < 5; $i++ ){
 			$res = @fopen( $filepath_fsenc , $mode );

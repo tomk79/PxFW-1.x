@@ -376,7 +376,7 @@ class px_cores_site{
 		if( is_null($path) ){
 			return null;
 		}
-		if( !is_null($this->sitemap_id_map[$path]) ){
+		if( array_key_exists($path, $this->sitemap_id_map) && !is_null($this->sitemap_id_map[$path]) ){
 			//ページIDで指定された場合、パスに置き換える
 			$path = $this->sitemap_id_map[$path];
 		}
@@ -384,10 +384,10 @@ class px_cores_site{
 		$path = preg_replace('/\/'.$this->px->get_directory_index_preg_pattern().'((?:\?|\#).*)?$/si','/$1',$path);//directory_index を一旦省略
 
 		$tmp_path = $path;
-		if( is_null( $this->sitemap_array[$path] ) ){
+		if( !array_key_exists($path, $this->sitemap_id_map) || is_null( $this->sitemap_array[$path] ) ){
 			foreach( $this->px->get_directory_index() as $index_file_name ){
 				$tmp_path = preg_replace('/\/((?:\?|\#).*)?$/si','/'.$index_file_name.'$1',$path);//省略された index.html を付加。
-				if( !is_null( $this->sitemap_array[$tmp_path] ) ){
+				if( !is_null( @$this->sitemap_array[$tmp_path] ) ){
 					break;
 				}
 			}
@@ -396,7 +396,7 @@ class px_cores_site{
 		$parsed_url = parse_url($path);
 		unset($tmp_path);
 
-		if( is_null( $this->sitemap_array[$path] ) ){
+		if( is_null( @$this->sitemap_array[$path] ) ){
 			//  サイトマップにズバリなければ、
 			//  ダイナミックパスを検索する。
 			$sitemap_dynamic_path = $this->get_dynamic_path_info( $path );
@@ -416,13 +416,13 @@ class px_cores_site{
 				break;
 		}
 
-		if( is_null( $this->sitemap_array[$path] ) ){
+		if( is_null( @$this->sitemap_array[$path] ) ){
 			//  サイトマップにズバリなければ、
 			//  引数からパラメータを外したパスだけで再検索
 			$path = $parsed_url['path'];
 		}
 
-		$rtn = $this->sitemap_array[$path];
+		$rtn = @$this->sitemap_array[$path];
 		if( !is_array($rtn) ){ return null; }
 		if( !strlen( $rtn['title_breadcrumb'] ) ){ $rtn['title_breadcrumb'] = $rtn['title']; }
 		if( !strlen( $rtn['title_h1'] ) ){ $rtn['title_h1'] = $rtn['title']; }
@@ -618,11 +618,11 @@ class px_cores_site{
 			$path = $this->px->req()->get_request_file_path();
 		}
 		$filter = true;
-		if(!is_null($opt['filter'])){ $filter = !empty($opt['filter']); }
+		if(!is_null(@$opt['filter'])){ $filter = !empty($opt['filter']); }
 
 		$page_info = $this->get_page_info( $path );
 
-		if( $filter && is_array( $this->sitemap_page_tree[$page_info['path']]['children'] ) ){
+		if( $filter && is_array( @$this->sitemap_page_tree[$page_info['path']]['children'] ) ){
 			//  ページキャッシュツリーがすでに作られている場合
 			return $this->sitemap_page_tree[$page_info['path']]['children'];
 		}

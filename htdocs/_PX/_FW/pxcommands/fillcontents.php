@@ -14,7 +14,7 @@ class px_pxcommands_fillcontents extends px_bases_pxcommand{
 
 		$command = $this->get_command();
 
-		switch( $command[1] ){
+		switch( @$command[1] ){
 			case 'run':
 				$this->execute();
 				break;

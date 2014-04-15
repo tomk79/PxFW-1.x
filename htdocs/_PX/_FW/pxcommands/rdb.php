@@ -14,7 +14,7 @@ class px_pxcommands_rdb extends px_bases_pxcommand{
 
 		$this->command = $command;
 
-		switch( $command[1] ){
+		switch( @$command[1] ){
 			case 'exec_sql':
 				$this->execute_exec_sql();
 				break;

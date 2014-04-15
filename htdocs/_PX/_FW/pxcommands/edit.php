@@ -35,7 +35,7 @@ class px_pxcommands_edit extends px_bases_pxcommand{
 			return $this->error_end( 'コンテンツのパスが設定されていません。' );
 		}
 
-		switch( $command[1] ){
+		switch( @$command[1] ){
 			case 'update':
 				$this->execute_update();
 				break;

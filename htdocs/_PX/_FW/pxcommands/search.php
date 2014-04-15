@@ -17,7 +17,7 @@ class px_pxcommands_search extends px_bases_pxcommand{
 		$command = $this->get_command();
 		$this->search_keyword = $this->px->req()->get_param('KEY');
 
-		switch( $command[1] ){
+		switch( @$command[1] ){
 			case 'api':
 				$results = $this->execute_search( $this->search_keyword );
 				$this->print_search_results_as_json( $results );
