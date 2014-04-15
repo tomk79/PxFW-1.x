@@ -7,6 +7,7 @@
 
 - $px->ssi() で読み込んだファイル内でSSIが無効になる問題を解決。
 - コンフィグ値 system.output_encoding に指定する Shift_JIS の表記ゆれに対応。SJIS、Shift_JIS に加え、新たに Shift-JIS、x-sjis を指定した時にも SJIS-win で変換するようになった。
+- パブリッシュツールのアクセスだった場合に、PHPのエラーを標準出力しないようにした。
 
 
 ## PxFW 1.0.2 (2014/3/22)

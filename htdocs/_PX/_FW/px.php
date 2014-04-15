@@ -88,6 +88,12 @@ class px_px{
 
 		$this->access_log();//アクセスログを記録
 
+		if( $this->user()->is_publishtool() ){
+			// パブリッシュツールのアクセスだったら、PHPのエラーを標準出力しないようにする。
+			@ini_set('display_errors', 'Off');
+		}
+
+
 		//  PX Commands を実行
 		$tmp_px_class_name = $this->load_px_class( 'pxcommands/'.$this->pxcommand[0].'.php' );
 		if( $tmp_px_class_name ){
