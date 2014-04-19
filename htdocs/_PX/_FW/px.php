@@ -559,6 +559,17 @@ class px_px{
 	 * コンフィグ値のロード
 	 */
 	private function load_conf( $path_mainconf, $default = array() ){
+		if( !is_file($path_mainconf) ){
+			if( count($default) ){ return $default; }
+			print '[error] your config file &quot;'.htmlspecialchars( $path_mainconf ).'&quot; is not exits. set your true config file path.';
+			exit();
+		}
+		if( !is_readable($path_mainconf) ){
+			if( count($default) ){ return $default; }
+			print '[error] your config file &quot;'.htmlspecialchars( $path_mainconf ).'&quot; is not readable. set your config file as &quot;readable&quot;.';
+			exit();
+		}
+
 		$conf = array(
 			// デフォルト値セット
 			'project.id'=>"pxfw",
@@ -584,14 +595,6 @@ class px_px{
 			$conf = $default;
 		}
 
-		if( !is_file($path_mainconf) ){
-			print '[error] your config file &quot;'.htmlspecialchars( $path_mainconf ).'&quot; is not exits. set your true config file path.';
-			exit();
-		}
-		if( !is_readable($path_mainconf) ){
-			print '[error] your config file &quot;'.htmlspecialchars( $path_mainconf ).'&quot; is not readable. set your config file as &quot;readable&quot;.';
-			exit();
-		}
 		$tmp_conf = parse_ini_file( $path_mainconf , true );
 		foreach ($tmp_conf as $key1=>$row1) {
 			if( is_array($row1) ){
