@@ -584,8 +584,14 @@ class px_px{
 			$conf = $default;
 		}
 
-		if( !is_file($path_mainconf) ){ return $conf; }
-		if( !is_readable($path_mainconf) ){ return $conf; }
+		if( !is_file($path_mainconf) ){
+			print '[error] your config file &quot;'.htmlspecialchars( $path_mainconf ).'&quot; is not exits. set your true config file path.';
+			exit();
+		}
+		if( !is_readable($path_mainconf) ){
+			print '[error] your config file &quot;'.htmlspecialchars( $path_mainconf ).'&quot; is not readable. set your config file as &quot;readable&quot;.';
+			exit();
+		}
 		$tmp_conf = parse_ini_file( $path_mainconf , true );
 		foreach ($tmp_conf as $key1=>$row1) {
 			if( is_array($row1) ){
@@ -612,6 +618,17 @@ class px_px{
 		if( !strlen( $conf['project.id'] ) ){ $conf['project.id'] = 'pxfw'; }
 		if( !strlen( $conf['system.default_theme_id'] ) ){ $conf['system.default_theme_id'] = 'default'; }
 		if( !strlen( $conf['system.public_cache_dir'] ) ){ $conf['system.public_cache_dir'] = '_caches'; }
+
+		if( !is_dir( $conf['paths.px_dir'] ) ){
+			print '[error] paths.px_dir is not a directory. check your config file &quot;'.htmlspecialchars( realpath($path_mainconf) ).'&quot;.';
+			exit();
+		}
+		if( is_dir( $conf['paths.px_dir'].'_sys/' ) ){
+			if( !is_dir( $conf['paths.px_dir'].'_sys/applock/' ) ){ @mkdir($conf['paths.px_dir'].'_sys/applock/'); }
+			if( !is_dir( $conf['paths.px_dir'].'_sys/caches/' ) ){ @mkdir($conf['paths.px_dir'].'_sys/caches/'); }
+			if( !is_dir( $conf['paths.px_dir'].'_sys/publish/' ) ){ @mkdir($conf['paths.px_dir'].'_sys/publish/'); }
+			if( !is_dir( $conf['paths.px_dir'].'_sys/ramdata/' ) ){ @mkdir($conf['paths.px_dir'].'_sys/ramdata/'); }
+		}
 
 		return $conf;
 	}//load_conf()
