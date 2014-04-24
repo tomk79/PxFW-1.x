@@ -451,44 +451,60 @@ class px_px{
 		}else{
 			if( $this->dbh()->is_file( $_SERVER['DOCUMENT_ROOT'].$path_incfile ) && $this->dbh()->is_readable( $_SERVER['DOCUMENT_ROOT'].$path_incfile ) ){
 
-				// ------ PxFW 1.0.2 までの実装 ------
-				// インクルードファイルはスタティックなテキストとして読み込まれる。
-				// インクルードファイル内でのインクルードができない。
-				// $RTN .= $this->dbh()->file_get_contents( $_SERVER['DOCUMENT_ROOT'].$path_incfile );
+				$ssi_method = $this->get_conf('system.ssi_method');
+				if( !strlen($ssi_method) ){ $ssi_method = 'static'; }
 
-				// ------ PxFW 1.0.3 に向けて試してみた実装 ------
+				// ------ PxFW 1.0.3 で追加したオプション ------
+				// インクルードファイルをHTTPから取りに行く。
+				// あくまで内部処理ではないため、インクルードファイル内でインクルードを動かしたい場合には、
+				// インクルードファイルの拡張子をApacheで設定する必要がある。
+				if( $ssi_method == 'http' ){
+					$url = 'http'.($this->req()->is_ssl()?'s':'').'://'.$_SERVER['HTTP_HOST'].$this->dbh()->get_realpath($path_incfile);
+
+					@require_once( $this->get_conf('paths.px_dir').'libs/PxHTTPAccess/PxHTTPAccess.php' );
+					$httpaccess = new PxHTTPAccess();
+					$httpaccess->clear_request_header();//初期化
+					$httpaccess->set_url( $url );//ダウンロードするURL
+					$httpaccess->set_method( 'GET' );//メソッド
+					$httpaccess->set_user_agent( $this->crawler_user_agent );//HTTP_USER_AGENT
+					if( strlen( $this->get_conf('project.auth_name') ) ){
+						// 基本認証、またはダイジェスト認証が設定されている場合
+						if( strlen( $this->get_conf('project.auth_type') ) ){
+							$httpaccess->set_auth_type( $this->get_conf('project.auth_type') );//認証タイプ
+						}
+						$httpaccess->set_auth_user( $this->get_conf('project.auth_name') );//認証ID
+						$httpaccess->set_auth_pw( $this->get_conf('project.auth_password') );//認証パスワード
+					}
+					$this->dbh()->mkdir_all( dirname($this->path_tmppublish_dir.'/htdocs/'.$path) );
+					$RTN .= $httpaccess->get_http_contents();//ダウンロードを実行する
+				}
+
+				// ------ PxFW 1.0.3 で追加したオプション ------
 				// PHPの virtual() メソッドは、Apacheのサブクエリを発行するので、
 				// インクルードファイル内でのSSIが処理される。
 				// しかし、output bufferを無効にしてしまう副作用があるため、
 				// PxFWの output_filter などの後処理を通らなくなる欠点があった。
-				// ob_start();
-				// virtual($path_incfile);
-				// $RTN .= ob_get_clean();
-
-				// ------ PxFW 1.0.3 で修正した実装 ------
-				// インクルードファイルをHTTPから取りに行く。
-				// あくまで内部処理ではないため、インクルードファイル内でインクルードを動かしたい場合には、
-				// インクルードファイルの拡張子をApacheで設定する必要がある。
-				// 処理は重いが一旦この実装に置き換える。
-				// より良い方法が見つかったら置き換えたい。
-				$url = 'http'.($this->req()->is_ssl()?'s':'').'://'.$_SERVER['HTTP_HOST'].$this->dbh()->get_realpath($path_incfile);
-
-				@require_once( $this->get_conf('paths.px_dir').'libs/PxHTTPAccess/PxHTTPAccess.php' );
-				$httpaccess = new PxHTTPAccess();
-				$httpaccess->clear_request_header();//初期化
-				$httpaccess->set_url( $url );//ダウンロードするURL
-				$httpaccess->set_method( 'GET' );//メソッド
-				$httpaccess->set_user_agent( $this->crawler_user_agent );//HTTP_USER_AGENT
-				if( strlen( $this->get_conf('project.auth_name') ) ){
-					//  基本認証、またはダイジェスト認証が設定されている場合
-					if( strlen( $this->get_conf('project.auth_type') ) ){
-						$httpaccess->set_auth_type( $this->get_conf('project.auth_type') );//認証タイプ
-					}
-					$httpaccess->set_auth_user( $this->get_conf('project.auth_name') );//認証ID
-					$httpaccess->set_auth_pw( $this->get_conf('project.auth_password') );//認証パスワード
+				if( $ssi_method == 'php_virtual' ){
+					ob_start();
+					virtual($path_incfile);
+					$RTN .= ob_get_clean();
 				}
-				$this->dbh()->mkdir_all( dirname($this->path_tmppublish_dir.'/htdocs/'.$path) );
-				$RTN .= $httpaccess->get_http_contents();//ダウンロードを実行する
+
+				// ------ PxFW 1.0.3 で追加したオプション ------
+				// インクルードファイルはPHPスクリプトとして動的に読み込まれる。
+				if( $ssi_method == 'php_include' ){
+					ob_start();
+					@include( $_SERVER['DOCUMENT_ROOT'].$path_incfile );
+					$RTN .= ob_get_clean();
+				}
+
+				// ------ PxFW 1.0.2 までの実装 ------
+				// インクルードファイルはスタティックなテキストとして読み込まれる。
+				// インクルードファイル内でのインクルードができない。
+				if( $ssi_method == 'static' ){
+					// デフォルトの処理
+					$RTN .= $this->dbh()->file_get_contents( $_SERVER['DOCUMENT_ROOT'].$path_incfile );
+				}
 
 				$RTN = t::convert_encoding($RTN);
 			}
@@ -512,6 +528,12 @@ class px_px{
 			}
 		}
 		unset($tmp_class_name, $tmp_plugin_name);
+
+		$ssi_method = $this->get_conf('system.ssi_method');
+		if( !strlen($ssi_method) ){ $ssi_method = 'static'; }
+		if( $ssi_method == 'php_include' ){
+			return '<'.'?php include( $_SERVER[\'DOCUMENT_ROOT\'].'.t::data2phpsrc( $path ).' ); ?'.'>';
+		}
 		return '<!--#include virtual="'.htmlspecialchars( $path ).'" -->';
 	}//ssi_static_tag()
 
@@ -589,6 +611,7 @@ class px_px{
 			'system.file_default_permission'=>"775",
 			'system.dir_default_permission'=>"775",
 			'system.public_cache_dir'=>"_caches",
+			'system.ssi_method'=>"static",
 		);
 		if( is_array($default) && count($default) ){
 			// デフォルトの配列を受け取ったら、それでリセット

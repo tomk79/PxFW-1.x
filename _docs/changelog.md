@@ -5,7 +5,7 @@
 
 ## PxFW 1.0.3 (2014/\*\*/\*\*)
 
-- $px->ssi() で読み込んだファイル内でSSIが無効になる問題を解決。
+- コンフィグ項目 system.ssi_method を追加。$px->ssi() で読み込んだファイル内でSSIが無効になる問題を回避する方法として。
 - コンフィグ値 system.output_encoding に指定する Shift_JIS の表記ゆれに対応。SJIS、Shift_JIS に加え、新たに Shift-JIS、x-sjis を指定した時にも SJIS-win で変換するようになった。
 - パブリッシュツールのアクセスだった場合に、PHPのエラーを標準出力しないようにした。
 - ./_PX/_sys/ 直下に、applock, caches, publish, ramdata がない場合に、ディレクトリを生成するようにした。
