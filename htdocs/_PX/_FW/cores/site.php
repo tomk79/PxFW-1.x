@@ -555,6 +555,14 @@ class px_cores_site{
 	}
 
 	/**
+	 * 現在のページの情報をセットする
+	 */
+	public function set_current_page_info( $page_info ){
+		$current_path = $this->px->req()->get_request_file_path();
+		return $this->set_page_info( $current_path, $page_info );
+	}
+
+	/**
 	 * パスがダイナミックパスにマッチするか調べる
 	 */
 	public function is_match_dynamic_path( $path ){
