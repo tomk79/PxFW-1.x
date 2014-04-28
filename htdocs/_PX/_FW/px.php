@@ -466,7 +466,7 @@ class px_px{
 					$httpaccess->clear_request_header();//初期化
 					$httpaccess->set_url( $url );//ダウンロードするURL
 					$httpaccess->set_method( 'GET' );//メソッド
-					$httpaccess->set_user_agent( $this->crawler_user_agent );//HTTP_USER_AGENT
+					$httpaccess->set_user_agent( $_SERVER['HTTP_USER_AGENT'] );//HTTP_USER_AGENT
 					if( strlen( $this->get_conf('project.auth_name') ) ){
 						// 基本認証、またはダイジェスト認証が設定されている場合
 						if( strlen( $this->get_conf('project.auth_type') ) ){
@@ -529,11 +529,11 @@ class px_px{
 		}
 		unset($tmp_class_name, $tmp_plugin_name);
 
-		$ssi_method = $this->get_conf('system.ssi_method');
-		if( !strlen($ssi_method) ){ $ssi_method = 'static'; }
-		if( $ssi_method == 'php_include' ){
-			return '<'.'?php include( $_SERVER[\'DOCUMENT_ROOT\'].'.t::data2phpsrc( $path ).' ); ?'.'>';
-		}
+		// $ssi_method = $this->get_conf('system.ssi_method');
+		// if( !strlen($ssi_method) ){ $ssi_method = 'static'; }
+		// if( $ssi_method == 'php_include' ){
+		// 	return '<'.'?php include( $_SERVER[\'DOCUMENT_ROOT\'].'.t::data2phpsrc( $path ).' ); ?'.'>';
+		// }
 		return '<!--#include virtual="'.htmlspecialchars( $path ).'" -->';
 	}//ssi_static_tag()
 
