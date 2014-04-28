@@ -446,7 +446,7 @@ class px_px{
 		$RTN = '';
 		$path_incfile = $this->dbh()->get_realpath( $path_incfile );
 		if( $this->user()->is_publishtool() ){
-			#	パブリッシュツールだったら、SSIタグを出力する。
+			// パブリッシュツールだったら、SSIタグを出力する。
 			$RTN .= $this->ssi_static_tag( $path_incfile );
 		}else{
 			if( $this->dbh()->is_file( $_SERVER['DOCUMENT_ROOT'].$path_incfile ) && $this->dbh()->is_readable( $_SERVER['DOCUMENT_ROOT'].$path_incfile ) ){
@@ -480,6 +480,24 @@ class px_px{
 				}
 
 				// ------ PxFW 1.0.3 で追加したオプション ------
+				// インクルードファイルはPHPスクリプトとして動的に読み込まれる。
+				// "http" 設定では、IP制限など基本認証以外の制限があったり、
+				// Apacheのプロセスが増えて動作が重くなる場合などに使えるかもしれない。
+				// ただしその場合、
+				// 拡張子 *.html 以外のインクルードファイルでは、プレビュー時にインクルードが処理されない点と、
+				// プレビュー時とパブリッシュ時で処理の流れが異なるため、設定ミスなどに気づきにくい点が欠点。
+				if( $ssi_method == 'php_include' ){
+					$px = &$this;
+					$memo_page_info = $px->site()->get_current_page_info();
+
+					ob_start();
+					@include( $_SERVER['DOCUMENT_ROOT'].$path_incfile );
+					$RTN .= ob_get_clean();
+
+					$px->site()->set_page_info(null, array('layout'=>$memo_page_info['layout']) );
+				}
+
+				// ------ PxFW 1.0.3 で追加したオプション ------
 				// PHPの virtual() メソッドは、Apacheのサブクエリを発行するので、
 				// インクルードファイル内でのSSIが処理される。
 				// しかし、output bufferを無効にしてしまう副作用があるため、
@@ -487,14 +505,6 @@ class px_px{
 				if( $ssi_method == 'php_virtual' ){
 					ob_start();
 					virtual($path_incfile);
-					$RTN .= ob_get_clean();
-				}
-
-				// ------ PxFW 1.0.3 で追加したオプション ------
-				// インクルードファイルはPHPスクリプトとして動的に読み込まれる。
-				if( $ssi_method == 'php_include' ){
-					ob_start();
-					@include( $_SERVER['DOCUMENT_ROOT'].$path_incfile );
 					$RTN .= ob_get_clean();
 				}
 
