@@ -3,7 +3,7 @@
 # PxFW(Pickles Framework) 更新履歴
 
 
-## PxFW 1.0.3 (2014/\*\*/\*\*)
+## PxFW 1.0.3 (2014/4/29)
 
 - コンフィグ項目 system.ssi_method を追加。$px->ssi() での多重インクルードができない問題を回避する方法として。
 - コンフィグ項目 system.output_encoding に指定する Shift_JIS の表記ゆれに対応。SJIS、Shift_JIS に加え、新たに Shift-JIS、x-sjis を指定した時にも SJIS-win で変換するようになった。
