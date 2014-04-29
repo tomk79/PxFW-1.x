@@ -49,7 +49,7 @@ class px_pxcommands_sitemap extends px_bases_pxcommand{
 			$html .= '<table class="def" style="width:100%;">' . "\n";
 			foreach ($ary as $key => $val) {
 				$html .= '<tr>' . "\n";
-				$html .= '<th style="width:30%;">'.t::h( $key ).'</th>'."\n";
+				$html .= '<th style="width:30%;">'.t::text2html( $key ).'</th>'."\n";
 				$html .= '<td style="width:70%; word-break:break-all;">';
 				if( $key == 'path' ){
 					$href = $this->px->theme()->href( $val );

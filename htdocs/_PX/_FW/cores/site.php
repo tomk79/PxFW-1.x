@@ -424,9 +424,9 @@ class px_cores_site{
 
 		$rtn = @$this->sitemap_array[$path];
 		if( !is_array($rtn) ){ return null; }
-		if( !strlen( $rtn['title_breadcrumb'] ) ){ $rtn['title_breadcrumb'] = $rtn['title']; }
-		if( !strlen( $rtn['title_h1'] ) ){ $rtn['title_h1'] = $rtn['title']; }
-		if( !strlen( $rtn['title_label'] ) ){ $rtn['title_label'] = $rtn['title']; }
+		if( !strlen( @$rtn['title_breadcrumb'] ) ){ $rtn['title_breadcrumb'] = $rtn['title']; }
+		if( !strlen( @$rtn['title_h1'] ) ){ $rtn['title_h1'] = $rtn['title']; }
+		if( !strlen( @$rtn['title_label'] ) ){ $rtn['title_label'] = $rtn['title']; }
 		if( count($args) >= 2 ){
 			$rtn = $rtn[$args[1]];
 		}
@@ -457,7 +457,7 @@ class px_cores_site{
 			if( is_string( $path_type ) ){
 				//  パスでの指定だった場合
 				$before_page_info['path'] = $path;
-				if(!strlen($page_info['id'])){
+				if(@!strlen($page_info['id'])){
 					//ページIDを動的に発行
 					$before_page_info['id'] = ':live_auto_page_id.'.($num_auto_pid++);
 				}
@@ -479,7 +479,7 @@ class px_cores_site{
 		}
 		$tmp_array = $before_page_info;
 
-		if( strlen($page_info['title']) && $page_info['title']!=$tmp_array['title'] ){
+		if( @strlen($page_info['title']) && $page_info['title']!=@$tmp_array['title'] ){
 			//タイトルの指定があったら
 			//タイトル系オプション値も自動で振りたいので、あえて消す。
 			unset( $tmp_array['title_breadcrumb'] );
@@ -488,7 +488,7 @@ class px_cores_site{
 		}
 
 		//  パンくず欄の先頭が > から始まっていた場合、削除
-		$tmp_array['logical_path'] = preg_replace( '/^\>+/s' , '' , $tmp_array['logical_path'] );
+		$tmp_array['logical_path'] = preg_replace( '/^\>+/s' , '' , @$tmp_array['logical_path'] );
 
 		//  指定値を反映
 		foreach( $page_info as $key=>$val ){
@@ -514,7 +514,7 @@ class px_cores_site{
 		$this->px->add_relatedlink( $this->px->theme()->href($tmp_array['path']) );
 
 		// カレントページにレイアウトの指示があったら、テーマに反映する。
-		if( $is_target_current_page && strlen($page_info['layout']) ){
+		if( $is_target_current_page && @strlen($page_info['layout']) ){
 			$this->px->theme()->set_layout_id( $page_info['layout'] );
 		}
 

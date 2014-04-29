@@ -338,8 +338,8 @@ class px_cores_req{
 	 *  SSL通信か調べる
 	 */
 	public function is_ssl(){
-		if( $_SERVER['HTTP_SSL'] || $_SERVER['HTTPS'] ){
-			#	SSL通信が有効か否か判断
+		if( @$_SERVER['HTTP_SSL'] || @$_SERVER['HTTPS'] ){
+			// SSL通信が有効か否か判断
 			return true;
 		}
 		return false;
