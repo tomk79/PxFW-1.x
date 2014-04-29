@@ -36,7 +36,9 @@ class px_pxcommands_pageinfo extends px_bases_pxcommand{
 		$src .= '		<th style="word-break:break-all;width:30%;">URLとQRコード</th>'."\n";
 		$src .= '		<td style="word-break:break-all;width:70%;">';
 		$src .= '<a href="'.t::h($this->mk_current_url()).'" target="_blank">'.t::text2html($this->mk_current_url()).'</a><br />';
-		$src .= '<img src="'.t::h('?PX=pageinfo.qr').'" alt="QR Code" />';
+		if( is_dir( $this->px->get_conf('paths.px_dir').'libs/qr_img/' ) ){
+			$src .= '<img src="'.t::h('?PX=pageinfo.qr').'" alt="QR Code" />';
+		}
 		$src .= '</td>'."\n";
 		$src .= '	</tr>'."\n";
 		$src .= '</table>'."\n";
