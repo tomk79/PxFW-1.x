@@ -78,7 +78,7 @@ class px_pxcommands_clearcache extends px_bases_pxcommand{
 		}
 
 		if( !$this->px->dbh()->is_writable( $path ) ){
-			print 'FAILED : NOT WRITABLE "'.$path_cache_dir.'"'."\n";
+			print 'FAILED : NOT WRITABLE "'.$path.'"'."\n";
 			return false;
 		}
 		$path = @realpath( $path );
