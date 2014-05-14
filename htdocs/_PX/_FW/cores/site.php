@@ -439,6 +439,10 @@ class px_cores_site{
 	public function set_page_info( $path , $page_info ){
 		static $num_auto_pid = 0;
 		$path_type = $this->get_path_type($path);
+		if( is_null( $path_type ) || $path_type === false ){
+			$path = $this->px->req()->get_request_file_path();
+			$path_type = $this->get_path_type($path);
+		}
 		if( is_string( $path_type ) ){
 			//  $path がスラドメされている場合に index.html を付加
 			$path = preg_replace( '/\/$/si' , '/'.$this->px->get_directory_index_primary() , $path );
