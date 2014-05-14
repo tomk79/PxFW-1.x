@@ -453,12 +453,14 @@ class px_px{
 
 				$ssi_method = $this->get_conf('system.ssi_method');
 				if( !strlen($ssi_method) ){ $ssi_method = 'static'; }
+				$done = false;
 
 				// ------ PxFW 1.0.3 で追加したオプション ------
 				// インクルードファイルをHTTPから取りに行く。
 				// あくまで内部処理ではないため、インクルードファイル内でインクルードを動かしたい場合には、
 				// インクルードファイルの拡張子をApacheで設定する必要がある。
 				if( $ssi_method == 'http' ){
+					$done = true;
 					$url = 'http'.($this->req()->is_ssl()?'s':'').'://'.$_SERVER['HTTP_HOST'].$this->dbh()->get_realpath($path_incfile);
 
 					@require_once( $this->get_conf('paths.px_dir').'libs/PxHTTPAccess/PxHTTPAccess.php' );
@@ -487,6 +489,7 @@ class px_px{
 				// 拡張子 *.html 以外のインクルードファイルでは、プレビュー時にインクルードが処理されない点と、
 				// プレビュー時とパブリッシュ時で処理の流れが異なるため、設定ミスなどに気づきにくい点が欠点。
 				if( $ssi_method == 'php_include' ){
+					$done = true;
 					$px = &$this;
 					$memo_page_info = $px->site()->get_current_page_info();
 
@@ -503,20 +506,47 @@ class px_px{
 				// しかし、output bufferを無効にしてしまう副作用があるため、
 				// PxFWの output_filter などの後処理を通らなくなる欠点があった。
 				if( $ssi_method == 'php_virtual' ){
+					$done = true;
 					ob_start();
 					virtual($path_incfile);
 					$RTN .= ob_get_clean();
+				}
+
+				// ------ PxFW 1.0.4 で追加したオプション ------
+				// Apache SSI 形式をエミュレート。擬似的にインクルードを解決する。
+				if( $ssi_method == 'emulate_ssi' ){
+					$done = true;
+					$px = $this;
+					$tmp_src = $this->dbh()->file_get_contents( $_SERVER['DOCUMENT_ROOT'].$path_incfile );
+					while(1){
+						$tmp_preg_pattern = '/^(.*?)'.preg_quote('<!--#include','/').'\s+virtual\=\"(.*?)\"\s*'.preg_quote('-->','/').'(.*)$/s';
+						if( !preg_match($tmp_preg_pattern, $tmp_src, $tmp_matched) ){
+							$RTN .= $tmp_src;
+							break;
+						}
+						$RTN .= $tmp_matched[1];
+						$RTN .= $this->ssi($this->theme()->href($tmp_matched[2]));
+						$tmp_src = $tmp_matched[3];
+						continue;
+					}
+					$RTN .= $tmpSrc;
 				}
 
 				// ------ PxFW 1.0.2 までの実装 ------
 				// インクルードファイルはスタティックなテキストとして読み込まれる。
 				// インクルードファイル内でのインクルードができない。
 				if( $ssi_method == 'static' ){
+					$done = true;
 					// デフォルトの処理
 					$RTN .= $this->dbh()->file_get_contents( $_SERVER['DOCUMENT_ROOT'].$path_incfile );
 				}
 
 				$RTN = t::convert_encoding($RTN);
+
+				if( !$done ){
+					// ERROR: 設定が正しくありません。
+					$RTN .= '<!-- ERROR: unknown config "system.ssi_method" '.t::h($ssi_method).' -->';
+				}
 			}
 		}
 		return	$RTN;
