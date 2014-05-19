@@ -584,8 +584,11 @@ class px_px{
 	 */
 	private function parse_pxcommand( $param ){
 		if( !$this->get_conf('system.allow_pxcommands') ){
-			//  設定で許可されていない場合は、常に null
-			return null;
+			// 設定で許可されていない場合は、null
+			if( !$this->req()->is_cmd() ){
+				// コマンドラインの場合、この設定は無効
+				return null;
+			}
 		}
 		if( !strlen( $param ) ){
 			//  パラメータ値が付いていなければ、null

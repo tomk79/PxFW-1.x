@@ -7,6 +7,7 @@
 
 - コンフィグ項目 system.ssi_method に、選択肢 emulate_ssi を追加。
 - composer に対応。./_PX/libs/composer/ に展開したライブラリを自動ロードするようになった。
+- system.allow_pxcommands が無効に設定されている場合でも、コマンドラインからは PX Command を実行できるようになった。
 
 
 ## PxFW 1.0.3 (2014/4/29)
