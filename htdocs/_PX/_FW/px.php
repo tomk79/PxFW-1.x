@@ -767,6 +767,11 @@ class px_px{
 	 * @return true
 	 */
 	private function create_core_instances(){
+		// composer ライブラリをロード (PxFW 1.0.4 追加)
+		if( is_file($this->get_conf('paths.px_dir').'libs/composer/vendor/autoload.php') ){
+			require_once( $this->get_conf('paths.px_dir').'libs/composer/vendor/autoload.php' );
+		}
+
 		//  スタティックメソッドをロード
 		require_once( $this->get_conf('paths.px_dir').'_FW/statics/t.php' );
 		require_once( $this->get_conf('paths.px_dir').'_FW/statics/test.php' );
