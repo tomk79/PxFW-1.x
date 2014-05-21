@@ -119,7 +119,7 @@ class px_cores_theme{
 		unset($page_info);
 		$px = $this->px;
 		ob_start();
-		@include( $path_template_file );
+		include( $path_template_file );
 		$src = ob_get_clean();
 
 		$src = preg_replace( '/^'.preg_quote(base64_decode('77u/'),'/').'/', '', $src );//	BOMを削除する
