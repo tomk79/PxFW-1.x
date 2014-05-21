@@ -358,7 +358,7 @@ class px_cores_site{
 	 */
 	public function get_global_menu(){
 		$rtn = array();
-		$home_children = $this->get_children('', array('filter'=>false));
+		$home_children = $this->get_children('', array('filter'=>true));//PxFW 1.0.4 list_flg を参照するように変更
 		foreach( $home_children as $page_id ){
 			$page_info = $this->get_page_info($page_id);
 			if(!$page_info['category_top_flg']){continue;}
@@ -369,10 +369,11 @@ class px_cores_site{
 
 	/**
 	 * ショルダーメニューのページID一覧を取得する
+	 * PxFW 1.0.4 追加
 	 */
 	public function get_shoulder_menu(){
 		$rtn = array();
-		$home_children = $this->get_children('', array('filter'=>false));
+		$home_children = $this->get_children('', array('filter'=>true));
 		foreach( $home_children as $page_id ){
 			$page_info = $this->get_page_info($page_id);
 			if($page_info['category_top_flg']){continue;}
