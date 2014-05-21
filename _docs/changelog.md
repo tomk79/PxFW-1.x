@@ -6,6 +6,7 @@
 ## PxFW 1.0.4 (2014/\*\*/\*\*)
 
 - コンフィグ項目 system.ssi_method に、選択肢 emulate_ssi を追加。
+- $site->get_shoulder_menu() を追加。
 - composer に対応。./_PX/libs/composer/ に展開したライブラリを自動ロードするようになった。
 - system.allow_pxcommands が無効に設定されている場合でも、コマンドラインからは PX Command を実行できるようになった。
 - .htaccess に書かれていたPHPのエラー出力に関する設定をコメントアウト。環境に従うようになった。
