@@ -10,11 +10,11 @@
 (H1見出しのラベル)","ページタイトル(リンクのラベル)","/sample_pages/",1,,,,,"sample, サンプル","このページはPxFWのサンプルコードとして予め用意されたものです。サンプルが不要であれば、sample_pagesディレクトリとともに削除してください。",
 "/sample_pages/page1/2.html",,,"PHPコード埋め込み",,,,"/sample_pages/",1,,,,,"sample, サンプル","このページはPxFWのサンプルコードとして予め用意されたものです。サンプルが不要であれば、sample_pagesディレクトリとともに削除してください。",
 "/sample_pages/page1/3.html",,,"Markdown記法",,,,"/sample_pages/",1,,,,,"sample, サンプル","このページはPxFWのサンプルコードとして予め用意されたものです。サンプルが不要であれば、sample_pagesディレクトリとともに削除してください。",
+"alias:/sample_pages/page2/",,,"サンプルページ2へのエイリアス",,,,"/sample_pages/",1,,,,,"sample, サンプル","このページはPxFWのサンプルコードとして予め用意されたものです。サンプルが不要であれば、sample_pagesディレクトリとともに削除してください。",
 "/sample_pages/page2/",,,"サンプルページ2",,,,,1,,,,,"sample, サンプル","このページはPxFWのサンプルコードとして予め用意されたものです。サンプルが不要であれば、sample_pagesディレクトリとともに削除してください。",1
 "/sample_pages/page2/1.html",,,"サンプル2-1",,,,"/sample_pages/page2/",1,,,,,"sample, サンプル","このページはPxFWのサンプルコードとして予め用意されたものです。サンプルが不要であれば、sample_pagesディレクトリとともに削除してください。",
 "/sample_pages/page2/2.html",,,"サンプル2-2",,,,"/sample_pages/page2/",1,,,,,"sample, サンプル","このページはPxFWのサンプルコードとして予め用意されたものです。サンプルが不要であれば、sample_pagesディレクトリとともに削除してください。",
 "/sample_pages/page3/",,,"サンプルページ3",,,,,1,,,,,"sample, サンプル","このページはPxFWのサンプルコードとして予め用意されたものです。サンプルが不要であれば、sample_pagesディレクトリとともに削除してください。",1
 "/sample_pages/page3/1.html",,,"サンプル3-1",,,,"/sample_pages/page3/",1,,,,,"sample, サンプル","このページはPxFWのサンプルコードとして予め用意されたものです。サンプルが不要であれば、sample_pagesディレクトリとともに削除してください。",
 "/sample_pages/page3/2.html",,,"サンプル3-2",,,,"/sample_pages/page3/",1,,,,,"sample, サンプル","このページはPxFWのサンプルコードとして予め用意されたものです。サンプルが不要であれば、sample_pagesディレクトリとともに削除してください。",
-"alias:/sample_pages/page1/1.html",,,"サンプル1-1のエイリアス",,,,"/sample_pages/page3/",1,,,,,"sample, サンプル","このページはPxFWのサンプルコードとして予め用意されたものです。サンプルが不要であれば、sample_pagesディレクトリとともに削除してください。",
 "/sample_pages/help/",,,"ヘルプ",,,,,1,,,,,"sample, サンプル","このページはPxFWのサンプルコードとして予め用意されたものです。サンプルが不要であれば、sample_pagesディレクトリとともに削除してください。",
