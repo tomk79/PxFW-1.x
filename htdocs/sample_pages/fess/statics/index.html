@@ -1,0 +1,262 @@
+
+<p>スタティックモジュールは、端末の状態(スクリーンの幅など)に影響されず、常に固定の効果を提供します。主に特に基本的でシンプルなショートハンド的なモジュールが含まれます。</p>
+
+<?php
+	print( $px->theme()->autoindex() );
+?>
+
+<h2>文字組み</h2>
+
+<div class="unit">
+<table class="def" style="width:100%;">
+	<thead>
+		<tr><th>モジュール名称</th><th>用途</th><th>サンプル</th></tr>
+	</thead>
+	<tbody>
+		<tr><th>.center</th><td>センターぞろえにする。</td><td>&lt;p class=&quot;center&quot;&gt;文字&lt;/p&gt;</td></tr>
+		<tr><th>.left</th><td>左揃えにする。</td><td>&lt;p class=&quot;left&quot;&gt;文字&lt;/p&gt;</td></tr>
+		<tr><th>.right</th><td>右揃えにする。</td><td>&lt;p class=&quot;right&quot;&gt;文字&lt;/p&gt;</td></tr>
+	</tbody>
+</table>
+</div><!-- /.unit -->
+
+
+<h2>回り込み制御</h2>
+
+<div class="unit">
+<table class="def" style="width:100%;">
+	<thead>
+		<tr><th>モジュール名称</th><th>用途</th><th>サンプル</th></tr>
+	</thead>
+	<tbody>
+		<tr><th>.fl</th><td>左に回り込ませる。</td><td>&lt;p class=&quot;fl&quot;&gt;文字&lt;/p&gt;</td></tr>
+		<tr><th>.fr</th><td>右に回り込ませる。</td><td>&lt;p class=&quot;fr&quot;&gt;文字&lt;/p&gt;</td></tr>
+		<tr><th>.fc</th><td>回り込みを解除する。</td><td>&lt;p class=&quot;fc&quot;&gt;文字&lt;/p&gt;</td></tr>
+		<tr><th>.clearfix</th><td>親要素を回り込みに対してフィットさせる。</td><td>&lt;div class=&quot;clearfix&quot;&gt;<br />
+  &lt;div class=&quot;fl&quot;&gt;回り込み&lt;/div&gt;<br />
+  &lt;div class=&quot;fr&quot;&gt;回り込み&lt;/div&gt;<br />
+&lt;/div&gt;</td></tr>
+	</tbody>
+</table>
+</div><!-- /.unit -->
+
+
+<h2>レイアウト制御</h2>
+
+<div class="unit">
+<table class="def" style="width:100%;">
+	<thead>
+		<tr><th>モジュール名称</th><th>用途</th><th>サンプル</th></tr>
+	</thead>
+	<tbody>
+		<tr><th>.inline</th><td>インライン要素にする。</td><td>&lt;div class=&quot;inline&quot;&gt;インライン要素にする。&lt;/div&gt;</td></tr>
+		<tr><th>.block</th><td>ブロック要素にする。</td><td>&lt;span class=&quot;block&quot;&gt;ブロック要素にする。&lt;/span&gt;</td></tr>
+	</tbody>
+</table>
+</div><!-- /.unit -->
+
+
+<h2>マージン制御</h2>
+<div class="unit">
+<table class="def" style="width:100%;">
+	<thead>
+		<tr><th>モジュール名称</th><th>用途</th></tr>
+	</thead>
+	<tbody>
+		<tr>
+			<th><div>.mt1em</div></th>
+			<td rowspan="3"><div>要素の上方にem単位のマージンをつけます。pは小数点(point)を表します。<code>.mt1p5em</code>は、1.5em(1 point 5)です。</div></td>
+		</tr>
+		<tr><th><div>.mt1p5em</div></th></tr>
+		<tr><th><div>.mt2em</div></th></tr>
+
+		<tr>
+			<th><div>.mt0</div></th>
+			<td rowspan="15"><div>要素の上方にマージンをつけます。(単位はpx)</div></td>
+		</tr>
+		<tr><th><div>.mt1 </div></th></tr>
+		<tr><th><div>.mt2 </div></th></tr>
+		<tr><th><div>.mt3 </div></th></tr>
+		<tr><th><div>.mt4 </div></th></tr>
+		<tr><th><div>.mt5 </div></th></tr>
+		<tr><th><div>.mt6 </div></th></tr>
+		<tr><th><div>.mt7 </div></th></tr>
+		<tr><th><div>.mt8 </div></th></tr>
+		<tr><th><div>.mt9 </div></th></tr>
+		<tr><th><div>.mt10</div></th></tr>
+		<tr><th><div>.mt15</div></th></tr>
+		<tr><th><div>.mt20</div></th></tr>
+		<tr><th><div>.mt25</div></th></tr>
+		<tr><th><div>.mt30</div></th></tr>
+
+		<tr>
+			<th><div>.mb1em</div></th>
+			<td rowspan="3"><div>要素の下方にem単位のマージンをつけます。pは小数点(point)を表します。<code>.mb1p5em</code>は、1.5em(1 point 5)です。</div></td>
+		</tr>
+		<tr><th><div>.mb1p5em</div></th></tr>
+		<tr><th><div>.mb2em</div></th></tr>
+
+		<tr>
+			<th><div>.mb0 </div></th>
+			<td rowspan="15"><div>要素の下方にマージンをつけます。(単位はpx)</div></td>
+		</tr>
+		<tr><th><div>.mb1 </div></th></tr>
+		<tr><th><div>.mb2 </div></th></tr>
+		<tr><th><div>.mb3 </div></th></tr>
+		<tr><th><div>.mb4 </div></th></tr>
+		<tr><th><div>.mb5 </div></th></tr>
+		<tr><th><div>.mb6 </div></th></tr>
+		<tr><th><div>.mb7 </div></th></tr>
+		<tr><th><div>.mb8 </div></th></tr>
+		<tr><th><div>.mb9 </div></th></tr>
+		<tr><th><div>.mb10</div></th></tr>
+		<tr><th><div>.mb15</div></th></tr>
+		<tr><th><div>.mb20</div></th></tr>
+		<tr><th><div>.mb25</div></th></tr>
+		<tr><th><div>.mb30</div></th></tr>
+
+		<tr>
+			<th><div>.ml0 </div></th>
+			<td rowspan="15"><div>要素の左方にマージンをつけます。(単位はpx)</div></td>
+		</tr>
+		<tr><th><div>.ml1 </div></th></tr>
+		<tr><th><div>.ml2 </div></th></tr>
+		<tr><th><div>.ml3 </div></th></tr>
+		<tr><th><div>.ml4 </div></th></tr>
+		<tr><th><div>.ml5 </div></th></tr>
+		<tr><th><div>.ml6 </div></th></tr>
+		<tr><th><div>.ml7 </div></th></tr>
+		<tr><th><div>.ml8 </div></th></tr>
+		<tr><th><div>.ml9 </div></th></tr>
+		<tr><th><div>.ml10</div></th></tr>
+		<tr><th><div>.ml15</div></th></tr>
+		<tr><th><div>.ml20</div></th></tr>
+		<tr><th><div>.ml25</div></th></tr>
+		<tr><th><div>.ml30</div></th></tr>
+
+		<tr>
+			<th><div>.mr0 </div></th>
+			<td rowspan="15"><div>要素の右方にマージンをつけます。(単位はpx)</div></td>
+		</tr>
+		<tr><th><div>.mr1 </div></th></tr>
+		<tr><th><div>.mr2 </div></th></tr>
+		<tr><th><div>.mr3 </div></th></tr>
+		<tr><th><div>.mr4 </div></th></tr>
+		<tr><th><div>.mr5 </div></th></tr>
+		<tr><th><div>.mr6 </div></th></tr>
+		<tr><th><div>.mr7 </div></th></tr>
+		<tr><th><div>.mr8 </div></th></tr>
+		<tr><th><div>.mr9 </div></th></tr>
+		<tr><th><div>.mr10</div></th></tr>
+		<tr><th><div>.mr15</div></th></tr>
+		<tr><th><div>.mr20</div></th></tr>
+		<tr><th><div>.mr25</div></th></tr>
+		<tr><th><div>.mr30</div></th></tr>
+	</tbody>
+
+</table>
+</div><!-- /.unit -->
+
+
+<h2>パディング制御</h2>
+<div class="unit">
+<table class="def" style="width:100%;">
+	<thead>
+		<tr><th>モジュール名称</th><th>用途</th></tr>
+	</thead>
+	<tbody>
+		<tr>
+			<th><div>.pt1em</div></th>
+			<td rowspan="3"><div>要素の上方にem単位のパディングをつけます。pは小数点(point)を表します。<code>.pt1p5em</code>は、1.5em(1 point 5)です。</div></td>
+		</tr>
+		<tr><th><div>.pt1p5em</div></th></tr>
+		<tr><th><div>.pt2em</div></th></tr>
+
+		<tr>
+			<th><div>.pt0 </div></th>
+			<td rowspan="15"><div>要素の上方にパディングをつけます。(単位はpx)</div></td>
+		</tr>
+		<tr><th><div>.pt1 </div></th></tr>
+		<tr><th><div>.pt2 </div></th></tr>
+		<tr><th><div>.pt3 </div></th></tr>
+		<tr><th><div>.pt4 </div></th></tr>
+		<tr><th><div>.pt5 </div></th></tr>
+		<tr><th><div>.pt6 </div></th></tr>
+		<tr><th><div>.pt7 </div></th></tr>
+		<tr><th><div>.pt8 </div></th></tr>
+		<tr><th><div>.pt9 </div></th></tr>
+		<tr><th><div>.pt10</div></th></tr>
+		<tr><th><div>.pt15</div></th></tr>
+		<tr><th><div>.pt20</div></th></tr>
+		<tr><th><div>.pt25</div></th></tr>
+		<tr><th><div>.pt30</div></th></tr>
+
+		<tr>
+			<th><div>.pb1em</div></th>
+			<td rowspan="3"><div>要素の下方にem単位のパディングをつけます。pは小数点(point)を表します。<code>.pb1p5em</code>は、1.5em(1 point 5)です。</div></td>
+		</tr>
+		<tr><th><div>.pb1p5em</div></th></tr>
+		<tr><th><div>.pb2em</div></th></tr>
+
+		<tr>
+			<th><div>.pb0 </div></th>
+			<td rowspan="15"><div>要素の下方にパディングをつけます。(単位はpx)</div></td>
+		</tr>
+		<tr><th><div>.pb1 </div></th></tr>
+		<tr><th><div>.pb2 </div></th></tr>
+		<tr><th><div>.pb3 </div></th></tr>
+		<tr><th><div>.pb4 </div></th></tr>
+		<tr><th><div>.pb5 </div></th></tr>
+		<tr><th><div>.pb6 </div></th></tr>
+		<tr><th><div>.pb7 </div></th></tr>
+		<tr><th><div>.pb8 </div></th></tr>
+		<tr><th><div>.pb9 </div></th></tr>
+		<tr><th><div>.pb10</div></th></tr>
+		<tr><th><div>.pb15</div></th></tr>
+		<tr><th><div>.pb20</div></th></tr>
+		<tr><th><div>.pb25</div></th></tr>
+		<tr><th><div>.pb30</div></th></tr>
+
+		<tr>
+			<th><div>.pl0 </div></th>
+			<td rowspan="15"><div>要素の左方にパディングをつけます。(単位はpx)</div></td>
+		</tr>
+		<tr><th><div>.pl1 </div></th></tr>
+		<tr><th><div>.pl2 </div></th></tr>
+		<tr><th><div>.pl3 </div></th></tr>
+		<tr><th><div>.pl4 </div></th></tr>
+		<tr><th><div>.pl5 </div></th></tr>
+		<tr><th><div>.pl6 </div></th></tr>
+		<tr><th><div>.pl7 </div></th></tr>
+		<tr><th><div>.pl8 </div></th></tr>
+		<tr><th><div>.pl9 </div></th></tr>
+		<tr><th><div>.pl10</div></th></tr>
+		<tr><th><div>.pl15</div></th></tr>
+		<tr><th><div>.pl20</div></th></tr>
+		<tr><th><div>.pl25</div></th></tr>
+		<tr><th><div>.pl30</div></th></tr>
+
+		<tr>
+			<th><div>.pr0 </div></th>
+			<td rowspan="15"><div>要素の右方にパディングをつけます。(単位はpx)</div></td>
+		</tr>
+		<tr><th><div>.pr1 </div></th></tr>
+		<tr><th><div>.pr2 </div></th></tr>
+		<tr><th><div>.pr3 </div></th></tr>
+		<tr><th><div>.pr4 </div></th></tr>
+		<tr><th><div>.pr5 </div></th></tr>
+		<tr><th><div>.pr6 </div></th></tr>
+		<tr><th><div>.pr7 </div></th></tr>
+		<tr><th><div>.pr8 </div></th></tr>
+		<tr><th><div>.pr9 </div></th></tr>
+		<tr><th><div>.pr10</div></th></tr>
+		<tr><th><div>.pr15</div></th></tr>
+		<tr><th><div>.pr20</div></th></tr>
+		<tr><th><div>.pr25</div></th></tr>
+		<tr><th><div>.pr30</div></th></tr>
+	</tbody>
+
+</table>
+</div><!-- /.unit -->
+
+

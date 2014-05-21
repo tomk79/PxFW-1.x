@@ -116,7 +116,7 @@ header .theme_head_menu a:before{
 	padding:0.5em 2em;
 }
 .theme_column1-content{
-	padding:0.5em 2em;
+	padding:0.5em 20px;
 	background-color:#fff;
 	color:#333;
 }
@@ -132,7 +132,7 @@ body.theme_layout_top .theme_column2{
 		padding:0.5em 1em;
 	}
 	.theme_column1-content{
-		padding:0.5em 1em;
+		padding:0.5em 20px;
 	}
 }
 
@@ -253,15 +253,6 @@ footer .theme_foot_back2top *{
 	color: <?php print $colors['link']; ?>;
 	text-decoration: none;
 }
-footer .breadcrumb{
-	padding:0.2em 1em;
-	margin:0.2em 0;
-	background-color:transparent;
-	color:<?php print $colors['link']; ?>;
-}
-footer .breadcrumb *{
-	color:<?php print $colors['link']; ?>;
-}
 
 @media all and (max-width:620px){
 	.theme_column1{
@@ -301,6 +292,12 @@ footer .breadcrumb *{
  * パンくず
  */
 .breadcrumb{
+	padding:0;
+	margin:0.2em 0;
+	background-color:transparent;
+	float:none;
+	clear:both;
+	color:<?php print $colors['link']; ?>;
 }
 .breadcrumb ul,
 .breadcrumb ul li{
@@ -310,7 +307,9 @@ footer .breadcrumb *{
 	padding:0px;
 	font-size: 85%;
 }
-
+.breadcrumb *{
+	color:<?php print $colors['link']; ?>;
+}
 
 
 /**

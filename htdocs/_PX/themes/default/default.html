@@ -44,6 +44,7 @@
 		print '			</nav></div>'."\n";
 	}
 ?>
+			<div class="breadcrumb"><?php print $px->theme()->mk_breadcrumb(); ?></div>
 		</header>
 		<div class="theme_outline">
 			<div class="theme_middle">
@@ -111,11 +112,21 @@
 		<footer><div class="theme_footer_inner">
 			<div class="breadcrumb"><?php print $px->theme()->mk_breadcrumb(); ?></div>
 			<div class="theme_foot_menu"><nav>
+				<!-- グローバルメニューを表示 -->
 				<ul>
 					<li><?php print $px->theme()->mk_link('', array('current'=>empty($page_info['id']))); ?></li>
 <?php
 	$global_menu = $px->site()->get_global_menu();
 	foreach( $global_menu as $pid ){
+		?><li><?php print $px->theme()->mk_link($pid); ?></li><?php
+	}
+?>
+				</ul>
+				<!-- ショルダーメニューを表示 -->
+				<ul>
+<?php
+	$shoulder_menu = $px->site()->get_shoulder_menu();
+	foreach( $shoulder_menu as $pid ){
 		?><li><?php print $px->theme()->mk_link($pid); ?></li><?php
 	}
 ?>

@@ -1,0 +1,80 @@
+
+
+<p>
+	ボックスモジュールは、箱型に囲われたビジュアルスタイルを持ち、前後の流れから独立した文脈に用います。<br />
+</p>
+<p>
+	ボックスモジュールは、次のような規則に則って定義、および使用します。<br />
+</p>
+<ul>
+	<li>パーツモジュールと同様、ユニットモジュールに入れ込んで使うことができます。</li>
+	<li>ボックスモジュールの中には、パーツモジュールを入れ込んで使うことができます。</li>
+	<li>ユニットモジュールに入れ込まれていない場合に限り、ボックスモジュールの中に、ユニットモジュールを1階層分入れ込むことができます。(つまり、ボックスモジュールを挟んだとしても、ユニットモジュール同士が親子の関係になることはできません)</li>
+</ul>
+<p>
+	ボックスモジュールのモジュール名は、慣例として、末尾に *_box を付加するようにします。<br />
+</p>
+
+<?php
+	print( $px->theme()->autoindex() );
+?>
+
+
+<h2>注意喚起ボックス .attention_box</h2>
+<div class="attention_box">
+	<p class="attention_box-heading">ご注意ください</p>
+	<p>次のポイントにご注意ください。</p>
+	<ul>
+		<li>ご注意ポイントの1つ目をここに提示します。</li>
+		<li>ご注意ポイントの2つ目をここに提示します。</li>
+		<li>ご注意ポイントの3つ目をここに提示します。</li>
+	</ul>
+</div><!-- /.attention_box -->
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;attention_box&quot;&gt;
+	&lt;p class=&quot;attention_box-heading&quot;&gt;{$string}&lt;/p&gt;
+	{$parts|unit|box}
+&lt;/div&gt;&lt;!-- /.attention_box --&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+
+<h2>トピックボックス .topic_box</h2>
+<div class="topic_box">
+	<p class="topic_box-heading">お知らせ</p>
+	<p>お知らせ内容を掲示します。</p>
+	<ul>
+		<li>お知らせの1つ目をここに提示します。</li>
+		<li>お知らせの2つ目をここに提示します。</li>
+		<li>お知らせの3つ目をここに提示します。</li>
+	</ul>
+</div><!-- /.topic_box -->
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;topic_box&quot;&gt;
+	&lt;p class=&quot;topic_box-heading&quot;&gt;{$string}&lt;/p&gt;
+	{$parts|unit|box}
+&lt;/div&gt;&lt;!-- /.topic_box --&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+
+<h2>付加情報ボックス .aside_box</h2>
+<div class="aside_box">
+	<p class="aside_box-heading">付加情報</p>
+	<p>記載が必要な情報を掲示します。</p>
+	<ul>
+		<li>お知らせの1つ目をここに提示します。</li>
+		<li>お知らせの2つ目をここに提示します。</li>
+		<li>お知らせの3つ目をここに提示します。</li>
+	</ul>
+</div><!-- /.topic_box -->
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;aside_box&quot;&gt;
+	&lt;p class=&quot;aside_box-heading&quot;&gt;{$string}&lt;/p&gt;
+	{$parts|unit|box}
+&lt;/div&gt;&lt;!-- /.aside_box --&gt;
+</textarea></div>
+</div><!-- /.unit -->
+
+
+
