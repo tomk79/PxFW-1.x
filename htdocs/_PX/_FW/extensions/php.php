@@ -15,7 +15,7 @@ class px_extensions_php extends px_bases_extension{
 
 		ob_start();
 		$px = $this->px;
-		@include( $path_content );
+		include( $path_content );
 		$src = ob_get_clean();
 		$src = $this->px->theme()->bind_contents( $src );
 		$src = $this->px->theme()->output_filter($src, 'html');

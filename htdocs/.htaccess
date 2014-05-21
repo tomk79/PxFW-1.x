@@ -1,16 +1,26 @@
-# for PxFW 1.X
-RewriteEngine on
-RewriteCond %{REQUEST_URI} !^.*?/_px_execute.php/
-RewriteCond %{REQUEST_URI} /(.*?\.(?:html|css|js))?$
-RewriteRule ^(.*)$ _px_execute.php/$1 [L]
+#-------------------------
+#  for PxFW 1.X
+<IfModule mod_rewrite.c>
+	<IfModule mod_negotiation.c>
+		Options -MultiViews
+	</IfModule>
+	RewriteEngine on
+	RewriteCond %{REQUEST_URI} !^.*?/_px_execute.php/
+	RewriteCond %{REQUEST_URI} /(.*?\.(?:html|css|js))?$
+	RewriteRule ^(.*)$ _px_execute.php/$1 [L]
+</IfModule>
 
-Options -MultiViews
 
-php_flag display_errors Off
+#-------------------------
+#  PHP options
 
-# for display errors
+# for hide errors
+#php_flag display_errors Off
+
+# for display ALL errors
 #php_flag display_errors On
 #php_value error_reporting 32767
 
 # for large contents
 #php_value memory_limit -1
+
