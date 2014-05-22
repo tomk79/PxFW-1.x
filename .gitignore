@@ -2,8 +2,6 @@ htdocs/_caches/*
 htdocs/_PX/_sys/*
 htdocs/_PX/plugins/*
 htdocs/_PX/libs/composer/vendor/*
-htdocs/_PX/libs/composer/composer.lock
-htdocs/_PX/libs/composer/composer.phar
 .DS_Store
 Thumbs.db
 scss_cache
