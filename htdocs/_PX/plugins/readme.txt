@@ -37,13 +37,13 @@
 ■info
 
 プラグインに関する情報を管理しています。
-現時点では、管理対象となる情報はプラグインのバージョン情報のみです。
 
 - 格納先: <plugins>/{$plugin_name}/register/info.php
 - クラス名: pxplugin_{$plugin_name}_register_info
 - コンストラクタ引数: なし
 - API
 -- バージョン番号を取得: $instance->get_version()
+-- コンフィグ項目を定義: $instance->config_define() (PxFW 1.0.4以降)
 
 下記は実装例。
 
@@ -61,6 +61,21 @@ class pxplugin_{$plugin_name}_register_info{
 	 */
 	public function get_version(){
 		return '1.0.0';
+	}
+
+	/**
+	 * コンフィグ項目を定義する
+	 * @return hash コンフィグ項目を定義する連想配列
+	 */
+	public function config_define(){
+		return array(
+			'plugin-{$plugin_name}.config_name'=>
+				array(
+					'description'=>'(設定項目の説明)',
+					'type'=>'string' , // string|bool|realpath
+					'required'=>false ,
+				) ,
+		);
 	}
 
 }
