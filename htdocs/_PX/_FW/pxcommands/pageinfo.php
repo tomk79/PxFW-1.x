@@ -15,12 +15,6 @@ class px_pxcommands_pageinfo extends px_bases_pxcommand{
 	 * Execute PX Command "pageinfo".
 	 */
 	private function execute(){
-		$command = $this->get_command();
-		if( @$command[1] == 'qr' ){
-			$this->flush_qr();
-			exit;
-		}
-
 		$pageinfo = $this->px->site()->get_current_page_info();
 
 		$src = '';
@@ -65,29 +59,6 @@ $(function(){
 		}
 		$src .= '</div><!-- /.unit -->'."\n";
 		print $this->html_template( $src );
-		exit;
-	}
-
-	/**
-	 * このページのQRコードを出力する。
-	 */
-	private function flush_qr(){
-		$pageinfo = $this->px->site()->get_current_page_info();
-
-		$tmp_cd = realpath( '.' );
-		chdir( $this->px->get_conf('paths.px_dir').'libs/qr_img/php/' );
-
-
-		$tmpGET = $_GET;
-		$_GET = array();
-		$_GET['d'] = $this->mk_current_url();
-		$_GET['t'] = 'P';
-		$_GET['s'] = '4';
-		@include('./qr_img.php');
-
-		chdir( $tmp_cd );
-		$_GET = $tmpGET;
-
 		exit;
 	}
 
