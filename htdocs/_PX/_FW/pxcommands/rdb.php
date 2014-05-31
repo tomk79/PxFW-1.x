@@ -101,7 +101,11 @@ var contSql = new (function(formElm){
 							SRC += '<tr>';
 							for(var key2 in data.value[key1]){
 								SRC += '<td>';
-								SRC += data.value[key1][key2];
+								if( data.value[key1][key2] === null ){
+									SRC += '<span style="color:#00f; font-style:italic;">null</span>';
+								}else{
+									SRC += data.value[key1][key2];
+								}
 								SRC += '</td>';
 							}
 							if(data.sql=='\\d'){
