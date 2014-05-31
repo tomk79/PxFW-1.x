@@ -289,7 +289,7 @@ class px_cores_theme{
 	/**
 	 * リンクタグ(aタグ)を生成する。
 	 * @param $linkto リンク先のパス。PxFWのインストールパスを基点にした絶対パスで指定。
-	 * @param options: [as string] Link label, [as array] Any options.
+	 * @param options: [as string] Link label, [as array] Any options. [as function] callback function.
 	 * @return string aタグ
 	 */
 	public function mk_link( $linkto ){
@@ -301,8 +301,8 @@ class px_cores_theme{
 		$hrefc = $this->href($this->px->req()->get_request_file_path());
 		$label = $page_info['title_label'];
 		$page_id = $page_info['id'];
-		if( is_string($args[1]) ){
-			//  第2引数が文字列なら
+		if( is_string($args[1]) || (is_object($args[1]) && is_callable($args[1])) ){
+			//  第2引数が文字列、または function なら
 			//  リンクのラベルとして採用
 			$label = $args[1];
 		}
@@ -310,7 +310,7 @@ class px_cores_theme{
 			//  最後の引数が配列なら
 			//  オプション連想配列として読み込む
 			$options = $args[count($args)-1];
-			if(strlen($options['label'])){
+			if( is_string(@$options['label']) || (is_object(@$options['label']) && is_callable(@$options['label'])) ){
 				$label = $options['label'];
 			}
 		}
@@ -343,6 +343,12 @@ class px_cores_theme{
 			array_push($classes, 'current');
 		}
 
+		if( is_object($label) && is_callable($label) ){
+			$label = $label($page_info);
+			if( is_null($options['no_escape']) ){
+				$options['no_escape'] = true;
+			}
+		}
 		if( !$options['no_escape'] ){
 			// no_escape(エスケープしない)指示がなければ、
 			// HTMLをエスケープする。
