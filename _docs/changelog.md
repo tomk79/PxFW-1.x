@@ -10,6 +10,7 @@
 - $site->get_global_menu() が生成するリストが、list_flgの影響を受けるように修正。
 - $theme->mk_link() の label オプションに、コールバック関数を指定できるようになった。
 - $theme->mk_link() の label オプションを指定した場合に、no_escape オプションがデフォルトで true になるように変更。
+- $px->get_extensions_list() が、プラグインが定義するextensionも検索するようになった。
 - composer に対応。./_PX/libs/composer/ に展開したライブラリを自動ロードするようになった。
 - system.allow_pxcommands が無効に設定されている場合でも、コマンドラインからは PX Command を実行できるようになった。
 - .htaccess に書かれていたPHPのエラー出力に関する設定をコメントアウト。環境に従うようになった。

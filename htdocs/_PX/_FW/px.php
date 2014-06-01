@@ -125,8 +125,12 @@ class px_px{
 
 	/**
 	 * フレームワークを実行する。
-	 * 呼び出し元から明示的にキックされる。
-	 * @return boolean true
+	 * 
+	 * フレームワークの実行開始直後に呼び出し元から明示的にキックされます(コンストラクタはこのメソッドを実行しません)。一度キックされたあとは、もう呼び出す必要はありません。
+	 * 
+	 * 2度目に呼び出した場合、`false` が返されます。
+	 * 
+	 * @return bool 正常時 `true`、失敗した場合に `false`
 	 */
 	public function execute(){
 		static $executed_flg = false;
@@ -253,7 +257,13 @@ class px_px{
 
 	/**
 	 * 拡張ヘッダ X-PXFW-RELATEDLINK にリンクを追加する。
-	 * @return true|false
+	 * 
+	 * 拡張ヘッダ `X-PXFW-RELATEDLINK` は、サイトマップや物理ディレクトリから発見できないファイルを、PxFWのパブリッシュツールに知らせます。
+	 * 
+	 * 通常、PxFWのパブリッシュツールは 動的に生成されたページなどを知ることができず、パブリッシュされません。このメソッドを通じて、明示的に知らせる必要があります。
+	 * 
+	 * @param string $path リンクのパス
+	 * @return bool 正常時 `true`、失敗した場合 `false`
 	 */
 	public function add_relatedlink( $path ){
 		$path = trim($path);
@@ -265,7 +275,11 @@ class px_px{
 	}
 
 	/**
-	 * PxFWのインストール先パスを取得する。
+	 * PxFWのインストールパスを取得する。
+	 * 
+	 * PxFW は、ドキュメントルート直下以外のディレクトリにインストールすることもできます。インストールパスは、`_px_execute.php` が置かれているディレクトリです。
+	 * このメソッドは、ドキュメントルートからインストールパスまでの階層を文字列で返します。
+	 * 
 	 * @return string ドキュメントルートからのパス(スラッシュ閉じ)
 	 */
 	public function get_install_path(){
@@ -283,9 +297,10 @@ class px_px{
 	}//get_install_path()
 
 	/**
-	 * ローカルリソースディレクトリのパスを得る
-	 * @param $localpath_resource ローカルリソースのパス。
-	 * @return string ローカルリソースのパス
+	 * ローカルリソースディレクトリのパスを得る。
+	 * 
+	 * @param string $localpath_resource ローカルリソースのパス
+	 * @return string ローカルリソースの実際の絶対パス
 	 */
 	public function path_files( $localpath_resource = null ){
 		$tmp_page_info = $this->site()->get_page_info($this->req()->get_request_file_path());
@@ -304,8 +319,9 @@ class px_px{
 	}//path_files()
 
 	/**
-	 * ローカルリソースディレクトリのサーバー内部パスを得る
-	 * @param $localpath_resource ローカルリソースのパス。
+	 * ローカルリソースディレクトリのサーバー内部パスを得る。
+	 * 
+	 * @param string $localpath_resource ローカルリソースのパス
 	 * @return string ローカルリソースのサーバー内部パス
 	 */
 	public function realpath_files( $localpath_resource = null ){
@@ -318,8 +334,9 @@ class px_px{
 	}//realpath_files()
 
 	/**
-	 * ローカルリソースのキャッシュディレクトリのパスを得る
-	 * @param $localpath_resource ローカルリソースのパス。
+	 * ローカルリソースのキャッシュディレクトリのパスを得る。
+	 * 
+	 * @param string $localpath_resource ローカルリソースのパス
 	 * @return string ローカルリソースキャッシュのパス
 	 */
 	public function path_files_cache( $localpath_resource = null ){
@@ -348,8 +365,9 @@ class px_px{
 	}//path_files_cache()
 
 	/**
-	 * ローカルリソースのキャッシュディレクトリのサーバー内部パスを得る
-	 * @param $localpath_resource ローカルリソースのパス。
+	 * ローカルリソースのキャッシュディレクトリのサーバー内部パスを得る。
+	 * 
+	 * @param string $localpath_resource ローカルリソースのパス
 	 * @return string ローカルリソースキャッシュのサーバー内部パス
 	 */
 	public function realpath_files_cache( $localpath_resource = null ){
@@ -362,7 +380,9 @@ class px_px{
 	}//realpath_files_cache()
 
 	/**
-	 * テーマリソースディレクトリのパスを得る
+	 * テーマリソースディレクトリのパスを得る。
+	 * 
+	 * @param string $localpath_resource テーマリソースのパス
 	 * @return string テーマリソースのパス
 	 */
 	public function path_theme_files( $localpath_theme_resource = null ){
@@ -395,6 +415,8 @@ class px_px{
 
 	/**
 	 * テーマリソースのサーバー内部パスを得る。
+	 * 
+	 * @param string $localpath_theme_resource テーマリソースのパス
 	 * @return string テーマリソースのサーバー内部パス
 	 */
 	public function realpath_theme_files( $localpath_theme_resource = null ){
@@ -408,6 +430,8 @@ class px_px{
 
 	/**
 	 * カレントコンテンツのramdataディレクトリのサーバー内部パスを得る。
+	 * 
+	 * @return string RAMデータディレクトリのサーバー内部パス
 	 */
 	public function realpath_ramdata_dir(){
 		$tmp_page_info = $this->site()->get_page_info($this->req()->get_request_file_path());
@@ -423,6 +447,8 @@ class px_px{
 
 	/**
 	 * 選択されたテーマのramdataディレクトリのサーバー内部パスを得る。
+	 * 
+	 * @return string RAMデータディレクトリのサーバー内部パス
 	 */
 	public function realpath_theme_ramdata_dir(){
 		$lib_realpath = $this->get_conf('paths.px_dir').'_sys/ramdata/themes/'.$this->theme()->get_theme_id().'/';
@@ -435,6 +461,9 @@ class px_px{
 
 	/**
 	 * プラグインのramdataディレクトリのサーバー内部パスを得る。
+	 * 
+	 * @param string $plugin_name プラグイン名
+	 * @return string RAMデータディレクトリのサーバー内部パス
 	 */
 	public function realpath_plugin_ramdata_dir($plugin_name){
 		$lib_realpath = $this->get_conf('paths.px_dir').'_sys/ramdata/plugins/'.$plugin_name.'/';
@@ -447,6 +476,8 @@ class px_px{
 
 	/**
 	 * カレントコンテンツのプライベートキャッシュディレクトリのサーバー内部パスを得る。
+	 * 
+	 * @return string プライベートキャッシュディレクトリのサーバー内部パス
 	 */
 	public function realpath_private_cache_dir(){
 		$tmp_page_info = $this->site()->get_page_info($this->req()->get_request_file_path());
@@ -462,6 +493,8 @@ class px_px{
 
 	/**
 	 * 選択されたテーマのプライベートキャッシュディレクトリのサーバー内部パスを得る。
+	 * 
+	 * @return string プライベートキャッシュディレクトリのサーバー内部パス
 	 */
 	public function realpath_theme_private_cache_dir(){
 		$lib_realpath = $this->get_conf('paths.px_dir').'_sys/caches/themes/'.$this->theme()->get_theme_id().'/';
@@ -474,6 +507,8 @@ class px_px{
 
 	/**
 	 * プラグインのプライベートキャッシュディレクトリのサーバー内部パスを得る。
+	 * 
+	 * @return string プライベートキャッシュディレクトリのサーバー内部パス
 	 */
 	public function realpath_plugin_private_cache_dir($plugin_name){
 		$lib_realpath = $this->get_conf('paths.px_dir').'_sys/caches/plugins/'.$plugin_name.'/';
@@ -486,6 +521,92 @@ class px_px{
 
 	/**
 	 * 外部ソースをインクルードする(ServerSideInclude)
+	 * 
+	 * このメソッドは、SSI(サーバーサイドインクルード)のように、指定したファイルを埋め込むときに使用します。
+	 * 
+	 * 引数の <code>$path_incfile</code> は、DOCUMENT_ROOT を起点とした絶対パスで指定します。PxFWのインストールパスではありません。
+	 * 
+	 * PHP の <code>include()</code> 関数も使用できますが、<code>include()</code> で読み込んだソースは、パブリッシュ時に静的に記述されたものとして出力されます。 <code>$px->ssi()</code> は、ブラウザでプレビューするときはインクルードされた状態で、パブリッシュするときは、ApacheのSSIの記述として出力する点が、<code>include()</code> と大きく挙動が異なる点です。
+	 * 
+	 * ## 多重インクルードするには
+	 * 
+	 * デフォルトでは、 <code>$px->ssi()</code> は、インクルードファイルをスタティックな文字列として取り扱います。従って、インクルードファイル内でさらに別のファイルをインクルードしたい場合に、期待通りに動作しません。<br />
+	 * 
+	 * PxFW 1.0.3 以降、次の手順で多重インクルードを実装することができるようになりました。
+	 * 
+	 * - 手順1. コンフィグで `system.ssi_method` を `"http"` に設定します。<br />この設定は、ウェブサーバーを経由してインクルードファイルを取得します。基本認証やダイジェスト認証がかかっている場合は、<code>project.auth_type</code>, <code>project.auth_name</code>, <code>project.auth_password</code> も合わせて設定してください。</li>
+	 * - 手順2. インクルードファイルの拡張子を設定します。<br />インクルードファイルをブラウザでアクセスしたときに、SSIが処理されるよう Apache を設定します。</li>
+	 * 
+	 * ### インクルードファイルの拡張子が *.html の場合
+	 * 
+	 * 拡張子 *.html のファイルは、サイトマップに記載がない場合でも、Pickles Framework のテーマの処理を通ります。そのため、断片的であるはずのインクルードファイルにヘッダー・フッターがついた状態で出力されてしまいます。<br />
+	 * HTMLの先頭に次のコードを埋め込み、nakedレイアウトが適用されるようにします。
+	 * 
+	 * インクルードファイルの実装例： /common/inc/hoge.html
+	 * <pre>&lt;?php if($px){$px-&gt;site()-&gt;set_page_info(null,array('layout'=&gt;'naked'));} ?&gt;
+	 * &lt;div class=&quot;hoge&quot;&gt;
+	 * &lt;?php if($px){print $px-&gt;ssi('/common/inc/fuga.html');} ?&gt;
+	 * &lt;/div&gt;
+	 * </pre>
+	 * 
+	 * HTMLファイルをインクルードする場合にも、インクルードファイル側にPHPの動的な記述を書くことができますが、動的な記述はパブリッシュ時に出力結果だけが静的に生成されることになります。条件によって異なる値(例えば、ページによって異なる値、ページタイトルなど)を出力するような処理は、インクルードファイル内に実装せず、テーマやコンテンツに直接実装してください。
+	 * 
+	 * 
+	 * ### インクルードファイルの拡張子が *.html 以外の場合
+	 * 
+	 * インクルードファイルの拡張子が *.html 以外(例えば *.inc など)の場合は、Apacheを設定してSSIを有効にします。例えば *.inc であれば、次のような設定ファイルを設置し、SSIを有効にします。
+	 * 
+	 * .htaccess
+	 * <pre>AddType text/html .inc
+	 * AddOutputFilter INCLUDES .inc
+	 * </pre>
+	 * 
+	 * \*.inc 以外の拡張子の場合でも、基本的には同様です。 .inc の部分を適宜書き換えます。<br />
+	 * 次の例は、インクルードファイルの実装例です。Apache の SSI の記述をそのまま使用します。
+	 * 
+	 * インクルードファイルの実装例： /common/inc/hoge.inc
+	 * <pre>&lt;div class=&quot;hoge&quot;&gt;
+	 * &lt;!--#include virtual=&quot;/common/inc/fuga.inc&quot; --&gt;
+	 * &lt;/div&gt;
+	 * </pre>
+	 * 
+	 * ### パブリッシュ後のインクルードの実装方式を変更するには
+	 * 
+	 * パブリッシュ時、デフォルトでは、インクルードの形式はApacheのSSIの形式 (<code>&lt;!--#include virtual=&quot;\*\*\*\*&quot; --&gt;</code>) で出力されます。この挙動は、プラグインAPIから変更できます。
+	 * 
+	 * 次の例は、PHPの `include()` を使ったインクルード形式で出力するサンプルです。 pjと命名したプラグインの <code>./_PX/plugins/pj/register/funcs.php</code> に実装しています。
+	 * 
+	 * <pre>&lt;?php
+	 * // ./_PX/plugins/pj/register/funcs.php
+	 * 
+	 * /**
+	 *  * PX Plugin &quot;pj&quot;
+	 *  *<span></span>/
+	 * class pxplugin_pj_register_funcs{
+	 * 	private $px;
+	 * 
+	 * 	/**
+	 * 	 * コンストラクタ
+	 * 	 * @param $px = PxFWコアオブジェクト
+	 *   *<span></span>/
+	 * 	public function __construct( $px ){
+	 * 		$this-&gt;px = $px;
+	 * 	}
+	 * 
+	 * 	/**
+	 * 	 * パブリッシュ時のSSIタグを出力する。
+	 * 	 * ssi() からコールされる。
+	 *   *<span></span>/
+	 * 	public function ssi_static_tag( $path ){
+	 * 		return '&lt;'.'?php include( $_SERVER[\'DOCUMENT_ROOT\'].'.t::data2phpsrc( $path ).' ); ?'.'&gt;';
+	 * 	}//ssi_static_tag()
+	 * 
+	 * }
+	 * 
+	 * ?&gt;</pre>
+	 * 
+	 * @param string $path_incfile インクルードするファイルパス(DOCUMENT_ROOT を起点とした絶対パス)
+	 * @return string インクルードファイルのコンテンツ、パブリッシュ時は インクルードタグ
 	 */
 	public function ssi( $path_incfile ){
 		//	パブリッシュツール(PxCrawlerなど)による静的パブリッシュを前提としたSSI処理機能。
@@ -604,16 +725,20 @@ class px_px{
 
 	/**
 	 * パブリッシュ時のSSIタグを出力する。
-	 * ssi() からコールされる。
+	 * 
+	 * このメソッドは、`$px->ssi()` から内部的にコールされます。
+	 * 
+	 * @param string $path_incfile インクルードするファイルパス(DOCUMENT_ROOT を起点とした絶対パス)
+	 * @return string インクルードタグ
 	 */
-	private function ssi_static_tag( $path ){
+	private function ssi_static_tag( $path_incfile ){
 		$plugins_list = $this->dbh()->ls( $this->get_conf('paths.px_dir').'plugins/' );
 		foreach( $plugins_list as $tmp_plugin_name ){
 			// プラグイン内のextensionを検索
 			$tmp_class_name = $this->load_px_plugin_class( $tmp_plugin_name.'/register/funcs.php' );
 			if( strlen($tmp_class_name) && method_exists( $tmp_class_name, 'ssi_static_tag' ) ){
 				$obj = new $tmp_class_name($this);
-				return $obj->ssi_static_tag( $path );
+				return $obj->ssi_static_tag( $path_incfile );
 				break;
 			}
 		}
@@ -622,15 +747,20 @@ class px_px{
 		// $ssi_method = $this->get_conf('system.ssi_method');
 		// if( !strlen($ssi_method) ){ $ssi_method = 'static'; }
 		// if( $ssi_method == 'php_include' ){
-		// 	return '<'.'?php include( $_SERVER[\'DOCUMENT_ROOT\'].'.t::data2phpsrc( $path ).' ); ?'.'>';
+		// 	return '<'.'?php include( $_SERVER[\'DOCUMENT_ROOT\'].'.t::data2phpsrc( $path_incfile ).' ); ?'.'>';
 		// }
-		return '<!--#include virtual="'.htmlspecialchars( $path ).'" -->';
+		return '<!--#include virtual="'.htmlspecialchars( $path_incfile ).'" -->';
 	}//ssi_static_tag()
 
 	/**
 	 * PXコマンドを解析する。
-	 * @param string URLパラメータ PX に受け取った値
-	 * @return array 先頭にPXコマンド名を含むパラメータの配列(入力値をドットで区切ったもの)
+	 * 
+	 * PXコマンドは、URLパラメータに `?PX=xxxxx` として受け取ります。このメソッドは、`PX` パラメータを解析し、コマンドを配列に格納して返します。
+	 *
+	 * 設定 `system.allow_pxcommands` が `0` に設定されていて、かつウェブからのアクセス(コマンドラインの実行ではなく)の場合は、PXコマンドは利用できません。 PXコマンドが利用できない場合、このメソッドは `null` を返します。
+	 * 
+	 * @param string $param URLパラメータ PX に受け取った値
+	 * @return mixed 先頭にPXコマンド名を含むパラメータの配列(入力値をドットで区切ったもの)。PXコマンドが利用できない場合は、`null`
 	 */
 	private function parse_pxcommand( $param ){
 		if( !$this->get_conf('system.allow_pxcommands') ){
@@ -645,10 +775,12 @@ class px_px{
 			return null;
 		}
 		return explode( '.' , $param );
-	}
+	}//parse_pxcommand()
 
 	/**
-	 * PHP設定をチューニング。
+	 * PHP設定をチューニングする。
+	 * 
+	 * @return bool 常に `true`
 	 */
 	private function php_setup(){
 		if( !extension_loaded( 'mbstring' ) ){
@@ -671,7 +803,11 @@ class px_px{
 	}//php_setup();
 
 	/**
-	 * コンフィグ値のロード
+	 * コンフィグ値をロードする。
+	 *
+	 * @param string $path_mainconf コンフィグファイルの格納パス
+	 * @param array $default 読み込み前のコンフィグ値。(`_include` により再帰的にファイルを読み込む場合にセットされる)
+	 * @return array 読み込んだ設定値を格納した連想配列
 	 */
 	private function load_conf( $path_mainconf, $default = array() ){
 		if( !is_file($path_mainconf) ){
@@ -753,7 +889,18 @@ class px_px{
 	}//load_conf()
 
 	/**
-	 * コンフィグ値を出力。
+	 * コンフィグ値を取得する。
+	 * 
+	 * コンフィグ配列から値を取り出します。
+	 * 
+	 * 実装例:
+	 * <pre>&lt;?php
+	 * // プロジェクト名(=サイト名) を取り出す
+	 * $project_name = $px-&gt;get_conf('project.name');
+	 * ?&gt;</pre>
+	 * 
+	 * @param string $key コンフィグ名
+	 * @return mixed `$key` に対応する値
 	 */
 	public function get_conf( $key ){
 		if(!array_key_exists($key, $this->conf)){ return null; }
@@ -761,14 +908,17 @@ class px_px{
 	}//get_conf()
 
 	/**
-	 * コンフィグファイルのパスを取得する
+	 * コンフィグファイルのパスを取得する。
+	 * 
+	 * @return string コンフィグファイルのパス
 	 */
 	public function get_path_conf(){
 		return $this->path_mainconf;
 	}
 
 	/**
-	 * 全てのコンフィグ値を出力。
+	 * 全てのコンフィグ値を取得する。
+	 * 
 	 * @return すべての値が入ったコンフィグの連想配列
 	 */
 	public function get_conf_all(){
@@ -776,7 +926,9 @@ class px_px{
 	}//get_conf_all()
 
 	/**
-	 * directory_index の一覧を得る
+	 * directory_index の一覧を得る。
+	 * 
+	 * @return array ディレクトリインデックスの一覧
 	 */
 	public function get_directory_index(){
 		if( count($this->directory_index) ){
@@ -796,7 +948,10 @@ class px_px{
 	}//get_directory_index()
 
 	/**
-	 * directory_index のいずれかにマッチするためのpregパターン式を得る
+	 * directory_index のいずれかにマッチするためのpregパターン式を得る。
+	 * 
+	 * @param string $delimiter pregパターンのデリミタ。省略時は `/` (`preg_quote()` の実装に従う)。
+	 * @return string pregパターン
 	 */
 	public function get_directory_index_preg_pattern( $delimiter = null ){
 		$directory_index = $this->get_directory_index();
@@ -808,7 +963,9 @@ class px_px{
 	}//get_directory_index_preg_pattern()
 
 	/**
-	 * 最も優先されるインデックスファイル名を得る
+	 * 最も優先されるインデックスファイル名を得る。
+	 * 
+	 * @return string 最も優先されるインデックスファイル名
 	 */
 	public function get_directory_index_primary(){
 		$directory_index = $this->get_directory_index();
@@ -816,8 +973,9 @@ class px_px{
 	}//get_directory_index_primary()
 
 	/**
-	 * コアライブラリのインスタンス生成。
-	 * @return true
+	 * コアライブラリのインスタンスを生成する。
+	 * 
+	 * @return bool 常に `true`
 	 */
 	private function create_core_instances(){
 		// composer ライブラリをロード (PxFW 1.0.4 追加)
@@ -858,7 +1016,8 @@ class px_px{
 
 	/**
 	 * extensionsの一覧を取得する。
-	 * @return array
+	 * 
+	 * @return array extensions の一覧
 	 */
 	public function get_extensions_list(){
 		$ary = $this->dbh()->ls( $this->get_conf('paths.px_dir').'_FW/extensions/' );
@@ -866,8 +1025,23 @@ class px_px{
 		foreach( $ary as $row ){
 			$ext = t::trimext($row);
 			if(!strlen($ext)){continue;}
+			if(in_array($ext, $rtn)){continue;}
 			array_push( $rtn , $ext );
 		}
+
+		// プラグインが定義する独自の拡張子も探す (PxFW 1.0.4以降)
+		$plugins_list = $this->get_plugin_list();
+		foreach( $plugins_list as $tmp_plugin_name=>$tmp_plugin_info ){
+			$ary = $this->dbh()->ls( $this->get_conf('paths.px_dir').'plugins/'.urlencode($tmp_plugin_name).'/register/extensions/' );
+			if( !is_array($ary) || !count($ary) ){ continue; }
+			foreach( $ary as $row ){
+				$ext = t::trimext($row);
+				if(!strlen($ext)){continue;}
+				if(in_array($ext, $rtn)){continue;}
+				array_push( $rtn , $ext );
+			}
+		}
+
 		return $rtn;
 	}//get_extensions_list()
 
