@@ -1,24 +1,53 @@
 <?php
 /**
+ * class px_cores_theme
+ * 
+ * PxFWのコアオブジェクトの1つ `$theme` のオブジェクトクラスを定義します。
+ * 
+ * @author Tomoya Koyanagi <tomk79@gmail.com>
+ */
+/**
  * PxFW core object class: Theme and style Manager
+ * 
+ * PxFWのコアオブジェクトの1つ `$theme` のオブジェクトクラスです。
+ * このオブジェクトは、PxFWの初期化処理の中で自動的に生成され、`$px` の内部に格納されます。
+ * 
+ * メソッド `$px->theme()` を通じてアクセスします。
  * 
  * @author Tomoya Koyanagi <tomk79@gmail.com>
  */
 class px_cores_theme{
+
+	/**
+	 * $pxオブジェクト
+	 */
 	private $px;
+	/**
+	 * テーマID
+	 */
 	private $theme_id = 'default';
+	/**
+	 * レイアウトID
+	 */
 	private $layout_id = 'default';
+	/**
+	 * コンテンツキャビネット
+	 */
 	private $contents_cabinet = array(
 		''=>'',    //  メインコンテンツ
 		'head'=>'' //  ヘッドセクションに追記
 	);
 
-	private $func_data_memos = array(//機能別に値を記憶する領域
+	/**
+	 * 機能別に値を記憶する領域
+	 */
+	private $func_data_memos = array(
 		'autoindex'=>null ,//autoindex機能
 	);
 
 	/**
 	 * コンストラクタ
+	 * @param object $px $pxオブジェクト
 	 */
 	public function __construct( $px ){
 		$this->px = $px;
@@ -32,7 +61,8 @@ class px_cores_theme{
 
 	/**
 	 * テーマIDをセットする。
-	 * @return bool
+	 * @param string $theme_id テーマID
+	 * @return bool 成功時 true、失敗時 false
 	 */
 	public function set_theme_id( $theme_id ){
 		if( !strlen( $theme_id ) ){ return false; }
@@ -56,7 +86,7 @@ class px_cores_theme{
 	}
 	/**
 	 * テーマIDを取得する。
-	 * @return string
+	 * @return string テーマID
 	 */
 	public function get_theme_id(){
 		return $this->theme_id;
@@ -64,7 +94,8 @@ class px_cores_theme{
 
 	/**
 	 * レイアウトIDをセットする。
-	 * @return bool
+	 * @param string $layout_id レイアウトID
+	 * @return bool 成功時 true、失敗時 false
 	 */
 	public function set_layout_id( $layout_id ){
 		if( !strlen( $layout_id ) ){ return false; }
@@ -74,7 +105,7 @@ class px_cores_theme{
 	}
 	/**
 	 * レイアウトIDを取得する。
-	 * @return string
+	 * @return string レイアウトID
 	 */
 	public function get_layout_id(){
 		return $this->layout_id;
@@ -82,6 +113,8 @@ class px_cores_theme{
 
 	/**
 	 * コンテンツソースをレイアウトにバインドして返す。
+	 * @param $content コンテンツのHTMLソース
+	 * @return string バインド済みのHTMLソース
 	 */
 	public function bind_contents( $content ){
 		$this->send_content($content,'');
@@ -129,7 +162,12 @@ class px_cores_theme{
 
 	/**
 	 * 最終出力処理
+	 * 
 	 * この処理は、標準出力の直前にextensionsによって呼び出されます。
+	 * 
+	 * @param string $src 加工前のHTMLソース
+	 * @param string $extension 拡張子
+	 * @return string 加工後のHTMLソース
 	 */
 	public function output_filter( $src, $extension ){
 
@@ -216,7 +254,33 @@ class px_cores_theme{
 	}//output_filter()
 
 	/**
-	 * リンク先を調整する。
+	 * リンク先のパスを生成する。
+	 * 
+	 * 引数には、リンク先のパス、またはページIDを受け取り、
+	 * 完成されたリンク先情報(aタグのhref属性にそのまま適用できる状態)にして返します。
+	 * 
+	 * Pickles Framework がドキュメントルート直下にインストールされていない場合、インストールパスを追加した値を返します。
+	 * 
+	 * http:// などスキーマから始まる情報を受け取ることもできます。
+	 * 
+	 * 実装例：
+	 * <pre>&lt;?php
+	 * // パスを指定する例
+	 * print '&lt;a href=&quot;'.t::h( $px-&gt;theme()-&gt;href('/aaa/bbb.html') ).'&quot;&gt;リンク&lt;/a&gt;';
+	 * 
+	 * // ページIDを指定する例
+	 * print '&lt;a href=&quot;'.t::h( $px-&gt;theme()-&gt;href('A-00') ).'&quot;&gt;リンク&lt;/a&gt;';
+	 * ?&gt;</pre>
+	 * 
+	 * インストールパスがドキュメントルートではない場合の例:
+	 * <pre>&lt;?php
+	 * // インストールパスが &quot;/installpath/&quot; の場合
+	 * print '&lt;a href=&quot;'.t::h( $px-&gt;theme()-&gt;href('/aaa/bbb.html') ).'&quot;&gt;リンク&lt;/a&gt;';
+	 *     // &quot;/installpath/aaa/bbb.html&quot; が返されます。
+	 * ?&gt;</pre>
+	 * 
+	 * @param string $linkto リンク先の パス または ページID
+	 * 
 	 * @return string href属性値
 	 */
 	public function href( $linkto ){
@@ -288,11 +352,73 @@ class px_cores_theme{
 
 	/**
 	 * リンクタグ(aタグ)を生成する。
-	 * @param $linkto リンク先のパス。PxFWのインストールパスを基点にした絶対パスで指定。
-	 * @param options: [as string] Link label, [as array] Any options. [as function] callback function.
-	 * @return string aタグ
+	 * 
+	 * リンク先の パス または ページID を受け取り、aタグを生成して返します。リンク先は、`href()` メソッドを通して調整されます。
+	 * 
+	 * このメソッドは、受け取ったパス(またはページID)をもとに、サイトマップからページ情報を取得し、aタグを自動補完します。
+	 * 例えば、パンくず情報をもとに `class="current"` を付加したり、ページタイトルをラベルとして採用します。
+	 * 
+	 * この動作は、引数 `$options` に値を指定して変更することができます。
+	 * 
+	 * 実装例:
+	 * <pre>&lt;?php
+	 * // ページ /aaa/bbb.html へのリンクを生成
+	 * print $px-&gt;theme()-&gt;mk_link('/aaa/bbb.html');
+	 * 
+	 * // ページ /aaa/bbb.html へのリンクをオプション付きで生成
+	 * print $px-&gt;theme()-&gt;mk_link('/aaa/bbb.html', array(
+	 *     'label'=>'<span>リンクラベル</span>', //リンクラベルを文字列で指定
+	 *     'class'=>'class_a class_b', //CSSのクラス名を指定
+	 *     'no_escape'=>true, //エスケープ処理をキャンセル
+	 *     'current'=>true //カレント表示にする
+	 * ));
+	 * ?&gt;</pre>
+	 * 
+	 * 第2引数に文字列または関数としてリンクラベルを渡す方法もあります。
+	 * この場合、その他のオプションは第3引数に渡すことができます。
+	 * 
+	 * 実装例:
+	 * <pre>&lt;?php
+	 * // ページ /aaa/bbb.html へのリンクをオプション付きで生成
+	 * print $px-&gt;theme()-&gt;mk_link('/aaa/bbb.html',
+	 *   '<span>リンクラベル</span>' , //リンクラベルを文字列で指定
+	 *   array(
+	 *     'class'=>'class_a class_b',
+	 *     'no_escape'=>true,
+	 *     'current'=>true
+	 *   )
+	 * );
+	 * ?&gt;</pre>
+	 * 
+	 * PxFW 1.0.4 以降、リンクのラベルはコールバック関数でも指定できます。
+	 * コールバック関数には、リンク先のページ情報を格納した連想配列が引数として渡されます。
+	 * 
+	 * 実装例:
+	 * <pre>&lt;?php
+	 * //リンクラベルをコールバック関数で指定
+	 * print $px-&gt;theme()-&gt;mk_link(
+	 *   '/aaa/bbb.html',
+	 *   function($page_info){return t::h($page_info['title_label']);}
+	 * );
+	 * ?&gt;</pre>
+	 * 
+	 * @param string $linkto リンク先のパス。PxFWのインストールパスを基点にした絶対パスで指定。
+	 * @param array $options options: [as string] Link label, [as function] callback function, [as array] Any options.
+	 * <dl>
+	 *   <dt>mixed $options['label']</dt>
+	 *     <dd>リンクのラベルを変更します。文字列か、またはコールバック関数(PxFW 1.0.4 以降)が利用できます。</dd>
+	 *   <dt>bool $options['current']</dt>
+	 *     <dd><code>true</code> または <code>false</code> を指定します。<code>class="current"</code> を強制的に付加または削除します。このオプションが指定されない場合は、自動的に選択されます。</dd>
+	 *   <dt>bool $options['no_escape']</dt>
+	 *     <dd><code>true</code> または <code>false</code> を指定します。この値が <code>true</code> の場合、リンクラベルに含まれるHTML特殊文字が自動的にエスケープされます。デフォルトは、<code>true</code>、<code>$options['label']</code>が指定された場合は自動的に <code>false</code> になります。</dd>
+	 *   <dt>mixed $options['class']</dt>
+	 *     <dd>スタイルシートの クラス名 を文字列または配列で指定します。</dd>
+	 * </dl>
+	 * 第2引数にリンクラベルを直接指定することもできます。この場合、オプション配列は第3引数に指定します。
+	 * 
+	 * @return string HTMLソース(aタグ)
 	 */
-	public function mk_link( $linkto ){
+	public function mk_link( $linkto, $options = array() ){
 		$parsed_url = parse_url($linkto);
 		$args = func_get_args();
 		$page_info = $this->px->site()->get_page_info($linkto);
@@ -301,23 +427,32 @@ class px_cores_theme{
 		$hrefc = $this->href($this->px->req()->get_request_file_path());
 		$label = $page_info['title_label'];
 		$page_id = $page_info['id'];
-		if( is_string($args[1]) || (is_object($args[1]) && is_callable($args[1])) ){
-			//  第2引数が文字列、または function なら
-			//  リンクのラベルとして採用
-			$label = $args[1];
-		}
+
+		$options = array();
 		if( count($args) >= 2 && is_array($args[count($args)-1]) ){
 			//  最後の引数が配列なら
 			//  オプション連想配列として読み込む
 			$options = $args[count($args)-1];
 			if( is_string(@$options['label']) || (is_object(@$options['label']) && is_callable(@$options['label'])) ){
 				$label = $options['label'];
+				if( !is_array($options) || !array_key_exists('no_escape', $options) || is_null($options['no_escape']) ){
+					$options['no_escape'] = true;
+				}
 			}
 		}
+		if( is_string($args[1]) || (is_object($args[1]) && is_callable($args[1])) ){
+			//  第2引数が文字列、または function なら
+			//  リンクのラベルとして採用
+			$label = $args[1];
+			if( !is_array($options) || !array_key_exists('no_escape', $options) || is_null($options['no_escape']) ){
+				$options['no_escape'] = true;
+			}
+		}
+
 		$breadcrumb = $this->px->site()->get_breadcrumb_array($hrefc);
 		$is_current = false;
-		if( !is_null( $options['current'] ) ){
-			$is_current = !empty($options['current']);
+		if( is_array($options) && array_key_exists('current', $options) && !is_null( $options['current'] ) ){
+			$is_current = !@empty($options['current']);
 		}elseif($href==$hrefc){
 			$is_current = true;
 		}elseif( $this->px->site()->is_page_in_breadcrumb($page_info['id']) ){
@@ -331,10 +466,10 @@ class px_cores_theme{
 
 		$classes = array();
 		// CSSのクラスを付加
-		if( is_string($options['class']) ){
+		if( is_array($options) && array_key_exists('class', $options) && is_string($options['class']) ){
 			$options['class'] = preg_split( '/\s+/', trim($options['class']) );
 		}
-		if( is_array($options['class']) ){
+		if( is_array($options) && array_key_exists('class', $options) && is_array($options['class']) ){
 			foreach($options['class'] as $class_row){
 				array_push($classes, trim($class_row));
 			}
@@ -345,11 +480,11 @@ class px_cores_theme{
 
 		if( is_object($label) && is_callable($label) ){
 			$label = $label($page_info);
-			if( is_null($options['no_escape']) ){
+			if( !is_array($options) || !array_key_exists('no_escape', $options) || is_null($options['no_escape']) ){
 				$options['no_escape'] = true;
 			}
 		}
-		if( !$options['no_escape'] ){
+		if( !@$options['no_escape'] ){
 			// no_escape(エスケープしない)指示がなければ、
 			// HTMLをエスケープする。
 			$label = t::h($label);
@@ -361,7 +496,7 @@ class px_cores_theme{
 
 	/**
 	 * パンくずのHTMLソースを生成する。
-	 * @return HTML source
+	 * @return string HTMLソース
 	 */
 	public function mk_breadcrumb(){
 		$args = func_get_args();
@@ -399,29 +534,54 @@ class px_cores_theme{
 	}
 
 	/**
-	 * コンテンツキャビネットにコンテンツを送る
+	 * コンテンツキャビネットにコンテンツを送る。
+	 * 
+	 * ソースコードを$themeオブジェクトに預けます。
+	 * このメソッドから預けられたコードは、同じ `$content_name` 値 をキーにして、`$theme->pull_content()` から引き出すことができます。
+	 * 
+	 * この機能は、コンテンツからテーマへコンテンツを渡すために使用されます。
+	 * 
+	 * 同じ名前(`$content_name`値)で複数回ソースを送った場合、後方に追記されます。
+	 * 
+	 * @param string $src 送るHTMLソース
+	 * @param string $content_name キャビネットの格納名。
+	 * $theme->pull_content() から取り出す際に使用する名称です。
+	 * 任意の名称が利用できます。PxFWの標準状態では、無名(空白文字列) = メインコンテンツ、'head' = ヘッダー内コンテンツ の2種類が定義されています。
+	 * 
+	 * @return bool 成功時 true、失敗時 false
 	 */
 	public function send_content( $src , $content_name = '' ){
 		if( !strlen($content_name) ){ $content_name = ''; }
 		if( !is_string($content_name) ){ return false; }
-		$this->contents_cabinet[$content_name] .= $src;
+		@$this->contents_cabinet[$content_name] .= $src;
 		return true;
 	}
 
 	/**
-	 * コンテンツキャビネットのコンテンツを置き換える
+	 * コンテンツキャビネットのコンテンツを置き換える。
+	 * 
+	 * ソースコードを$themeオブジェクトに預けます。
+	 * `$theme->send_content()` と同じですが、複数回送信した場合に、このメソッドは追記ではなく上書きする点が異なります。
+	 * 
+	 * @param string $src 送るHTMLソース
+	 * @param string $content_name キャビネットの格納名。
+	 * $theme->pull_content() から取り出す際に使用する名称です。
+	 * 任意の名称が利用できます。PxFWの標準状態では、無名(空白文字列) = メインコンテンツ、'head' = ヘッダー内コンテンツ の2種類が定義されています。
+	 * 
+	 * @return bool 成功時 true、失敗時 false
 	 */
 	public function replace_content( $src , $content_name = '' ){
 		if( !strlen($content_name) ){ $content_name = ''; }
 		if( !is_string($content_name) ){ return false; }
-		$this->contents_cabinet[$content_name] = $src;
+		@$this->contents_cabinet[$content_name] = $src;
 		return true;
 	}
 
 	/**
 	 * コンテンツキャビネットからコンテンツを引き出す
-	 * @param string $content_name : キャビネット上のコンテンツ名
-	 * @param bool $do_finalize : ファイナライズ処理を有効にするか(default: true)
+	 * @param string $content_name キャビネット上のコンテンツ名
+	 * @param bool $do_finalize ファイナライズ処理を有効にするか(default: true)
+	 * @return mixed 成功時、キャビネットから得られたHTMLソースを返す。失敗時、false
 	 */
 	public function pull_content( $content_name = '', $do_finalize = true ){
 		if( !strlen($content_name) ){ $content_name = ''; }
@@ -454,7 +614,12 @@ class px_cores_theme{
 	}
 
 	/**
-	 * ページ内の目次を自動生成する
+	 * ページ内の目次を自動生成する。
+	 * 
+	 * ページ内の目次を生成するHTMLソースを返すように動作しますが、実際の内部処理は、
+	 * 直接的には一時的に生成されたランダムな文字列を返し、最終処理の中で目次HTMLに置き換えるように動作します。
+	 *
+	 * @return string ページ内の目次のHTMLソース
 	 */
 	public function autoindex(){
 		if( !is_array( $this->func_data_memos['autoindex'] ) ){
@@ -465,7 +630,13 @@ class px_cores_theme{
 	}//autoindex();
 
 	/**
-	 * ページ内の目次をソースに反映する
+	 * ページ内の目次をソースに反映する。
+	 * 
+	 * `$theme->autoindex()` によって生成予告された目次を実際に生成します。
+	 * 
+	 * @param string $content 予告状態の コンテンツ HTMLソース
+	 * 
+	 * @return string 目次が反映されたHTMLソース
 	 */
 	private function apply_autoindex( $content ){
 		$tmp_cont = $content;
@@ -583,9 +754,23 @@ class px_cores_theme{
 	}//apply_autoindex();
 
 	/**
-	 * ページャー情報を計算して答える
+	 * ページャー情報を計算して答える。
+	 * 
+	 * `$options' に次の設定を渡すことができます。
+	 * 
+	 * <dl>
+	 *   <dt>int $options['index_size']</dt>
+	 *     <dd>インデックスの範囲</dd>
+	 * </dl>
+	 * 
+	 * @param int $total_count 総件数
+	 * @param int $current_page_num カレントページのページ番号
+	 * @param int $display_per_page 1ページ当りの表示件数
+	 * @param array $options オプション
+	 * 
+	 * @return array ページャー情報を格納した連想配列
 	 */
-	public function get_pager_info( $total_count , $current_page_num , $display_per_page = 10 , $option = array() ){
+	public function get_pager_info( $total_count , $current_page_num , $display_per_page = 10 , $options = array() ){
 		#	Pickles Framework 0.1.3 で追加
 
 		#	総件数
@@ -602,8 +787,8 @@ class px_cores_theme{
 
 		#	インデックスの範囲
 		$index_size = 0;
-		if( !is_null( $option['index_size'] ) ){
-			$index_size = intval( $option['index_size'] );
+		if( !is_null( $options['index_size'] ) ){
+			$index_size = intval( $options['index_size'] );
 		}
 		if( $index_size < 1 ){
 			$index_size = 5;
@@ -680,7 +865,7 @@ class px_cores_theme{
 		}
 
 		return	$RTN;
-	}
+	}// get_pager_info()
 
 }
 
