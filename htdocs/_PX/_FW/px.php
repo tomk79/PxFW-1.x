@@ -382,7 +382,7 @@ class px_px{
 	/**
 	 * テーマリソースディレクトリのパスを得る。
 	 * 
-	 * @param string $localpath_resource テーマリソースのパス
+	 * @param string $localpath_theme_resource テーマリソースのパス
 	 * @return string テーマリソースのパス
 	 */
 	public function path_theme_files( $localpath_theme_resource = null ){
@@ -508,6 +508,7 @@ class px_px{
 	/**
 	 * プラグインのプライベートキャッシュディレクトリのサーバー内部パスを得る。
 	 * 
+	 * @param string $plugin_name プラグイン名
 	 * @return string プライベートキャッシュディレクトリのサーバー内部パス
 	 */
 	public function realpath_plugin_private_cache_dir($plugin_name){
@@ -760,7 +761,7 @@ class px_px{
 	 * 設定 `system.allow_pxcommands` が `0` に設定されていて、かつウェブからのアクセス(コマンドラインの実行ではなく)の場合は、PXコマンドは利用できません。 PXコマンドが利用できない場合、このメソッドは `null` を返します。
 	 * 
 	 * @param string $param URLパラメータ PX に受け取った値
-	 * @return mixed 先頭にPXコマンド名を含むパラメータの配列(入力値をドットで区切ったもの)。PXコマンドが利用できない場合は、`null`
+	 * @return array|null 先頭にPXコマンド名を含むパラメータの配列(入力値をドットで区切ったもの)。PXコマンドが利用できない場合は、`null`
 	 */
 	private function parse_pxcommand( $param ){
 		if( !$this->get_conf('system.allow_pxcommands') ){
@@ -1016,6 +1017,10 @@ class px_px{
 
 	/**
 	 * extensionsの一覧を取得する。
+	 *
+	 * このメソッドは、フレームワークディレクトリ `_FW` の `extensions` を検索し、定義された拡張子の一覧を返します。
+	 * 
+	 * PxFW 1.0.4 以降、プラグインが定義する extension も検出するようになりました。
 	 * 
 	 * @return array extensions の一覧
 	 */
@@ -1047,43 +1052,51 @@ class px_px{
 
 	/**
 	 * コアオブジェクト $dbh にアクセスする。
-	 * @return $dbhオブジェクト
+	 * @return object $dbhオブジェクト
 	 */
 	public function &dbh(){ return $this->obj_dbh; }
 
 	/**
 	 * コアオブジェクト $error にアクセスする。
-	 * @return $errorオブジェクト
+	 * @return object $errorオブジェクト
 	 */
 	public function &error(){ return $this->obj_error; }
 
 	/**
 	 * コアオブジェクト $req にアクセスする。
-	 * @return $reqオブジェクト
+	 * @return object $reqオブジェクト
 	 */
 	public function &req(){ return $this->obj_req; }
 
 	/**
 	 * コアオブジェクト $site にアクセスする。
-	 * @return $siteオブジェクト
+	 * @return object $siteオブジェクト
 	 */
 	public function &site(){ return $this->obj_site; }
 
 	/**
 	 * コアオブジェクト $theme にアクセスする。
-	 * @return $themeオブジェクト
+	 * @return object $themeオブジェクト
 	 */
 	public function &theme(){ return $this->obj_theme; }
 
 	/**
 	 * コアオブジェクト $user にアクセスする。
-	 * @return $userオブジェクト
+	 * @return object $userオブジェクト
 	 */
 	public function &user(){ return $this->obj_user; }
 
 	/**
 	 * PxFWのクラスファイルをロードする。
 	 * 
+	 * 実装例:
+	 * <pre>&lt;?php
+	 * $class_name = $px-&gt;load_px_class('/styles/finalizer.php');
+	 * $finalizer = new $class_name($px);
+	 * ?&gt;</pre>
+	 * 
+	 * @param string $path `_FW` ディレクトリを起点としたクラスファイルのパス
+	 * @return string ロードしたクラスのクラス名
 	 */
 	public function load_px_class($path){
 		//戻り値は、ロードしたクラス名
@@ -1108,7 +1121,15 @@ class px_px{
 
 	/**
 	 * PX Plugin のクラスファイルをロードする。
-	 * @return 読み込んだクラス名(string)
+	 * 
+	 * 実装例:
+	 * <pre>&lt;?php
+	 * $class_name = $px-&gt;load_px_plugin_class('/($plugin_name)/hoge/fuga.php');
+	 * $foo = new $class_name();
+	 * ?&gt;</pre>
+	 * 
+	 * @param string $path `plugins` ディレクトリを起点としたクラスファイルのパス
+	 * @return string ロードしたクラスのクラス名
 	 */
 	public function load_px_plugin_class($path){
 		//戻り値は、ロードしたクラス名
@@ -1132,7 +1153,10 @@ class px_px{
 	}//load_px_plugin_class()
 
 	/**
-	 * プラグインオブジェクトを取り出す
+	 * プラグインオブジェクトを取り出す。
+	 * 
+	 * @param string $plugin_name プラグイン名
+	 * @return object|bool 成功した場合にプラグインオブジェクト、失敗時に `false`
 	 */
 	public function get_plugin_object( $plugin_name ){
 		if( !strlen($plugin_name) ){return false;}
@@ -1152,7 +1176,9 @@ class px_px{
 	}//get_plugin_object()
 
 	/**
-	 * プラグインの一覧を得る
+	 * プラグインの一覧を得る。
+	 * 
+	 * @return array プラグイン名の一覧
 	 */
 	public function get_plugin_list(){
 		static $rtn = null;
@@ -1176,6 +1202,9 @@ class px_px{
 
 	/**
 	 * PxFWのテーマが定義するクラスファイルをロードする。
+	 * 
+	 * @param string $path テーマ固有の `_FW` ディレクトリを起点としたクラスファイルのパス
+	 * @return string ロードしたクラスのクラス名
 	 */
 	public function load_pxtheme_class($path){
 		//戻り値は、ロードしたクラス名
@@ -1200,8 +1229,10 @@ class px_px{
 	}//load_pxtheme_class()
 
 	/**
-	 * 現在のアドレスへのhrefを得る
-	 * @param array|string $params GETパラメータとして付加する値。連想配列(例：array('key'=>'val','key2'=>'val2'))または文字列(例:'key=val&key2=val2')で指定。
+	 * 現在のアドレスへのhrefを得る。
+	 * 
+	 * @param array|string $params GETパラメータとして付加する値。連想配列(例：`array('key'=>'val','key2'=>'val2')`)または文字列(例:`'key=val&key2=val2'`)で指定。
+	 * @return string href属性値
 	 */
 	public function href_self( $params = null ){
 		$rtn = $this->theme()->href($this->req()->get_request_file_path());
@@ -1220,12 +1251,18 @@ class px_px{
 			}
 		}
 		return $rtn;
-	}
+	}//href_self()
 
 	/**
-	 * リダイレクトする
+	 * リダイレクトする。
+	 * 
+	 * このメソッドは、`Location` HTTPヘッダーを出力します。
+	 * リダイレクトヘッダーを出力したあと、`exit()`を発行してスクリプトを終了します。
+	 * 
+	 * @param string $redirect_to リダイレクト先のURL
+	 * @return void
 	 */
-	public function redirect( $redirect_to , $options = array() ){
+	public function redirect( $redirect_to ){
 		while( @ob_end_clean() );
 
 		@header( 'Content-type: text/html; charset=UTF-8');
@@ -1251,6 +1288,11 @@ class px_px{
 
 	/**
 	 * Not Found画面を出力する。
+	 * 
+	 * このメソッドは、404 Not Found 画面を出力します。
+	 * 画面出力後、`exit()` を発行してスクリプトを終了します。
+	 * 
+	 * @return void
 	 */
 	public function page_notfound(){
 		while( @ob_end_clean() );
@@ -1267,6 +1309,11 @@ class px_px{
 
 	/**
 	 * Forbidden画面を出力する。
+	 * 
+	 * このメソッドは、403 Forbidden 画面を出力します。
+	 * 画面出力後、`exit()` を発行してスクリプトを終了します。
+	 * 
+	 * @return void
 	 */
 	public function page_forbidden(){
 		while( @ob_end_clean() );
@@ -1282,6 +1329,11 @@ class px_px{
 
 	/**
 	 * ログイン画面を出力する。
+	 * 
+	 * このメソッドは、PxFW固有のログイン画面を出力します。
+	 * 画面出力後、`exit()` を発行してスクリプトを終了します。
+	 * 
+	 * @return void
 	 */
 	public function page_login(){
 		while( @ob_end_clean() );
@@ -1307,9 +1359,18 @@ class px_px{
 	}//page_login()
 
 	/**
-	 * ダウンロードファイルを出力する
+	 * ダウンロードファイルを出力する。
+	 * 
+	 * このメソッドは、403 Forbidden 画面を出力します。
+	 * ファイル出力後、`exit()` を発行してスクリプトを終了します。
+	 * 
+	 * Content-type は $options で変更できます。デフォルトはファイルの種類や拡張子に関わらず `application/octet-stream` が出力されます。
+	 * 
+	 * @param string $bin ダウンロードするファイルのバイナリ
+	 * @param array $options オプション
+	 * @return void
 	 */
-	public function download( $bin , $option = array() ){
+	public function download( $bin , $options = array() ){
 		if( is_bool( $bin ) ){ $bin = 'bool( '.text::data2text( $bin ).' )'; }
 		if( is_resource( $bin ) ){ $bin = 'A Resource.'; }
 		if( is_array( $bin ) ){ $bin = 'An Array.'; }
@@ -1326,14 +1387,14 @@ class px_px{
 			@header( 'Pragma: public' );
 		}
 
-		if( strlen( $option['content-type'] ) ){
-			$contenttype = $option['content-type'];
+		if( strlen( $options['content-type'] ) ){
+			$contenttype = $options['content-type'];
 		}else{
 			$contenttype = 'application/octet-stream';
 		}
 		if( strlen( $contenttype ) ){
-			if( strlen( $option['charset'] ) ){
-				$contenttype .= '; charset='.$option['charset'];
+			if( strlen( $options['charset'] ) ){
+				$contenttype .= '; charset='.$options['charset'];
 			}
 			@header( 'Content-type: '.$contenttype );
 		}
@@ -1343,9 +1404,9 @@ class px_px{
 			@header( 'Content-Length: '.strlen( $bin ) );
 		}
 
-		if( strlen( $option['filename'] ) ){
+		if( strlen( $options['filename'] ) ){
 			#	ダウンロードファイル名
-			@header( 'Content-Disposition: attachment; filename='.$option['filename'] );
+			@header( 'Content-Disposition: attachment; filename='.$options['filename'] );
 		}
 
 		print $bin;
@@ -1353,12 +1414,18 @@ class px_px{
 	}//download()
 
 	/**
-	 * ディスク上のファイルを標準出力する
+	 * ディスク上のファイルを標準出力する。
+	 * 
+	 * Content-type は $options で変更できます。デフォルトはファイルの種類や拡張子に関わらず `application/octet-stream` が出力されます。
+	 * 
+	 * @param string $filepath 出力するファイルのパス
+	 * @param array $options オプション
+	 * @return void
 	 */
-	public function flush_file( $filepath , $option = array() ){
+	public function flush_file( $filepath , $options = array() ){
 		#--------------------------------------
 		#	$filepath => 出力するファイルのパス
-		#	$option => オプションを示す連想配列
+		#	$options => オプションを示す連想配列
 		#		'content-type'=>Content-type ヘッダー文字列。(第二引数よりも弱い。ほか関数との互換性のため実装)
 		#		'charset'=>Content-type ヘッダー文字列に、文字コード文字列を追加
 		#		'filename'=>ダウンロードさせるファイル名。
@@ -1386,14 +1453,14 @@ class px_px{
 			@header( 'Pragma: public' );
 		}
 
-		if( strlen( $option['content-type'] ) ){
-			$contenttype = $option['content-type'];
+		if( strlen( $options['content-type'] ) ){
+			$contenttype = $options['content-type'];
 		}else{
 			$contenttype = 'application/octet-stream';
 		}
 		if( strlen( $contenttype ) ){
-			if( strlen( $option['charset'] ) ){
-				$contenttype .= '; charset='.$option['charset'];
+			if( strlen( $options['charset'] ) ){
+				$contenttype .= '; charset='.$options['charset'];
 			}
 			@header( 'Content-type: '.$contenttype );
 		}
@@ -1401,9 +1468,9 @@ class px_px{
 		#	ダウンロードの容量
 		@header( 'Content-Length: '.filesize( $filepath ) );
 
-		if( strlen( $option['filename'] ) ){
+		if( strlen( $options['filename'] ) ){
 			#	ダウンロードファイル名
-			@header( 'Content-Disposition: attachment; filename='.$option['filename'] );
+			@header( 'Content-Disposition: attachment; filename='.$options['filename'] );
 		}
 
 		#	ファイルを出力
@@ -1412,7 +1479,7 @@ class px_px{
 			return	false;
 		}
 
-		if( $option['delete'] ){
+		if( $options['delete'] ){
 			#	deleteオプションが指定されていたら、
 			#	ダウンロード後のファイルを削除する。
 			$this->dbh()->rm( $filepath );
