@@ -1,6 +1,18 @@
 <?php
 /**
+ * class px_cores_site
+ * 
+ * PxFWのコアオブジェクトの1つ `$site` のオブジェクトクラスを定義します。
+ * 
+ * @author Tomoya Koyanagi <tomk79@gmail.com>
+ */
+/**
  * PxFW core object class: Site and page Manager
+ * 
+ * PxFWのコアオブジェクトの1つ `$site` のオブジェクトクラスです。
+ * このオブジェクトは、PxFWの初期化処理の中で自動的に生成され、`$px` の内部に格納されます。
+ * 
+ * メソッド `$px->site()` を通じてアクセスします。
  * 
  * @author Tomoya Koyanagi <tomk79@gmail.com>
  */

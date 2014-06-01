@@ -1,6 +1,18 @@
 <?php
 /**
+ * class px_cores_req
+ * 
+ * PxFWのコアオブジェクトの1つ `$req` のオブジェクトクラスを定義します。
+ * 
+ * @author Tomoya Koyanagi <tomk79@gmail.com>
+ */
+/**
  * PxFW core object class: Request Manager
+ * 
+ * PxFWのコアオブジェクトの1つ `$req` のオブジェクトクラスです。
+ * このオブジェクトは、PxFWの初期化処理の中で自動的に生成され、`$px` の内部に格納されます。
+ * 
+ * メソッド `$px->req()` を通じてアクセスします。
  * 
  * @author Tomoya Koyanagi <tomk79@gmail.com>
  */

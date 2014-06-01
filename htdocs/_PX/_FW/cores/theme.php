@@ -47,6 +47,7 @@ class px_cores_theme{
 
 	/**
 	 * コンストラクタ
+	 * 
 	 * @param object $px $pxオブジェクト
 	 */
 	public function __construct( $px ){

@@ -1,6 +1,18 @@
 <?php
 /**
+ * class px_cores_user
+ * 
+ * PxFWのコアオブジェクトの1つ `$user` のオブジェクトクラスを定義します。
+ * 
+ * @author Tomoya Koyanagi <tomk79@gmail.com>
+ */
+/**
  * PxFW core object class: User Manager
+ * 
+ * PxFWのコアオブジェクトの1つ `$user` のオブジェクトクラスです。
+ * このオブジェクトは、PxFWの初期化処理の中で自動的に生成され、`$px` の内部に格納されます。
+ * 
+ * メソッド `$px->user()` を通じてアクセスします。
  * 
  * @author Tomoya Koyanagi <tomk79@gmail.com>
  */
