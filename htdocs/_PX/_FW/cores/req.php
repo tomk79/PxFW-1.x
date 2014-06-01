@@ -5,6 +5,9 @@
  * @author Tomoya Koyanagi <tomk79@gmail.com>
  */
 class px_cores_req{
+	/**
+	 * $pxオブジェクト
+	 */
 	private $px;
 	private $param = array();
 	private $dynamic_path_param = array();
@@ -12,7 +15,9 @@ class px_cores_req{
 	private $request_file_path;
 
 	/**
-	 *  コンストラクタ
+	 * コンストラクタ
+	 * 
+	 * @param object $px $pxオブジェクト
 	 */
 	public function __construct( $px ){
 		$this->px = $px;

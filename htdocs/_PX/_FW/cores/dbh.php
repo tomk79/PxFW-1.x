@@ -11,29 +11,71 @@ class px_cores_dbh{
 	//  パス処理系メソッド：path_operators
 	//  その他：allabout_others
 
+	/**
+	 * $pxオブジェクト
+	 */
 	private $px;
 
+	/**
+	 * 自動トランザクション設定
+	 */
 	private $auto_transaction_flg = false;
-		#	自動トランザクション設定
+	/**
+	 * 自動コミット設定
+	 */
 	private $auto_commit_flg = false;
-		#	自動コミット設定
+	/**
+	 * 接続に挑戦する回数
+	 */
 	private $try2connect_count = 1;
-		#	接続に挑戦する回数
 
-	private $connection = null;			#	データベースとのコネクション(PDOを使用する場合は、PDOオブジェクト)
-	private $errorlist = array();		#	エラーリスト
-	private $result = null;				#	RDBクエリの実行結果リソース(PDOを使用する場合は、PDOStatementオブジェクト)
-	private $transaction_flg = false;	#	トランザクションフラグ
-	private $file = array();			#	ファイルオープンリソースのリスト
+	/**
+	 * データベースとのコネクション
+	 * 
+	 * PDOを使用する場合は、PDOオブジェクト。
+	 */
+	private $connection = null;
+	/**
+	 * エラーリスト
+	 */
+	private $errorlist = array();
+	/**
+	 * RDBクエリの実行結果リソース
+	 * 
+	 * PDOを使用する場合は、PDOStatementオブジェクト。
+	 */
+	private $result = null;
+	/**
+	 * トランザクションフラグ
+	 */
+	private $transaction_flg = false;
+	/**
+	 * ファイルオープンリソースのリスト
+	 */
+	private $file = array();
 
-	private $slow_query_limit = 0.5;	#	Slow Queryと判断されるまでの時間。
+	/**
+	 * Slow Queryと判断されるまでの時間
+	 */
+	private $slow_query_limit = 0.5;
 
+	/**
+	 * コールバックメソッド
+	 */
 	private $method_eventhdl_connection_error;
+	/**
+	 * コールバックメソッド
+	 */
 	private $method_eventhdl_query_error;
-		#	↑コールバックメソッド
 
+	/**
+	 * ファイルおよびディレクトリ操作時のデフォルトパーミッション
+	 */
 	private $default_permission = array('dir'=>0775,'file'=>0775);
 
+	/**
+	 * データベース設定
+	 */
 	private $db_conf = array(
 		'dbms'=>null ,           //RDBMSの種類。mysql|postgresql|sqlite
 		'host'=>null ,           //接続先ホスト名
@@ -46,6 +88,8 @@ class px_cores_dbh{
 
 	/**
 	 * コンストラクタ
+	 * 
+	 * @param object $px $pxオブジェクト
 	 */
 	public function __construct( $px ){
 		$this->px = $px;

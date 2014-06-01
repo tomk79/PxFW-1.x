@@ -5,12 +5,17 @@
  * @author Tomoya Koyanagi <tomk79@gmail.com>
  */
 class px_cores_user{
+	/**
+	 * $pxオブジェクト
+	 */
 	private $px;
 
 	private $login_user_info = null;
 
 	/**
 	 * コンストラクタ
+	 * 
+	 * @param object $px $pxオブジェクト
 	 */
 	public function __construct( $px ){
 		$this->px = $px;

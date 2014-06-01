@@ -5,6 +5,9 @@
  * @author Tomoya Koyanagi <tomk79@gmail.com>
  */
 class px_cores_site{
+	/**
+	 * $pxオブジェクト
+	 */
 	private $px;
 	private $sitemap_definition = array();
 	private $sitemap_array = array();
@@ -14,6 +17,8 @@ class px_cores_site{
 
 	/**
 	 * コンストラクタ
+	 * 
+	 * @param object $px $pxオブジェクト
 	 */
 	public function __construct( $px ){
 		$this->px = $px;
