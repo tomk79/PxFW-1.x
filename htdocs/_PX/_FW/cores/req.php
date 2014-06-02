@@ -262,7 +262,10 @@ class px_cores_req{
 	}//delete_cookie()
 
 	/**
-	 * セッションを開始
+	 * セッションを開始する。
+	 * 
+	 * @param string $sid セッションID。省略時、自動発行。
+	 * @return bool セッションが正常に開始した場合に `true`、それ以外の場合に `false` を返します。
 	 */
 	private function session_start( $sid = null ){
 		$expire = intval($this->px->get_conf('system.session_expire'));
@@ -308,14 +311,19 @@ class px_cores_req{
 	}//session_start()
 
 	/**
-	 * セッションIDを取得
+	 * セッションIDを取得する。
+	 *
+	 * @return string セッションID
 	 */
 	public function get_session_id(){
 		return session_id();
 	}//get_session_id()
 
 	/**
-	 * セッション情報を取得
+	 * セッション情報を取得する。
+	 *
+	 * @param string $key セッションキー
+	 * @return mixed `$key` に対応するセッション値
 	 */
 	public function get_session( $key ){
 		if( !array_key_exists($key, $_SESSION) ){ return null; }
@@ -323,7 +331,11 @@ class px_cores_req{
 	}//get_session()
 
 	/**
-	 * セッション情報をセット
+	 * セッション情報をセットする。
+	 *
+	 * @param string $key セッションキー
+	 * @param mixed $val `$key` に対応するセッション値
+	 * @return bool 常に `true` を返します。
 	 */
 	public function set_session( $key , $val ){
 		$_SESSION[$key] = $val;
@@ -331,7 +343,10 @@ class px_cores_req{
 	}//set_session()
 
 	/**
-	 * セッション情報を削除
+	 * セッション情報を削除する。
+	 *
+	 * @param string $key セッションキー
+	 * @return bool 常に `true` を返します。
 	 */
 	public function delete_session( $key ){
 		unset( $_SESSION[$key] );
@@ -340,7 +355,11 @@ class px_cores_req{
 
 
 	/**
-	 * アップロードされたファイルをセッションに保存
+	 * アップロードされたファイルをセッションに保存する。
+	 *
+	 * @param string $key セッションキー
+	 * @param array $ulfileinfo アップロードファイル情報
+	 * @return bool 成功時 `true`、失敗時 `false` を返します。
 	 */
 	public function save_uploadfile( $key , $ulfileinfo ){
 		// base64でエンコードして、バイナリデータを持ちます。
@@ -368,9 +387,12 @@ class px_cores_req{
 		return	true;
 	}
 	/**
-	 * セッションに保存されたファイル情報を取得
+	 * セッションに保存されたファイル情報を取得する。
+	 *
+	 * @param string $key セッションキー
+	 * @return array|bool 成功時、ファイル情報 を格納した連想配列、失敗時 `false` を返します。
 	 */
-	public function get_uploadfile( $key , $option = array() ){
+	public function get_uploadfile( $key ){
 		if(!strlen($key)){ return false; }
 
 		$RTN = $_SESSION['FILE'][$key];
@@ -380,20 +402,27 @@ class px_cores_req{
 		return	$RTN;
 	}
 	/**
-	 * セッションに保存されたファイル情報の一覧を取得
+	 * セッションに保存されたファイル情報の一覧を取得する。
+	 * 
+	 * @return array ファイル情報 を格納した連想配列
 	 */
 	public function get_uploadfile_list(){
 		return	array_keys( $_SESSION['FILE'] );
 	}
 	/**
-	 * セッションに保存されたファイルを削除
+	 * セッションに保存されたファイルを削除する。
+	 *
+	 * @param string $key セッションキー
+	 * @return bool 常に `true` を返します。
 	 */
 	public function delete_uploadfile( $key ){
 		unset( $_SESSION['FILE'][$key] );
 		return	true;
 	}
 	/**
-	 * セッションに保存されたファイルを全て削除
+	 * セッションに保存されたファイルを全て削除する。
+	 * 
+	 * @return bool 常に `true` を返します。
 	 */
 	public function delete_uploadfile_all(){
 		return	$this->delete_session( 'FILE' );
