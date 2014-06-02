@@ -14,6 +14,12 @@
  * 
  * メソッド `$px->user()` を通じてアクセスします。
  * 
+ * このオブジェクトはユーザー情報を管理するためにRDBMSを利用します。
+ * この機能を使うために、次の初期設定を行ってください。
+ * 
+ * 1. コンフィグの `dbms` ディレクティブに、データベースサーバーの情報を設定してください。
+ * 2. ?PX=initialize を実行し、データベースの初期構築を行ってください。
+ * 
  * @author Tomoya Koyanagi <tomk79@gmail.com>
  */
 class px_cores_user{
@@ -22,6 +28,9 @@ class px_cores_user{
 	 */
 	private $px;
 
+	/**
+	 * ログイン中のユーザーの情報
+	 */
 	private $login_user_info = null;
 
 	/**
@@ -34,7 +43,9 @@ class px_cores_user{
 	}
 
 	/**
-	 * $dao_userを生成する
+	 * インスタンス $dao_user を生成する。
+	 *
+	 * @return object px_daos_user のインスタンス
 	 */
 	public function &factory_dao_user(){
 		$class_name_dao_user = $this->px->load_px_class( '/daos/user.php' );
@@ -46,8 +57,11 @@ class px_cores_user{
 	}
 
 	/**
-	 * ログイン状態を更新する
-	 * @return true
+	 * ログイン状態を更新する。
+	 * 
+	 * @param string $user_account ユーザーアカウント名
+	 * @param string $user_pw ユーザーパスワード
+	 * @return bool 常に `true` を返します。
 	 */
 	public function update_login_status( $user_account , $user_pw ){
 		$expire = intval($this->px->get_conf('system.session_expire'));
@@ -88,8 +102,9 @@ class px_cores_user{
 	}//login()
 
 	/**
-	 * ユーザーがログインしているか否か調べる
-	 * @return true|false
+	 * ユーザーがログインしているか否か調べる。
+	 * 
+	 * @return bool ログイン状態のとき `true`、ログインしていない場合に `false` を返します。
 	 */
 	public function is_login(){
 		if( strlen( $this->px->req()->get_session('USER_ID') ) && $this->px->req()->get_session('USER_EXPIRE') > time() ){
@@ -99,56 +114,62 @@ class px_cores_user{
 	}//is_login()
 
 	/**
-	 * ログインユーザーのIDを取得する
-	 * @return string
+	 * ログインユーザーのIDを取得する。
+	 * 
+	 * @return string ユーザーID
 	 */
 	public function get_login_user_id(){
 		return $this->login_user_info['id'];
 	}//get_login_user_id()
 
 	/**
-	 * ログインユーザーのアカウント名を取得する
-	 * @return string
+	 * ログインユーザーのアカウント名を取得する。
+	 * 
+	 * @return string ユーザーアカウント名
 	 */
 	public function get_login_user_account(){
 		return $this->login_user_info['user_account'];
 	}//get_login_user_account()
 
 	/**
-	 * ログインユーザーのユーザー名を取得する
-	 * @return string
+	 * ログインユーザーのユーザー名を取得する。
+	 * 
+	 * @return string ユーザー名
 	 */
 	public function get_login_user_name(){
 		return $this->login_user_info['user_name'];
 	}//get_login_user_name()
 
 	/**
-	 * ログインユーザーのメールアドレスを取得する
-	 * @return string
+	 * ログインユーザーのメールアドレスを取得する。
+	 * 
+	 * @return string ユーザーのメールアドレス
 	 */
 	public function get_login_user_email(){
 		return $this->login_user_info['user_email'];
 	}//get_login_user_email()
 
 	/**
-	 * ログインユーザーの認証レベルを取得する
-	 * @return int
+	 * ログインユーザーの認証レベルを取得する。
+	 * 
+	 * @return int ユーザーの認証レベル
 	 */
 	public function get_login_user_auth_level(){
 		return intval($this->login_user_info['auth_level']);
 	}//get_login_user_auth_level()
 
 	/**
-	 * ユーザーが最後にパスワードを変更した日時を取得する
-	 * @return int
+	 * ユーザーが最後にパスワードを変更した日時を取得する。
+	 * @return int ユーザーが最後にパスワードを変更した日時のUNIXタイムスタンプ
 	 */
 	public function get_login_user_set_pw_date(){
 		return $this->login_user_info['set_pw_date'];
 	}//get_login_user_set_pw_date()
 
 	/**
-	 * 明示的にログアウトする
-	 * @return true|false
+	 * 明示的にログアウトする。
+	 * 
+	 * @return bool 常に `true` を返します。
 	 */
 	public function logout(){
 		$this->px->req()->delete_session('USER_ID');
@@ -158,8 +179,9 @@ class px_cores_user{
 	}//logout()
 
 	/**
-	 * パブリッシュツールか否か調べる
-	 * @return true|false
+	 * パブリッシュツールか否か調べる。
+	 * 
+	 * @return bool ユーザーがパブリッシュツールの場合に `true`、それ以外の場合に `false` を返します。
 	 */
 	public function is_publishtool(){
 		$val = strpos( $_SERVER['HTTP_USER_AGENT'] , 'PicklesCrawler' );
@@ -170,7 +192,10 @@ class px_cores_user{
 	}//is_publishtool()
 
 	/**
-	 * ユーザパスワードを暗号化する
+	 * ユーザパスワードを暗号化する。
+	 *
+	 * @param string $password ユーザーパスワードの平文
+	 * @return string 暗号化されたパスワード
 	 */
 	public function crypt_user_password( $password ){
 		// [2013-05-31]
@@ -183,7 +208,12 @@ class px_cores_user{
 	}
 
 	/**
-	 * ワンタイムハッシュを発行する
+	 * ワンタイムハッシュを発行する。
+	 *
+	 * 発行したワンタイムハッシュは、戻り値として受け取れると同時に、ユーザーのセッション領域に保存されます。
+	 * 発行されたハッシュは、`$user->use_onetime_hash()` を通じて、1度だけ `true` を得ることができます。
+	 * 
+	 * @return string ハッシュ文字列
 	 */
 	public function get_onetime_hash(){
 		$str_hash = uniqid();//ハッシュ値を生成
@@ -192,7 +222,14 @@ class px_cores_user{
 	}//get_onetime_hash()
 
 	/**
-	 * ワンタイムハッシュを使用する
+	 * ワンタイムハッシュを使用する。
+	 *
+	 * `$user->get_onetime_hash()` が発行したワンタイムハッシュを使用します。
+	 * この値は、ユーザーのセッションに記憶されています。一度使うと、戻り値として `true` を返し、セッションから削除されます。
+	 * 従って、同じワンタイムハッシュでは1度しか `true` を得られません。
+	 * 
+	 * @param string $str_hash ハッシュ文字列
+	 * @return bool 成功時に `true`、ワンタイムハッシュが無効な場合や、使用済みなどで、失敗した場合に `false` を返します。
 	 */
 	public function use_onetime_hash($str_hash){
 		if(!strlen($str_hash)){

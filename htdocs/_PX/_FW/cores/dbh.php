@@ -295,7 +295,12 @@ class px_cores_dbh{
 	}//connect()
 
 	/**
-	 * すでに確立されたデータベース接続情報を外部から受け入れる
+	 * すでに確立されたデータベース接続情報を外部から受け入れる。
+	 * 
+	 * 既に内部で接続が確立している場合は、受け入れが失敗し、`false` を返します。
+	 *
+	 * @param resource $con 接続リソース
+	 * @return 受け入れられた場合に `true`、受け入れられなかった場合に `false` を返します。
 	 */
 	public function set_connection( $con ){
 		if( $this->check_connection() ){
@@ -499,7 +504,7 @@ class px_cores_dbh{
 	/**
 	 * データベースにクエリを送る。
 	 * 
-	 * @param string $querystring SQL
+	 * @param string $querystring SQL文
 	 * @return mixed クエリ送信に失敗した場合は `false` を返します。成功した場合は、リソースまたはオブジェクトを返します(使用するDBMSによって異なります)。
 	 */
 	public function &send_query( $querystring ){
@@ -515,7 +520,7 @@ class px_cores_dbh{
 	/**
 	 * 実際にクエリを送信する
 	 * 
-	 * @param string $querystring SQL
+	 * @param string $querystring SQL文
 	 * @return mixed クエリ送信に失敗した場合は `false` を返します。成功した場合は、リソースまたはオブジェクトを返します(使用するDBMSによって異なります)。
 	 */
 	private function &execute_send_query( $querystring ){
@@ -697,7 +702,7 @@ class px_cores_dbh{
 	}//get_results()
 
 	/**
-	 * クエリの実行結果を1行ずつ得る
+	 * クエリの実行結果を1行ずつ得る。
 	 * 
 	 * @param resource|object $res 接続リソース、またはクエリ実行リソース
 	 * @return array 取得された1行分の行列データ
@@ -924,7 +929,7 @@ class px_cores_dbh{
 	/**
 	 * テーブルの一覧を得る。
 	 * 
-	 * @param string $dbmane データベース名
+	 * @param string $dbname データベース名
 	 * @return array|bool テーブル名を格納した配列を返します。失敗時には `false` を返します。
 	 */
 	public function get_tablelist( $dbname = null ){
@@ -1074,7 +1079,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	/**
 	 * date型の値を、UNIXタイムスタンプに変換する。
 	 * 
-	 * @param string date型(YYYY-MM-DD) または datetime型(YYYY-MM-DD HH:ii:ss) の文字列
+	 * @param string $time date型(YYYY-MM-DD) または datetime型(YYYY-MM-DD HH:ii:ss) の文字列
 	 * @return int `$time` が示す日の0時0分0秒のUNIXタイムスタンプ
 	 */
 	public function date2int( $time ){
@@ -1086,7 +1091,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	/**
 	 * datetime型の値を、UNIXタイムスタンプに変換する。
 	 * 
-	 * @param string date型(YYYY-MM-DD) または datetime型(YYYY-MM-DD HH:ii:ss) の文字列
+	 * @param string $time date型(YYYY-MM-DD) または datetime型(YYYY-MM-DD HH:ii:ss) の文字列
 	 * @return int `$time` が示す時刻のUNIXタイムスタンプ
 	 */
 	public function datetime2int( $time ){
@@ -1099,7 +1104,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	/**
 	 * UNIXタイムスタンプの値を、date型に変換
 	 * 
-	 * @param int UNIXタイムスタンプ
+	 * @param int $time UNIXタイムスタンプ
 	 * @return string date型(YYYY-MM-DD)の文字列
 	 */
 	public function int2date( $time ){
@@ -1108,7 +1113,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	/**
 	 * UNIXタイムスタンプの値を、datetime型に変換
 	 * 
-	 * @param int UNIXタイムスタンプ
+	 * @param int $time UNIXタイムスタンプ
 	 * @return string datetime型(YYYY-MM-DD HH:ii:ss) の文字列
 	 */
 	public function int2datetime( $time ){
@@ -1218,7 +1223,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	 * 配列からINSERT文を生成する。
 	 * 
 	 * @param string $table_name 挿入対象のテーブル名
-	 * @param array 挿入する値の一覧
+	 * @param array $insert_values 挿入する値の一覧
 	 * @param array $column_define テーブル定義(省略時、`$insert_values` の最初の行から自動生成する)
 	 * @return string 生成されたSQL
 	 */
@@ -1592,12 +1597,15 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 
 	/**
 	 * ファイルの更新日時を比較する。
+	 * 
+	 * @param string $path_a 比較対象A
+	 * @param string $path_b 比較対象B
+	 * @return bool|null 
+	 * `$path_a` の方が新しかった場合に `true`、
+	 * `$path_b` の方が新しかった場合に `false`、
+	 * 同時だった場合に `null` を返します。
 	 */
 	public function is_newer_a_than_b( $path_a , $path_b ){
-		#	$path_a の方が新しかった場合にtrue
-		#	$path_b の方が新しかった場合にfalse
-		#	同時だった場合にnullを返す。
-
 		if( strlen( $this->px->get_conf('system.filesystem_encoding') ) ){
 			//PxFW 0.6.4 追加
 			$path_a = @t::convert_encoding( $path_a , $this->px->get_conf('system.filesystem_encoding') );
@@ -1616,6 +1624,10 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 
 	/**
 	 * ファイル名/ディレクトリ名を変更する。
+	 *
+	 * @param string $original 現在のファイルまたはディレクトリ名
+	 * @param string $newname 変更後のファイルまたはディレクトリ名
+	 * @return bool 成功時 `true`、失敗時 `false` を返します。
 	 */
 	public function rename( $original , $newname ){
 		if( strlen( $this->px->get_conf('system.filesystem_encoding') ) ){
@@ -1630,6 +1642,12 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 
 	/**
 	 * ファイル名/ディレクトリ名の変更を完全に実行する。
+	 *
+	 * 移動先の親ディレクトリが存在しない場合にも、親ディレクトリを作成して移動するよう試みます。
+	 *
+	 * @param string $original 現在のファイルまたはディレクトリ名
+	 * @param string $newname 変更後のファイルまたはディレクトリ名
+	 * @return bool 成功時 `true`、失敗時 `false` を返します。
 	 */
 	public function rename_complete( $original , $newname ){
 		if( strlen( $this->px->get_conf('system.filesystem_encoding') ) ){
@@ -1955,6 +1973,11 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 
 	/**
 	 * ファイルを開き、ファイルリソースをセットする。
+	 * 
+	 * @param string $filepath ファイルのパス
+	 * @param string $mode モード
+	 * @param bool $flock ファイルをロックするフラグ
+	 * @return resource|bool 成功したらファイルリソースを、失敗したら `false` を返します。
 	 */
 	public function &fopen( $filepath , $mode = 'r' , $flock = true ){
 		$filepath_fsenc = $filepath;
@@ -1974,7 +1997,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 			}else{
 				#	前回と$modeが一緒であれば、既に開いているので、
 				#	ここで終了。
-				return	true;
+				return	$this->file[$filepath]['res'];
 			}
 		}
 
@@ -2027,6 +2050,9 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 
 	/**
 	 * ファイルのリソースを取得する。
+	 * 
+	 * @param string $filepath ファイルのパス
+	 * @return resource ファイルリソース
 	 */
 	public function &get_file_resource( $filepath ){
 		$filepath = $this->get_realpath($filepath);
@@ -2188,6 +2214,10 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 
 	/**
 	 * ディレクトリの内部を比較し、$comparisonに含まれない要素を$targetから削除する。
+	 *
+	 * @param string $target クリーニング対象のディレクトリパス
+	 * @param string $comparison 比較するディレクトリのパス
+	 * @return bool 成功時 `true`、失敗時 `false` を返します。
 	 */
 	public function compare_and_cleanup( $target , $comparison ){
 		if( is_null( $comparison ) || is_null( $target ) ){ return false; }
@@ -2231,8 +2261,12 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 
 	/**
 	 * 指定されたディレクトリ以下の、全ての空っぽのディレクトリを削除する。
+	 * 
+	 * @param string $path ディレクトリパス
+	 * @param array $options オプション
+	 * @return bool 成功時 `true`、失敗時 `false` を返します。
 	 */
-	public function remove_empty_dir( $path , $option = array() ){
+	public function remove_empty_dir( $path , $options = array() ){
 		if( strlen( $this->px->get_conf('system.filesystem_encoding') ) ){
 			$path = @t::convert_encoding( $path , $this->px->get_conf('system.filesystem_encoding') );
 		}
@@ -2246,18 +2280,18 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 		#--------------------------------------
 		#	次の階層を処理するかどうかのスイッチ
 		$switch_donext = false;
-		if( is_null( $option['depth'] ) ){
+		if( is_null( $options['depth'] ) ){
 			#	深さの指定がなければ掘る
 			$switch_donext = true;
-		}elseif( !is_int( $option['depth'] ) ){
+		}elseif( !is_int( $options['depth'] ) ){
 			#	指定がnullでも数値でもなければ掘らない
 			$switch_donext = false;
-		}elseif( $option['depth'] <= 0 ){
+		}elseif( $options['depth'] <= 0 ){
 			#	指定がゼロ以下なら、今回の処理をして終了
 			$switch_donext = false;
-		}elseif( $option['depth'] > 0 ){
+		}elseif( $options['depth'] > 0 ){
 			#	指定が正の数(ゼロは含まない)なら、掘る
-			$option['depth'] --;
+			$options['depth'] --;
 			$switch_donext = true;
 		}else{
 			return	false;
@@ -2281,7 +2315,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 			}elseif( @is_dir( $path.'/'.$Line ) ){
 				if( $switch_donext ){
 					#	さらに掘れと指令があれば、掘る。
-					$this->remove_empty_dir( $path.'/'.$Line , $option );
+					$this->remove_empty_dir( $path.'/'.$Line , $options );
 				}
 			}
 			if( @file_exists( $path.'/'.$Line ) ){
@@ -2298,12 +2332,19 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 
 	/**
 	 * 指定された2つのディレクトリの内容を比較し、まったく同じかどうか調べる。
+	 *
+	 * @param string $dir_a 比較対象ディレクトリA
+	 * @param string $dir_b 比較対象ディレクトリB
+	 * @param array $options オプション
+	 * <dl>
+	 *   <dt>bool $options['compare_filecontent']</dt>
+	 * 	   <dd>ファイルの中身も比較するか？</dd>
+	 *   <dt>bool $options['compare_emptydir']</dt>
+	 * 	   <dd>空っぽのディレクトリの有無も評価に含めるか？</dd>
+	 * </dl>
+	 * @return bool 同じ場合に `true`、異なる場合に `false` を返します。
 	 */
-	public function compare_dir( $dir_a , $dir_b , $option = array() ){
-		#	$option['compare_filecontent'] = bool;
-		#		ファイルの中身も比較するか
-		#	$option['compare_emptydir'] = bool;
-		#		空っぽのディレクトリの有無も評価に含めるか？
+	public function compare_dir( $dir_a , $dir_b , $options = array() ){
 
 		if( strlen( $this->px->get_conf('system.filesystem_encoding') ) ){
 			//PxFW 0.6.4 追加
@@ -2314,14 +2355,14 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 		if( ( @is_file( $dir_a ) && !@is_file( $dir_b ) ) || ( !@is_file( $dir_a ) && @is_file( $dir_b ) ) ){
 			return	false;
 		}
-		if( ( ( @is_dir( $dir_a ) && !@is_dir( $dir_b ) ) || ( !@is_dir( $dir_a ) && @is_dir( $dir_b ) ) ) && $option['compare_emptydir'] ){
+		if( ( ( @is_dir( $dir_a ) && !@is_dir( $dir_b ) ) || ( !@is_dir( $dir_a ) && @is_dir( $dir_b ) ) ) && $options['compare_emptydir'] ){
 			return	false;
 		}
 
 		if( @is_file( $dir_a ) && @is_file( $dir_b ) ){
 			#--------------------------------------
 			#	両方ファイルだったら
-			if( $option['compare_filecontent'] ){
+			if( $options['compare_filecontent'] ){
 				#	ファイルの内容も比較する設定の場合、
 				#	それぞれファイルを開いて同じかどうかを比較
 				$filecontent_a = $this->file_get_contents( $dir_a );
@@ -2339,7 +2380,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 			$contlist_a = $this->ls( $dir_a );
 			$contlist_b = $this->ls( $dir_b );
 
-			if( $option['compare_emptydir'] && $contlist_a !== $contlist_b ){
+			if( $options['compare_emptydir'] && $contlist_a !== $contlist_b ){
 				#	空っぽのディレクトリも厳密に評価する設定で、
 				#	ディレクトリ内の要素配列の内容が異なれば、false。
 				return false;
@@ -2349,7 +2390,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 			foreach( $contlist_a as $Line ){
 				#	Aをチェック
 				if( $Line == '..' || $Line == '.' ){ continue; }
-				if( !$this->compare_dir( $dir_a.'/'.$Line , $dir_b.'/'.$Line , $option ) ){
+				if( !$this->compare_dir( $dir_a.'/'.$Line , $dir_b.'/'.$Line , $options ) ){
 					return false;
 				}
 				$done[$Line] = true;
@@ -2359,7 +2400,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 				#	Aに含まれなかったBをチェック
 				if( $done[$Line] ){ continue; }
 				if( $Line == '..' || $Line == '.' ){ continue; }
-				if( !$this->compare_dir( $dir_a.'/'.$Line , $dir_b.'/'.$Line , $option ) ){
+				if( !$this->compare_dir( $dir_a.'/'.$Line , $dir_b.'/'.$Line , $options ) ){
 					return false;
 				}
 				$done[$Line] = true;
@@ -2375,11 +2416,19 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	#	エラー処理
 
 	/**
-	 * オブジェクト内部エラーを記録
+	 * オブジェクト内部エラーを記録する。
+	 * 
+	 * @param string $errortext エラー文言
+	 * @param string $errorkey エラーキー
+	 * @param string $file エラーが発生したファイルパス
+	 * @param string $line エラーが発生した行番号
+	 * @return bool 成功時に `true`、失敗時に `false` を返します。
 	 */
 	private function add_error( $errortext = null , $errorkey = null , $file = null , $line = null ){
 		static $seq;	// シーケンス
-		if( !$errortext ){ return null; }
+		if( !strlen($errortext) ){
+			$errortext = 'Unknown error';
+		}
 		if( !$seq ){ $seq = 0; }
 		if( is_null( $errorkey ) ){ $errorkey = $seq; }
 		if( is_null( $errortext ) ){ $errortext = 'Error'; }
@@ -2393,7 +2442,9 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	}//add_error()
 
 	/**
-	 * オブジェクト内部エラーを取得
+	 * オブジェクト内部エラーを取得する。
+	 * 
+	 * @return array 内部エラーリスト
 	 */
 	public function get_error_list(){
 		return	$this->errorlist;
@@ -2404,7 +2455,9 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	#	終了系の処理集
 
 	/**
-	 * 全てのファイルとデータベースを閉じる
+	 * 全てのファイルとデータベースを閉じる。
+	 * 
+	 * @return bool 成功時 `true`、失敗時 `false` を返します。
 	 */
 	public function close_all(){
 		$res_f = $this->fclose_all();
@@ -2416,7 +2469,9 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	}
 
 	/**
-	 * 開いている全てのファイルを閉じる
+	 * 開いている全てのファイルを閉じる。
+	 * 
+	 * @return bool 成功時 `true`、失敗時 `false` を返します。
 	 */
 	public function fclose_all(){
 		foreach($this->file as $line){
@@ -2426,7 +2481,10 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	}
 
 	/**
-	 * 開いているファイル(単体)を閉じる
+	 * 開いているファイル(単体)を閉じる。
+	 * 
+	 * @param string $filepath 閉じるファイルパス
+	 * @return bool 成功時 `true`、失敗時 `false` を返します。
 	 */
 	public function fclose( $filepath ){
 		$filepath = $this->get_realpath( $filepath );
@@ -2444,7 +2502,10 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	}
 
 	/**
-	 * ファイルを開いている状態か確認する
+	 * ファイルを開いている状態か確認する。
+	 * 
+	 * @param string $filepath 調査対象のファイルパス
+	 * @return bool すでに開いている場合 `true`、開いていない場合に `false` を返します。
 	 */
 	public function is_file_open( $filepath ){
 		$filepath = $this->get_realpath( $filepath );
@@ -2454,13 +2515,17 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 	}
 
 	/**
-	 * すべてのデータベースコネクションを切断する
+	 * すべてのデータベースコネクションを切断する。
+	 * 
+	 * @return bool 成功時 `true`、失敗時 `false` を返します。
 	 */
 	public function disconnect_all(){
 		return $this->disconnect();
 	}
 	/**
 	 * データベースコネクションを切断する
+	 * 
+	 * @return bool 成功時 `true`、失敗時 `false` を返します。
 	 */
 	private function disconnect(){
 		if( !$this->check_connection() ){return true;}
