@@ -1,17 +1,41 @@
 <?php
-
+/**
+ * class px_bases_pxcommand
+ * 
+ * @author Tomoya Koyanagi <tomk79@gmail.com>
+ */
 /**
  * PxCommandsの基底クラス
+ * 
+ * @author Tomoya Koyanagi <tomk79@gmail.com>
  */
 class px_bases_pxcommand{
+
+	/**
+	 * $pxオブジェクト
+	 */
 	protected $px;
+
+	/**
+	 * PXコマンド名
+	 */
 	protected $pxcommand_name = null;
 
-	private $title = null;//ページタイトル
+	/**
+	 * ページタイトル
+	 */
+	private $title = null;
+
+	/**
+	 * 色情報
+	 */
 	private $colors = array();
 
 	/**
 	 * コンストラクタ
+	 * 
+	 * @param array $pxcommand_name PXコマンド名
+	 * @param object $px $pxオブジェクト
 	 */
 	public function __construct( $pxcommand_name , $px ){
 		$this->px = $px;
@@ -21,7 +45,10 @@ class px_bases_pxcommand{
 	}//__construct()
 
 	/**
-	 * 色を設定する
+	 * 色を設定する。
+	 * 
+	 * @param string $colors_main メインカラー
+	 * @return array 色情報を格納した連想配列
 	 */
 	private function setup_color( $colors_main ){
 		// 色を設定する
@@ -56,21 +83,26 @@ class px_bases_pxcommand{
 	}
 
 	/**
-	 * コマンド名を取得する
+	 * コマンド名を取得する。
+	 * @return array PXコマンド名
 	 */
 	public function get_command(){
 		return $this->pxcommand_name;
 	}
 
 	/**
-	 * ページタイトルを取得する
+	 * ページタイトルを取得する。
+	 * @return string ページタイトル
 	 */
 	public function get_title(){
 		return $this->title;
 	}
 
 	/**
-	 * ページタイトルを取得する
+	 * ページタイトルをセットする。
+	 *
+	 * @param string $title ページタイトル
+	 * @return bool 常に `true` を返します。
 	 */
 	public function set_title( $title ){
 		$this->title = $title;
@@ -79,7 +111,10 @@ class px_bases_pxcommand{
 
 
 	/**
-	 * コンテンツをHTMLテンプレートに包んで返す
+	 * コンテンツをHTMLテンプレートに包んで返す。
+	 *
+	 * @param string $content コンテンツエリアのHTMLソース
+	 * @return string 完成されたHTMLソース
 	 */
 	protected function html_template( $content ){
 		// PxCommands の一覧 $px_command_list を作成
@@ -183,6 +218,8 @@ class px_bases_pxcommand{
 
 	/**
 	 * jQueryのソースを返す。
+	 * 
+	 * @return string jQueryのソースコード
 	 */
 	private function create_src_jquery(){
 		ob_start();
@@ -200,6 +237,8 @@ u[o]&&(delete u[o],c?delete n[l]:typeof n.removeAttribute!==i?n.removeAttribute(
 
 	/**
 	 * layout.css のソースを返す。
+	 *
+	 * @return string layout.css のソースコード
 	 */
 	private function create_src_layout_css(){
 		$color_main = $this->colors['main'];
@@ -333,7 +372,8 @@ a:hover{
 
 
 	/**
-	 * FESS CSSソースを返す
+	 * FESS CSSソースを返す。
+	 * @return string fess.css のソースコード
 	 */
 	private function create_src_fess(){
 		ob_start(); ?>
@@ -1650,7 +1690,8 @@ div.unit {
 	}// create_src_fess()
 
 	/**
-	 * PxFWのSVGロゴソースを返す
+	 * PxFWのSVGロゴソースを返す。
+	 * @return string PxFWのSVGソースコード
 	 */
 	private function create_src_pxfw_logo_svg(){
 		$logo_color = $this->colors['text_on_main'];

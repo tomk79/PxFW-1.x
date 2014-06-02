@@ -1,18 +1,32 @@
 <?php
+/**
+ * class px_daos_initialize
+ * 
+ * @author Tomoya Koyanagi <tomk79@gmail.com>
+ */
 $this->load_px_class('/bases/dao.php');
 
 /**
  * 初期化処理のDAO
- **/
+ * 
+ * @author Tomoya Koyanagi <tomk79@gmail.com>
+ */
 class px_daos_initialize extends px_bases_dao{
 
+	/**
+	 * 内部エラー
+	 */
 	private $errors = array();
+	/**
+	 * 内部ログ
+	 */
 	private $logs = array();
 
 	/**
 	 * ユーザー関連テーブルを作成する。
-	 * @params int $behavior: 振る舞い。0(既定値)=SQLを実行する|1=SQL文全体を配列として返す|2=SQL全体を文字列として返す
-	 * @return $behavior=0 の場合、SQLを実行した結果の成否(bool), $behavior=1 の場合、1つのSQL文を1要素として持つ配列, $behavior=2 の場合、全SQL文を結合した文字列としてのSQL
+	 * 
+	 * @param int $behavior 振る舞い。`0`(既定値)=SQLを実行する|`1`=SQL文全体を配列として返す|`2`=SQL全体を文字列として返す
+	 * @return bool|array|string `$behavior` が `0` の場合、SQLを実行した結果の成否(bool), `$behavior` が `1` の場合、1つのSQL文を1要素として持つ配列, `$behavior` が `2` の場合、全SQL文を結合した文字列としてのSQL
 	 */
 	public function create_user_tables($behavior=0){
 		$behavior = intval($behavior);
@@ -114,9 +128,11 @@ CREATE TABLE :D:table_name(
 
 	/**
 	 * エラー取得メソッド
+	 * 
 	 * PxFWはinitialize処理が終了した後(=execute()がreturnした後)、
 	 * このメソッドを通じてエラー内容を受け取ります。
-	 * @return 配列。配列の要素は、message, file, line の3つを持った連想配列。
+	 * 
+	 * @return array `message`, `file`, `line` の3つを持った連想配列。
 	 */
 	public function get_errors(){
 		return $this->errors;
@@ -124,8 +140,13 @@ CREATE TABLE :D:table_name(
 
 	/**
 	 * 内部エラー発行メソッド
+	 * 
 	 * 本オブジェクト内部で発生したエラーを受け取り、メンバー変数に記憶します。
 	 * ここで記憶したエラー情報は、最終的に get_errors() により引き出されます。
+	 * 
+	 * @param string $error_message エラーメッセージ
+	 * @param int $line エラーが起きた行番号
+	 * @return bool 常に `true` を返します。
 	 */
 	private function error_log( $error_message , $line ){
 		array_push( $this->errors, array(
@@ -138,9 +159,11 @@ CREATE TABLE :D:table_name(
 
 	/**
 	 * ログ取得メソッド
+	 * 
 	 * PxFWはinitialize処理が終了した後(=execute()がreturnした後)、
 	 * このメソッドを通じて実行された処理の内容を受け取ります。
-	 * @return 配列。
+	 * 
+	 * @return array ログ一覧
 	 */
 	public function get_logs(){
 		return $this->logs;
@@ -148,8 +171,12 @@ CREATE TABLE :D:table_name(
 
 	/**
 	 * 内部ログ記録メソッド
+	 * 
 	 * 本オブジェクト内部で処理した内容をテキストで受け取り、メンバー変数に記憶します。
-	 * ここで記憶した情報は、最終的に get_logs() により引き出されます。
+	 * ここで記憶した情報は、最終的に `get_logs()` により引き出されます。
+	 * 
+	 * @param string $message ログメッセージ
+	 * @return bool 常に `true` を返します。
 	 */
 	private function log( $message ){
 		array_push( $this->logs, $message );

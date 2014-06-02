@@ -1,14 +1,25 @@
 <?php
-
+/**
+ * class px_styles_finalizer
+ * 
+ * @author Tomoya Koyanagi <tomk79@gmail.com>
+ */
 /**
  * コンテンツの仕上げ処理を施す。
- **/
+ * 
+ * @author Tomoya Koyanagi <tomk79@gmail.com>
+ */
 class px_styles_finalizer{
 
+	/**
+	 * $pxオブジェクト
+	 */
 	private $px;
 
 	/**
 	 * コンストラクタ
+	 * 
+	 * @param object $px $pxオブジェクト
 	 */
 	public function __construct( $px ){
 		$this->px = $px;
@@ -16,7 +27,8 @@ class px_styles_finalizer{
 
 	/**
 	 * コンテンツソースを完成させる。
-	 * @param string $src = コンテンツのHTMLソース
+	 * @param string $src 加工前のコンテンツのHTMLソース
+	 * @return string 加工後のコンテンツのHTMLソース
 	 */
 	public function finalize_contents( $src ){
 

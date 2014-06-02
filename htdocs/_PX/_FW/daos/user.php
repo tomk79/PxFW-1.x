@@ -1,16 +1,28 @@
 <?php
+/**
+ * class px_daos_user
+ * 
+ * @author Tomoya Koyanagi <tomk79@gmail.com>
+ */
 $this->load_px_class('/bases/dao.php');
 
 /**
  * ユーザー関連情報のDAO
- **/
+ * 
+ * @author Tomoya Koyanagi <tomk79@gmail.com>
+ */
 class px_daos_user extends px_bases_dao{
 
+	/**
+	 * 前回挿入したユーザーID
+	 */
 	private $last_insert_user_id = null;
 
 	/**
 	 * 新規ユーザーを作成する。
-	 * @return true|false
+	 * 
+	 * @param array $user_info ユーザー情報を格納した連想配列
+	 * @return bool 成功時 'true'、失敗時 `false` を返します。
 	 */
 	public function create_user( $user_info ){
 		if( !$this->validate_user_account( $user_info['user_account'] ) ){
@@ -105,14 +117,18 @@ INSERT INTO :D:table_name (
 	}
 
 	/**
-	 * 直前に作成したユーザのユーザCDを取得する
+	 * 直前に作成したユーザのユーザIDを取得する。
+	 *
+	 * @return string|null ユーザーID。挿入していない場合 `null` を返します。
 	 */
 	public function get_last_insert_user_id(){
 		return	$this->last_insert_user_id;
 	}
 
 	/**
-	 * 全登録ユーザ数を得る
+	 * 全登録ユーザ数を得る。
+	 * 
+	 * @return int ユーザー数
 	 */
 	public function get_user_count(){
 		$sql = 'SELECT count(*) AS count FROM :D:table_name WHERE delete_flg = 0;';
@@ -127,7 +143,10 @@ INSERT INTO :D:table_name (
 	}//get_user_count();
 
 	/**
-	 * ユーザー情報を取得する
+	 * ユーザー情報を取得する。
+	 * 
+	 * @param string $id ユーザーID
+	 * @return array ユーザー情報。ユーザーが存在しない場合 `null` を返します。
 	 */
 	public function get_user_info( $id ){
 		$sql = 'SELECT * FROM :D:table_name WHERE id = :S:id AND delete_flg = 0;';
@@ -144,7 +163,10 @@ INSERT INTO :D:table_name (
 	}//get_user_info()
 
 	/**
-	 * ユーザーアカウントからユーザー情報を取得する
+	 * ユーザーアカウントからユーザー情報を取得する。
+	 *
+	 * @param string $account ユーザーアカウント名
+	 * @return array ユーザー情報を格納した連想配列
 	 */
 	public function get_user_info_by_account( $account ){
 		$sql = 'SELECT * FROM :D:table_name WHERE user_account = :S:account AND delete_flg = 0;';
@@ -161,7 +183,10 @@ INSERT INTO :D:table_name (
 	}//get_user_info()
 
 	/**
-	 * ユーザーが存在するかどうか調べる
+	 * ユーザーが存在するかどうか調べる。
+	 *
+	 * @param string $id ユーザーID
+	 * @return bool 存在する場合 `true`、存在しない場合 `false` を返します。
 	 */
 	public function is_user( $id ){
 		$user_info = $this->get_user_info($id);
@@ -172,7 +197,11 @@ INSERT INTO :D:table_name (
 	}//is_user()
 
 	/**
-	 * ユーザー情報を更新する
+	 * ユーザー情報を更新する。
+	 *
+	 * @param string $id 対象のユーザーID
+	 * @param array $user_info ユーザー情報
+	 * @return bool 成功時 `true`、失敗時 `false` を返します。
 	 */
 	public function update_user_info( $id , $user_info ){
 		if( !$this->is_user( $id ) ){ return false; }
@@ -217,7 +246,10 @@ WHERE id = :S:id;
 	}//update_user_info()
 
 	/**
-	 * 最終ログイン日時を更新する
+	 * 最終ログイン日時を更新する。
+	 * 
+	 * @param string $id 対象のユーザーID
+	 * @return bool 成功時 `true`、失敗時 `false` を返します。
 	 */
 	public function update_user_login_date( $id ){
 		if( !$this->is_user( $id ) ){ return false; }
@@ -244,7 +276,10 @@ WHERE id = :S:id;
 	}//update_user_login_date()
 
 	/**
-	 * ユーザーを論理削除する
+	 * ユーザーを論理削除する。
+	 * 
+	 * @param string $id 対象のユーザーID
+	 * @return bool 成功時 `true`、失敗時 `false` を返します。
 	 */
 	public function delete_user( $id ){
 		if( !$this->is_user( $id ) ){ return false; }
@@ -274,7 +309,9 @@ WHERE id = :S:id;
 
 	/**
 	 * ユーザーアカウントの形式をチェックする
-	 * @return true|false
+	 * 
+	 * @param string $user_account ユーザーアカウント名
+	 * @return bool 形式が正しい場合 `true`、それ以外の場合 `false` を返します。
 	 */
 	public function validate_user_account( $user_account ){
 		if( strlen( $user_account ) > 32 ){

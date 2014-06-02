@@ -1,13 +1,24 @@
 <?php
+/**
+ * class px_extensions_txt
+ * 
+ * 拡張子 *.txt のextensionクラス `px_extensions_txt` を定義します。
+ * 
+ * @author Tomoya Koyanagi <tomk79@gmail.com>
+ */
 $this->load_px_class('/bases/extension.php');
 
 /**
  * 拡張子 *.txt のextensionクラス
+ * 
+ * @author Tomoya Koyanagi <tomk79@gmail.com>
  */
 class px_extensions_txt extends px_bases_extension{
 
 	/**
 	 * コンテンツを実行し、結果出力されるソースを返す。
+	 * 
+	 * @param string $path_content コンテンツファイルのパス
 	 * @return string 出力ソース
 	 */
 	public function execute( $path_content ){
