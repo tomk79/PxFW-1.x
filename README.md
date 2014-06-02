@@ -1,4 +1,4 @@
-# Pickles Framework 1.x
+# Pickles Framework
 
 Pickles Framework(PxFW) は、静的で大きなウェブサイトを効率よく構築できる オープンソースのフレームワークです。
 
@@ -30,19 +30,18 @@ Pickles Framework(PxFW) は、静的で大きなウェブサイトを効率よ�
 3. テーマ `./_PX/themes/default/default.html` を編集します。
 4. パブリッシュします。
 
-もう少し詳しいチュートリアルドキュメントが、下記のリポジトリから入手できます。
+より詳しいチュートリアルドキュメントが、下記のページから入手できます。
 
-- <a href="https://github.com/tomk79/PxFW_Workshop">https://github.com/tomk79/PxFW_Workshop</a>
+- <a href="http://pickles.pxt.jp/tutorial/">http://pickles.pxt.jp/tutorial/</a>
 
 
-## パブリッシュ手順 - Publish
+### パブリッシュ手順 - Publish
 
 1. URLに `?PX=publish.run` を付けてアクセスします。
 2. `./_PX/_sys/publish/` に出力されます。
 
 出力先のディレクトリは `./_PX/configs/mainconf.ini` の
 `publish` ディレクティブ `path_publish_dir` で変更できます。
-
 
 
 ## システム要件 - System Requirement
@@ -66,6 +65,15 @@ Windows系OSでは、次のような制約を受けます。
 - セットアップされたディスク以外のボリュームにアクセスすることはできません。また、`\\` から始まるネットワークディレクトリにもアクセスできません。
 - コマンドラインから実行することはできません。
 - この他、PHPやApacheが持つ制約の影響を受けます。
+
+
+## PXコマンドに関する注意事項
+PXコマンドは、パブリッシュ機能(`?PX=publish`) や テーマ選択機能(`?PX=themes`)の他にも、Pickles Framework を便利に使うためのさまざまな機能を提供します。PXコマンドはサーバー内部の情報にアクセスしたり、サーバー上のデータを書き換えるインターフェイスを提供するため、第3者にアクセスされると大変キケンです。
+
+Pickles Framework をインターネット上のサーバーで動かす場合には、次のことに注意してください。
+
+- ウェブ制作環境として利用する場合、利用基本認証やIP制限などの処理を施し、一般のユーザーがアクセスできない場所に設置してください。
+- または、Pickles Framework 上に構築したウェブアプリケーションをサービスとして公開する場合、設定ファイル (`./_PX/configs/mainconf.ini`) の `[system] allow_pxcommands` の値を `0` に設定し、PXコマンド機能を無効にしてください。
 
 
 
