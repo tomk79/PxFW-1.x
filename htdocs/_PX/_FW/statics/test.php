@@ -1,16 +1,23 @@
 <?php
-
+/**
+ * class test (static class)
+ * 
+ * @author Tomoya Koyanagi <tomk79@gmail.com>
+ */
 /**
  * 開発中のテスト用の機能群
  * 
  * インスタンス化せず、スタティックに使用してください。
  * 
- * @author Tomoya Koyanagi
+ * @author Tomoya Koyanagi <tomk79@gmail.com>
  */
 class test{
 
 	/**
 	 * 変数の内容を展開し、文字列として返す。
+	 * 
+	 * @param mixed $value プレビューする値
+	 * @return string 整形されたHTMLソース
 	 */
 	public static function preview( $value ){
 
@@ -148,7 +155,14 @@ class test{
 	}
 
 	/**
-	 * test::preview() に通して標準出力する。
+	 * 変数に関する情報を見やすいHTMLに整形してダンプする。
+	 * 
+	 * 引数に与えられた値を、着色した見やすいHTMLに整形して(`t::preview()` を利用)、標準出力します。
+	 * PHPの `var_dump()` の出力を、より見やすくしたようなものです。
+	 * 
+	 * この関数は、複数の引数を受け付けます。
+	 * 
+	 * @return null 常に `null` を返します。
 	 */
 	public static function var_dump(){
 		$vars = func_get_args();
@@ -159,7 +173,10 @@ class test{
 	}
 
 	/**
-	 * オブジェクトの先祖(継承元)を一覧化する
+	 * オブジェクトの先祖(継承元)を一覧化する。
+	 * 
+	 * @param object $obj オブジェクト
+	 * @return string 一覧を表示するHTMLソース
 	 */
 	public static function get_history_of_object( $obj ){
 		if( is_string( $obj ) ){
@@ -178,7 +195,10 @@ class test{
 	}
 
 	/**
-	 * クラス名から、その先祖(継承元)を一覧化する
+	 * クラス名から、その先祖(継承元)を一覧化する。
+	 * 
+	 * @param string|object $class_name クラス名。オブジェクトを受け取った場合は、`test::get_history_of_object()` にバイパスします。
+	 * @return string 一覧を表示するHTMLソース
 	 */
 	public static function get_history_of_class( $class_name ){
 		if( is_object( $class_name ) ){
@@ -195,15 +215,17 @@ class test{
 		$parent = get_parent_class( $class_name );
 		if( !strlen( $parent ) ){
 			$RTN = 'START OF GENESIS;<br />'.$RTN;
-			return	$RTN;
 		}else{
 			$RTN = test::get_history_of_class( $parent ).$RTN;
-			return	$RTN;
 		}
+		return	$RTN;
 	}
 
 	/**
-	 * ダミー文字列を生成する
+	 * ダミー文字列を生成する。
+	 *
+	 * @param int $int_strcount ダミー文字列の文字数(バイト数ではありません)
+	 * @return string 生成されたダミー文字列を表すHTMLソース
 	 */
 	public static function mk_dummy_text( $int_strcount = 50 ){
 		#	$int_strcount は、バイトじゃなくて文字数。

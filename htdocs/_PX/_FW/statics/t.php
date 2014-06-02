@@ -1,11 +1,15 @@
 <?php
-
 /**
- * テキストを扱うクラス(static)
+ * class t (static class)
+ * 
+ * @author Tomoya Koyanagi <tomk79@gmail.com>
+ */
+/**
+ * テキストを扱うクラス(static class)
  * 
  * インスタンス化せず、スタティックに使用してください。
  * 
- * @author Tomoya Koyanagi
+ * @author Tomoya Koyanagi <tomk79@gmail.com>
  */
 class t{
 
@@ -13,18 +17,26 @@ class t{
 	#	★文字変換系
 
 	/**
-	 * HTML特殊文字を変換する
+	 * HTML特殊文字を変換する。
+	 * 
 	 * htmlspecialchars() のエイリアス
+	 *
+	 * @param string $text テキスト
+	 * @return string HTML特殊文字をエスケープしたHTMLソース
 	 */
 	public static function h($text){
 		return htmlspecialchars($text);
 	}
 
 	/**
-	 * 受け取ったテキストをHTML形式に変換する
+	 * 受け取ったテキストをHTML形式に変換する。
+	 * 
 	 * htmlspecialchars() を通した上で、改行コードを<br/>に変換する。
+	 *
+	 * @param string $text テキスト
+	 * @return string HTML特殊文字をエスケープしたHTMLソース
 	 */
-	public static function text2html( $text = '' ){
+	public static function text2html($text){
 		$text = htmlspecialchars( $text );
 		$text = preg_replace('/\r\n|\r|\n/','<br />',$text);
 		return	$text;
@@ -32,51 +44,66 @@ class t{
 
 	/**
 	 * HTMLソースをテキストに変換する。
+	 *
+	 * @param string $text HTMLソース
+	 * @return string プレーンテキスト
 	 */
-	public static function html2text( $TEXT = '' ){
-		$TEXT = preg_replace( '/<br(?: ?\/)?'.'>/is' , "\n" , $TEXT );
-		$TEXT = strip_tags( $TEXT );
-		$TEXT = preg_replace( '/&lt;/' , '<' , $TEXT );
-		$TEXT = preg_replace( '/&gt;/' , '>' , $TEXT );
-		$TEXT = preg_replace( '/&quot;/' , '"' , $TEXT );
-		$TEXT = preg_replace( '/&amp;/' , '&' , $TEXT );
-		return	$TEXT;
+	public static function html2text($text){
+		$text = preg_replace( '/<br(?: ?\/)?'.'>/is' , "\n" , $text );
+		$text = strip_tags( $text );
+		$text = preg_replace( '/&lt;/' , '<' , $text );
+		$text = preg_replace( '/&gt;/' , '>' , $text );
+		$text = preg_replace( '/&quot;/' , '"' , $text );
+		$text = preg_replace( '/&amp;/' , '&' , $text );
+		return	$text;
 	}
 
 	/**
 	 * 特殊な HTML エンティティを文字に戻す
+	 *
+	 * @param string $text HTMLソース
+	 * @return string プレーンテキスト
 	 */
-	public static function htmlspecialchars_decode( $TEXT = '' ){
+	public static function htmlspecialchars_decode($text){
 		//	PxFW 0.6.6 追加
 		//	htmlspecialchars_decode()というのもあるが、
 		//	PHP5.1.0以降なので使わない。
-		$TEXT = preg_replace( '/&lt;/' , '<' , $TEXT );
-		$TEXT = preg_replace( '/&gt;/' , '>' , $TEXT );
-		$TEXT = preg_replace( '/&quot;/' , '"' , $TEXT );
-		$TEXT = preg_replace( '/&amp;/' , '&' , $TEXT );
-		return	$TEXT;
+		$text = preg_replace( '/&lt;/' , '<' , $text );
+		$text = preg_replace( '/&gt;/' , '>' , $text );
+		$text = preg_replace( '/&quot;/' , '"' , $text );
+		$text = preg_replace( '/&amp;/' , '&' , $text );
+		return	$text;
 	}
 
 	/**
 	 * シングルクオートで囲えるようにエスケープ処理する。
+	 *
+	 * @param string $text テキスト
+	 * @return string エスケープされたテキスト
 	 */
-	public static function escape_singlequote( $TEXT = '' ){
-		$TEXT = preg_replace( '/\\\\/' , '\\\\\\\\' , $TEXT);
-		$TEXT = preg_replace( '/\'/' , '\\\'' , $TEXT);
-		return	$TEXT;
+	public static function escape_singlequote($text){
+		$text = preg_replace( '/\\\\/' , '\\\\\\\\' , $text);
+		$text = preg_replace( '/\'/' , '\\\'' , $text);
+		return	$text;
 	}
 
 	/**
 	 * ダブルクオートで囲えるようにエスケープ処理する。
+	 *
+	 * @param string $text テキスト
+	 * @return string エスケープされたテキスト
 	 */
-	public static function escape_doublequote( $TEXT = '' ){
-		$TEXT = preg_replace( '/\\\\/' , '\\\\\\\\' , $TEXT);
-		$TEXT = preg_replace( '/"/' , '\\"' , $TEXT);
-		return	$TEXT;
+	public static function escape_doublequote( $text ){
+		$text = preg_replace( '/\\\\/' , '\\\\\\\\' , $text);
+		$text = preg_replace( '/"/' , '\\"' , $text);
+		return	$text;
 	}
 
 	/**
-	 * ファイル名やパス名から、拡張子を削除する
+	 * ファイル名やパス名から、拡張子を削除する。
+	 *
+	 * @param string $filename パス
+	 * @return string 拡張子を削除したパス
 	 */
 	public static function trimext( $filename ){
 		#	trim extension
@@ -96,85 +123,101 @@ class t{
 	#	★変数変換系
 
 	/**
-	 * 受け取ったテキストを、指定の文字コードに変換する
+	 * 受け取ったテキストを、指定の文字セットに変換する。
+	 * 
+	 * @param mixed $text テキスト
+	 * @param string $encode 変換後の文字セット。省略時、`mb_internal_encoding()` から取得
+	 * @param string $encodefrom 変換前の文字セット。省略時、自動検出
+	 * @return string 文字セット変換後のテキスト
 	 */
-	public static function convert_encoding( $TEXT = null , $encode = null , $encodefrom = null ){
-		if( !is_callable( 'mb_internal_encoding' ) ){ return $TEXT; }
+	public static function convert_encoding( $text, $encode = null, $encodefrom = null ){
+		if( !is_callable( 'mb_internal_encoding' ) ){ return $text; }
 		if( !strlen( $encodefrom ) ){ $encodefrom = mb_internal_encoding().',UTF-8,SJIS-win,eucJP-win,SJIS,EUC-JP,JIS,ASCII'; }
 		if( !strlen( $encode ) ){ $encode = mb_internal_encoding(); }
 
-		if( is_array( $TEXT ) ){
+		if( is_array( $text ) ){
 			$RTN = array();
-			if( !count( $TEXT ) ){ return	$TEXT; }
-			$TEXT_KEYS = array_keys( $TEXT );
+			if( !count( $text ) ){ return $text; }
+			$TEXT_KEYS = array_keys( $text );
 			foreach( $TEXT_KEYS as $Line ){
 				$KEY = mb_convert_encoding( $Line , $encode , $encodefrom );
-				if( is_array( $TEXT[$Line] ) ){
-					$RTN[$KEY] = t::convert_encoding( $TEXT[$Line] , $encode , $encodefrom );
+				if( is_array( $text[$Line] ) ){
+					$RTN[$KEY] = t::convert_encoding( $text[$Line] , $encode , $encodefrom );
 				}else{
-					$RTN[$KEY] = @mb_convert_encoding( $TEXT[$Line] , $encode , $encodefrom );
+					$RTN[$KEY] = @mb_convert_encoding( $text[$Line] , $encode , $encodefrom );
 				}
 			}
 		}else{
-			if( !strlen( $TEXT ) ){ return	$TEXT; }
-			$RTN = @mb_convert_encoding( $TEXT , $encode , $encodefrom );
+			if( !strlen( $text ) ){ return $text; }
+			$RTN = @mb_convert_encoding( $text , $encode , $encodefrom );
 		}
-		return	$RTN;
+		return $RTN;
 	}
 
 	/**
-	 * stripslashes()処理を実行する
+	 * クォートされた文字列のクォート部分を取り除く。
+	 *
+	 * この関数は、PHPの `stripslashes()` のラッパーです。
+	 * 配列を受け取ると再帰的に文字列を変換して返します。
+	 * 
+	 * @param mixed $text テキスト
+	 * @return string クォートが元に戻されたテキスト
 	 */
-	public static function stripslashes( $TEXT ){
-		#	この関数は、配列を受け取ると再帰的に文字列を変換して返します。
-		if( is_array( $TEXT ) ){
+	public static function stripslashes( $text ){
+		if( is_array( $text ) ){
 			#	配列なら
-			foreach( $TEXT as $key=>$val ){
-				$TEXT[$key] = t::stripslashes( $val );
+			foreach( $text as $key=>$val ){
+				$text[$key] = t::stripslashes( $val );
 			}
-		}elseif( is_string( $TEXT ) ){
+		}elseif( is_string( $text ) ){
 			#	文字列なら
-			$TEXT = stripslashes( $TEXT );
+			$text = stripslashes( $text );
 		}
-		return	$TEXT;
+		return	$text;
 	}
 
 	/**
-	 * 半角に変換する
+	 * 半角に変換する。
+	 * 
+	 * @param mixed $text テキスト
+	 * @return string 半角に変換されたテキスト
 	 */
-	public static function hankaku( $TEXT ){
-		return	@mb_convert_kana( $TEXT , 'a' , @mb_internal_encoding() );
+	public static function hankaku( $text ){
+		return	@mb_convert_kana( $text , 'a' , @mb_internal_encoding() );
 	}
 
 	/**
-	 * 変数を受け取り、PHPのシンタックスに変換する
+	 * 変数を受け取り、PHPのシンタックスに変換する。
+	 * 
+	 * @param mixed $value 値
+	 * @param array $options オプション
+	 * <dl>
+	 *   <dt>delete_arrayelm_if_null</dt>
+	 *     <dd>配列の要素が `null` だった場合に削除。</dd>
+	 *   <dt>array_break</dt>
+	 *     <dd>配列に適当なところで改行を入れる。</dd>
+	 * </dl>
+	 * @return string PHPシンタックスに変換された値
 	 */
-	public static function data2text( $value = null , $option = array() ){
-		#======================================
-		#	[ $option ]
-		#		delete_arrayelm_if_null
-		#			配列の要素が null だった場合に削除。
-		#		array_break
-		#			配列に適当なところで改行を入れる。
-		#======================================
+	public static function data2text( $value = null , $options = array() ){
 
 		$RTN = '';
 		if( is_array( $value ) ){
 			#	配列
 			$RTN .= 'array(';
-			if( @$option['array_break'] ){ $RTN .= "\n"; }
+			if( @$options['array_break'] ){ $RTN .= "\n"; }
 			$keylist = array_keys( $value );
 			foreach( $keylist as $Line ){
-				if( @$option['delete_arrayelm_if_null'] && is_null( @$value[$Line] ) ){
+				if( @$options['delete_arrayelm_if_null'] && is_null( @$value[$Line] ) ){
 					#	配列のnull要素を削除するオプションが有効だった場合
 					continue;
 				}
-				$RTN .= ''.t::data2text( $Line ).'=>'.t::data2text( $value[$Line] , $option ).',';
-				if( @$option['array_break'] ){ $RTN .= "\n"; }
+				$RTN .= ''.t::data2text( $Line ).'=>'.t::data2text( $value[$Line] , $options ).',';
+				if( @$options['array_break'] ){ $RTN .= "\n"; }
 			}
 			$RTN = preg_replace( '/,(?:\r\n|\r|\n)?$/' , '' , $RTN );
 			$RTN .= ')';
-			if( @$option['array_break'] ){ $RTN .= "\n"; }
+			if( @$options['array_break'] ){ $RTN .= "\n"; }
 			return	$RTN;
 		}
 
@@ -231,32 +274,40 @@ class t{
 
 		return	'\'unknown\'';
 
-	}
+	}//data2text()
 
 	/**
-	 * 変数をPHPのソースコードに変換する
-	 * includeしたらそのままの値を返す形になるよう変換する。
+	 * 変数をPHPのソースコードに変換する。
+	 * 
+	 * `include()` に対してそのままの値を返す形になるよう変換する。
+	 *
+	 * @param mixed $value 値
+	 * @param array $options オプション (`t::data2text()`にバイパスされます。`t::data2text()`の項目を参照してください)
+	 * @return string `include()` に対して値 `$value` を返すPHPコード
 	 */
-	public static function data2phpsrc( $value = null , $option = array() ){
+	public static function data2phpsrc( $value = null , $options = array() ){
 		$RTN = '';
 		$RTN .= '<'.'?php'."\n";
 		$RTN .= '	/'.'* '.@mb_internal_encoding().' *'.'/'."\n";
-		$RTN .= '	return '.t::data2text( $value , $option ).';'."\n";
+		$RTN .= '	return '.t::data2text( $value , $options ).';'."\n";
 		$RTN .= '?'.'>';
 		return	$RTN;
 	}
 
 	/**
-	 * 変数をJavaScriptのシンタックスに変換する
+	 * 変数をJavaScriptのシンタックスに変換する。
+	 * 
+	 * @param mixed $value 値
+	 * @param array $options オプション
+	 * <dl>
+	 *   <dt>delete_arrayelm_if_null</dt>
+	 *     <dd>配列の要素が `null` だった場合に削除。</dd>
+	 *   <dt>array_break</dt>
+	 *     <dd>配列に適当なところで改行を入れる。</dd>
+	 * </dl>
+	 * @return string JavaScriptシンタックスに変換された値
 	 */
-	public static function data2jssrc( $value = null , $option = array() ){
-		#======================================
-		#	[ $option ]
-		#		delete_arrayelm_if_null
-		#			配列の要素が null だった場合に削除。
-		#		array_break
-		#			配列に適当なところで改行を入れる。
-		#======================================
+	public static function data2jssrc( $value = null , $options = array() ){
 
 		if( is_array( $value ) ){
 			#	配列
@@ -281,18 +332,18 @@ class t{
 			}else{
 				$RTN .= '[';
 			}
-			if( $option['array_break'] ){ $RTN .= "\n"; }
+			if( $options['array_break'] ){ $RTN .= "\n"; }
 			foreach( $value as $key=>$val ){
-				if( $option['delete_arrayelm_if_null'] && is_null( $value[$key] ) ){
+				if( $options['delete_arrayelm_if_null'] && is_null( $value[$key] ) ){
 					#	配列のnull要素を削除するオプションが有効だった場合
 					continue;
 				}
 				if( $is_hash ){
-					$RTN .= ''.t::data2jssrc( $key.'' , $option ).':';
+					$RTN .= ''.t::data2jssrc( $key.'' , $options ).':';
 				}
-				$RTN .= t::data2jssrc( $value[$key] , $option );
+				$RTN .= t::data2jssrc( $value[$key] , $options );
 				$RTN .= ', ';
-				if( $option['array_break'] ){ $RTN .= "\n"; }
+				if( $options['array_break'] ){ $RTN .= "\n"; }
 			}
 			$RTN = preg_replace( '/,(?:\s+)?(?:\r\n|\r|\n)?$/' , '' , $RTN );
 			if( $is_hash ){
@@ -300,7 +351,7 @@ class t{
 			}else{
 				$RTN .= ']';
 			}
-			if( $option['array_break'] ){ $RTN .= "\n"; }
+			if( $options['array_break'] ){ $RTN .= "\n"; }
 			return	$RTN;
 		}
 
@@ -311,9 +362,9 @@ class t{
 			$proparray = get_object_vars( $value );
 			$methodarray = get_class_methods( get_class( $value ) );
 			foreach( $proparray as $key=>$val ){
-				$RTN .= ''.t::data2jssrc( $key , $option ).':';
+				$RTN .= ''.t::data2jssrc( $key , $options ).':';
 
-				$RTN .= t::data2jssrc( $val , $option );
+				$RTN .= t::data2jssrc( $val , $options );
 				$RTN .= ', ';
 			}
 			$RTN = preg_replace( '/,(?:\s+)?(?:\r\n|\r|\n)?$/' , '' , $RTN );
@@ -372,16 +423,19 @@ class t{
 	}
 
 	/**
-	 * 変数をXMLのシンタックスに変換する
+	 * 変数をXMLのシンタックスに変換する。
+	 * 
+	 * @param mixed $value 値
+	 * @param array $options オプション
+	 * <dl>
+	 *   <dt>delete_arrayelm_if_null</dt>
+	 *     <dd>配列の要素が `null` だった場合に削除。</dd>
+	 *   <dt>array_break</dt>
+	 *     <dd>配列に適当なところで改行を入れる。</dd>
+	 * </dl>
+	 * @return string XMLシンタックスに変換された値
 	 */
-	public static function data2xml( $value = null , $option = array() ){
-		#======================================
-		#	[ $option ]
-		#		delete_arrayelm_if_null
-		#			配列の要素が null だった場合に削除。
-		#		array_break
-		#			配列に適当なところで改行を入れる。
-		#======================================
+	public static function data2xml( $value = null , $options = array() ){
 
 		if( is_array( $value ) ){
 			#	配列
@@ -406,9 +460,9 @@ class t{
 			}else{
 				$RTN .= '<array>';
 			}
-			if( $option['array_break'] ){ $RTN .= "\n"; }
+			if( $options['array_break'] ){ $RTN .= "\n"; }
 			foreach( $value as $key=>$val ){
-				if( $option['delete_arrayelm_if_null'] && is_null( $value[$key] ) ){
+				if( $options['delete_arrayelm_if_null'] && is_null( $value[$key] ) ){
 					#	配列のnull要素を削除するオプションが有効だった場合
 					continue;
 				}
@@ -417,16 +471,16 @@ class t{
 					$RTN .= ' name="'.htmlspecialchars( $key ).'"';
 				}
 				$RTN .= '>';
-				$RTN .= t::data2xml( $value[$key] , $option );
+				$RTN .= t::data2xml( $value[$key] , $options );
 				$RTN .= '</element>';
-				if( $option['array_break'] ){ $RTN .= "\n"; }
+				if( $options['array_break'] ){ $RTN .= "\n"; }
 			}
 			if( $is_hash ){
 				$RTN .= '</object>';
 			}else{
 				$RTN .= '</array>';
 			}
-			if( $option['array_break'] ){ $RTN .= "\n"; }
+			if( $options['array_break'] ){ $RTN .= "\n"; }
 			return	$RTN;
 		}
 
@@ -439,7 +493,7 @@ class t{
 			foreach( $proparray as $key=>$val ){
 				$RTN .= '<element name="'.htmlspecialchars( $key ).'">';
 
-				$RTN .= t::data2xml( $val , $option );
+				$RTN .= t::data2xml( $val , $options );
 				$RTN .= '</element>';
 			}
 			$RTN .= '</object>';
@@ -489,7 +543,13 @@ class t{
 
 
 	/**
-	 * realpath()のラッパ
+	 * 絶対パスを取得する。
+	 *
+	 * この関数は、PHPの `realpath()` のラッパーですが、
+	 * Windows環境でも、UNIX同様、スラッシュ区切りのパスを返す点が異なります。
+	 *
+	 * @param string $path パス
+	 * @return string 絶対パス
 	 */
 	public static function realpath( $path ){
 		#	PicklesFramework 0.2.2 追加
@@ -514,9 +574,12 @@ class t{
 	#	★文字列生成系
 
 	/**
-	 * ランダムな文字列を生成する
+	 * ランダムな文字列を生成する。
+	 *
+	 * @param int $width 文字列のサイズ
+	 * @return string 生成されたランダムな文字列
 	 */
-	public static function randomtext( $width = 8 , $option = array() ){
+	public static function randomtext( $width = 8 ){
 		#	$width = 文字列のバイト数。
 
 		if( !is_int($width) ){
@@ -530,7 +593,7 @@ class t{
 			$RTN .= rand(0,9);
 		}
 		return	$RTN;
-	}
+	}//randomtext()
 
 
 
@@ -538,7 +601,10 @@ class t{
 	#	★色コード系
 
 	/**
-	 * 16進数の色コードからRGBの10進数を得る
+	 * 16進数の色コードからRGBの10進数を得る。
+	 *
+	 * @param int|string $txt_hex 16進数色コード
+	 * @return array 10進数のRGB色コードを格納した連想配列
 	 */
 	public static function color_hex2rgb( $txt_hex ){
 		if( is_int( $txt_hex ) ){
@@ -571,7 +637,12 @@ class t{
 	}
 
 	/**
-	 * RGBの10進数の色コードから16進数を得る
+	 * RGBの10進数の色コードから16進数を得る。
+	 *
+	 * @param int $int_r 10進数の色コード(Red)
+	 * @param int $int_g 10進数の色コード(Green)
+	 * @param int $int_b 10進数の色コード(Blue)
+	 * @return string 16進数の色コード
 	 */
 	public static function color_rgb2hex( $int_r , $int_g , $int_b ){
 		$hex_r = dechex( $int_r );
@@ -588,7 +659,11 @@ class t{
 	}
 
 	/**
-	 * 色相を調べる
+	 * 色相を調べる。
+	 * 
+	 * @param int|string $txt_hex 16進数の色コード
+	 * @param int $int_round 小数点以下を丸める桁数
+	 * @return int 色相値
 	 */
 	public static function color_get_hue( $txt_hex , $int_round = 0 ){
 		$int_round = intval( $int_round );
@@ -642,7 +717,11 @@ class t{
 	}
 
 	/**
-	 * 彩度を調べる
+	 * 彩度を調べる。
+	 * 
+	 * @param int|string $txt_hex 16進数の色コード
+	 * @param int $int_round 小数点以下を丸める桁数
+	 * @return int 彩度値
 	 */
 	public static function color_get_saturation( $txt_hex , $int_round = 0 ){
 		$int_round = intval( $int_round );
@@ -671,7 +750,11 @@ class t{
 	}
 
 	/**
-	 * 明度を調べる
+	 * 明度を調べる。
+	 * 
+	 * @param int|string $txt_hex 16進数の色コード
+	 * @param int $int_round 小数点以下を丸める桁数
+	 * @return int 明度値
 	 */
 	public static function color_get_brightness( $txt_hex , $int_round = 0 ){
 		$int_round = intval( $int_round );
@@ -694,7 +777,11 @@ class t{
 	}
 
 	/**
-	 * 16進数のRGBコードからHSB値を得る
+	 * 16進数のRGBコードからHSB値を得る。
+	 * 
+	 * @param int|string $txt_hex 16進数の色コード
+	 * @param int $int_round 小数点以下を丸める桁数
+	 * @return array 色相値、彩度値、明度値を含む連想配列
 	 */
 	public static function color_hex2hsb( $txt_hex , $int_round = 0 ){
 		$int_round = intval( $int_round );
@@ -709,7 +796,13 @@ class t{
 	}
 
 	/**
-	 * RGB値からHSB値を得る
+	 * RGB値からHSB値を得る。
+	 * 
+	 * @param int $int_r 10進数の色コード(Red)
+	 * @param int $int_g 10進数の色コード(Green)
+	 * @param int $int_b 10進数の色コード(Blue)
+	 * @param int $int_round 小数点以下を丸める桁数
+	 * @return array 色相値、彩度値、明度値を含む連想配列
 	 */
 	public static function color_rgb2hsb( $int_r , $int_g , $int_b , $int_round = 0 ){
 		$int_round = intval( $int_round );
@@ -725,7 +818,13 @@ class t{
 	}
 
 	/**
-	 * HSB値からRGB値を得る
+	 * HSB値からRGB値を得る。
+	 * 
+	 * @param int $int_hue 10進数の色相値
+	 * @param int $int_saturation 10進数の彩度値
+	 * @param int $int_brightness 10進数の明度値
+	 * @param int $int_round 小数点以下を丸める桁数
+	 * @return array 10進数のRGB色コードを格納した連想配列
 	 */
 	public static function color_hsb2rgb( $int_hue , $int_saturation , $int_brightness , $int_round = 0 ){
 		$int_round = intval( $int_round );
@@ -777,7 +876,13 @@ class t{
 		return	$rgb;
 	}
 	/**
-	 * HSB値から16進数のRGBコードを得る
+	 * HSB値から16進数のRGBコードを得る。
+	 * 
+	 * @param int $int_hue 10進数の色相値
+	 * @param int $int_saturation 10進数の彩度値
+	 * @param int $int_brightness 10進数の明度値
+	 * @param int $int_round 小数点以下を丸める桁数
+	 * @return string 16進数の色コード
 	 */
 	public static function color_hsb2hex( $int_hue , $int_saturation , $int_brightness , $int_round = 0 ){
 		$rgb = t::color_hsb2rgb( $int_hue , $int_saturation , $int_brightness , $int_round );
@@ -791,6 +896,10 @@ class t{
 
 	/**
 	 * 機種依存文字( Model Dependence Character )が含まれているかどうかを判定する。
+	 * 
+	 * @param string $TEXT 文字列
+	 * @param string $charset 調べる文字セット
+	 * @return bool 機種依存文字が含まれる場合に `true`、含まれない場合に `false` を返します。
 	 */
 	public static function mdc_exists( $TEXT , $charset = null ){
 		#	機種依存文字判定->暫定実装 Pickles Framework 0.2.8 1:46 2008/03/22
@@ -815,22 +924,32 @@ class t{
 	}
 
 	/**
-	 * Eメールアドレスとして正しい形式であるか判定
+	 * メールアドレスとして正しい形式であるか判定する。
+	 * 
+	 * 注：メールアドレスの仕様はとても複雑です。
+	 * このロジックは概ね一般的に利用されるメールアドレスには適用できますが、
+	 * 完全ではないかも知れません。
+	 * 
+	 * @param string $text メールアドレス
+	 * @return bool 正しいメールアドレスの形式なら `true`、それ以外なら `false` を返します。
 	 */
-	public static function is_email( $TEXT ){
-		//注：このロジックは概ね拾えるが、完全ではないかも知れない。
-		if( !preg_match( '/^[\-\_\.a-zA-Z0-9]+\@[a-zA-Z0-9\-\_][\-\_\.a-zA-Z0-9]*[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/i' , $TEXT ) ){
+	public static function is_email( $text ){
+		if( !preg_match( '/^[\-\_\.a-zA-Z0-9]+\@[a-zA-Z0-9\-\_][\-\_\.a-zA-Z0-9]*[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/i' , $text ) ){
 			return	false;
 		}
 		return	true;
 	}
 
 	/**
-	 * URLとして正しい形式であるか判定
+	 * URLとして正しい形式であるか判定する。
+	 * 
+	 * 注：このロジックは概ね適用できますが、完全ではないかも知れません。
+	 * 
+	 * @param string $text URL
+	 * @return bool 正しいURLの形式なら `true`、それ以外なら `false` を返します。
 	 */
-	public static function is_url( $TEXT ){
-		//注：このロジックは概ね拾えるが、完全ではないかも知れない。
-		if( !preg_match( '/^(?:http|https)\:\/\/[a-z0-9\-\_][\-\_\.a-z0-9]*(?:\:[0-9]+)?\/.*$/i' , $TEXT ) ){
+	public static function is_url( $text ){
+		if( !preg_match( '/^(?:http|https)\:\/\/[a-z0-9\-\_][\-\_\.a-z0-9]*(?:\:[0-9]+)?\/.*$/i' , $text ) ){
 			return	false;
 		}
 		return	true;
