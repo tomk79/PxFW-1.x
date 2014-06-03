@@ -1,11 +1,24 @@
 <?php
+/**
+ * class px_pxcommands_pageinfo
+ * 
+ * @author Tomoya Koyanagi <tomk79@gmail.com>
+ */
 $this->load_px_class('/bases/pxcommand.php');
 
 /**
  * PX Command: pageinfoを表示する
- **/
+ * 
+ * @author Tomoya Koyanagi <tomk79@gmail.com>
+ */
 class px_pxcommands_pageinfo extends px_bases_pxcommand{
 
+	/**
+	 * コンストラクタ
+	 * 
+	 * @param array $command PXコマンド名
+	 * @param object $px $pxオブジェクト
+	 */
 	public function __construct( $command , $px ){
 		parent::__construct( $command , $px );
 		$this->execute();

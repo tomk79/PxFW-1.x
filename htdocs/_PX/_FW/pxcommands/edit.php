@@ -1,15 +1,37 @@
 <?php
+/**
+ * class px_pxcommands_edit
+ * 
+ * @author Tomoya Koyanagi <tomk79@gmail.com>
+ */
 $this->load_px_class('/bases/pxcommand.php');
 
 /**
  * PX Command: editを表示する
- **/
+ * 
+ * @author Tomoya Koyanagi <tomk79@gmail.com>
+ */
 class px_pxcommands_edit extends px_bases_pxcommand{
 
+	/**
+	 * PXコマンド名
+	 */
 	private $command = array();
+	/**
+	 * 対象コンテンツのソース
+	 */
 	private $path_content_src = null;
+	/**
+	 * 対象ページのページ情報
+	 */
 	private $pageinfo = null;
 
+	/**
+	 * コンストラクタ
+	 * 
+	 * @param array $command PXコマンド名
+	 * @param object $px $pxオブジェクト
+	 */
 	public function __construct( $command , $px ){
 		parent::__construct( $command , $px );
 
@@ -50,6 +72,10 @@ class px_pxcommands_edit extends px_bases_pxcommand{
 
 	/**
 	 * ホーム画面を表示する。
+	 * 
+	 * HTMLを標準出力した後、`exit()` を発行してスクリプトを終了します。
+	 * 
+	 * @return void
 	 */
 	private function home(){
 
@@ -88,6 +114,10 @@ class px_pxcommands_edit extends px_bases_pxcommand{
 
 	/**
 	 * Execute PX Command "edit".
+	 * 
+	 * HTMLを標準出力した後、`exit()` を発行してスクリプトを終了します。
+	 * 
+	 * @return void
 	 */
 	private function execute_update(){
 		$update_src = $this->px->req()->get_param('src');
@@ -124,6 +154,10 @@ class px_pxcommands_edit extends px_bases_pxcommand{
 
 	/**
 	 * 上書き完了画面を表示する。
+	 * 
+	 * HTMLを標準出力した後、`exit()` を発行してスクリプトを終了します。
+	 * 
+	 * @return void
 	 */
 	private function execute_result(){
 
@@ -139,6 +173,11 @@ class px_pxcommands_edit extends px_bases_pxcommand{
 
 	/**
 	 * エラーを表示して終了する。
+	 * 
+	 * HTMLを標準出力した後、`exit()` を発行してスクリプトを終了します。
+	 * 
+	 * @param string $error_msg エラーメッセージ
+	 * @return void
 	 */
 	private function error_end( $error_msg ){
 		$src = '';

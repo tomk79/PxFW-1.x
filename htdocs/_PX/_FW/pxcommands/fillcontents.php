@@ -1,13 +1,23 @@
 <?php
+/**
+ * class px_pxcommands_fillcontents
+ * 
+ * @author Tomoya Koyanagi <tomk79@gmail.com>
+ */
 $this->load_px_class('/bases/pxcommand.php');
 
 /**
  * PX Command: fillcontentsを実行する
- **/
+ * 
+ * @author Tomoya Koyanagi <tomk79@gmail.com>
+ */
 class px_pxcommands_fillcontents extends px_bases_pxcommand{
 
 	/**
 	 * コンストラクタ
+	 * 
+	 * @param array $command PXコマンド名
+	 * @param object $px $pxオブジェクト
 	 */
 	public function __construct( $command , $px ){
 		parent::__construct( $command , $px );
@@ -27,6 +37,10 @@ class px_pxcommands_fillcontents extends px_bases_pxcommand{
 
 	/**
 	 * ホームページを表示する。
+	 * 
+	 * HTMLを標準出力した後、`exit()` を発行してスクリプトを終了します。
+	 * 
+	 * @return void
 	 */
 	private function homepage(){
 		$command = $this->get_command();
@@ -43,6 +57,8 @@ class px_pxcommands_fillcontents extends px_bases_pxcommand{
 
 	/**
 	 * Execute PX Command "fillcontents".
+	 * 
+	 * @return void
 	 */
 	private function execute(){
 		$command = $this->get_command();
@@ -129,6 +145,9 @@ class px_pxcommands_fillcontents extends px_bases_pxcommand{
 
 	/**
 	 * コンテンツファイルがすでに存在するか確認する。
+	 * 
+	 * @param string $file_realpath 調査対象のファイルパス
+	 * @return bool 存在する場合に `true`、存在しない場合に `false` を返します。
 	 */
 	private function is_content_file($file_realpath){
 		if( $this->px->dbh()->is_file($file_realpath) ){
@@ -144,7 +163,9 @@ class px_pxcommands_fillcontents extends px_bases_pxcommand{
 	}
 
 	/**
-	 * ダミーのコンテンツソース
+	 * ダミーのコンテンツソースを生成する。
+	 * 
+	 * @return string HTMLソース
 	 */
 	private function mk_dummy_contents_src(){
 		$command = $this->get_command();

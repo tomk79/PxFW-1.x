@@ -1,27 +1,68 @@
 <?php
+/**
+ * class px_pxcommands_publish
+ * 
+ * @author Tomoya Koyanagi <tomk79@gmail.com>
+ */
 $this->load_px_class('/bases/pxcommand.php');
 
 /**
  * PX Command: publishを実行する
+ * 
  * @author Tomoya Koyanagi <tomk79@gmail.com>
  */
 class px_pxcommands_publish extends px_bases_pxcommand{
 
+	/**
+	 * ドキュメントルートディレクトリのパス
+	 */
 	private $path_docroot_dir;
-	private $path_publish_dir; //パブリッシュ先ディレクトリ
-	private $path_tmppublish_dir; //一時書き出しディレクトリ(固定)
-	private $path_lockfile; //ロックファイル
+	/**
+	 * パブリッシュ先ディレクトリ
+	 */
+	private $path_publish_dir;
+	/**
+	 * 時書き出しディレクトリ(固定)
+	 */
+	private $path_tmppublish_dir;
+	/**
+	 * ロックファイル
+	 */
+	private $path_lockfile;
+	/**
+	 * パブリッシュ対象外のパス
+	 */
 	private $paths_ignore = array();
 
-	private $queue_items = array();//←パブリッシュ対象の一覧
-	private $done_items = array();//←パブリッシュ完了した対象の一覧
-	private $path_target = null;//←パブリッシュ対象パス
-	private $param_path_target = null;//←パブリッシュ対象パス(パラメータで指示された分)
-	private $internal_errors = array();//←その他の内部エラー
-	private $publish_type_extension_map = array(//←拡張子とパブリッシュタイプのマッピング配列
-		//  'http'|'include_text'|'copy'|'nopublish'
-		// ※この設定は、mainconf.ini の publish_extensions の項目で上書きできるようになりました。
-		// 　ここに実装されている値はデフォルトです。変更する場合は、mainconf.ini を編集してください。
+	/**
+	 * パブリッシュ対象の一覧
+	 */
+	private $queue_items = array();
+	/**
+	 * パブリッシュ完了した対象の一覧
+	 */
+	private $done_items = array();
+	/**
+	 * パブリッシュ対象パス
+	 */
+	private $path_target = null;
+	/**
+	 * パブリッシュ対象パス(パラメータで指示された分)
+	 */
+	private $param_path_target = null;
+	/**
+	 * その他の内部エラー
+	 */
+	private $internal_errors = array();
+	/**
+	 * 拡張子とパブリッシュタイプのマッピング配列
+	 * 
+	 *  'http'|'include_text'|'copy'|'nopublish'
+	 * 
+	 * ※この設定は、mainconf.ini の publish_extensions の項目で上書きできるようになりました。
+	 * 　ここに実装されている値はデフォルトです。変更する場合は、mainconf.ini を編集してください。
+	 */
+	private $publish_type_extension_map = array(
 		'html' =>'http' ,
 		'css'  =>'http' ,
 		'js'   =>'http' ,
@@ -29,11 +70,20 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 		'nopublish'=> 'nopublish' ,
 		'inc'  =>'include_text' ,
 	);
+	/**
+	 * パブリッシュツールのUSER_AGENT名
+	 */
 	private $crawler_user_agent = 'PicklesCrawler';
-	private $plugins_list = array();//←publish API を持ったプラグインの一覧
+	/**
+	 * publish API を持ったプラグインの一覧
+	 */
+	private $plugins_list = array();
 
 	/**
 	 * コンストラクタ
+	 * 
+	 * @param array $command PXコマンド名
+	 * @param object $px $pxオブジェクト
 	 */
 	public function __construct( $command , $px ){
 		parent::__construct( $command , $px );
@@ -71,7 +121,11 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 	}//__construct()
 
 	/**
-	 * 拡張子別パブリッシュタイプマップに登録する
+	 * 拡張子別パブリッシュタイプマップに登録する。
+	 * 
+	 * @param string $extension 拡張子
+	 * @param string $publish_type パブリッシュの種類
+	 * @return bool 成功時 `true`、失敗時 `false` を返します。
 	 */
 	public function set_publish_type_extension_map($extension, $publish_type){
 		if(!strlen($extension)){
@@ -83,6 +137,10 @@ class px_pxcommands_publish extends px_bases_pxcommand{
 
 	/**
 	 * ホームページを表示する。
+	 * 
+	 * HTMLを標準出力した後、`exit()` を発行してスクリプトを終了します。
+	 * 
+	 * @return void
 	 */
 	private function homepage(){
 		$command = $this->get_command();
@@ -223,8 +281,13 @@ function contEditPublishTargetPathApply(formElm){
 
 	/**
 	 * Execute PX Command "publish".
+	 * 
+	 * パブリッシュを実行します。
+	 * 
+	 * ログテキストを標準出力した後、`exit()` を発行してスクリプトを終了します。
+	 * 
 	 * @access private
-	 * @return null
+	 * @return void
 	 */
 	private function execute(){
 		$command = $this->get_command();
@@ -432,7 +495,8 @@ function contEditPublishTargetPathApply(formElm){
 
 	/**
 	 * セットアップ
-	 * @return true
+	 * 
+	 * @return bool 常に `true` を返します。
 	 */
 	private function setup(){
 		$this->path_docroot_dir = t::realpath('.').'/';
@@ -496,8 +560,9 @@ function contEditPublishTargetPathApply(formElm){
 	}//setup()
 
 	/**
-	 * パブリッシュディレクトリを空っぽにする
-	 * @return true
+	 * パブリッシュディレクトリを空っぽにする。
+	 * 
+	 * @return bool 常に `true` を返します。
 	 */
 	private function clear_publish_dir(){
 		$files = $this->px->dbh()->ls( $this->path_tmppublish_dir.'/htdocs' );
@@ -512,7 +577,10 @@ function contEditPublishTargetPathApply(formElm){
 		return true;
 	}
 	/**
-	 * パブリッシュディレクトリ内のパスを中身ごと完全に削除する
+	 * パブリッシュディレクトリ内のパスを中身ごと完全に削除する。
+	 * 
+	 * @param string $path_original パス
+	 * @return bool 成功時 `true`、失敗時 `false` を返します。
 	 */
 	function clear_publish_dir_rmdir_all( $path_original ){
 		$path = $this->path_tmppublish_dir.'/htdocs'.$path_original;
@@ -557,8 +625,10 @@ function contEditPublishTargetPathApply(formElm){
 	}
 
 	/**
-	 * パブリッシュキューを追加する
-	 * @return true
+	 * パブリッシュキューを追加する。
+	 * 
+	 * @param string $path パス
+	 * @return bool 成功時 `true`、失敗時 `false` を返します。
 	 */
 	public function add_queue( $path ){
 		// プラグインがアクセスする可能性があるため、public とする。
@@ -580,9 +650,10 @@ function contEditPublishTargetPathApply(formElm){
 	}
 
 	/**
-	 * パブリッシュログを出力する
-	 * @param $ary_logtexts
-	 * @return true|false
+	 * パブリッシュログを出力する。
+	 * 
+	 * @param array $ary_logtexts ログに出力する諸情報を格納する連想配列
+	 * @return bool 成功時 `true`、失敗時 `false` を返します。
 	 */
 	public function publish_log( $ary_logtexts ){
 		// プラグインがアクセスする可能性があるため、public とする。
@@ -599,9 +670,10 @@ function contEditPublishTargetPathApply(formElm){
 	}
 
 	/**
-	 * パブリッシュエラーログを出力する
-	 * @param $ary_logtexts
-	 * @return true|false
+	 * パブリッシュエラーログを出力する。
+	 * 
+	 * @param array $ary_logtexts ログに出力する諸情報を格納する連想配列
+	 * @return bool 成功時 `true`、失敗時 `false` を返します。
 	 */
 	public function publish_error_log( $ary_logtexts ){
 		// プラグインがアクセスする可能性があるため、public とする。
@@ -617,9 +689,10 @@ function contEditPublishTargetPathApply(formElm){
 	}
 
 	/**
-	 * ディレクトリを再帰的にスキャンする
-	 * @param $path
-	 * @return true
+	 * ディレクトリを再帰的にスキャンする。
+	 * 
+	 * @param string $path パス
+	 * @return bool 常に `true` を返します。
 	 */
 	private function scan_dirs( $path ){
 		$path = preg_replace('/^\/+/s','/',$path);
@@ -661,9 +734,10 @@ function contEditPublishTargetPathApply(formElm){
 	}//scan_dirs();
 
 	/**
-	 * ファイル単体をパブリッシュする
-	 * @param $path
-	 * @return true
+	 * ファイル単体をパブリッシュする。
+	 * 
+	 * @param string $path パス
+	 * @return bool 成功時 `true`、失敗時 `false` を返します。
 	 */
 	private function publish_file( $path ){
 		if( !preg_match( '/^\//' , $path ) ){
@@ -781,6 +855,9 @@ function contEditPublishTargetPathApply(formElm){
 
 	/**
 	 * 拡張子から、パブリッシュの種類を選択する。
+	 * 
+	 * @param string $extension 拡張子
+	 * @return string パブリッシュの種類
 	 */
 	private function get_publish_type_by_extension( $extension ){
 		if( strlen($this->publish_type_extension_map[strtolower($extension)]) ){
@@ -790,7 +867,9 @@ function contEditPublishTargetPathApply(formElm){
 	}//get_publish_type_by_extension()
 
 	/**
-	 * HTTPAccessオブジェクトを生成して返す
+	 * HTTPAccessオブジェクトを生成して返す。
+	 * 
+	 * @return object HTTPAccessオブジェクト
 	 */
 	private function factory_httpaccess(){
 		@require_once( $this->px->get_conf('paths.px_dir').'libs/PxHTTPAccess/PxHTTPAccess.php' );
@@ -798,7 +877,10 @@ function contEditPublishTargetPathApply(formElm){
 	}
 
 	/**
-	 * 除外ファイルか調べる
+	 * 除外ファイルか調べる。
+	 *
+	 * @param string $path パス
+	 * @return bool 除外ファイルの場合 `true`、それ以外の場合に `false` を返します。
 	 */
 	private function is_ignore_path( $path ){
 		$path = $this->px->dbh()->get_realpath( $path );
@@ -826,7 +908,9 @@ function contEditPublishTargetPathApply(formElm){
 	}//is_ignore_path();
 
 	/**
-	 * パブリッシュをロックする
+	 * パブリッシュをロックする。
+	 * 
+	 * @return bool ロック成功時に `true`、失敗時に `false` を返します。
 	 */
 	private function lock(){
 		$lockfilepath = $this->path_lockfile;
@@ -863,7 +947,9 @@ function contEditPublishTargetPathApply(formElm){
 	}//lock()
 
 	/**
-	 * パブリッシュがロックされているか確認する
+	 * パブリッシュがロックされているか確認する。
+	 * 
+	 * @return bool ロック中の場合に `true`、それ以外の場合に `false` を返します。
 	 */
 	private function is_locked(){
 		$lockfilepath = $this->path_lockfile;
@@ -880,7 +966,9 @@ function contEditPublishTargetPathApply(formElm){
 	}//is_locked()
 
 	/**
-	 * パブリッシュロックを解除する
+	 * パブリッシュロックを解除する。
+	 * 
+	 * @return bool ロック解除成功時に `true`、失敗時に `false` を返します。
 	 */
 	private function unlock(){
 		$lockfilepath = $this->path_lockfile;
@@ -892,7 +980,9 @@ function contEditPublishTargetPathApply(formElm){
 	}//unlock()
 
 	/**
-	 * パブリッシュロックファイルの更新日を更新する
+	 * パブリッシュロックファイルの更新日を更新する。
+	 * 
+	 * @return bool 成功時に `true`、失敗時に `false` を返します。
 	 */
 	private function touch_lockfile(){
 		$lockfilepath = $this->path_lockfile;
@@ -907,7 +997,10 @@ function contEditPublishTargetPathApply(formElm){
 	}//touch_lockfile()
 
 	/**
-	 * その他の内部エラーを記録
+	 * その他の内部エラーを記録する。
+	 * 
+	 * @param string $message エラーメッセージ
+	 * @return bool 常に `true` を返します。
 	 */
 	public function internal_error_log($message){
 		// プラグインがアクセスする可能性があるため、public とする。
@@ -916,7 +1009,9 @@ function contEditPublishTargetPathApply(formElm){
 	}
 
 	/**
-	 * その他の内部エラーを取得
+	 * その他の内部エラーを取得する。
+	 * 
+	 * @return array 内部エラーを格納した配列
 	 */
 	private function get_internal_error_log(){
 		return $this->internal_errors;

@@ -1,8 +1,14 @@
 <?php
+/**
+ * class px_pxcommands_plugins
+ * 
+ * @author Tomoya Koyanagi <tomk79@gmail.com>
+ */
 $this->load_px_class('/bases/pxcommand.php');
 
 /**
  * PX Command: pluginsを実行する
+ * 
  * @author Tomoya Koyanagi <tomk79@gmail.com>
  */
 class px_pxcommands_plugins extends px_bases_pxcommand{
@@ -11,6 +17,9 @@ class px_pxcommands_plugins extends px_bases_pxcommand{
 
 	/**
 	 * コンストラクタ
+	 * 
+	 * @param array $command PXコマンド名
+	 * @param object $px $pxオブジェクト
 	 */
 	public function __construct( $command , $px ){
 		parent::__construct( $command , $px );

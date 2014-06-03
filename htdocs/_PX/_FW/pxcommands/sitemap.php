@@ -1,11 +1,24 @@
 <?php
+/**
+ * class px_pxcommands_sitemap
+ * 
+ * @author Tomoya Koyanagi <tomk79@gmail.com>
+ */
 $this->load_px_class('/bases/pxcommand.php');
 
 /**
  * PX Command: sitemapを表示する
- **/
+ * 
+ * @author Tomoya Koyanagi <tomk79@gmail.com>
+ */
 class px_pxcommands_sitemap extends px_bases_pxcommand{
 
+	/**
+	 * コンストラクタ
+	 * 
+	 * @param array $command PXコマンド名
+	 * @param object $px $pxオブジェクト
+	 */
 	public function __construct( $command , $px ){
 		parent::__construct( $command , $px );
 		$this->execute();
@@ -13,6 +26,10 @@ class px_pxcommands_sitemap extends px_bases_pxcommand{
 
 	/**
 	 * Execute PX Command "sitemap".
+	 * 
+	 * HTMLを標準出力した後、`exit()` を発行してスクリプトを終了します。
+	 * 
+	 * @return void
 	 */
 	private function execute(){
 		$src = '';
@@ -41,7 +58,10 @@ class px_pxcommands_sitemap extends px_bases_pxcommand{
 	}
 
 	/**
-	 * 配列をtableのhtmlソースに変換
+	 * 配列をtableのHTMLソースに変換する。
+	 * 
+	 * @param array $ary 配列
+	 * @return string tableタグで表現された配列
 	 */
 	private function mk_ary_table( $ary ) {
 		$html = '';

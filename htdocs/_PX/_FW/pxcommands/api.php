@@ -1,8 +1,14 @@
 <?php
+/**
+ * class px_pxcommands_api
+ * 
+ * @author Tomoya Koyanagi <tomk79@gmail.com>
+ */
 $this->load_px_class('/bases/pxcommand.php');
 
 /**
  * PX Command: apiを実行する
+ * 
  * @author Tomoya Koyanagi <tomk79@gmail.com>
  */
 class px_pxcommands_api extends px_bases_pxcommand{

@@ -31,6 +31,7 @@ class px_pxcommands_clearcache extends px_bases_pxcommand{
 
 	/**
 	 * Execute PX Command "clearcache".
+	 * 
 	 * @return void
 	 */
 	private function execute(){

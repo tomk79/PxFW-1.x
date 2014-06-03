@@ -1,12 +1,28 @@
 <?php
+/**
+ * class px_pxcommands_config
+ * 
+ * @author Tomoya Koyanagi <tomk79@gmail.com>
+ */
 $this->load_px_class('/bases/pxcommand.php');
 
 /**
  * PX Command: configを表示する
- **/
+ * 
+ * @author Tomoya Koyanagi <tomk79@gmail.com>
+ */
 class px_pxcommands_config extends px_bases_pxcommand{
+	/**
+	 * コンフィグを格納する連想配列
+	 */
 	private $config_ary = array();
 
+	/**
+	 * コンストラクタ
+	 * 
+	 * @param array $command PXコマンド名
+	 * @param object $px $pxオブジェクト
+	 */
 	public function __construct( $command , $px ){
 		parent::__construct( $command , $px );
 		$this->execute();
@@ -14,6 +30,10 @@ class px_pxcommands_config extends px_bases_pxcommand{
 
 	/**
 	 * Execute PX Command "config".
+	 * 
+	 * HTMLを標準出力した後、`exit()` を発行してスクリプトを終了します。
+	 * 
+	 * @return void
 	 */
 	private function execute(){
 		$src = '';
@@ -247,7 +267,13 @@ class px_pxcommands_config extends px_bases_pxcommand{
 	}
 
 	/**
-	 * コンフィグ項目1件の出力
+	 * コンフィグ項目1件を出力する。
+	 * 
+	 * @param string $key コンフィグのキー
+	 * @param string $label コンフィグラベル
+	 * @param string $type 値に期待される型
+	 * @param bool $required 必須項目の場合 `true`、それ以外は `false`
+	 * @return string コンフィグ1件分のHTMLソース(trタグ)
 	 */
 	private function mk_config_unit($key,$label,$type='string',$required = false){
 		$src = '';
@@ -288,7 +314,12 @@ class px_pxcommands_config extends px_bases_pxcommand{
 	}
 
 	/**
-	 * HTML特殊文字の変換
+	 * HTML特殊文字をエスケープする。
+	 * 
+	 * このメソッドは改行コードを改行タグ `<br />` に変換します。
+	 * 
+	 * @param string $txt 文字列
+	 * @return string HTML特殊文字がエスケープされた文字列
 	 */
 	private function h($txt){
 		$txt = t::h($txt);
@@ -297,7 +328,10 @@ class px_pxcommands_config extends px_bases_pxcommand{
 	}
 
 	/**
-	 * 配列をtableのhtmlソースに変換
+	 * 配列をtableのHTMLソースに変換する。
+	 * 
+	 * @param array $ary 配列
+	 * @return string tableタグで表現された配列
 	 */
 	private function mk_ary_table( $ary ) {
 		if(is_array($ary)) {
@@ -331,10 +365,14 @@ class px_pxcommands_config extends px_bases_pxcommand{
 	}//mk_ary_table()
 
 	/**
-	 * 連想配列(true)か添付配列(false)か調べる
+	 * 連想配列(true)か添付配列(false)か調べる。
+	 * 
+	 * @param array $ary 調査対象の配列
+	 * @return bool 連想配列の場合に `true`、通常の配列の場合に `false`、入力値が配列以外の場合に `null` を返します。
 	 */
 	private function is_hash( $ary ) {
 		$i = 0;
+		if( !is_array($ary) ){ return null; }
 		foreach($ary as $key => $dummy) {
 			if ( $key !== $i++ ) return true;
 		}
