@@ -5,7 +5,7 @@
  * @author Tomoya Koyanagi <tomk79@gmail.com>
  */
 /**
- * extensionの基底クラス
+ * extensions の基底クラス
  * 
  * @author Tomoya Koyanagi <tomk79@gmail.com>
  */

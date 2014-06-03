@@ -1,14 +1,29 @@
 <?php
+/**
+ * class px_pxcommands_clearcache
+ * 
+ * @author Tomoya Koyanagi <tomk79@gmail.com>
+ */
 $this->load_px_class('/bases/pxcommand.php');
 
 /**
  * PX Command: clearcacheを実行する
+ * 
  * @author Tomoya Koyanagi <tomk79@gmail.com>
  */
 class px_pxcommands_clearcache extends px_bases_pxcommand{
 
+	/**
+	 * キャッシュディレクトリのパス
+	 */
 	private $paths_cache_dir = array();
 
+	/**
+	 * コンストラクタ
+	 * 
+	 * @param array $command PXコマンド名
+	 * @param object $px $pxオブジェクト
+	 */
 	public function __construct( $command , $px ){
 		parent::__construct( $command , $px );
 		$this->execute();
@@ -16,8 +31,7 @@ class px_pxcommands_clearcache extends px_bases_pxcommand{
 
 	/**
 	 * Execute PX Command "clearcache".
-	 * @access public
-	 * @return null
+	 * @return void
 	 */
 	private function execute(){
 		$command = $this->get_command();
@@ -67,9 +81,13 @@ class px_pxcommands_clearcache extends px_bases_pxcommand{
 	}
 
 	/**
-	 * ディレクトリを中身ごと完全に削除する
-	 * $px->dbh()からの移植。
+	 * ディレクトリを中身ごと完全に削除する。
+	 * 
+	 * `$px->dbh()` からの移植。
 	 * 詳細な進捗と結果を標準出力するために、独自実装することとした。
+	 * 
+	 * @param string $path パス
+	 * @return bool 成功時 `true`、失敗時 `false` を返します。
 	 */
 	private function rmdir_all( $path ){
 
@@ -115,7 +133,8 @@ class px_pxcommands_clearcache extends px_bases_pxcommand{
 
 	/**
 	 * セットアップ
-	 * @return true
+	 * 
+	 * @return bool 常に `true` を返します。
 	 */
 	private function setup(){
 		$this->setup_add_targetpath( $this->px->get_conf('paths.px_dir').'_sys/caches/' );
@@ -125,8 +144,10 @@ class px_pxcommands_clearcache extends px_bases_pxcommand{
 	}//setup()
 
 	/**
-	 * キャッシュクリア対象ディレクトリを追加する
-	 * @return true
+	 * キャッシュクリア対象ディレクトリを追加する。
+	 * 
+	 * @param string $path パス
+	 * @return bool 成功時 `true`、失敗時 `false` を返します。
 	 */
 	private function setup_add_targetpath( $path ){
 		$path = t::realpath($path);
@@ -138,10 +159,14 @@ class px_pxcommands_clearcache extends px_bases_pxcommand{
 	}//setup_add_targetpath()
 
 	/**
-	 * ステータスをチェックする
-	 * キャッシュクリアしてよい場合は true, よくない場合は false を返す。
+	 * ステータスをチェックする。
 	 * 
-	 * @return array
+	 * キャッシュをクリアしてもよい状態かどうか確認します。
+	 * `PX=clearcache` は、`_sys/publish` に置かれているパブリッシュしたデータも削除します。
+	 * このため、パブリッシュ中に `PX=clearcache` が実行されると不都合です。
+	 * このメソッドは、現在パブリッシュが実行中でないか確認します。
+	 * 
+	 * @return array キャッシュクリアしてよい場合は `true`, よくない場合は `false` を格納した連想配列
 	 */
 	private function check_status(){
 		$lockfilepath = $this->px->get_conf('paths.px_dir').'_sys/publish/applock.txt';

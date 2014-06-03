@@ -521,90 +521,50 @@ class px_px{
 	}
 
 	/**
-	 * 外部ソースをインクルードする(ServerSideInclude)
+	 * 外部ソースをインクルードする。(ServerSideInclude)
 	 * 
 	 * このメソッドは、SSI(サーバーサイドインクルード)のように、指定したファイルを埋め込むときに使用します。
 	 * 
-	 * 引数の <code>$path_incfile</code> は、DOCUMENT_ROOT を起点とした絶対パスで指定します。PxFWのインストールパスではありません。
+	 * 引数の <code>$path_incfile</code> は、`DOCUMENT_ROOT` を起点とした絶対パスで指定します。PxFWのインストールパスではありません。
 	 * 
-	 * PHP の <code>include()</code> 関数も使用できますが、<code>include()</code> で読み込んだソースは、パブリッシュ時に静的に記述されたものとして出力されます。 <code>$px->ssi()</code> は、ブラウザでプレビューするときはインクルードされた状態で、パブリッシュするときは、ApacheのSSIの記述として出力する点が、<code>include()</code> と大きく挙動が異なる点です。
+	 * PHP の `include()` 関数も使用できますが、`include()` で読み込んだソースは、
+	 * パブリッシュ時に静的に記述されたものとして出力されます。 `$px->ssi()` は、
+	 * ブラウザでプレビューするときはインクルードされた状態で、
+	 * パブリッシュするときは、Apache の SSI の記述として出力する点が、`include()` と大きく挙動が異なる点です。
 	 * 
-	 * ## 多重インクルードするには
+	 * デフォルトでは、 `$px->ssi()` は、インクルードファイルをスタティックな文字列として取り扱います。
+	 * 従って、インクルードファイル内でさらに別のファイルをインクルードしたい場合に、期待通りに動作しません。
 	 * 
-	 * デフォルトでは、 <code>$px->ssi()</code> は、インクルードファイルをスタティックな文字列として取り扱います。従って、インクルードファイル内でさらに別のファイルをインクルードしたい場合に、期待通りに動作しません。<br />
+	 * PxFW 1.0.3 以降、コンフィグ項目 `system.ssi_method` を設定して、いくつかの方法で多重インクルードを実装することができるようになりました。
 	 * 
-	 * PxFW 1.0.3 以降、次の手順で多重インクルードを実装することができるようになりました。
+	 * `system.ssi_method` の設定値と挙動の対応は次の通りです。
 	 * 
-	 * - 手順1. コンフィグで `system.ssi_method` を `"http"` に設定します。<br />この設定は、ウェブサーバーを経由してインクルードファイルを取得します。基本認証やダイジェスト認証がかかっている場合は、<code>project.auth_type</code>, <code>project.auth_name</code>, <code>project.auth_password</code> も合わせて設定してください。</li>
-	 * - 手順2. インクルードファイルの拡張子を設定します。<br />インクルードファイルをブラウザでアクセスしたときに、SSIが処理されるよう Apache を設定します。</li>
+	 * - `http` : 
+	 * インクルードファイルをHTTP通信経由で取りに行きます。
+	 * あくまで内部処理ではないため、インクルードファイル内でインクルードを動かしたい場合には、
+	 * インクルードファイルの拡張子をApacheで設定する必要があります。
+	 *  
+	 * - `php_include` : 
+	 * インクルードファイルはPHPスクリプトとして動的に読み込まれます。
+	 * "http" 設定では、IP制限など基本認証以外の制限があったり、
+	 * Apacheのプロセスが増えて動作が重くなる場合などに使えるかもしれません。
+	 * ただしその場合、
+	 * 拡張子 `*.html` 以外のインクルードファイルでは、プレビュー時にインクルードが処理されない点と、
+	 * プレビュー時とパブリッシュ時で処理の流れが異なるため、設定ミスなどに気づきにくい点が欠点です。
 	 * 
-	 * ### インクルードファイルの拡張子が *.html の場合
+	 * - `php_virtual` : 
+	 * PHPの virtual() メソッドは、Apacheのサブクエリを発行するので、
+	 * インクルードファイル内でのSSIが処理されます。
+	 * しかし、output bufferを無効にしてしまう副作用があるため、
+	 * PxFWの `output_filter` などの後処理を通らなくなる欠点があります。
 	 * 
-	 * 拡張子 *.html のファイルは、サイトマップに記載がない場合でも、Pickles Framework のテーマの処理を通ります。そのため、断片的であるはずのインクルードファイルにヘッダー・フッターがついた状態で出力されてしまいます。<br />
-	 * HTMLの先頭に次のコードを埋め込み、nakedレイアウトが適用されるようにします。
+	 * - `emulate_ssi` (PxFW 1.0.4以降) : 
+	 * Apache SSI 形式をエミュレートし、擬似的にインクルードを解決します。
+	 * SSI が持つ機能のうち、`<!--#include virtual="〜〜" -->` 以外の命令は無視されます。
 	 * 
-	 * インクルードファイルの実装例： /common/inc/hoge.html
-	 * <pre>&lt;?php if($px){$px-&gt;site()-&gt;set_page_info(null,array('layout'=&gt;'naked'));} ?&gt;
-	 * &lt;div class=&quot;hoge&quot;&gt;
-	 * &lt;?php if($px){print $px-&gt;ssi('/common/inc/fuga.html');} ?&gt;
-	 * &lt;/div&gt;
-	 * </pre>
-	 * 
-	 * HTMLファイルをインクルードする場合にも、インクルードファイル側にPHPの動的な記述を書くことができますが、動的な記述はパブリッシュ時に出力結果だけが静的に生成されることになります。条件によって異なる値(例えば、ページによって異なる値、ページタイトルなど)を出力するような処理は、インクルードファイル内に実装せず、テーマやコンテンツに直接実装してください。
-	 * 
-	 * 
-	 * ### インクルードファイルの拡張子が *.html 以外の場合
-	 * 
-	 * インクルードファイルの拡張子が *.html 以外(例えば *.inc など)の場合は、Apacheを設定してSSIを有効にします。例えば *.inc であれば、次のような設定ファイルを設置し、SSIを有効にします。
-	 * 
-	 * .htaccess
-	 * <pre>AddType text/html .inc
-	 * AddOutputFilter INCLUDES .inc
-	 * </pre>
-	 * 
-	 * \*.inc 以外の拡張子の場合でも、基本的には同様です。 .inc の部分を適宜書き換えます。<br />
-	 * 次の例は、インクルードファイルの実装例です。Apache の SSI の記述をそのまま使用します。
-	 * 
-	 * インクルードファイルの実装例： /common/inc/hoge.inc
-	 * <pre>&lt;div class=&quot;hoge&quot;&gt;
-	 * &lt;!--#include virtual=&quot;/common/inc/fuga.inc&quot; --&gt;
-	 * &lt;/div&gt;
-	 * </pre>
-	 * 
-	 * ### パブリッシュ後のインクルードの実装方式を変更するには
-	 * 
-	 * パブリッシュ時、デフォルトでは、インクルードの形式はApacheのSSIの形式 (<code>&lt;!--#include virtual=&quot;\*\*\*\*&quot; --&gt;</code>) で出力されます。この挙動は、プラグインAPIから変更できます。
-	 * 
-	 * 次の例は、PHPの `include()` を使ったインクルード形式で出力するサンプルです。 pjと命名したプラグインの <code>./_PX/plugins/pj/register/funcs.php</code> に実装しています。
-	 * 
-	 * <pre>&lt;?php
-	 * // ./_PX/plugins/pj/register/funcs.php
-	 * 
-	 * /**
-	 *  * PX Plugin &quot;pj&quot;
-	 *  *<span></span>/
-	 * class pxplugin_pj_register_funcs{
-	 * 	private $px;
-	 * 
-	 * 	/**
-	 * 	 * コンストラクタ
-	 * 	 * @param $px = PxFWコアオブジェクト
-	 *   *<span></span>/
-	 * 	public function __construct( $px ){
-	 * 		$this-&gt;px = $px;
-	 * 	}
-	 * 
-	 * 	/**
-	 * 	 * パブリッシュ時のSSIタグを出力する。
-	 * 	 * ssi() からコールされる。
-	 *   *<span></span>/
-	 * 	public function ssi_static_tag( $path ){
-	 * 		return '&lt;'.'?php include( $_SERVER[\'DOCUMENT_ROOT\'].'.t::data2phpsrc( $path ).' ); ?'.'&gt;';
-	 * 	}//ssi_static_tag()
-	 * 
-	 * }
-	 * 
-	 * ?&gt;</pre>
+	 * - `static` (デフォルト) : 
+	 * インクルードファイルはスタティックなテキストとして読み込まれます。
+	 * インクルードファイル内でのインクルードはできません。
 	 * 
 	 * @param string $path_incfile インクルードするファイルパス(DOCUMENT_ROOT を起点とした絶対パス)
 	 * @return string インクルードファイルのコンテンツ、パブリッシュ時は インクルードタグ
@@ -628,9 +588,6 @@ class px_px{
 				$done = false;
 
 				// ------ PxFW 1.0.3 で追加したオプション ------
-				// インクルードファイルをHTTPから取りに行く。
-				// あくまで内部処理ではないため、インクルードファイル内でインクルードを動かしたい場合には、
-				// インクルードファイルの拡張子をApacheで設定する必要がある。
 				if( $ssi_method == 'http' ){
 					$done = true;
 					$url = 'http'.($this->req()->is_ssl()?'s':'').'://'.$_SERVER['HTTP_HOST'].$this->dbh()->get_realpath($path_incfile);
@@ -654,12 +611,6 @@ class px_px{
 				}
 
 				// ------ PxFW 1.0.3 で追加したオプション ------
-				// インクルードファイルはPHPスクリプトとして動的に読み込まれる。
-				// "http" 設定では、IP制限など基本認証以外の制限があったり、
-				// Apacheのプロセスが増えて動作が重くなる場合などに使えるかもしれない。
-				// ただしその場合、
-				// 拡張子 *.html 以外のインクルードファイルでは、プレビュー時にインクルードが処理されない点と、
-				// プレビュー時とパブリッシュ時で処理の流れが異なるため、設定ミスなどに気づきにくい点が欠点。
 				if( $ssi_method == 'php_include' ){
 					$done = true;
 					$px = &$this;
@@ -673,10 +624,6 @@ class px_px{
 				}
 
 				// ------ PxFW 1.0.3 で追加したオプション ------
-				// PHPの virtual() メソッドは、Apacheのサブクエリを発行するので、
-				// インクルードファイル内でのSSIが処理される。
-				// しかし、output bufferを無効にしてしまう副作用があるため、
-				// PxFWの output_filter などの後処理を通らなくなる欠点があった。
 				if( $ssi_method == 'php_virtual' ){
 					$done = true;
 					ob_start();
@@ -685,7 +632,6 @@ class px_px{
 				}
 
 				// ------ PxFW 1.0.4 で追加したオプション ------
-				// Apache SSI 形式をエミュレート。擬似的にインクルードを解決する。
 				if( $ssi_method == 'emulate_ssi' ){
 					$done = true;
 					$px = $this;
@@ -705,8 +651,6 @@ class px_px{
 				}
 
 				// ------ PxFW 1.0.2 までの実装 ------
-				// インクルードファイルはスタティックなテキストとして読み込まれる。
-				// インクルードファイル内でのインクルードができない。
 				if( $ssi_method == 'static' ){
 					$done = true;
 					// デフォルトの処理
