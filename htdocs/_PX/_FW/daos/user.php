@@ -9,6 +9,15 @@ $this->load_px_class('/bases/dao.php');
 /**
  * ユーザー関連情報のDAO
  * 
+ * `px_daos_user` は、ユーザーに関する情報を管理するオブジェクトクラスです。
+ * 特に、ユーザーの登録処理、登録情報の変更処理、退会処理など、書き込み系の処理を行います。
+ * 
+ * このオブジェクトは、`$px->user()->factory_dao_user()` から生成、取得することができます。
+ * 
+ * <pre>&lt;?php
+ * $dao_user = $px-&gt;user()-&gt;factory_dao_user();
+ * ?&gt;</pre>
+ * 
  * @author Tomoya Koyanagi <tomk79@gmail.com>
  */
 class px_daos_user extends px_bases_dao{

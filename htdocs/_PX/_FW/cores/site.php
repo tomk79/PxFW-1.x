@@ -460,8 +460,28 @@ class px_cores_site{
 	/**
 	 * ページ情報を取得する。
 	 * 
+	 * このメソッドは、指定したページの情報を連想配列で返します。対象のページは第1引数にパスまたはページIDで指定します。
+	 * 
+	 * カレントページの情報を取得する場合は、代わりに `$px->site()->get_current_page_info()` が使用できます。
+	 * 
+	 * パスで指定したページの情報を取得する例 :
+	 * <pre>&lt;?php
+	 * // ページ &quot;/aaa/bbb.html&quot; のページ情報を得る
+	 * $page_info = $px-&gt;site()-&gt;get_page_info('/aaa/bbb.html');
+	 * test::var_dump( $page_info );
+	 * ?&gt;</pre>
+	 * 
+	 * ページIDで指定したページの情報を取得する例 :
+	 * <pre>&lt;?php
+	 * // トップページのページ情報を得る
+	 * // (トップページのページIDは必ず空白の文字列)
+	 * $page_info = $px-&gt;site()-&gt;get_page_info('');
+	 * test::var_dump( $page_info );
+	 * ?&gt;</pre>
+	 * 
+	 * 
 	 * @param string $path 取得するページのパス または ページID。省略時、カレントページから自動的に取得します。
-	 * @param string $key 取り出す単一要素のキー。省略時はすべての要素を含む連想配列が返される。省略可。
+	 * @param string $key 取り出す単一要素のキー。省略時はすべての要素を含む連想配列が返されます。省略可。
 	 * @return mixed 単一ページ情報を格納する連想配列、`$key` が指定された場合は、その値のみ。
 	 */
 	public function get_page_info( $path, $key = null ){
@@ -656,6 +676,13 @@ class px_cores_site{
 	/**
 	 * 現在のページの情報を得る。
 	 * 
+	 * 例：
+	 * <pre>&lt;?php
+	 * // カレントページのページ情報を得る
+	 * $page_info = $px-&gt;site()-&gt;get_current_page_info();
+	 * test::var_dump( $page_info );
+	 * ?&gt;</pre>
+	 * 
 	 * @return array カレントページのページ情報を格納する連想配列
 	 */
 	public function get_current_page_info(){
@@ -742,8 +769,37 @@ class px_cores_site{
 	/**
 	 * 子階層のページの一覧を取得する。
 	 * 
+	 * このメソッドは、指定したページの子階層のページの一覧を返します。`$path` を省略した場合は、カレントページのパスを起点に一覧を抽出します。
+	 * 
+	 * カレントページの子階層のリンクを作成する例 :
+	 * <pre>&lt;?php
+	 * // カレントページの子階層のリンクを作成する
+	 * $children = $px-&gt;site()-&gt;get_children();
+	 * print '&lt;ul&gt;';
+	 * foreach( $children as $child ){
+	 * 	print '&lt;li&gt;'.$px-&gt;theme()-&gt;mk_link($child).'&lt;/li&gt;';
+	 * }
+	 * print '&lt;/ul&gt;';
+	 * ?&gt;</pre>
+	 * 
+	 * カレントページの子階層のリンクを、list_flg を無視してすべて表示する例 :
+	 * <pre>&lt;?php
+	 * // カレントページの子階層のリンクを作成する
+	 * // (list_flg を無視してすべて表示する)
+	 * $children = $px-&gt;site()-&gt;get_children(null, array('filter'=&gt;false));
+	 * print '&lt;ul&gt;';
+	 * foreach( $children as $child ){
+	 * 	print '&lt;li&gt;'.$px-&gt;theme()-&gt;mk_link($child).'&lt;/li&gt;';
+	 * }
+	 * print '&lt;/ul&gt;';
+	 * ?&gt;</pre>
+	 * 
 	 * @param string $path 起点とするページのパス または ページID。省略時、カレントページから自動的に取得します。
 	 * @param array $opt オプション(省略可)
+	 * <dl>
+	 *   <dt>$opt['filter'] (初期値: `true`)</dt>
+	 *     <dd>フィルターの有効/無効を切り替えます。`true` のとき有効、`false`のとき無効となります。フィルターが有効な場合、サイトマップで `list_flg` が `0` のページが一覧から除外されます。</dd>
+	 * </dl>
 	 * @return array ページの一覧
 	 */
 	public function get_children( $path = null, $opt = array() ){
