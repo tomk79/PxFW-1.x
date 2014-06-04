@@ -13,6 +13,9 @@ $this->load_px_class('/bases/pxcommand.php');
  */
 class px_pxcommands_search extends px_bases_pxcommand{
 
+	/**
+	 * 検索キーワード
+	 */
 	private $search_keyword = null;
 
 	/**
@@ -40,6 +43,10 @@ class px_pxcommands_search extends px_bases_pxcommand{
 
 	/**
 	 * ホームページを表示する。
+	 * 
+	 * HTMLを標準出力した後、`exit()` を発行してスクリプトを終了します。
+	 * 
+	 * @return void
 	 */
 	private function homepage(){
 		$command = $this->get_command();
@@ -136,6 +143,11 @@ var contSearch = new (function(){
 
 	/**
 	 * 検索結果をJSON形式で出力する。
+	 * 
+	 * JSONを標準出力した後、`exit()` を発行してスクリプトを終了します。
+	 * 
+	 * @param array $results 検索結果を格納する連想配列
+	 * @return void
 	 */
 	private function print_search_results_as_json( $results ){
 		while( @ob_end_clean() ){}
@@ -155,6 +167,16 @@ var contSearch = new (function(){
 
 	/**
 	 * 検索を実行する。
+	 * 
+	 * このメソッドは検索処理の窓口となります。
+	 * 直接検索処理を実行せず、引数 `$keyword` を
+	 * `$this->execute_search_contents()`、
+	 * `$this->execute_search_sitemap()`、
+	 * `$this->execute_search_themes()` へ引き継ぎ、
+	 * 得られた検索結果をまとめて返します。
+	 * 
+	 * @param string $keyword キーワード
+	 * @return array 検索結果を格納した連想配列
 	 */
 	private function execute_search( $keyword ){
 		$results = array(
@@ -172,6 +194,10 @@ var contSearch = new (function(){
 	}
 	/**
 	 * コンテンツを検索する。
+	 * 
+	 * @param string $keyword キーワード
+	 * @param string $path コンテンツディレクトリを起点とした検索対象パス
+	 * @return array 検索結果を格納した配列
 	 */
 	private function execute_search_contents( $keyword , $path = null ){
 		$results = array();
@@ -209,6 +235,10 @@ var contSearch = new (function(){
 	}
 	/**
 	 * サイトマップを検索する。
+	 * 
+	 * @param string $keyword キーワード
+	 * @param string $path サイトマップディレクトリを起点とした検索対象パス
+	 * @return array 検索結果を格納した配列
 	 */
 	private function execute_search_sitemap( $keyword , $path = null ){
 		$results = array();
@@ -245,6 +275,10 @@ var contSearch = new (function(){
 	}
 	/**
 	 * テーマを検索する。
+	 * 
+	 * @param string $keyword キーワード
+	 * @param string $path テーマコレクションディレクトリを起点とした検索対象パス
+	 * @return array 検索結果を格納した配列
 	 */
 	private function execute_search_themes( $keyword , $path = null ){
 		$results = array();

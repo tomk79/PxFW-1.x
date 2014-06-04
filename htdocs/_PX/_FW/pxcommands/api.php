@@ -13,9 +13,17 @@ $this->load_px_class('/bases/pxcommand.php');
  */
 class px_pxcommands_api extends px_bases_pxcommand{
 
-	private $paths_cache_dir = array();
+	/**
+	 * PXコマンド名
+	 */
 	private $command = array();
 
+	/**
+	 * コンストラクタ
+	 * 
+	 * @param array $command PXコマンド名
+	 * @param object $px $pxオブジェクト
+	 */
 	public function __construct( $command , $px ){
 		parent::__construct( $command , $px );
 		$this->command = $this->get_command();
@@ -55,6 +63,10 @@ class px_pxcommands_api extends px_bases_pxcommand{
 
 	/**
 	 * ホームページを表示する。
+	 * 
+	 * HTMLを標準出力した後、`exit()` を発行してスクリプトを終了します。
+	 * 
+	 * @return void
 	 */
 	private function homepage(){
 		$src = '';
@@ -64,7 +76,11 @@ class px_pxcommands_api extends px_bases_pxcommand{
 	}
 
 	/**
-	 * エラーメッセージ
+	 * エラーメッセージを表示する。
+	 * 
+	 * HTMLを標準出力した後、`exit()` を発行してスクリプトを終了します。
+	 * 
+	 * @return void
 	 */
 	private function error(){
 		$src = '';
@@ -77,6 +93,10 @@ class px_pxcommands_api extends px_bases_pxcommand{
 
 	/**
 	 * [API] api.dlfile.config
+	 * 
+	 * 結果を標準出力した後、`exit()` を発行してスクリプトを終了します。
+	 * 
+	 * @return void
 	 */
 	private function api_dlfile(){
 		header('Content-type: text/plain; charset=UTF-8');
@@ -103,6 +123,10 @@ class px_pxcommands_api extends px_bases_pxcommand{
 
 	/**
 	 * [API] api.ulfile.*
+	 * 
+	 * 結果を標準出力した後、`exit()` を発行してスクリプトを終了します。
+	 * 
+	 * @return void
 	 */
 	private function api_ulfile(){
 		$path = $this->get_target_file_path();
@@ -133,6 +157,10 @@ class px_pxcommands_api extends px_bases_pxcommand{
 
 	/**
 	 * [API] api.ls.config
+	 * 
+	 * 結果を標準出力した後、`exit()` を発行してスクリプトを終了します。
+	 * 
+	 * @return void
 	 */
 	private function api_ls(){
 		switch( $this->command[2] ){
@@ -210,6 +238,10 @@ class px_pxcommands_api extends px_bases_pxcommand{
 
 	/**
 	 * [API] api.delete.*
+	 * 
+	 * 結果を標準出力した後、`exit()` を発行してスクリプトを終了します。
+	 * 
+	 * @return void
 	 */
 	private function api_delete(){
 		switch( $this->command[2] ){
@@ -253,8 +285,11 @@ class px_pxcommands_api extends px_bases_pxcommand{
 	}//api_delete()
 
 	/**
-	 * ダウン・アップロードファイルのパスを得る
-	 * api.ulfile, api.dlfile が使用する。
+	 * ダウン・アップロードファイルのパスを得る。
+	 * 
+	 * api.ulfile, api.dlfile が使用します。
+	 * 
+	 * @return string|null パラメータ `path` が示すファイルの絶対パス。`path` が不正な形式の場合には `null` を返します。
 	 */
 	private function get_target_file_path(){
 		$rtn = null;
@@ -265,8 +300,8 @@ class px_pxcommands_api extends px_bases_pxcommand{
 			$is_path = '/';
 		}
 		if( preg_match( '/(?:\/|^)\.\.(?:\/|$)/si', $path ) ){
-			return null;
 			$is_path = false;
+			return null;//←パラメータが不正な場合はすぐ抜ける
 		}
 
 		switch( $this->command[2] ){
@@ -297,6 +332,10 @@ class px_pxcommands_api extends px_bases_pxcommand{
 
 	/**
 	 * [API] api.get.*
+	 * 
+	 * 結果を標準出力した後、`exit()` を発行してスクリプトを終了します。
+	 * 
+	 * @return void
 	 */
 	private function api_get(){
 		switch( $this->command[2] ){
@@ -325,6 +364,10 @@ class px_pxcommands_api extends px_bases_pxcommand{
 
 	/**
 	 * [API] api.hash
+	 * 
+	 * 結果を標準出力した後、`exit()` を発行してスクリプトを終了します。
+	 * 
+	 * @return void
 	 */
 	private function api_hash(){
 		header('Content-type: text/csv');
@@ -349,7 +392,12 @@ class px_pxcommands_api extends px_bases_pxcommand{
 	}
 	/**
 	 * ディレクトリ内のファイルの一覧とそのMD5ハッシュ値を再帰的に標準出力する。
-	 * [API] api.hash 内で使用。
+	 * 
+	 * [API] api.hash 内で使用します。
+	 * 
+	 * @param string $base_dir ベースディレクトリのパス
+	 * @param string $local_path ベースディレクトリ以下のパス
+	 * @return void
 	 */
 	private function mk_hash_list($base_dir,$local_path=''){
 		$file_list = $this->px->dbh()->ls($base_dir.$local_path);
@@ -371,7 +419,10 @@ class px_pxcommands_api extends px_bases_pxcommand{
 	// -------------------------------------
 
 	/**
-	 * データを自動的に加工して返す
+	 * データを自動的に加工して返す。
+	 * 
+	 * @param mixed $val 加工するデータ
+	 * @return string 加工されたテキストデータ
 	 */
 	private function data_convert($val){
 		$data_type = $this->px->req()->get_param('type');
@@ -397,21 +448,30 @@ class px_pxcommands_api extends px_bases_pxcommand{
 	}
 
 	/**
-	 * データをXMLに加工して返す
+	 * データをXMLに加工して返す。
+	 * 
+	 * @param mixed $val 加工するデータ
+	 * @return string 加工されたテキストデータ
 	 */
 	private function data2xml($val){
 		return '<api>'.t::data2xml($val).'</api>';
 	}
 
 	/**
-	 * データをJSONに加工して返す
+	 * データをJSONに加工して返す。
+	 * 
+	 * @param mixed $val 加工するデータ
+	 * @return string 加工されたテキストデータ
 	 */
 	private function data2json($val){
 		return t::data2jssrc($val);
 	}
 
 	/**
-	 * データをJSONPに加工して返す
+	 * データをJSONPに加工して返す。
+	 * 
+	 * @param mixed $val 加工するデータ
+	 * @return string 加工されたテキストデータ
 	 */
 	private function data2jsonp($val){
 		//JSONPのコールバック関数名は、パラメータ callback に受け取る。
