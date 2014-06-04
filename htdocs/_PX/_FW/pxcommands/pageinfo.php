@@ -26,6 +26,10 @@ class px_pxcommands_pageinfo extends px_bases_pxcommand{
 
 	/**
 	 * Execute PX Command "pageinfo".
+	 * 
+	 * HTMLを標準出力した後、`exit()` を発行してスクリプトを終了します。
+	 * 
+	 * @return void
 	 */
 	private function execute(){
 		$pageinfo = $this->px->site()->get_current_page_info();
@@ -76,8 +80,11 @@ $(function(){
 	}
 
 	/**
-	 * jquery.qrcode.min.js のソースを取得
+	 * jquery.qrcode.min.js のソースを取得する。
+	 * 
 	 * Thanks : https://github.com/jeromeetienne/jquery-qrcode
+	 * 
+	 * @return string jquery.qrcode.min.js のソースコード
 	 */
 	private function jq_qrcode(){
 			ob_start(); ?>
@@ -115,7 +122,9 @@ d+"px").css("background-color",a.isDark(e,i)?h.foreground:h.background).appendTo
 	}
 
 	/**
-	 * カレントページのフルURLを生成する
+	 * カレントページのフルURLを生成する。
+	 * 
+	 * @return string カレントページのURL
 	 */
 	private function mk_current_url(){
 		return 'http'.($this->px->req()->is_ssl()?'s':'').'://'.$_SERVER['SERVER_NAME'].$this->px->href_self();
