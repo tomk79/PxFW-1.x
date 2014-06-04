@@ -143,7 +143,9 @@ PX=initialize.run の実行時に実行されます。
 下記は実装例です。
 
 <pre>&lt;?php
-
+/**
+ * class pxplugin_{$plugin_name}_register_initialize
+ */
 /**
  * PX Plugin &quot;{$plugin_name}&quot;
  */
