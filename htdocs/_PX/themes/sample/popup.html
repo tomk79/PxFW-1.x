@@ -12,7 +12,7 @@
 <title><?php print t::h($page_info['title']); ?> | <?php print t::h($px->get_conf('project.name')); ?></title>
 <?php
 	// ↓コンテンツの環境構築を読み込みます。
-	@include( $_SERVER['DOCUMENT_ROOT'].$px->theme()->href('/common/inc/contents_environment.nopublish.inc') );
+	@include( $_SERVER['DOCUMENT_ROOT'].$px->theme()->href('/common/inc/contents_manifesto.nopublish.inc') );
 ?>
 <?php
 	include( $px->realpath_theme_files().'inc/setup.nopublish.inc' );
