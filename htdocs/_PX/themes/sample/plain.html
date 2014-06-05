@@ -11,8 +11,13 @@
 */ ?>
 <title><?php print t::h($page_info['title']); ?> | <?php print t::h($px->get_conf('project.name')); ?></title>
 <?php
-	include( $px->realpath_theme_files().'inc/setup.inc.nopublish' );
-
+	// ↓コンテンツの環境構築を読み込みます。
+	@include( $_SERVER['DOCUMENT_ROOT'].$px->theme()->href('/common/inc/contents_environment.nopublish.inc') );
+?>
+<?php
+	include( $px->realpath_theme_files().'inc/setup.nopublish.inc' );
+?>
+<?php
 	//↓コンテンツから受け取った
 	//	headセクション内用のソースを出力しています。
 	print $px->theme()->pull_content('head');

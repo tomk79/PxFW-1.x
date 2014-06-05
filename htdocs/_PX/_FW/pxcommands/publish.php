@@ -516,6 +516,7 @@ function contEditPublishTargetPathApply(formElm){
 		array_push( $this->paths_ignore , '*/.DS_Store' );
 		array_push( $this->paths_ignore , '*/Thumbs.db' );
 		array_push( $this->paths_ignore , '*.nopublish/*' );
+		array_push( $this->paths_ignore , '*.nopublish.*' );//←PxFW 1.0.4 追加
 		array_push( $this->paths_ignore , '*/.svn/' );
 		array_push( $this->paths_ignore , '*/.git/' );
 		array_push( $this->paths_ignore , '*/.gitignore' );

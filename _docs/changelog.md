@@ -15,6 +15,7 @@
 - system.allow_pxcommands が無効に設定されている場合でも、コマンドラインからは PX Command を実行できるようになった。
 - .htaccess に書かれていたPHPのエラー出力に関する設定をコメントアウト。環境に従うようになった。
 - プラグインの info クラスの仕様にメソッド config_define() を追加。
+- contents_environment.nopublish.inc を導入。
 
 
 ## PxFW 1.0.3 (2014/4/29)
