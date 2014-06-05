@@ -1,4 +1,4 @@
-# readme
+# Pickles Framework : plugins directory
 
 このディレクトリは、プラグインをインストールする領域です。<br />
 This directory is for installing plugins.
@@ -9,7 +9,11 @@ This directory is for installing plugins.
 
 ###プラグイン名
 
-- プラグイン名には、次の文字を使用可能です。 `a-z, A-Z, 0-9`
+プラグイン名には、次の文字を使用可能です。
+
+- `a-z`
+- `A-Z`
+- `0-9`
 
 ※本ドキュメント中では、プラグイン名が `{$plugin_name}` に置き換わるものとして記述します。
 
@@ -31,7 +35,7 @@ This directory is for installing plugins.
 
 ## 共通クラス
 
-以下のクラスは、共通ルールに基づき、PxFWが自動的にロードし、実行します。
+以下のクラスは、共通ルールに基づき、PxFW が自動的にロードし、実行します。
 すべて、`{$plugin_name}` ディレクトリ内 `register` ディレクトリに格納されます。
 
 
@@ -40,7 +44,7 @@ This directory is for installing plugins.
 プラグインに関する情報を管理しています。
 
 - 格納先: &lt;plugins&gt;/{$plugin_name}/register/info.php
-- クラス名: pxplugin_{$plugin_name}_register_info
+- クラス名: `pxplugin_{$plugin_name}_register_info`
 - コンストラクタ引数: なし
 - API
  - バージョン番号を取得: `$instance->get_version()`
@@ -96,7 +100,7 @@ PxFWの初期セットアップ処理の中で自動的にインスタンス化�
 > `$obj = $px->get_plugin_object($plugin_name);`
 
 - 格納先: &lt;plugins&gt;/{$plugin_name}/register/object.php
-- クラス名: pxplugin_{$plugin_name}_register_object
+- クラス名: `pxplugin_{$plugin_name}_register_object`
 - コンストラクタ引数: `$px`
 
 下記は実装例です。
@@ -133,7 +137,7 @@ class pxplugin_{$plugin_name}_register_object{
 PX=initialize.run の実行時に実行されます。
 
 - 格納先: &lt;plugins&gt;/{$plugin_name}/register/initialize.php
-- クラス名: pxplugin_{$plugin_name}_register_initialize
+- クラス名: `pxplugin_{$plugin_name}_register_initialize`
 - コンストラクタ引数: `$px`
 - API
  - トリガーメソッド: `$instance->execute()`
@@ -316,7 +320,7 @@ class pxplugin_{$plugin_name}_register_initialize{
 PX=plugins.{$plugin_name} で呼び出せるGUIを実装できます。
 
 - 格納先: &lt;plugins&gt;/{$plugin_name}/register/pxcommand.php
-- クラス名: pxplugin_{$plugin_name}_register_pxcommand
+- クラス名: `pxplugin_{$plugin_name}_register_pxcommand`
 - コンストラクタ引数: `$px`
 - API
  - コンストラクタのみ
@@ -374,7 +378,7 @@ class pxplugin_{$plugin_name}_register_pxcommand extends px_bases_pxcommand{
 最終的なHTMLの出力時に一定の加工処理を加えることができます。
 
 - 格納先: &lt;plugins&gt;/{$plugin_name}/register/outputfilter.php
-- クラス名: pxplugin_{$plugin_name}_register_outputfilter
+- クラス名: `pxplugin_{$plugin_name}_register_outputfilter`
 - コンストラクタ引数: `$px`
 - API
  - トリガーメソッド: `$instance->execute()`
@@ -437,7 +441,7 @@ class pxplugin_{$plugin_name}_register_outputfilter{
 Pickles Framework に予め実装されている extension も、プラグインに定義がある場合、優先して適用されます。
 
 - 格納先: &lt;plugins&gt;/{$plugin_name}/register/extensions/{$extension_name}.php
-- クラス名: pxplugin_{$plugin_name}_register_extensions_{$extension_name}
+- クラス名: `pxplugin_{$plugin_name}_register_extensions_{$extension_name}`
 - コンストラクタ引数: `$px`
 - API
  - 拡張子別の出力処理: `$instance->execute($path_content)`
@@ -504,7 +508,7 @@ class pxplugin_{$plugin_name}_register_extensions_md extends px_bases_extension{
 この加工処理は、パブリッシュ時に走るので、パブリッシュ前に効果を確認することはできません。
 
 - 格納先: &lt;plugins&gt;/{$plugin_name}/register/publish.php
-- クラス名: pxplugin_{$plugin_name}_register_publish
+- クラス名: `pxplugin_{$plugin_name}_register_publish`
 - コンストラクタ引数: `$px`, `$publish`
 - API
  - パブリッシュ前処理: `$instance->before_execute()`
@@ -626,7 +630,7 @@ class pxplugin_{$plugin_name}_register_publish{
 単機能的なAPIを集めたクラスです。
 
 - 格納先: &lt;plugins&gt;/{$plugin_name}/register/funcs.php
-- クラス名: pxplugin_{$plugin_name}_register_funcs
+- クラス名: `pxplugin_{$plugin_name}_register_funcs`
 - コンストラクタ引数: `$px`
 - API
  - SSIタグ生成: `$instance->ssi_static_tag()`
