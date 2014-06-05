@@ -99,6 +99,12 @@ var contSql = new (function(formElm){
 			} ,
 			success: function( data ){
 				// if(console){console.debug(data);}
+				function h(text){
+					text = text.replace(new RegExp('<','g'), '&lt;');
+					text = text.replace(new RegExp('>','g'), '&gt;');
+					text = text.replace(new RegExp('"','g'), '&quot;');
+					return text;
+				}
 				var SRC = '';
 				if( data.value === false ){
 					SRC += '<p class="center">検索エラー。検索結果に false を受け取りました。</p>';
@@ -108,7 +114,7 @@ var contSql = new (function(formElm){
 					SRC += '<tr>';
 					for(var key2 in data.define){
 						SRC += '<th style="word-break:break-all;">';
-						SRC += data.define[key2];
+						SRC += h( data.define[key2] );
 						SRC += '</th>';
 					}
 					if(data.sql=='\\d'){
@@ -123,7 +129,7 @@ var contSql = new (function(formElm){
 								if( data.value[key1][key2] === null ){
 									SRC += '<span style="color:#00f; font-style:italic;">null</span>';
 								}else{
-									SRC += data.value[key1][key2];
+									SRC += h( data.value[key1][key2] );
 								}
 								SRC += '</td>';
 							}
