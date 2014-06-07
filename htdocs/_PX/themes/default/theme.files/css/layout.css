@@ -26,6 +26,9 @@ a{
 a:hover{
 	text-decoration: none;
 }
+.current{
+	font-weight:bold;
+}
 svg,
 img{
 	max-width:100%;
