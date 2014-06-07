@@ -29,7 +29,7 @@
 <div id="page_top">
 <div class="theme_outline">
 <div class="theme_header">
-	<div class="logo"><a href="<?php print t::h( $px->theme()->href('') ); ?>"><?php print t::h($px->get_conf('project.name')); ?></a></div>
+	<div class="theme_header-logo"><a href="<?php print t::h( $px->theme()->href('') ); ?>"><?php print t::h($px->get_conf('project.name')); ?></a></div>
 	<div class="breadcrumb"><?php print $obj_custom_theme->mk_breadcrumb(); ?></div>
 </div><!-- /.theme_header -->
 <div class="theme_middle">
@@ -49,17 +49,18 @@
 	$page_parent = $px->site()->get_parent();
 	$page_bros_next = $px->site()->get_bros_next();
 	if($page_parent!==false || $page_bros_next!==false || $page_bros_prev!==false){
+		print '<div class="contents">'."\n";
 		print '<div class="unit pager">'."\n";
 		print '	<ul>'."\n";
 		if($page_bros_prev!==false){
 			print '<li class="pager-prev">'.$px->theme()->mk_link($page_bros_prev,array('label'=>'<前へ')).'</li>'."\n";
 		}
-		print '		<li class="pager-prev"></li>'."\n";
 		if($page_bros_next!==false){
 			print '<li class="pager-prev">'.$px->theme()->mk_link($page_bros_next,array('label'=>'次へ>')).'</li>'."\n";
 		}
 		print '	</ul>'."\n";
 		print '</div><!-- /.pager -->'."\n";
+		print '</div><!-- /.contents -->'."\n";
 	}
 ?>
 </div><!-- /.theme_column1 -->
@@ -100,12 +101,12 @@
 	$page_parent = $px->site()->get_parent();
 	$page_bros_prev = $px->site()->get_bros_prev();
 	if($page_parent!==false || $page_bros_next!==false || $page_bros_prev!==false){
+		print '<div class="contents">'."\n";
 		print '<div class="unit pager">'."\n";
 		print '	<ul>'."\n";
 		if($page_bros_prev!==false){
 			print '<li class="pager-prev">'.$px->theme()->mk_link($page_bros_prev,array('label'=>'<前兄弟')).'</li>'."\n";
 		}
-		print '		<li class="pager-prev"></li>'."\n";
 		if($page_bros_next!==false){
 			print '<li class="pager-prev">'.$px->theme()->mk_link($page_bros_next,array('label'=>'次兄弟>')).'</li>'."\n";
 		}
@@ -125,17 +126,18 @@
 		}
 		print '</ul>'."\n";
 		print '</div>'."\n";
+		print '</div>'."\n";
 	}
 
 	$page_next = $px->site()->get_next();
 	$page_prev = $px->site()->get_prev();
 	if($page_next!==false || $page_prev!==false){
+		print '<div class="contents">'."\n";
 		print '<div class="unit pager">'."\n";
 		print '	<ul>'."\n";
 		if($page_prev!==false){
 			print '<li class="pager-prev">'.$px->theme()->mk_link($page_prev,array('label'=>'<前ページ')).'</li>'."\n";
 		}
-		print '		<li class="pager-prev"></li>'."\n";
 		if($page_next!==false){
 			print '<li class="pager-prev">'.$px->theme()->mk_link($page_next,array('label'=>'次ページ>')).'</li>'."\n";
 		}
@@ -152,6 +154,7 @@
 		}
 		print '</ul>'."\n";
 		print '</div>'."\n";
+		print '</div>'."\n";
 	}
 
 ?>
@@ -159,9 +162,9 @@
 </div><!-- /.theme_column2 -->
 </div><!-- /.theme_middle -->
 <div class="theme_footer">
-	<div class="right small">[<a href="#page_top">ページの先頭へ戻る</a>]</div>
+	<div class="theme_footer-page_top">[<a href="#page_top">ページの先頭へ戻る</a>]</div>
 	<div class="breadcrumb"><?php print $obj_custom_theme->mk_breadcrumb(); ?></div>
-	<div class="center">[<?php print $px->theme()->mk_link('/'); ?>]</div>
+	<div>[<?php print $px->theme()->mk_link('/'); ?>]</div>
 </div><!-- /.theme_footer -->
 </div><!-- /.theme_outline -->
 </div><!-- /#page_top -->
