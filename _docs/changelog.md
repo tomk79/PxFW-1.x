@@ -3,7 +3,7 @@
 # PxFW(Pickles Framework) 更新履歴
 
 
-## PxFW 1.0.4 (2014/\*\*/\*\*)
+## PxFW 1.0.4 (2014/6/8)
 
 - コンフィグ項目 system.ssi_method に、選択肢 emulate_ssi を追加。
 - $site->get_shoulder_menu() を追加。

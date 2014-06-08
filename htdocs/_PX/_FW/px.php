@@ -97,7 +97,7 @@ class px_px{
 	 * @return string バージョン番号を示す文字列
 	 */
 	public function get_version(){
-		return '1.0.3-nb';
+		return '1.0.4';
 	}
 
 	/**
