@@ -13,13 +13,13 @@
  * - このファイルの中にPHPの記述を埋め込むことができるように読み込みます。
  * - このファイルのスコープで `$px` を利用できるようにしてください。
  * 
- * コンテンツは、 `.contents` の中に置かれます。
+ * HTML上、コンテンツは `.contents` の中に置かれます。
  * 従って、このファイルで定義される内容は、`.contents` の中にのみ影響するように実装されるべきです。
  * 
  */ ?>
  <?php
- 	if(!$px){return '';}//$pxがない(=直接アクセスされた)場合、ここで処理を抜ける。
+	 //$pxがない(=直接アクセスされた)場合、ここで処理を抜ける。
+ 	if(!$px){return '';}
  ?>
-<link rel="stylesheet" href="<?php print t::h($px->theme()->href('/common/css/normalize.css')); ?>" type="text/css" />
 <link rel="stylesheet" href="<?php print t::h($px->theme()->href('/common/css/modules.css')); ?>" type="text/css" />
 <script src="<?php print t::h($px->theme()->href('/common/js/jquery-1.10.1.min.js')); ?>" type="text/javascript"></script>

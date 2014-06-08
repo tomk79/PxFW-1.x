@@ -1,1 +1,1102 @@
-@import url("./fess.css");
+@charset "UTF-8";
+
+/**
+ * normalize.css (customized)
+ */
+.contents article, .contents aside, .contents details, .contents figcaption, .contents figure, .contents footer, .contents header, .contents hgroup, .contents main, .contents nav, .contents section, .contents summary {
+  display: block;
+  /**
+ * 1. Correct `inline-block` display not defined in IE 8/9.
+ * 2. Normalize vertical alignment of `progress` in Chrome, Firefox, and Opera.
+ */ }
+  .contents audio, .contents canvas, .contents progress, .contents video {
+    /* 1 */
+    display: inline-block;
+    /* 2 */
+    vertical-align: baseline;
+    /**
+ * Prevent modern browsers from displaying `audio` without controls.
+ * Remove excess height in iOS 5 devices.
+ */ }
+  .contents audio:not([controls]) {
+    display: none;
+    height: 0;
+    /**
+ * Address `[hidden]` styling not present in IE 8/9/10.
+ * Hide the `template` element in IE 8/9/11, Safari, and Firefox < 22.
+ */ }
+  .contents [hidden], .contents template {
+    display: none;
+    /* Links
+   ========================================================================== */
+    /**
+ * Remove the gray background color from active links in IE 10.
+ */ }
+  .contents a {
+    background: transparent;
+    /**
+ * Improve readability when focused and also mouse hovered in all browsers.
+ */ }
+  .contents a:active, .contents a:hover {
+    outline: 0;
+    /* Text-level semantics
+   ========================================================================== */
+    /**
+ * Address styling not present in IE 8/9/10/11, Safari, and Chrome.
+ */ }
+  .contents abbr[title] {
+    border-bottom: 1px dotted;
+    /**
+ * Address style set to `bolder` in Firefox 4+, Safari, and Chrome.
+ */ }
+  .contents b, .contents strong {
+    font-weight: bold;
+    /**
+ * Address styling not present in Safari and Chrome.
+ */ }
+  .contents dfn {
+    font-style: italic;
+    /**
+ * Address variable `h1` font-size and margin within `section` and `article`
+ * contexts in Firefox 4+, Safari, and Chrome.
+ */ }
+  .contents h1 {
+    font-size: 2em;
+    margin: 0.67em 0;
+    /**
+ * Address styling not present in IE 8/9.
+ */ }
+  .contents mark {
+    background: #ff0;
+    color: #000;
+    /**
+ * Address inconsistent and variable font size in all browsers.
+ */ }
+  .contents small {
+    font-size: 80%;
+    /**
+ * Prevent `sub` and `sup` affecting `line-height` in all browsers.
+ */ }
+  .contents sub, .contents sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline; }
+  .contents sup {
+    top: -0.5em; }
+  .contents sub {
+    bottom: -0.25em;
+    /* Embedded content
+   ========================================================================== */
+    /**
+ * Remove border when inside `a` element in IE 8/9/10.
+ */ }
+  .contents img {
+    border: 0;
+    /**
+ * Correct overflow not hidden in IE 9/10/11.
+ */ }
+  .contents svg:not(:root) {
+    overflow: hidden;
+    /* Grouping content
+   ========================================================================== */
+    /**
+ * Address margin not present in IE 8/9 and Safari.
+ */ }
+  .contents figure {
+    margin: 1em 40px;
+    /**
+ * Address differences between Firefox and other browsers.
+ */ }
+  .contents hr {
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    height: 0;
+    /**
+ * Contain overflow in all browsers.
+ */ }
+  .contents pre {
+    overflow: auto;
+    /**
+ * Address odd `em`-unit font size rendering in all browsers.
+ */ }
+  .contents code, .contents kbd, .contents pre, .contents samp {
+    font-family: monospace, monospace;
+    font-size: 1em;
+    /* Forms
+   ========================================================================== */
+    /**
+ * Known limitation: by default, Chrome and Safari on OS X allow very limited
+ * styling of `select`, unless a `border` property is set.
+ */
+    /**
+ * 1. Correct color not being inherited.
+ *    Known issue: affects color of disabled elements.
+ * 2. Correct font properties not being inherited.
+ * 3. Address margins set differently in Firefox 4+, Safari, and Chrome.
+ */ }
+  .contents button, .contents input, .contents optgroup, .contents select, .contents textarea {
+    /* 1 */
+    color: inherit;
+    /* 2 */
+    font: inherit;
+    /* 3 */
+    margin: 0;
+    /**
+ * Address `overflow` set to `hidden` in IE 8/9/10/11.
+ */ }
+  .contents button {
+    overflow: visible;
+    /**
+ * Address inconsistent `text-transform` inheritance for `button` and `select`.
+ * All other form control elements do not inherit `text-transform` values.
+ * Correct `button` style inheritance in Firefox, IE 8/9/10/11, and Opera.
+ * Correct `select` style inheritance in Firefox.
+ */ }
+  .contents button, .contents select {
+    text-transform: none;
+    /**
+ * 1. Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio`
+ *    and `video` controls.
+ * 2. Correct inability to style clickable `input` types in iOS.
+ * 3. Improve usability and consistency of cursor style between image-type
+ *    `input` and others.
+ */ }
+  .contents button, .contents html input[type="button"], .contents input[type="reset"], .contents input[type="submit"] {
+    /* 2 */
+    -webkit-appearance: button;
+    /* 3 */
+    cursor: pointer;
+    /**
+ * Re-set default cursor for disabled elements.
+ */ }
+  .contents button[disabled], .contents html input[disabled] {
+    cursor: default;
+    /**
+ * Remove inner padding and border in Firefox 4+.
+ */ }
+  .contents button::-moz-focus-inner, .contents input::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+    /**
+ * Address Firefox 4+ setting `line-height` on `input` using `!important` in
+ * the UA stylesheet.
+ */ }
+  .contents input {
+    line-height: normal;
+    /**
+ * It's recommended that you don't attempt to style these elements.
+ * Firefox's implementation doesn't respect box-sizing, padding, or width.
+ *
+ * 1. Address box sizing set to `content-box` in IE 8/9/10.
+ * 2. Remove excess padding in IE 8/9/10.
+ */ }
+  .contents input[type="checkbox"], .contents input[type="radio"] {
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */
+    padding: 0;
+    /**
+ * Fix the cursor style for Chrome's increment/decrement buttons. For certain
+ * `font-size` values of the `input`, it causes the cursor style of the
+ * decrement button to change from `default` to `text`.
+ */ }
+  .contents input[type="number"]::-webkit-inner-spin-button, .contents input[type="number"]::-webkit-outer-spin-button {
+    height: auto;
+    /**
+ * 1. Address `appearance` set to `searchfield` in Safari and Chrome.
+ * 2. Address `box-sizing` set to `border-box` in Safari and Chrome
+ *    (include `-moz` to future-proof).
+ */ }
+  .contents input[type="search"] {
+    /* 1 */
+    -webkit-appearance: textfield;
+    -moz-box-sizing: content-box;
+    /* 2 */
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+    /**
+ * Remove inner padding and search cancel button in Safari and Chrome on OS X.
+ * Safari (but not Chrome) clips the cancel button when the search input has
+ * padding (and `textfield` appearance).
+ */ }
+  .contents input[type="search"]::-webkit-search-cancel-button, .contents input[type="search"]::-webkit-search-decoration {
+    -webkit-appearance: none;
+    /**
+ * Define consistent border, margin, and padding.
+ */ }
+  .contents fieldset {
+    border: 1px solid #c0c0c0;
+    margin: 0 2px;
+    padding: 0.35em 0.625em 0.75em;
+    /**
+ * 1. Correct `color` not being inherited in IE 8/9/10/11.
+ * 2. Remove padding so people aren't caught out if they zero out fieldsets.
+ */ }
+  .contents legend {
+    /* 1 */
+    border: 0;
+    /* 2 */
+    padding: 0;
+    /**
+ * Remove default vertical scrollbar in IE 8/9/10/11.
+ */ }
+  .contents textarea {
+    overflow: auto;
+    /**
+ * Don't inherit the `font-weight` (applied by a rule above).
+ * NOTE: the default cannot safely be changed in Chrome and Safari on OS X.
+ */ }
+  .contents optgroup {
+    font-weight: bold;
+    /* Tables
+   ========================================================================== */
+    /**
+ * Remove most spacing between table cells.
+ */ }
+  .contents table {
+    border-collapse: collapse;
+    border-spacing: 0; }
+  .contents td, .contents th {
+    padding: 0; }
+
+
+
+/**
+ * FESS 1.1.1
+ * @author Tomoya Koyanagi <tomk79@gmail.com>
+ */
+.contents .center {
+  text-align: center; }
+  .contents .left {
+    text-align: left; }
+  .contents .right {
+    text-align: right;
+    /**
+ * [static] まわりこみ制御
+ */ }
+  .contents .fl {
+    float: left; }
+  .contents .fr {
+    float: right; }
+  .contents .fc {
+    float: none;
+    clear: both;
+    /**
+ * [static] レイアウト制御
+ */ }
+  .contents .inline {
+    display: inline !important; }
+  .contents .block {
+    display: block !important;
+    /**
+ * [static] マージン制御
+ */ }
+  .contents .mt1em {
+    margin-top: 1em !important; }
+  .contents .mt1p5em {
+    margin-top: 1.5em !important; }
+  .contents .mt2em {
+    margin-top: 2em !important; }
+  .contents .mt0 {
+    margin-top: 0 !important; }
+  .contents .mt1 {
+    margin-top: 1px !important; }
+  .contents .mt2 {
+    margin-top: 2px !important; }
+  .contents .mt3 {
+    margin-top: 3px !important; }
+  .contents .mt4 {
+    margin-top: 4px !important; }
+  .contents .mt5 {
+    margin-top: 5px !important; }
+  .contents .mt6 {
+    margin-top: 6px !important; }
+  .contents .mt7 {
+    margin-top: 7px !important; }
+  .contents .mt8 {
+    margin-top: 8px !important; }
+  .contents .mt9 {
+    margin-top: 9px !important; }
+  .contents .mt10 {
+    margin-top: 10px !important; }
+  .contents .mt15 {
+    margin-top: 15px !important; }
+  .contents .mt20 {
+    margin-top: 20px !important; }
+  .contents .mt25 {
+    margin-top: 25px !important; }
+  .contents .mt30 {
+    margin-top: 30px !important; }
+  .contents .mb1em {
+    margin-bottom: 1em !important; }
+  .contents .mb1p5em {
+    margin-bottom: 1.5em !important; }
+  .contents .mb2em {
+    margin-bottom: 2em !important; }
+  .contents .mb0 {
+    margin-bottom: 0 !important; }
+  .contents .mb1 {
+    margin-bottom: 1px !important; }
+  .contents .mb2 {
+    margin-bottom: 2px !important; }
+  .contents .mb3 {
+    margin-bottom: 3px !important; }
+  .contents .mb4 {
+    margin-bottom: 4px !important; }
+  .contents .mb5 {
+    margin-bottom: 5px !important; }
+  .contents .mb6 {
+    margin-bottom: 6px !important; }
+  .contents .mb7 {
+    margin-bottom: 7px !important; }
+  .contents .mb8 {
+    margin-bottom: 8px !important; }
+  .contents .mb9 {
+    margin-bottom: 9px !important; }
+  .contents .mb10 {
+    margin-bottom: 10px !important; }
+  .contents .mb15 {
+    margin-bottom: 15px !important; }
+  .contents .mb20 {
+    margin-bottom: 20px !important; }
+  .contents .mb25 {
+    margin-bottom: 25px !important; }
+  .contents .mb30 {
+    margin-bottom: 30px !important; }
+  .contents .ml0 {
+    margin-left: 0 !important; }
+  .contents .ml1 {
+    margin-left: 1px !important; }
+  .contents .ml2 {
+    margin-left: 2px !important; }
+  .contents .ml3 {
+    margin-left: 3px !important; }
+  .contents .ml4 {
+    margin-left: 4px !important; }
+  .contents .ml5 {
+    margin-left: 5px !important; }
+  .contents .ml6 {
+    margin-left: 6px !important; }
+  .contents .ml7 {
+    margin-left: 7px !important; }
+  .contents .ml8 {
+    margin-left: 8px !important; }
+  .contents .ml9 {
+    margin-left: 9px !important; }
+  .contents .ml10 {
+    margin-left: 10px !important; }
+  .contents .ml15 {
+    margin-left: 15px !important; }
+  .contents .ml20 {
+    margin-left: 20px !important; }
+  .contents .ml25 {
+    margin-left: 25px !important; }
+  .contents .ml30 {
+    margin-left: 30px !important; }
+  .contents .mr0 {
+    margin-right: 0 !important; }
+  .contents .mr1 {
+    margin-right: 1px !important; }
+  .contents .mr2 {
+    margin-right: 2px !important; }
+  .contents .mr3 {
+    margin-right: 3px !important; }
+  .contents .mr4 {
+    margin-right: 4px !important; }
+  .contents .mr5 {
+    margin-right: 5px !important; }
+  .contents .mr6 {
+    margin-right: 6px !important; }
+  .contents .mr7 {
+    margin-right: 7px !important; }
+  .contents .mr8 {
+    margin-right: 8px !important; }
+  .contents .mr9 {
+    margin-right: 9px !important; }
+  .contents .mr10 {
+    margin-right: 10px !important; }
+  .contents .mr15 {
+    margin-right: 15px !important; }
+  .contents .mr20 {
+    margin-right: 20px !important; }
+  .contents .mr25 {
+    margin-right: 25px !important; }
+  .contents .mr30 {
+    margin-right: 30px !important;
+    /**
+ * [static] パディング制御
+ */ }
+  .contents .pt1em {
+    padding-top: 1em !important; }
+  .contents .pt1p5em {
+    padding-top: 1.5em !important; }
+  .contents .pt2em {
+    padding-top: 2em !important; }
+  .contents .pt0 {
+    padding-top: 0 !important; }
+  .contents .pt1 {
+    padding-top: 1px !important; }
+  .contents .pt2 {
+    padding-top: 2px !important; }
+  .contents .pt3 {
+    padding-top: 3px !important; }
+  .contents .pt4 {
+    padding-top: 4px !important; }
+  .contents .pt5 {
+    padding-top: 5px !important; }
+  .contents .pt6 {
+    padding-top: 6px !important; }
+  .contents .pt7 {
+    padding-top: 7px !important; }
+  .contents .pt8 {
+    padding-top: 8px !important; }
+  .contents .pt9 {
+    padding-top: 9px !important; }
+  .contents .pt10 {
+    padding-top: 10px !important; }
+  .contents .pt15 {
+    padding-top: 15px !important; }
+  .contents .pt20 {
+    padding-top: 20px !important; }
+  .contents .pt25 {
+    padding-top: 25px !important; }
+  .contents .pt30 {
+    padding-top: 30px !important; }
+  .contents .pb1em {
+    padding-bottom: 1em !important; }
+  .contents .pb1p5em {
+    padding-bottom: 1.5em !important; }
+  .contents .pb2em {
+    padding-bottom: 2em !important; }
+  .contents .pb0 {
+    padding-bottom: 0 !important; }
+  .contents .pb1 {
+    padding-bottom: 1px !important; }
+  .contents .pb2 {
+    padding-bottom: 2px !important; }
+  .contents .pb3 {
+    padding-bottom: 3px !important; }
+  .contents .pb4 {
+    padding-bottom: 4px !important; }
+  .contents .pb5 {
+    padding-bottom: 5px !important; }
+  .contents .pb6 {
+    padding-bottom: 6px !important; }
+  .contents .pb7 {
+    padding-bottom: 7px !important; }
+  .contents .pb8 {
+    padding-bottom: 8px !important; }
+  .contents .pb9 {
+    padding-bottom: 9px !important; }
+  .contents .pb10 {
+    padding-bottom: 10px !important; }
+  .contents .pb15 {
+    padding-bottom: 15px !important; }
+  .contents .pb20 {
+    padding-bottom: 20px !important; }
+  .contents .pb25 {
+    padding-bottom: 25px !important; }
+  .contents .pb30 {
+    padding-bottom: 30px !important; }
+  .contents .pl0 {
+    padding-left: 0 !important; }
+  .contents .pl1 {
+    padding-left: 1px !important; }
+  .contents .pl2 {
+    padding-left: 2px !important; }
+  .contents .pl3 {
+    padding-left: 3px !important; }
+  .contents .pl4 {
+    padding-left: 4px !important; }
+  .contents .pl5 {
+    padding-left: 5px !important; }
+  .contents .pl6 {
+    padding-left: 6px !important; }
+  .contents .pl7 {
+    padding-left: 7px !important; }
+  .contents .pl8 {
+    padding-left: 8px !important; }
+  .contents .pl9 {
+    padding-left: 9px !important; }
+  .contents .pl10 {
+    padding-left: 10px !important; }
+  .contents .pl15 {
+    padding-left: 15px !important; }
+  .contents .pl20 {
+    padding-left: 20px !important; }
+  .contents .pl25 {
+    padding-left: 25px !important; }
+  .contents .pl30 {
+    padding-left: 30px !important; }
+  .contents .pr0 {
+    padding-right: 0 !important; }
+  .contents .pr1 {
+    padding-right: 1px !important; }
+  .contents .pr2 {
+    padding-right: 2px !important; }
+  .contents .pr3 {
+    padding-right: 3px !important; }
+  .contents .pr4 {
+    padding-right: 4px !important; }
+  .contents .pr5 {
+    padding-right: 5px !important; }
+  .contents .pr6 {
+    padding-right: 6px !important; }
+  .contents .pr7 {
+    padding-right: 7px !important; }
+  .contents .pr8 {
+    padding-right: 8px !important; }
+  .contents .pr9 {
+    padding-right: 9px !important; }
+  .contents .pr10 {
+    padding-right: 10px !important; }
+  .contents .pr15 {
+    padding-right: 15px !important; }
+  .contents .pr20 {
+    padding-right: 20px !important; }
+  .contents .pr25 {
+    padding-right: 25px !important; }
+  .contents .pr30 {
+    padding-right: 30px !important;
+    /**
+ * [parts] 文字サイズ
+ */ }
+  .contents .xxlarge {
+    font-size: 150%; }
+  .contents .xlarge {
+    font-size: 123%; }
+  .contents .large {
+    font-size: 108%; }
+  .contents .medium {
+    font-size: 108%; }
+  .contents .small {
+    font-size: 85%; }
+  .contents .xsmall {
+    font-size: 77%; }
+  .contents .xxsmall {
+    font-size: 60%;
+    /**
+ * [parts] リンク
+ */
+    /**
+ * [parts] アイコン付きリンク
+ */ }
+  .contents a.icon:before {
+    content: "⇒ ";
+    /**
+ * [parts] ページ内リンク(下向き)
+ */ }
+  .contents a.down:before {
+    content: "↓ ";
+    /**
+ * [parts] ページ内リンク(上向き)
+ */ }
+  .contents a.up:before {
+    content: "↑ ";
+    /**
+ * [parts] 戻るリンク
+ */ }
+  .contents a.back:before {
+    content: "← ";
+    /**
+ * [parts] 付加リンクモジュール：別ウィンドウリンク
+ */ }
+  .contents a span.blank:after {
+    content: " □";
+    /**
+ * [parts] 付加リンクモジュール：ダウンロードリンク
+ */ }
+  .contents a span.download:after {
+    content: " [↓]";
+    /**
+ * [parts] 付加リンクモジュール：PDF
+ */ }
+  .contents a span.pdf:after {
+    content: " (PDF)";
+    /**
+ * [parts] リンクリスト .anchor_links
+ */ }
+  .contents .anchor_links {
+    padding: 1.5em;
+    border: 1px solid #999; }
+  .contents .anchor_links .anchor_links-heading {
+    text-align: center;
+    font-weight: bold;
+    margin: 0 0 0.5em 0; }
+  .contents .anchor_links ul {
+    margin: 0;
+    padding: 0 0 0 1.5em;
+    /**
+ * [parts] 詳細リンクリスト .more_links
+ */ }
+  .contents .more_links {
+    margin-top: 0.5em;
+    margin-bottom: 2em;
+    border-top: dashed 1px #ddd; }
+  .contents .more_links ul {
+    margin: 0.3em 0 0 0;
+    text-align: right; }
+  .contents .more_links ul li {
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    padding: 0 0 0 1em;
+    /**
+ * [parts] ページトップリンク .page_top
+ */ }
+  .contents .page_top {
+    text-align: right;
+    /**
+ * [parts] 強調
+ */ }
+  .contents strong {
+    color: #f33;
+    font-weight: bold;
+    /**
+ * [parts] 強勢(アクセント)
+ */ }
+  .contents em {
+    color: #f60;
+    font-weight: normal;
+    font-style: normal;
+    /**
+ * [parts] エラー表示
+ */ }
+  .contents .error {
+    color: #f00;
+    /**
+ * [parts] 注釈表示
+ */ }
+  .contents .notes {
+    color: #999;
+    /**
+ * [parts] 画像置換
+ */ }
+  .contents .imgrep {
+    display: block;
+    position: relative;
+    top: auto;
+    left: auto;
+    padding: 0 0 0 0 !important;
+    border: 0 solid transparent !important;
+    overflow: hidden;
+    zoom: 100%; }
+  .contents .imgrep .imgrep-panel {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    zoom: 100%;
+    /**
+ * [parts] 読み上げブラウザ対応のための隠しナビゲーション
+ */ }
+  .contents .aural {
+    display: block;
+    visibility: hidden;
+    position: absolute;
+    left: 0;
+    top: 0;
+    overflow: hidden;
+    width: 0;
+    height: 0;
+    background-color: transparent;
+    /**
+ * [parts] カレントページ
+ */ }
+  .contents .current {
+    font-weight: bold;
+    /**
+ * [parts] 通常のリスト
+ */ }
+  .contents ul li {
+    list-style-type: disc;
+    text-indent: 0;
+    /**
+ * [parts] 注釈リスト
+ */ }
+  .contents ul.notes li.notes-li {
+    list-style-type: none;
+    text-indent: -1em;
+    /**
+ * [parts] リストマークがないリスト
+ */ }
+  .contents ul.nomark {
+    padding-left: 0; }
+  .contents ul.nomark li.nomark-li {
+    list-style-type: none;
+    padding-left: 0;
+    /**
+ * [parts] 水平並びリスト
+ */ }
+  .contents ul.horizontal {
+    padding-left: 0; }
+  .contents ul.horizontal li.horizontal-li {
+    list-style-type: none;
+    padding-left: 0;
+    padding-right: 20;
+    display: inline;
+    /**
+ * 注釈定義リスト
+ */ }
+  .contents dl.notes {
+    padding: 0 0 0 0;
+    margin-left: 0;
+    margin-right: 0; }
+  .contents dl.notes dt.notes-dt {
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+    float: left;
+    clear: left;
+    border: 0 none;
+    font-weight: normal; }
+  .contents dl.notes dd.notes-dd {
+    padding: 0 0 0 5px;
+    margin: 0 0 0 0;
+    float: none;
+    font-weight: normal;
+    display: block;
+    overflow: hidden;
+    zoom: 100%;
+    /**
+ * [parts] デフォルトテーブルスタイル
+ */ }
+  .contents table.def {
+    border: none;
+    border-collapse: collapse;
+    text-align: left; }
+  .contents table.def th, .contents table.def td {
+    border: 1px solid #999;
+    background: #fff;
+    padding: 10px; }
+  .contents table.def th {
+    background: #e7e7e7; }
+  .contents table.def thead th, .contents table.def tfoot th {
+    background: #d9d9d9;
+    text-align: center; }
+  .contents table.def thead td, .contents table.def tfoot td {
+    background: #eee;
+    /**
+ * [parts] ソースコード
+ */ }
+  .contents .code {
+    margin: 1em 0; }
+  .contents .code pre {
+    margin: 0; }
+  .contents .code code, .contents .code textarea {
+    border: 1px solid #999;
+    background: #f5f5f5;
+    padding: 1em;
+    font-size: small;
+    line-height: 1.5; }
+  .contents .code code {
+    display: block;
+    width: auto;
+    background: #e8e8e8;
+    border: 1px dashed #999;
+    overflow: auto; }
+  .contents .code textarea {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    height: 16em;
+    /**
+ * [parts] 日付入りリスト .date_list
+ */ }
+  .contents .date_list table {
+    width: 100%;
+    border: none;
+    border-collapse: collapse; }
+  .contents .date_list table th, .contents .date_list table td {
+    border-top: 1px solid #999;
+    border-bottom: 1px solid #999;
+    padding: 10px; }
+  .contents .date_list table th {
+    background: #e7e7e7; }
+  .contents .date_list table thead th, .contents .date_list table tfoot th {
+    background: #d9d9d9; }
+  .contents .date_list table thead td, .contents .date_list table tfoot td {
+    background: #eee; }
+  .contents .date_list table th {
+    white-space: nowrap; }
+  .contents .date_list table thead {
+    text-align: center;
+    /**
+ * [parts] フォーム要素
+ */ }
+  .contents table.form_elements {
+    border: none;
+    border-collapse: collapse;
+    text-align: left;
+    width: 100%; }
+  .contents table.form_elements thead {
+    display: none; }
+  .contents table.form_elements th, .contents table.form_elements td {
+    border: 1px solid #999;
+    background: #fff;
+    padding: 10px; }
+  .contents table.form_elements th {
+    background: #e7e7e7; }
+  .contents table.form_elements thead th, .contents table.form_elements tfoot th {
+    background: #d9d9d9;
+    text-align: center; }
+  .contents table.form_elements thead td, .contents table.form_elements tfoot td {
+    background: #eee; }
+  .contents table.form_elements tbody th {
+    width: 30%; }
+  .contents table.form_elements tbody td {
+    width: 70%; }
+  .contents table.form_elements .form_elements-notes {
+    font-size: 85%;
+    color: #999;
+    margin: 0;
+    padding: 0; }
+  .contents table.form_elements .form_elements-notes li {
+    list-style-type: none;
+    margin: 0; }
+  .contents table.form_elements .form_elements-list {
+    margin: 0;
+    padding: 0; }
+  .contents table.form_elements .form_elements-list li {
+    margin: 0;
+    padding: 0;
+    list-style-type: none; }
+  .contents table.form_elements .form_elements-list_horizontal {
+    margin: 0;
+    padding: 0; }
+  .contents table.form_elements .form_elements-list_horizontal li {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    display: inline; }
+  .contents table.form_elements .form_elements-error th {
+    background-color: #fcc; }
+  .contents table.form_elements .form_elements-error td {
+    background-color: #fff2f2; }
+  .contents table.form_elements ul.form_elements-errors {
+    color: #f00;
+    margin: 0;
+    padding: 0; }
+  .contents table.form_elements ul.form_elements-errors li {
+    list-style-type: none;
+    margin: 0;
+    /**
+ * [parts] 必須項目
+ */ }
+  .contents .must {
+    color: #f00;
+    font-weight: bold;
+    display: inline;
+    white-space: nowrap;
+    /**
+ * [box] 注意喚起ボックス
+ */ }
+  .contents .attention_box {
+    padding: 0.5em 1em;
+    background-color: #fcc; }
+  .contents .attention_box .attention_box-heading {
+    font-weight: bold;
+    margin: 1em 0;
+    font-size: 120%;
+    /**
+ * [box] トピックボックス
+ */ }
+  .contents .topic_box {
+    padding: 0.5em 1em;
+    background-color: #cec; }
+  .contents .topic_box .topic_box-heading {
+    font-weight: bold;
+    margin: 1em 0;
+    font-size: 120%;
+    /**
+ * [box] 付加情報ボックス
+ */ }
+  .contents .aside_box {
+    padding: 0.5em 1em;
+    background-color: #ddd;
+    font-size: 86%; }
+  .contents .aside_box .aside_box-heading {
+    font-weight: bold;
+    margin: 1em 0;
+    font-size: 120%;
+    /**
+ * [unit] ユニット
+ * モジュールの単位となる。前後にデフォルトマージン付加
+ */ }
+  .contents div.unit {
+    margin-top: 1em;
+    margin-bottom: 1.5em;
+    clear: both;
+    /**
+ * [static] .clearfix (and [unit] unit)
+ */ }
+  .contents .unit, .contents .clearfix {
+    display: block;
+    float: none;
+    clear: both; }
+  .contents .unit:after, .contents .clearfix:after {
+    content: " ";
+    display: block;
+    visibility: hidden;
+    height: 0.1px;
+    font-size: 0.1em;
+    line-height: 0;
+    clear: both; }
+  .contents .unit, .contents .clearfix {
+    zoom: 1;
+    /**
+ * [unit] カラムレイアウト
+ */ }
+  .contents .cols {
+    margin-left: -20px;
+    overflow: hidden; }
+  .contents .cols .cols-col {
+    float: left;
+    margin: 0 0 0 0; }
+  .contents .cols .cols-col.cols-3of4 {
+    width: 75%; }
+  .contents .cols .cols-col.cols-1of2 {
+    width: 50%; }
+  .contents .cols .cols-col.cols-2of3 {
+    width: 66.666%; }
+  .contents .cols .cols-col.cols-1of3 {
+    width: 33.333%; }
+  .contents .cols .cols-col.cols-1of4 {
+    width: 25%; }
+  .contents .cols .cols-pad {
+    margin-left: 20px; }
+  .contents .cols .cols-last {
+    float: right;
+    *margin-right: -10px;
+    /**
+ * [unit] フォーム送信ボタン
+ */ }
+  .contents .form_buttons {
+    position: relative;
+    text-align: center; }
+  .contents .form_buttons ul, .contents .form_buttons ul li {
+    margin: 0;
+    padding: 0;
+    list-style-type: none; }
+  .contents .form_buttons ul li.form_buttons-revise {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    /**
+ * [unit] エラー通知ボックス
+ */ }
+  .contents .form_error_box {
+    border: 2px solid #f90;
+    padding: 0 20px;
+    background-color: #fff5f5;
+    color: #f00;
+    margin-left: 20px;
+    margin-right: 20px;
+    border-radius: 10px; }
+  .contents .form_error_box a {
+    color: #f00;
+    /**
+ * [unit] 注意喚起ユニット
+ */ }
+  .contents .attention {
+    border: 1px solid #999;
+    padding: 0 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+    border-radius: 10px;
+    background-color: #f9f9f9; }
+  .contents .attention .attention-heading {
+    font-weight: bold;
+    margin: 1em 0;
+    font-size: 120%;
+    /**
+ * [unit] ページャー
+ */ }
+  .contents .pager ul {
+    text-align: center;
+    padding: 0;
+    margin: 0; }
+  .contents .pager ul li {
+    display: inline;
+    list-style-type: none;
+    padding: 0 5px 0 5px;
+    /**
+ * [unit] サムネイルリスト
+ */ }
+  .contents .thumb_list ul {
+    text-align: left;
+    padding: 0;
+    margin: 0;
+    font-size: 0;
+    margin-left: -10px;
+    zoom: 1; }
+  .contents .thumb_list li {
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    list-style-type: none;
+    width: 25%;
+    *width: 24.9%;
+    margin: 0;
+    margin-bottom: 10px;
+    padding: 0;
+    vertical-align: top;
+    font-size: small; }
+  .contents .thumb_list li .thumb_list-pad {
+    margin-left: 10px; }
+  .contents .thumb_list li a {
+    display: block;
+    width: 100%;
+    height: 100%; }
+  .contents .thumb_list li img {
+    width: 100%;
+    height: auto; }
+  .contents .thumb_list li:nth-child(4n+1) {
+    clear: left;
+    /**
+ * [unit] 回り込み画像
+ */ }
+  .contents .float_media .float_media-r1of2 {
+    float: right;
+    width: 50%;
+    margin-left: 20px;
+    margin-bottom: 20px; }
+  .contents .float_media .float_media-l1of2 {
+    float: left;
+    width: 50%;
+    margin-right: 20px;
+    margin-bottom: 20px; }
+  .contents .float_media .float_media-r1of3 {
+    float: right;
+    width: 33%;
+    margin-left: 20px;
+    margin-bottom: 20px; }
+  .contents .float_media .float_media-l1of3 {
+    float: left;
+    width: 33%;
+    margin-right: 20px;
+    margin-bottom: 20px; }
+  .contents .float_media .float_media-r1of4 {
+    float: right;
+    width: 25%;
+    margin-left: 20px;
+    margin-bottom: 20px; }
+  .contents .float_media .float_media-l1of4 {
+    float: left;
+    width: 25%;
+    margin-right: 20px;
+    margin-bottom: 20px; }
+  .contents .float_media .float_media-l1of2 img, .contents .float_media .float_media-l1of3 img, .contents .float_media .float_media-l1of4 img, .contents .float_media .float_media-r1of2 img, .contents .float_media .float_media-r1of3 img, .contents .float_media .float_media-r1of4 img {
+    width: 100%;
+    height: auto; }
+  .contents .float_media .float_media-caption {
+    font-size: 85%; }
+  .contents .float_media .float_media-body_rect {
+    overflow: hidden; }
+  .contents .float_media .float_media-body_rect *:first-child {
+    margin-top: 0; }
