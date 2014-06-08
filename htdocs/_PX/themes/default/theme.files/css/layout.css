@@ -122,6 +122,7 @@ header .theme_head_menu a:before{
 	padding:0.5em 20px;
 	background-color:#fff;
 	color:#333;
+	min-height:15em;
 }
 body.theme_layout_top .theme_column1{
 	float:none;
