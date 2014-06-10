@@ -86,14 +86,13 @@ Pickles Framework をインターネット上のサーバーで動かす場合�
 
 ## ライセンス - License
 
-MIT License を適用します。<br />
-see: <a href="http://ja.wikipedia.org/wiki/MIT_License">http://ja.wikipedia.org/wiki/MIT_License</a>
+<a href="http://ja.wikipedia.org/wiki/MIT_License" target="_blank">MIT License</a>
 
 
 ## 作者 - Author
 
 - (C)Tomoya Koyanagi &lt;tomk79@gmail.com&gt;
-- website: <a href="http://www.pxt.jp/">http://www.pxt.jp/</a>
-- Twitter: @tomk79 <a href="http://twitter.com/tomk79/">http://twitter.com/tomk79/</a>
+- website: <a href="http://www.pxt.jp/" target="_blank">http://www.pxt.jp/</a>
+- Twitter: @tomk79 <a href="http://twitter.com/tomk79/" target="_blank">http://twitter.com/tomk79/</a>
 
 
