@@ -1104,7 +1104,7 @@ class px_px{
 	 */
 	public function get_plugin_object( $plugin_name ){
 		if( !strlen($plugin_name) ){return false;}
-		if( !is_object($this->plugin_objects[$plugin_name]) ){
+		if( !@is_object($this->plugin_objects[$plugin_name]) ){
 			//  プラグインオブジェクトを生成
 			$tmp_path_plugins_base_dir = $this->get_conf('paths.px_dir').'plugins/';
 			if( !is_file( $tmp_path_plugins_base_dir.$plugin_name.'/register/object.php' ) ){

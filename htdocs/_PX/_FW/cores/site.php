@@ -1028,7 +1028,7 @@ class px_cores_site{
 		if(!is_null($opt['filter'])){ $filter = !empty($opt['filter']); }
 
 		//  子供がいたら
-		if(!$opt['skip_children']){
+		if(@!$opt['skip_children']){
 			$children = $this->get_children($path,$opt);
 			if(is_array($children) && count($children)){
 				foreach($children as $child){

@@ -441,7 +441,7 @@ class px_cores_theme{
 				}
 			}
 		}
-		if( is_string($args[1]) || (is_object($args[1]) && is_callable($args[1])) ){
+		if( @is_string($args[1]) || (@is_object($args[1]) && @is_callable($args[1])) ){
 			//  第2引数が文字列、または function なら
 			//  リンクのラベルとして採用
 			$label = $args[1];
@@ -502,7 +502,7 @@ class px_cores_theme{
 	public function mk_breadcrumb(){
 		$args = func_get_args();
 		$current_path = $this->px->req()->get_request_file_path();
-		if(strlen($args[0])){
+		if(@strlen($args[0])){
 			//オプションで指定があれば、カレントページを仮定する。
 			$current_path = $args[0];
 		}
@@ -788,7 +788,7 @@ class px_cores_theme{
 
 		#	インデックスの範囲
 		$index_size = 0;
-		if( !is_null( $options['index_size'] ) ){
+		if( !@is_null( $options['index_size'] ) ){
 			$index_size = intval( $options['index_size'] );
 		}
 		if( $index_size < 1 ){
