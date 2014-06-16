@@ -862,13 +862,13 @@ class px_cores_site{
 			unset($tmp_breadcrumb,$tmp_path,$tmp_page_info);
 
 			if( $page_info['id'] == $parent_page_id ){
-				if(strlen($row['orderby'])){
+				if(@strlen($row['orderby'])){
 					array_push( $tmp_children_orderby_manual , $row['id'] );
 				}else{
 					array_push( $tmp_children_orderby_auto , $row['id'] );
 				}
 				if( $row['list_flg'] ){
-					if(strlen($row['orderby'])){
+					if(@strlen($row['orderby'])){
 						array_push( $tmp_children_orderby_listed_manual , $row['id'] );
 					}else{
 						array_push( $tmp_children_orderby_listed_auto , $row['id'] );
@@ -1002,7 +1002,7 @@ class px_cores_site{
 				break;
 			}
 		}
-		for($i = $num-1; !is_null($bros[$i]); $i --){
+		for($i = $num-1; @!is_null($bros[$i]); $i --){
 			if(is_null($bros[$i])){
 				return false;
 			}

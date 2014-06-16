@@ -20,7 +20,7 @@ body{
 	}
 }
 a{
-	color: <?php print $colors['link']; ?>;
+	color: <?php print @$colors['link']; ?>;
 	text-decoration: underline;
 }
 a:hover{
@@ -57,7 +57,7 @@ header .theme_logo{
 header .theme_logo span,
 header .theme_logo a{
 	font-weight:bold;
-	color: <?php print $colors['link']; ?>;
+	color: <?php print @$colors['link']; ?>;
 	text-decoration: none;
 }
 header .theme_logo a:hover{
@@ -85,7 +85,7 @@ header .theme_head_menu ul li{
 }
 header .theme_head_menu a{
 	text-decoration:none;
-	color:<?php print $colors['link']; ?>;
+	color:<?php print @$colors['link']; ?>;
 	display:inline-block;
 }
 header .theme_head_menu a.current,
@@ -108,8 +108,8 @@ header .theme_head_menu a:before{
 .theme_column1{
 	width:74%;
 	float:left;
-	background-color: <?php print $colors['main']; ?>;
-	color: <?php print $colors['white']; ?>;
+	background-color: <?php print @$colors['main']; ?>;
+	color: <?php print @$colors['white']; ?>;
 	margin-bottom:1em;
 	box-shadow: 0px 3px 5px rgba(0,0,0,0.1);
 }
@@ -153,7 +153,7 @@ body.theme_layout_top .theme_column2{
 .theme_localnavi .theme_localnavi-parent{
 	font-size:80%;
 	text-align: center;
-	background-color: ;
+	background-color: transparent;
 }
 .theme_localnavi ul{
 	margin:0;
@@ -165,7 +165,7 @@ body.theme_layout_top .theme_column2{
 	list-style-type:none;
 }
 .theme_localnavi a{
-	color:<?php print $colors['link']; ?>;
+	color:<?php print @$colors['link']; ?>;
 	background-color:#fff;
 	display:block;
 	padding:0.5em 0.5em 0.5em 1em;
@@ -177,7 +177,7 @@ body.theme_layout_top .theme_column2{
 	margin-right:4px;
 }
 .theme_localnavi a:hover{
-	color: <?php print $colors['link']; ?>;
+	color: <?php print @$colors['link']; ?>;
 	text-decoration:underline;
 }
 .theme_localnavi ul ul li a{
@@ -205,7 +205,7 @@ body.theme_layout_top .theme_column2{
 	margin:0.2em auto;
 	text-align: right;
 	background-color:transparent;
-	color:<?php print $colors['main']; ?>;
+	color:<?php print @$colors['main']; ?>;
 	max-width:980px;
 	width:auto;
 }
@@ -236,7 +236,7 @@ footer .theme_foot_menu ul li{
 footer .theme_foot_close a,
 footer .theme_foot_menu a{
 	text-decoration:none;
-	color:<?php print $colors['link']; ?>;
+	color:<?php print @$colors['link']; ?>;
 }
 footer .theme_foot_close a.current,
 footer .theme_foot_menu a.current,
@@ -246,7 +246,7 @@ footer .theme_foot_menu a:hover{
 }
 footer .theme_foot_close a:before,
 footer .theme_foot_menu a:before{
-	content:url('<?php print $obj_funcs->create_src_link_icon_uri('icon', array('colors'=>array('link'=>$colors['link'],'linkx'=>$colors['white']))); ?>');
+	content:url('<?php print @$obj_funcs->create_src_link_icon_uri('icon', array('colors'=>array('link'=>$colors['link'],'linkx'=>$colors['white']))); ?>');
 	margin-right:4px;
 }
 footer .theme_foot_close{
@@ -254,7 +254,7 @@ footer .theme_foot_close{
 	margin:1em 0;
 }
 footer .theme_foot_back2top *{
-	color: <?php print $colors['link']; ?>;
+	color: <?php print @$colors['link']; ?>;
 	text-decoration: none;
 }
 
@@ -301,7 +301,7 @@ footer .theme_foot_back2top *{
 	background-color:transparent;
 	float:none;
 	clear:both;
-	color:<?php print $colors['link']; ?>;
+	color:<?php print @$colors['link']; ?>;
 }
 .breadcrumb ul,
 .breadcrumb ul li{
@@ -312,7 +312,7 @@ footer .theme_foot_back2top *{
 	font-size: 85%;
 }
 .breadcrumb *{
-	color:<?php print $colors['link']; ?>;
+	color:<?php print @$colors['link']; ?>;
 }
 
 

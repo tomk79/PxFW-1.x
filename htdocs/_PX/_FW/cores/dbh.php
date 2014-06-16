@@ -1099,7 +1099,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 		if( !preg_match( '/^([0-9]+)-([0-9]+)-([0-9]+)(?: ([0-9]+):([0-9]+):([0-9]+)(?:\.[0-9]+?)?)?$/' , $time , $res ) ){
 			return	false;
 		}
-		return	mktime( intval($res[4]) , intval($res[5]) , intval($res[6]) , intval($res[2]) , intval($res[3]) , intval($res[1]) );
+		return	@mktime( intval($res[4]) , intval($res[5]) , intval($res[6]) , intval($res[2]) , intval($res[3]) , intval($res[1]) );
 	}
 	/**
 	 * UNIXタイムスタンプの値を、date型に変換
