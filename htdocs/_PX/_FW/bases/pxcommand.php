@@ -160,7 +160,7 @@ class px_bases_pxcommand{
 		}
 		if( count($plugins_list) ){
 			foreach($plugins_list as $plugin_name){
-				$src .= '<option value="plugins.'.t::h(urlencode($plugin_name)).'"'.(implode( '.', array($this->pxcommand_name[0], $this->pxcommand_name[1]) )=='plugins.'.$plugin_name?' selected="selected"':'').'>plugins.'.t::h($plugin_name).'</option>'."\n";
+				$src .= '<option value="plugins.'.t::h(urlencode($plugin_name)).'"'.(implode( '.', array(@$this->pxcommand_name[0], @$this->pxcommand_name[1]) )=='plugins.'.$plugin_name?' selected="selected"':'').'>plugins.'.t::h($plugin_name).'</option>'."\n";
 			}
 		}
 		$src .= '</select>'."\n";
@@ -201,7 +201,7 @@ class px_bases_pxcommand{
 		if( count($plugins_list) ){
 			$src .= '<dt>plugins:</dt>'."\n";
 			foreach($plugins_list as $plugin_name){
-				$src .= '<dd><a href="?PX=plugins.'.t::h(urlencode($plugin_name)).'"'.(implode( '.', array($this->pxcommand_name[0], $this->pxcommand_name[1]) )=='plugins.'.$plugin_name?' class="current"':'').'>'.t::h($plugin_name).'</a></dd>'."\n";
+				$src .= '<dd><a href="?PX=plugins.'.t::h(urlencode($plugin_name)).'"'.(implode( '.', array(@$this->pxcommand_name[0], @$this->pxcommand_name[1]) )=='plugins.'.$plugin_name?' class="current"':'').'>'.t::h($plugin_name).'</a></dd>'."\n";
 			}
 		}
 		$src .= '</dl>'."\n";

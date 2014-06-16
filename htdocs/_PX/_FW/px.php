@@ -1390,20 +1390,20 @@ class px_px{
 		#	出力バッファをすべてクリア
 		while( @ob_end_clean() );
 
-		if( strpos( $_SERVER['HTTP_USER_AGENT'] , 'MSIE' ) ){
+		if( @strpos( $_SERVER['HTTP_USER_AGENT'] , 'MSIE' ) ){
 			#	MSIE対策
 			#	→こんな問題 http://support.microsoft.com/kb/323308/ja
 			@header( 'Cache-Control: public' );
 			@header( 'Pragma: public' );
 		}
 
-		if( strlen( $options['content-type'] ) ){
+		if( @strlen( $options['content-type'] ) ){
 			$contenttype = $options['content-type'];
 		}else{
 			$contenttype = 'application/octet-stream';
 		}
-		if( strlen( $contenttype ) ){
-			if( strlen( $options['charset'] ) ){
+		if( @strlen( $contenttype ) ){
+			if( @strlen( $options['charset'] ) ){
 				$contenttype .= '; charset='.$options['charset'];
 			}
 			@header( 'Content-type: '.$contenttype );
@@ -1412,7 +1412,7 @@ class px_px{
 		#	ダウンロードの容量
 		@header( 'Content-Length: '.filesize( $filepath ) );
 
-		if( strlen( $options['filename'] ) ){
+		if( @strlen( $options['filename'] ) ){
 			#	ダウンロードファイル名
 			@header( 'Content-Disposition: attachment; filename='.$options['filename'] );
 		}

@@ -395,10 +395,10 @@ class px_cores_req{
 	public function get_uploadfile( $key ){
 		if(!strlen($key)){ return false; }
 
-		$RTN = $_SESSION['FILE'][$key];
+		$RTN = @$_SESSION['FILE'][$key];
 		if( is_null( $RTN ) ){ return false; }
 
-		$RTN['content'] = base64_decode( $RTN['content'] );
+		$RTN['content'] = base64_decode( @$RTN['content'] );
 		return	$RTN;
 	}
 	/**
