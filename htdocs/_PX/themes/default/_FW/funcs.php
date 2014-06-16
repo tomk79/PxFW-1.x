@@ -2,7 +2,7 @@
 
 /**
  * テーマ関数集
- **/
+ */
 class pxtheme_funcs{
 
 	private $px;
@@ -44,11 +44,11 @@ class pxtheme_funcs{
 	}//get_color_scheme()
 
 	/**
-	 * PxFWのSVGロゴソースを返す
+	 * PxFWのSVGロゴソースを返す。
 	 */
 	public function create_src_pxfw_logo_svg($opt = array()){
 		$colors = $this->get_color_scheme();
-		if( strlen($opt['color']) ){
+		if( @strlen($opt['color']) ){
 			$colors['mainx'] = $opt['color'];
 		}
 		ob_start();
@@ -148,7 +148,7 @@ class pxtheme_funcs{
 	}//create_src_pxfw_logo_svg()
 
 	/**
-	 * リンクアイコンのSVGロゴソースを返す
+	 * リンクアイコンのSVGロゴソースを返す。
 	 */
 	public function create_src_link_icon_uri($type, $opt = array()){
 		$colors = $this->get_color_scheme();
@@ -226,11 +226,11 @@ class pxtheme_funcs{
 
 
 	/**
-	 * welcomeイメージのソースを返す
+	 * welcomeイメージのソースを返す。
 	 */
 	public function create_src_welcome_svg($opt = array()){
 		$colors = $this->get_color_scheme();
-		if( strlen($opt['color']) ){
+		if( @strlen($opt['color']) ){
 			$colors['mainx'] = $opt['color'];
 		}
 		ob_start();
