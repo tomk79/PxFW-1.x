@@ -529,7 +529,7 @@ class px_cores_site{
 		if( is_null( @$this->sitemap_array[$path] ) ){
 			//  サイトマップにズバリなければ、
 			//  引数からパラメータを外したパスだけで再検索
-			$path = $parsed_url['path'];
+			$path = @$parsed_url['path'];
 		}
 
 		$rtn = @$this->sitemap_array[$path];
