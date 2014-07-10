@@ -311,6 +311,7 @@ class t{
 
 		if( is_array( $value ) ){
 			#	配列
+			$RTN = '';
 			$is_hash = false;
 			$i = 0;
 			foreach( $value as $key=>$val ){
@@ -332,9 +333,9 @@ class t{
 			}else{
 				$RTN .= '[';
 			}
-			if( $options['array_break'] ){ $RTN .= "\n"; }
+			if( @$options['array_break'] ){ $RTN .= "\n"; }
 			foreach( $value as $key=>$val ){
-				if( $options['delete_arrayelm_if_null'] && is_null( $value[$key] ) ){
+				if( @$options['delete_arrayelm_if_null'] && is_null( $value[$key] ) ){
 					#	配列のnull要素を削除するオプションが有効だった場合
 					continue;
 				}
@@ -343,7 +344,7 @@ class t{
 				}
 				$RTN .= t::data2jssrc( $value[$key] , $options );
 				$RTN .= ', ';
-				if( $options['array_break'] ){ $RTN .= "\n"; }
+				if( @$options['array_break'] ){ $RTN .= "\n"; }
 			}
 			$RTN = preg_replace( '/,(?:\s+)?(?:\r\n|\r|\n)?$/' , '' , $RTN );
 			if( $is_hash ){
@@ -351,7 +352,7 @@ class t{
 			}else{
 				$RTN .= ']';
 			}
-			if( $options['array_break'] ){ $RTN .= "\n"; }
+			if( @$options['array_break'] ){ $RTN .= "\n"; }
 			return	$RTN;
 		}
 
