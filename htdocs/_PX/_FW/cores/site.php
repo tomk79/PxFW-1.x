@@ -965,7 +965,7 @@ class px_cores_site{
 				break;
 			}
 		}
-		for($i = $num+1; !is_null($bros[$i]); $i ++){
+		for($i = $num+1; @!is_null($bros[$i]); $i ++){
 			if(is_null($bros[$i])){
 				return false;
 			}
