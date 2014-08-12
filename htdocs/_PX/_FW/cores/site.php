@@ -815,7 +815,7 @@ class px_cores_site{
 			//  ページキャッシュツリーがすでに作られている場合
 			return $this->sitemap_page_tree[$page_info['path']]['children'];
 		}
-		if( !$filter && is_array( $this->sitemap_page_tree[$page_info['path']]['children_all'] ) ){
+		if( !$filter && is_array( @$this->sitemap_page_tree[$page_info['path']]['children_all'] ) ){
 			//  ページキャッシュツリーがすでに作られている場合
 			return $this->sitemap_page_tree[$page_info['path']]['children_all'];
 		}
@@ -951,7 +951,7 @@ class px_cores_site{
 			$path = $this->px->req()->get_request_file_path();
 		}
 		$filter = true;
-		if(!is_null($opt['filter'])){ $filter = !empty($opt['filter']); }
+		if(!is_null(@$opt['filter'])){ $filter = !empty($opt['filter']); }
 
 		$bros = $this->get_bros($path,$opt);
 		$page_info = $this->get_page_info($path);
@@ -988,7 +988,7 @@ class px_cores_site{
 			$path = $this->px->req()->get_request_file_path();
 		}
 		$filter = true;
-		if(!is_null($opt['filter'])){ $filter = !empty($opt['filter']); }
+		if(!is_null(@$opt['filter'])){ $filter = !empty($opt['filter']); }
 
 		$bros = $this->get_bros($path,$opt);
 		$page_info = $this->get_page_info($path);
@@ -1025,7 +1025,7 @@ class px_cores_site{
 			$path = $this->px->req()->get_request_file_path();
 		}
 		$filter = true;
-		if(!is_null($opt['filter'])){ $filter = !empty($opt['filter']); }
+		if(!is_null(@$opt['filter'])){ $filter = !empty($opt['filter']); }
 
 		//  子供がいたら
 		if(@!$opt['skip_children']){
@@ -1062,6 +1062,10 @@ class px_cores_site{
 	 * 
 	 * @param string $path 起点とするページのパス または ページID。省略時、カレントページから自動的に取得します。
 	 * @param array $opt オプション(省略可)
+	 * <dl>
+	 *   <dt>$opt['filter'] (初期値: `true`)</dt>
+	 *     <dd>フィルターの有効/無効を切り替えます。`true` のとき有効、`false`のとき無効となります。フィルターが有効な場合、サイトマップで `layout` が `popup` のページ、およびエイリアスが除外され、さらにその前のページを探します。</dd>
+	 * </dl>
 	 * @return string|bool ページID。存在しない場合は `false`を返します。
 	 */
 	public function get_prev( $path = null, $opt = array() ){
@@ -1069,31 +1073,49 @@ class px_cores_site{
 			$path = $this->px->req()->get_request_file_path();
 		}
 		$filter = true;
-		if(!is_null($opt['filter'])){ $filter = !empty($opt['filter']); }
-
-		//  前の兄弟がいたら、そのひとがprev
-		$page_bros_prev = $this->get_bros_prev($path,$opt);
-		if($page_bros_prev!==false){
-			// 前の兄弟の子供を調べる。 該当する子供がいたらそのひとがprev
-			$prev_children = $this->get_children($page_bros_prev,$opt);
-			if(is_array($prev_children) && count($prev_children)){
-				if( $filter===false || $this->get_page_info($prev_children[count($prev_children)-1], 'layout') != 'popup' && $this->get_path_type($this->get_page_info($prev_children[count($prev_children)-1], 'path')) != 'alias'){
-					return $prev_children[count($prev_children)-1];
-				}
-				$child_prev = $this->get_bros_prev($prev_children[count($prev_children)-1],$opt);
-				if( $child_prev !== false ){
-					return $child_prev;
-				}
-			}
-			return $page_bros_prev;
+		if(!is_null(@$opt['filter'])){
+			$filter = !empty($opt['filter']);
 		}
 
-		//  親の兄弟
-		$parent = $this->get_parent($path);
-		if($parent===false){return false;}
+		$fin = null;
+		$current_page = $path;
 
-		return $parent;
-	}
+		//  前の兄弟がいたら、そのひとがprev
+		$page_bros_prev = $this->get_bros_prev($current_page,$opt);
+		if($page_bros_prev!==false){
+			// [兄がいた場合]
+			// 前の兄弟の子供を調べる。
+			$fin = $page_bros_prev;
+			while( $prev_children = $this->get_children($fin, $opt) ){
+				if(is_array($prev_children) && count($prev_children)){
+					// 該当する子供がいたら末っ子がprev
+					$fin = $prev_children[count($prev_children)-1];
+					continue;
+				}
+				break;
+			}
+		}else{
+			// [兄がいない場合]
+			// 親を返す
+			$parent = $this->get_parent($current_page);
+			if($parent===false){
+				return false;
+			}
+			$fin = $parent;
+		}
+
+		// フィルター検証
+		if( $filter===true &&
+			(
+				$this->get_page_info($fin, 'layout') == 'popup' || // <- popupはとばす (行き止まりができるので)
+				$this->get_path_type($this->get_page_info($fin, 'path')) == 'alias' // <- エイリアスはとばす (ループが起きるので)
+			)
+		){
+			return $this->get_prev($fin);
+		}
+
+		return $fin;
+	}// get_prev()
 
 	/**
 	 * パンくず配列を取得する。
