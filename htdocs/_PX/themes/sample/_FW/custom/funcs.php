@@ -21,7 +21,7 @@ class pxtheme_custom_funcs{
 	public function mk_breadcrumb(){
 		$args = func_get_args();
 		$current_path = $this->px->req()->get_request_file_path();
-		if(strlen($args[0])){
+		if(strlen(@$args[0])){
 			//オプションで指定があれば、カレントページを仮定する。
 			$current_path = $args[0];
 		}
