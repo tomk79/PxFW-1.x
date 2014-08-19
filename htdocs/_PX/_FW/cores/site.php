@@ -960,6 +960,7 @@ class px_cores_site{
 			return false;
 		}
 
+		$num = 0;
 		foreach($bros as $num=>$row){
 			if( $row == $page_info['id'] ){
 				break;
