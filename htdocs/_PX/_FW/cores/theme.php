@@ -508,7 +508,7 @@ class px_cores_theme{
 		}
 		$page_info = $this->px->site()->get_page_info($current_path);
 		$page_info['logical_path'] = trim($page_info['logical_path']);
-		if( $page_info['id'] == '' ){
+		if( @$page_info['id'] == '' ){
 			//  ホームの場合
 			return '<ul><li><span class="current">'.t::h($this->px->site()->get_page_info('','title_breadcrumb')).'</span></li></ul>';
 		}
