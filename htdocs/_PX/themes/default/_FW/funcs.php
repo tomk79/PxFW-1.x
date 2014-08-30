@@ -152,12 +152,13 @@ class pxtheme_funcs{
 	 */
 	public function create_src_link_icon_uri($type, $opt = array()){
 		$colors = $this->get_color_scheme();
-		if( is_array($opt['colors']) ){
+		if( is_array(@$opt['colors']) ){
 			foreach( $opt['colors'] as $key=>$val ){
 				$colors[$key] = $val;
 			}
 		}
 		$colors['linkx'] = '#fff';
+		$tpl = null;
 		switch($type){
 			case 'blank':
 				$tpl = 'blank';

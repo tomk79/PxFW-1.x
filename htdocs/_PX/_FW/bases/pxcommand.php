@@ -379,7 +379,7 @@ a:hover{
 		ob_start(); ?>
 @charset "UTF-8";
 /**
- * FESS 1.1.1
+ * FESS 1.1.2
  * @author Tomoya Koyanagi <tomk79@gmail.com>
  */
 /**
@@ -1088,7 +1088,6 @@ a span.pdf:after {
  * [parts] 強調
  */
 strong {
-  color: #ff3333;
   font-weight: bold;
 }
 
@@ -1408,6 +1407,8 @@ table.form_elements ul.form_elements-errors li {
   font-weight: bold;
   display: inline;
   white-space: nowrap;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
 }
 
 /**
@@ -1685,6 +1686,267 @@ div.unit {
   margin-top: 0;
 }
 
+code {
+  color: #933;
+  border: 1px solid #999;
+  padding: 0 0.7em;
+  margin-left: 0.2em;
+  margin-right: 0.2em;
+  background-color: #f5f5f5;
+  border-radius: 0.2em;
+}
+
+/**
+ * [unit] カラムレイアウト
+ */
+@media all and (max-width: 520px) {
+  .cols .cols-col.cols-3of4 {
+    width: auto;
+    float: none;
+  }
+}
+@media all and (max-width: 520px) {
+  .cols .cols-col.cols-1of2 {
+    width: auto;
+    float: none;
+  }
+}
+@media all and (max-width: 520px) {
+  .cols .cols-col.cols-2of3 {
+    width: auto;
+    float: none;
+  }
+}
+@media all and (max-width: 520px) {
+  .cols .cols-col.cols-1of3 {
+    width: auto;
+    float: none;
+  }
+}
+@media all and (max-width: 520px) {
+  .cols .cols-col.cols-1of4 {
+    width: auto;
+    float: none;
+  }
+}
+
+/**
+ * [unit] サムネイルリスト
+ */
+@media all and (max-width: 520px) {
+  .thumb_list li {
+    width: 33%;
+    *width: 32.9%;
+  }
+}
+@media all and (max-width: 420px) {
+  .thumb_list li {
+    width: 50%;
+    *width: 49.9%;
+  }
+}
+
+/**
+ * [unit] 回り込み画像
+ */
+.float_media .float_media-caption {
+  font-size: 77%;
+  margin-top: 0.5em;
+  line-height: 1.3;
+}
+
+/**
+ * [parts] ソースコード
+ */
+@media all and (max-width: 460px) {
+  .code pre {
+    white-space: pre-wrap;
+  }
+}
+
+/**
+ * [parts] 日付入りリスト .date_list
+ */
+@media all and (max-width: 460px) {
+  .date_list table {
+    width: auto;
+    display: block;
+    border-bottom: 1px solid;
+  }
+  .date_list table th,
+  .date_list table td {
+    width: auto;
+    display: block;
+    border-bottom: 0;
+  }
+  .date_list table th {
+    background: #e7e7e7;
+  }
+  .date_list table thead,
+  .date_list table tfoot {
+    display: none;
+  }
+  .date_list table th {
+    white-space: nowrap;
+  }
+}
+
+/**
+ * [parts] フォーム要素
+ */
+button,
+input[type=button],
+input[type=submit] {
+  padding: 0.5em 2.5em 0.5em 2.5em;
+  display: inline-block;
+  background-color: #f3f3f3;
+  border-radius: 0.2em;
+  border: 0;
+  -webkit-box-shadow: 0.1em 0.2em 0 0 #cccccc;
+  -moz-box-shadow: 0.1em 0.2em 0 0 #cccccc;
+  -ms-box-shadow: 0.1em 0.2em 0 0 #cccccc;
+  box-shadow: 0.1em 0.2em 0 0 #cccccc;
+}
+button:hover,
+input[type=button]:hover,
+input[type=submit]:hover {
+  background-color: #e9e9e9;
+}
+button:active,
+input[type=button]:active,
+input[type=submit]:active {
+  background-color: #ddd;
+}
+@media all and (max-width: 520px) {
+  button,
+  input[type=button],
+  input[type=submit] {
+    padding: 0.2em 1.5em;
+  }
+}
+@media all and (max-width: 430px) {
+  button,
+  input[type=button],
+  input[type=submit] {
+    padding: 0.2em 0.5em;
+  }
+}
+
+select {
+  display: inline-block;
+  background-color: #f3f3f3;
+  border-radius: 0.2em;
+  border: 0;
+  -webkit-box-shadow: 0.1em 0.2em 0 0 #cccccc;
+  -moz-box-shadow: 0.1em 0.2em 0 0 #cccccc;
+  -ms-box-shadow: 0.1em 0.2em 0 0 #cccccc;
+  box-shadow: 0.1em 0.2em 0 0 #cccccc;
+}
+
+@media all and (max-width: 520px) {
+  table.form_elements {
+    border-bottom: 1px solid;
+  }
+  table.form_elements, table.form_elements tbody {
+    display: block;
+    width: auto;
+  }
+  table.form_elements thead tr,
+  table.form_elements thead th,
+  table.form_elements thead td,
+  table.form_elements tbody tr,
+  table.form_elements tbody th,
+  table.form_elements tbody td {
+    display: block;
+    width: auto;
+    border-bottom: 0;
+  }
+}
+
+/**
+ * [parts] 必須項目
+ */
+.must {
+  border: 1px solid #f63;
+  background-color: #fdd;
+  padding: 0.2em 0.8em;
+  font-size: 90%;
+  border-radius: 1.2em;
+}
+
+/**
+ * [unit] フォーム送信ボタン
+ */
+.form_buttons .form_buttons-submit button,
+.form_buttons .form_buttons-submit input[type=button],
+.form_buttons .form_buttons-submit input[type=submit] {
+  font-weight: bold;
+  font-size: 130%;
+  background-color: #beb;
+}
+.form_buttons .form_buttons-revise button,
+.form_buttons .form_buttons-revise input[type=button],
+.form_buttons .form_buttons-revise input[type=submit] {
+  font-size: 80%;
+}
+
+/**
+ * [parts] リンクリスト .anchor_links
+ */
+.anchor_links {
+  border-radius: 1em;
+}
+
+/**
+ * [box] 注意喚起ボックス
+ */
+.attention_box {
+  border-radius: 1em;
+  border: 1px solid #f96;
+  margin-left: 20px;
+  margin-right: 20px;
+  padding: 1.5em 3em;
+}
+.attention_box :first-child {
+  margin-top: 0;
+}
+.attention_box :last-child {
+  margin-bottom: 0;
+}
+
+/**
+ * [box] トピックボックス
+ */
+.topic_box {
+  border-radius: 1em;
+  border: 1px solid #4a7;
+  margin-left: 20px;
+  margin-right: 20px;
+  padding: 1.5em 3em;
+}
+.topic_box :first-child {
+  margin-top: 0;
+}
+.topic_box :last-child {
+  margin-bottom: 0;
+}
+
+/**
+ * [box] 付加情報ボックス
+ */
+.aside_box {
+  border-radius: 1em;
+  border: 1px solid #999;
+  margin-left: 20px;
+  margin-right: 20px;
+  padding: 1.5em 3em;
+}
+.aside_box :first-child {
+  margin-top: 0;
+}
+.aside_box :last-child {
+  margin-bottom: 0;
+}
 <?php
 		return ob_get_clean();
 	}// create_src_fess()

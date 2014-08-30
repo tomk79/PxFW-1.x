@@ -1,0 +1,1570 @@
+@charset "UTF-8";
+/**
+ * FESS 1.1.2
+ * @author Tomoya Koyanagi <tomk79@gmail.com>
+ */
+/**
+ * [static] 文字組み
+ */
+.center {
+  text-align: center;
+}
+
+.left {
+  text-align: left;
+}
+
+.right {
+  text-align: right;
+}
+
+/**
+ * [static] まわりこみ制御
+ */
+.fl {
+  float: left;
+}
+
+.fr {
+  float: right;
+}
+
+.fc {
+  float: none;
+  clear: both;
+}
+
+/**
+ * [static] レイアウト制御
+ */
+.inline {
+  display: inline !important;
+}
+
+.block {
+  display: block !important;
+}
+
+/**
+ * [static] マージン制御
+ */
+.mt1em {
+  margin-top: 1em !important;
+}
+
+.mt1p5em {
+  margin-top: 1.5em !important;
+}
+
+.mt2em {
+  margin-top: 2em !important;
+}
+
+.mt0 {
+  margin-top: 0   !important;
+}
+
+.mt1 {
+  margin-top: 1px !important;
+}
+
+.mt2 {
+  margin-top: 2px !important;
+}
+
+.mt3 {
+  margin-top: 3px !important;
+}
+
+.mt4 {
+  margin-top: 4px !important;
+}
+
+.mt5 {
+  margin-top: 5px !important;
+}
+
+.mt6 {
+  margin-top: 6px !important;
+}
+
+.mt7 {
+  margin-top: 7px !important;
+}
+
+.mt8 {
+  margin-top: 8px !important;
+}
+
+.mt9 {
+  margin-top: 9px !important;
+}
+
+.mt10 {
+  margin-top: 10px !important;
+}
+
+.mt15 {
+  margin-top: 15px !important;
+}
+
+.mt20 {
+  margin-top: 20px !important;
+}
+
+.mt25 {
+  margin-top: 25px !important;
+}
+
+.mt30 {
+  margin-top: 30px !important;
+}
+
+.mb1em {
+  margin-bottom: 1em !important;
+}
+
+.mb1p5em {
+  margin-bottom: 1.5em !important;
+}
+
+.mb2em {
+  margin-bottom: 2em !important;
+}
+
+.mb0 {
+  margin-bottom: 0   !important;
+}
+
+.mb1 {
+  margin-bottom: 1px !important;
+}
+
+.mb2 {
+  margin-bottom: 2px !important;
+}
+
+.mb3 {
+  margin-bottom: 3px !important;
+}
+
+.mb4 {
+  margin-bottom: 4px !important;
+}
+
+.mb5 {
+  margin-bottom: 5px !important;
+}
+
+.mb6 {
+  margin-bottom: 6px !important;
+}
+
+.mb7 {
+  margin-bottom: 7px !important;
+}
+
+.mb8 {
+  margin-bottom: 8px !important;
+}
+
+.mb9 {
+  margin-bottom: 9px !important;
+}
+
+.mb10 {
+  margin-bottom: 10px !important;
+}
+
+.mb15 {
+  margin-bottom: 15px !important;
+}
+
+.mb20 {
+  margin-bottom: 20px !important;
+}
+
+.mb25 {
+  margin-bottom: 25px !important;
+}
+
+.mb30 {
+  margin-bottom: 30px !important;
+}
+
+.ml0 {
+  margin-left: 0   !important;
+}
+
+.ml1 {
+  margin-left: 1px !important;
+}
+
+.ml2 {
+  margin-left: 2px !important;
+}
+
+.ml3 {
+  margin-left: 3px !important;
+}
+
+.ml4 {
+  margin-left: 4px !important;
+}
+
+.ml5 {
+  margin-left: 5px !important;
+}
+
+.ml6 {
+  margin-left: 6px !important;
+}
+
+.ml7 {
+  margin-left: 7px !important;
+}
+
+.ml8 {
+  margin-left: 8px !important;
+}
+
+.ml9 {
+  margin-left: 9px !important;
+}
+
+.ml10 {
+  margin-left: 10px !important;
+}
+
+.ml15 {
+  margin-left: 15px !important;
+}
+
+.ml20 {
+  margin-left: 20px !important;
+}
+
+.ml25 {
+  margin-left: 25px !important;
+}
+
+.ml30 {
+  margin-left: 30px !important;
+}
+
+.mr0 {
+  margin-right: 0   !important;
+}
+
+.mr1 {
+  margin-right: 1px !important;
+}
+
+.mr2 {
+  margin-right: 2px !important;
+}
+
+.mr3 {
+  margin-right: 3px !important;
+}
+
+.mr4 {
+  margin-right: 4px !important;
+}
+
+.mr5 {
+  margin-right: 5px !important;
+}
+
+.mr6 {
+  margin-right: 6px !important;
+}
+
+.mr7 {
+  margin-right: 7px !important;
+}
+
+.mr8 {
+  margin-right: 8px !important;
+}
+
+.mr9 {
+  margin-right: 9px !important;
+}
+
+.mr10 {
+  margin-right: 10px !important;
+}
+
+.mr15 {
+  margin-right: 15px !important;
+}
+
+.mr20 {
+  margin-right: 20px !important;
+}
+
+.mr25 {
+  margin-right: 25px !important;
+}
+
+.mr30 {
+  margin-right: 30px !important;
+}
+
+/**
+ * [static] パディング制御
+ */
+.pt1em {
+  padding-top: 1em !important;
+}
+
+.pt1p5em {
+  padding-top: 1.5em !important;
+}
+
+.pt2em {
+  padding-top: 2em !important;
+}
+
+.pt0 {
+  padding-top: 0   !important;
+}
+
+.pt1 {
+  padding-top: 1px !important;
+}
+
+.pt2 {
+  padding-top: 2px !important;
+}
+
+.pt3 {
+  padding-top: 3px !important;
+}
+
+.pt4 {
+  padding-top: 4px !important;
+}
+
+.pt5 {
+  padding-top: 5px !important;
+}
+
+.pt6 {
+  padding-top: 6px !important;
+}
+
+.pt7 {
+  padding-top: 7px !important;
+}
+
+.pt8 {
+  padding-top: 8px !important;
+}
+
+.pt9 {
+  padding-top: 9px !important;
+}
+
+.pt10 {
+  padding-top: 10px !important;
+}
+
+.pt15 {
+  padding-top: 15px !important;
+}
+
+.pt20 {
+  padding-top: 20px !important;
+}
+
+.pt25 {
+  padding-top: 25px !important;
+}
+
+.pt30 {
+  padding-top: 30px !important;
+}
+
+.pb1em {
+  padding-bottom: 1em !important;
+}
+
+.pb1p5em {
+  padding-bottom: 1.5em !important;
+}
+
+.pb2em {
+  padding-bottom: 2em !important;
+}
+
+.pb0 {
+  padding-bottom: 0   !important;
+}
+
+.pb1 {
+  padding-bottom: 1px !important;
+}
+
+.pb2 {
+  padding-bottom: 2px !important;
+}
+
+.pb3 {
+  padding-bottom: 3px !important;
+}
+
+.pb4 {
+  padding-bottom: 4px !important;
+}
+
+.pb5 {
+  padding-bottom: 5px !important;
+}
+
+.pb6 {
+  padding-bottom: 6px !important;
+}
+
+.pb7 {
+  padding-bottom: 7px !important;
+}
+
+.pb8 {
+  padding-bottom: 8px !important;
+}
+
+.pb9 {
+  padding-bottom: 9px !important;
+}
+
+.pb10 {
+  padding-bottom: 10px !important;
+}
+
+.pb15 {
+  padding-bottom: 15px !important;
+}
+
+.pb20 {
+  padding-bottom: 20px !important;
+}
+
+.pb25 {
+  padding-bottom: 25px !important;
+}
+
+.pb30 {
+  padding-bottom: 30px !important;
+}
+
+.pl0 {
+  padding-left: 0   !important;
+}
+
+.pl1 {
+  padding-left: 1px !important;
+}
+
+.pl2 {
+  padding-left: 2px !important;
+}
+
+.pl3 {
+  padding-left: 3px !important;
+}
+
+.pl4 {
+  padding-left: 4px !important;
+}
+
+.pl5 {
+  padding-left: 5px !important;
+}
+
+.pl6 {
+  padding-left: 6px !important;
+}
+
+.pl7 {
+  padding-left: 7px !important;
+}
+
+.pl8 {
+  padding-left: 8px !important;
+}
+
+.pl9 {
+  padding-left: 9px !important;
+}
+
+.pl10 {
+  padding-left: 10px !important;
+}
+
+.pl15 {
+  padding-left: 15px !important;
+}
+
+.pl20 {
+  padding-left: 20px !important;
+}
+
+.pl25 {
+  padding-left: 25px !important;
+}
+
+.pl30 {
+  padding-left: 30px !important;
+}
+
+.pr0 {
+  padding-right: 0   !important;
+}
+
+.pr1 {
+  padding-right: 1px !important;
+}
+
+.pr2 {
+  padding-right: 2px !important;
+}
+
+.pr3 {
+  padding-right: 3px !important;
+}
+
+.pr4 {
+  padding-right: 4px !important;
+}
+
+.pr5 {
+  padding-right: 5px !important;
+}
+
+.pr6 {
+  padding-right: 6px !important;
+}
+
+.pr7 {
+  padding-right: 7px !important;
+}
+
+.pr8 {
+  padding-right: 8px !important;
+}
+
+.pr9 {
+  padding-right: 9px !important;
+}
+
+.pr10 {
+  padding-right: 10px !important;
+}
+
+.pr15 {
+  padding-right: 15px !important;
+}
+
+.pr20 {
+  padding-right: 20px !important;
+}
+
+.pr25 {
+  padding-right: 25px !important;
+}
+
+.pr30 {
+  padding-right: 30px !important;
+}
+
+/**
+ * [parts] 文字サイズ
+ */
+.xxlarge {
+  font-size: 150%;
+}
+
+.xlarge {
+  font-size: 123%;
+}
+
+.large {
+  font-size: 108%;
+}
+
+.medium {
+  font-size: 108%;
+}
+
+.small {
+  font-size: 85%;
+}
+
+.xsmall {
+  font-size: 77%;
+}
+
+.xxsmall {
+  font-size: 60%;
+}
+
+/**
+ * [parts] リンク
+ */
+/**
+ * [parts] アイコン付きリンク
+ */
+a.icon:before {
+  content: "⇒ ";
+}
+
+/**
+ * [parts] ページ内リンク(下向き)
+ */
+a.down:before {
+  content: "↓ ";
+}
+
+/**
+ * [parts] ページ内リンク(上向き)
+ */
+a.up:before {
+  content: "↑ ";
+}
+
+/**
+ * [parts] 戻るリンク
+ */
+a.back:before {
+  content: "← ";
+}
+
+/**
+ * [parts] 付加リンクモジュール：別ウィンドウリンク
+ */
+a span.blank:after {
+  content: " □";
+}
+
+/**
+ * [parts] 付加リンクモジュール：ダウンロードリンク
+ */
+a span.download:after {
+  content: " [↓]";
+}
+
+/**
+ * [parts] 付加リンクモジュール：PDF
+ */
+a span.pdf:after {
+  content: " (PDF)";
+}
+
+/**
+ * [parts] リンクリスト .anchor_links
+ */
+.anchor_links {
+  padding: 1.5em;
+  border: 1px solid #999999;
+}
+.anchor_links .anchor_links-heading {
+  text-align: center;
+  font-weight: bold;
+  margin: 0 0 0.5em 0;
+}
+.anchor_links ul {
+  margin: 0;
+  padding: 0 0 0 1.5em;
+}
+
+/**
+ * [parts] 詳細リンクリスト .more_links
+ */
+.more_links {
+  margin-top: 0.5em;
+  margin-bottom: 2em;
+  border-top: dashed 1px #dddddd;
+}
+.more_links ul {
+  margin: 0.3em 0 0 0;
+  text-align: right;
+}
+.more_links ul li {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  padding: 0 0 0 1em;
+}
+
+/**
+ * [parts] ページトップリンク .page_top
+ */
+.page_top {
+  text-align: right;
+}
+
+/**
+ * [parts] 強調
+ */
+strong {
+  font-weight: bold;
+}
+
+/**
+ * [parts] 強勢(アクセント)
+ */
+em {
+  color: #ff6600;
+  font-weight: normal;
+  font-style: normal;
+}
+
+/**
+ * [parts] エラー表示
+ */
+.error {
+  color: #ff0000;
+}
+
+/**
+ * [parts] 注釈表示
+ */
+.notes {
+  color: #999999;
+}
+
+/**
+ * [parts] 画像置換
+ */
+.imgrep {
+  display: block;
+  position: relative;
+  top: auto;
+  left: auto;
+  padding: 0 0 0 0 !important;
+  border: 0 solid transparent !important;
+  overflow: hidden;
+  zoom: 100%;
+}
+.imgrep .imgrep-panel {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  zoom: 100%;
+}
+
+/**
+ * [parts] 読み上げブラウザ対応のための隠しナビゲーション
+ */
+.aural {
+  display: block;
+  visibility: hidden;
+  position: absolute;
+  left: 0;
+  top: 0;
+  overflow: hidden;
+  width: 0;
+  height: 0;
+  background-color: transparent;
+}
+
+/**
+ * [parts] カレントページ
+ */
+.current {
+  font-weight: bold;
+}
+
+/**
+ * [parts] 通常のリスト
+ */
+ul li {
+  list-style-type: disc;
+  text-indent: 0;
+}
+
+/**
+ * [parts] 注釈リスト
+ */
+ul.notes li.notes-li {
+  list-style-type: none;
+  text-indent: -1em;
+}
+
+/**
+ * [parts] リストマークがないリスト
+ */
+ul.nomark {
+  padding-left: 0;
+}
+ul.nomark li.nomark-li {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+/**
+ * [parts] 水平並びリスト
+ */
+ul.horizontal {
+  padding-left: 0;
+}
+ul.horizontal li.horizontal-li {
+  list-style-type: none;
+  padding-left: 0;
+  padding-right: 20;
+  display: inline;
+}
+
+/**
+ * 注釈定義リスト
+ */
+dl.notes {
+  padding: 0 0 0 0;
+  margin-left: 0;
+  margin-right: 0;
+}
+dl.notes dt.notes-dt {
+  padding: 0 0 0 0;
+  margin: 0 0 0 0;
+  float: left;
+  clear: left;
+  border: 0 none;
+  font-weight: normal;
+}
+dl.notes dd.notes-dd {
+  padding: 0 0 0 5px;
+  margin: 0 0 0 0;
+  float: none;
+  font-weight: normal;
+  display: block;
+  overflow: hidden;
+  zoom: 100%;
+}
+
+/**
+ * [parts] デフォルトテーブルスタイル
+ */
+table.def {
+  border: none;
+  border-collapse: collapse;
+  text-align: left;
+}
+table.def th,
+table.def td {
+  border: 1px solid #999999;
+  background: #ffffff;
+  padding: 10px;
+}
+table.def th {
+  background: #e7e7e7;
+}
+table.def thead th,
+table.def tfoot th {
+  background: #d9d9d9;
+  text-align: center;
+}
+table.def thead td,
+table.def tfoot td {
+  background: #eeeeee;
+}
+
+/**
+ * [parts] ソースコード
+ */
+.code {
+  margin: 1em 0;
+}
+.code pre {
+  margin: 0;
+}
+.code code,
+.code textarea {
+  border: 1px solid #999999;
+  background: #f5f5f5;
+  padding: 1em;
+  font-size: small;
+  line-height: 1.5;
+}
+.code code {
+  display: block;
+  width: auto;
+  background: #e8e8e8;
+  border: 1px dashed #999999;
+  overflow: auto;
+}
+.code textarea {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  height: 16em;
+}
+
+/**
+ * [parts] 日付入りリスト .date_list
+ */
+.date_list table {
+  width: 100%;
+  border: none;
+  border-collapse: collapse;
+}
+.date_list table th,
+.date_list table td {
+  border-top: 1px solid #999999;
+  border-bottom: 1px solid #999999;
+  padding: 10px;
+}
+.date_list table th {
+  background: #e7e7e7;
+}
+.date_list table thead th,
+.date_list table tfoot th {
+  background: #d9d9d9;
+}
+.date_list table thead td,
+.date_list table tfoot td {
+  background: #eeeeee;
+}
+.date_list table th {
+  white-space: nowrap;
+}
+.date_list table thead {
+  text-align: center;
+}
+
+/**
+ * [parts] フォーム要素
+ */
+table.form_elements {
+  border: none;
+  border-collapse: collapse;
+  text-align: left;
+  width: 100%;
+}
+table.form_elements thead {
+  display: none;
+}
+table.form_elements th,
+table.form_elements td {
+  border: 1px solid #999999;
+  background: #ffffff;
+  padding: 10px;
+}
+table.form_elements th {
+  background: #e7e7e7;
+}
+table.form_elements thead th,
+table.form_elements tfoot th {
+  background: #d9d9d9;
+  text-align: center;
+}
+table.form_elements thead td,
+table.form_elements tfoot td {
+  background: #eeeeee;
+}
+table.form_elements tbody th {
+  width: 30%;
+}
+table.form_elements tbody td {
+  width: 70%;
+}
+table.form_elements .form_elements-notes {
+  font-size: 85%;
+  color: #999999;
+  margin: 0;
+  padding: 0;
+}
+table.form_elements .form_elements-notes li {
+  list-style-type: none;
+  margin: 0;
+}
+table.form_elements .form_elements-list {
+  margin: 0;
+  padding: 0;
+}
+table.form_elements .form_elements-list li {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+table.form_elements .form_elements-list_horizontal {
+  margin: 0;
+  padding: 0;
+}
+table.form_elements .form_elements-list_horizontal li {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  display: inline;
+}
+table.form_elements .form_elements-error th {
+  background-color: #ffcccc;
+}
+table.form_elements .form_elements-error td {
+  background-color: #fff2f2;
+}
+table.form_elements ul.form_elements-errors {
+  color: #ff0000;
+  margin: 0;
+  padding: 0;
+}
+table.form_elements ul.form_elements-errors li {
+  list-style-type: none;
+  margin: 0;
+}
+
+/**
+ * [parts] 必須項目
+ */
+.must {
+  color: #ff0000;
+  font-weight: bold;
+  display: inline;
+  white-space: nowrap;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+}
+
+/**
+ * [box] 注意喚起ボックス
+ */
+.attention_box {
+  padding: 0.5em 1em;
+  background-color: #ffcccc;
+}
+.attention_box .attention_box-heading {
+  font-weight: bold;
+  margin: 1em 0;
+  font-size: 120%;
+}
+
+/**
+ * [box] トピックボックス
+ */
+.topic_box {
+  padding: 0.5em 1em;
+  background-color: #cceecc;
+}
+.topic_box .topic_box-heading {
+  font-weight: bold;
+  margin: 1em 0;
+  font-size: 120%;
+}
+
+/**
+ * [box] 付加情報ボックス
+ */
+.aside_box {
+  padding: 0.5em 1em;
+  background-color: #dddddd;
+  font-size: 86%;
+}
+.aside_box .aside_box-heading {
+  font-weight: bold;
+  margin: 1em 0;
+  font-size: 120%;
+}
+
+/**
+ * [unit] ユニット
+ * モジュールの単位となる。前後にデフォルトマージン付加
+ */
+div.unit {
+  margin-top: 1em;
+  margin-bottom: 1.5em;
+  clear: both;
+}
+
+/**
+ * [static] .clearfix (and [unit] unit)
+ */
+.unit,
+.clearfix {
+  display: block;
+  float: none;
+  clear: both;
+}
+
+.unit:after,
+.clearfix:after {
+  content: " ";
+  display: block;
+  visibility: hidden;
+  height: 0.1px;
+  font-size: 0.1em;
+  line-height: 0;
+  clear: both;
+}
+
+.unit,
+.clearfix {
+  /* clearfix(for IE6,7) (IE8以降不要) */
+  zoom: 1;
+}
+
+/**
+ * [unit] カラムレイアウト
+ */
+.cols {
+  margin-left: -20px;
+  overflow: hidden;
+}
+.cols .cols-col {
+  float: left;
+  margin: 0 0 0 0;
+}
+.cols .cols-col.cols-3of4 {
+  width: 75%;
+}
+.cols .cols-col.cols-1of2 {
+  width: 50%;
+}
+.cols .cols-col.cols-2of3 {
+  width: 66.666%;
+}
+.cols .cols-col.cols-1of3 {
+  width: 33.333%;
+}
+.cols .cols-col.cols-1of4 {
+  width: 25%;
+}
+.cols .cols-pad {
+  margin-left: 20px;
+}
+.cols .cols-last {
+  float: right;
+  *margin-right: -10px;
+}
+
+/**
+ * [unit] フォーム送信ボタン
+ */
+.form_buttons {
+  position: relative;
+  text-align: center;
+}
+.form_buttons ul,
+.form_buttons ul li {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+.form_buttons ul li.form_buttons-revise {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+}
+
+/**
+ * [unit] エラー通知ボックス
+ */
+.form_error_box {
+  border: 2px solid #ff9900;
+  padding: 0 20px;
+  background-color: #fff5f5;
+  color: #ff0000;
+  margin-left: 20px;
+  margin-right: 20px;
+  border-radius: 10px;
+}
+.form_error_box a {
+  color: #ff0000;
+}
+
+/**
+ * [unit] 注意喚起ユニット
+ */
+.attention {
+  border: 1px solid #999999;
+  padding: 0 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+}
+.attention .attention-heading {
+  font-weight: bold;
+  margin: 1em 0;
+  font-size: 120%;
+}
+
+/**
+ * [unit] ページャー
+ */
+.pager ul {
+  text-align: center;
+  padding: 0;
+  margin: 0;
+}
+.pager ul li {
+  display: inline;
+  list-style-type: none;
+  padding: 0 5px 0 5px;
+}
+
+/**
+ * [unit] サムネイルリスト
+ */
+.thumb_list ul {
+  text-align: left;
+  padding: 0;
+  margin: 0;
+  font-size: 0;
+  margin-left: -10px;
+  zoom: 1;
+}
+.thumb_list li {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  list-style-type: none;
+  width: 25%;
+  *width: 24.9%;
+  margin: 0;
+  margin-bottom: 10px;
+  padding: 0;
+  vertical-align: top;
+  font-size: small;
+}
+.thumb_list li .thumb_list-pad {
+  margin-left: 10px;
+}
+.thumb_list li a {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.thumb_list li img {
+  width: 100%;
+  height: auto;
+}
+.thumb_list li:nth-child(4n+1) {
+  clear: left;
+}
+
+/**
+ * [unit] 回り込み画像
+ */
+.float_media .float_media-r1of2 {
+  float: right;
+  width: 50%;
+  margin-left: 20px;
+  margin-bottom: 20px;
+}
+.float_media .float_media-l1of2 {
+  float: left;
+  width: 50%;
+  margin-right: 20px;
+  margin-bottom: 20px;
+}
+.float_media .float_media-r1of3 {
+  float: right;
+  width: 33%;
+  margin-left: 20px;
+  margin-bottom: 20px;
+}
+.float_media .float_media-l1of3 {
+  float: left;
+  width: 33%;
+  margin-right: 20px;
+  margin-bottom: 20px;
+}
+.float_media .float_media-r1of4 {
+  float: right;
+  width: 25%;
+  margin-left: 20px;
+  margin-bottom: 20px;
+}
+.float_media .float_media-l1of4 {
+  float: left;
+  width: 25%;
+  margin-right: 20px;
+  margin-bottom: 20px;
+}
+.float_media .float_media-l1of2 img,
+.float_media .float_media-l1of3 img,
+.float_media .float_media-l1of4 img,
+.float_media .float_media-r1of2 img,
+.float_media .float_media-r1of3 img,
+.float_media .float_media-r1of4 img {
+  width: 100%;
+  height: auto;
+}
+.float_media .float_media-caption {
+  font-size: 85%;
+}
+.float_media .float_media-body_rect {
+  overflow: hidden;
+}
+.float_media .float_media-body_rect *:first-child {
+  margin-top: 0;
+}
+
+code {
+  color: #933;
+  border: 1px solid #999;
+  padding: 0 0.7em;
+  margin-left: 0.2em;
+  margin-right: 0.2em;
+  background-color: #f5f5f5;
+  border-radius: 0.2em;
+}
+
+/**
+ * [unit] カラムレイアウト
+ */
+@media all and (max-width: 520px) {
+  .cols .cols-col.cols-3of4 {
+    width: auto;
+    float: none;
+  }
+}
+@media all and (max-width: 520px) {
+  .cols .cols-col.cols-1of2 {
+    width: auto;
+    float: none;
+  }
+}
+@media all and (max-width: 520px) {
+  .cols .cols-col.cols-2of3 {
+    width: auto;
+    float: none;
+  }
+}
+@media all and (max-width: 520px) {
+  .cols .cols-col.cols-1of3 {
+    width: auto;
+    float: none;
+  }
+}
+@media all and (max-width: 520px) {
+  .cols .cols-col.cols-1of4 {
+    width: auto;
+    float: none;
+  }
+}
+
+/**
+ * [unit] サムネイルリスト
+ */
+@media all and (max-width: 520px) {
+  .thumb_list li {
+    width: 33%;
+    *width: 32.9%;
+  }
+}
+@media all and (max-width: 420px) {
+  .thumb_list li {
+    width: 50%;
+    *width: 49.9%;
+  }
+}
+
+/**
+ * [unit] 回り込み画像
+ */
+.float_media .float_media-caption {
+  font-size: 77%;
+  margin-top: 0.5em;
+  line-height: 1.3;
+}
+
+/**
+ * [parts] ソースコード
+ */
+@media all and (max-width: 460px) {
+  .code pre {
+    white-space: pre-wrap;
+  }
+}
+
+/**
+ * [parts] 日付入りリスト .date_list
+ */
+@media all and (max-width: 460px) {
+  .date_list table {
+    width: auto;
+    display: block;
+    border-bottom: 1px solid;
+  }
+  .date_list table th,
+  .date_list table td {
+    width: auto;
+    display: block;
+    border-bottom: 0;
+  }
+  .date_list table th {
+    background: #e7e7e7;
+  }
+  .date_list table thead,
+  .date_list table tfoot {
+    display: none;
+  }
+  .date_list table th {
+    white-space: nowrap;
+  }
+}
+
+/**
+ * [parts] フォーム要素
+ */
+button,
+input[type=button],
+input[type=submit] {
+  padding: 0.5em 2.5em 0.5em 2.5em;
+  display: inline-block;
+  background-color: #f3f3f3;
+  border-radius: 0.2em;
+  border: 0;
+  -webkit-box-shadow: 0.1em 0.2em 0 0 #cccccc;
+  -moz-box-shadow: 0.1em 0.2em 0 0 #cccccc;
+  -ms-box-shadow: 0.1em 0.2em 0 0 #cccccc;
+  box-shadow: 0.1em 0.2em 0 0 #cccccc;
+}
+button:hover,
+input[type=button]:hover,
+input[type=submit]:hover {
+  background-color: #e9e9e9;
+}
+button:active,
+input[type=button]:active,
+input[type=submit]:active {
+  background-color: #ddd;
+}
+@media all and (max-width: 520px) {
+  button,
+  input[type=button],
+  input[type=submit] {
+    padding: 0.2em 1.5em;
+  }
+}
+@media all and (max-width: 430px) {
+  button,
+  input[type=button],
+  input[type=submit] {
+    padding: 0.2em 0.5em;
+  }
+}
+
+select {
+  display: inline-block;
+  background-color: #f3f3f3;
+  border-radius: 0.2em;
+  border: 0;
+  -webkit-box-shadow: 0.1em 0.2em 0 0 #cccccc;
+  -moz-box-shadow: 0.1em 0.2em 0 0 #cccccc;
+  -ms-box-shadow: 0.1em 0.2em 0 0 #cccccc;
+  box-shadow: 0.1em 0.2em 0 0 #cccccc;
+}
+
+@media all and (max-width: 520px) {
+  table.form_elements {
+    border-bottom: 1px solid;
+  }
+  table.form_elements, table.form_elements tbody {
+    display: block;
+    width: auto;
+  }
+  table.form_elements thead tr,
+  table.form_elements thead th,
+  table.form_elements thead td,
+  table.form_elements tbody tr,
+  table.form_elements tbody th,
+  table.form_elements tbody td {
+    display: block;
+    width: auto;
+    border-bottom: 0;
+  }
+}
+
+/**
+ * [parts] 必須項目
+ */
+.must {
+  border: 1px solid #f63;
+  background-color: #fdd;
+  padding: 0.2em 0.8em;
+  font-size: 90%;
+  border-radius: 1.2em;
+}
+
+/**
+ * [unit] フォーム送信ボタン
+ */
+.form_buttons .form_buttons-submit button,
+.form_buttons .form_buttons-submit input[type=button],
+.form_buttons .form_buttons-submit input[type=submit] {
+  font-weight: bold;
+  font-size: 130%;
+  background-color: #beb;
+}
+.form_buttons .form_buttons-revise button,
+.form_buttons .form_buttons-revise input[type=button],
+.form_buttons .form_buttons-revise input[type=submit] {
+  font-size: 80%;
+}
+
+/**
+ * [parts] リンクリスト .anchor_links
+ */
+.anchor_links {
+  border-radius: 1em;
+}
+
+/**
+ * [box] 注意喚起ボックス
+ */
+.attention_box {
+  border-radius: 1em;
+  border: 1px solid #f96;
+  margin-left: 20px;
+  margin-right: 20px;
+  padding: 1.5em 3em;
+}
+.attention_box :first-child {
+  margin-top: 0;
+}
+.attention_box :last-child {
+  margin-bottom: 0;
+}
+
+/**
+ * [box] トピックボックス
+ */
+.topic_box {
+  border-radius: 1em;
+  border: 1px solid #4a7;
+  margin-left: 20px;
+  margin-right: 20px;
+  padding: 1.5em 3em;
+}
+.topic_box :first-child {
+  margin-top: 0;
+}
+.topic_box :last-child {
+  margin-bottom: 0;
+}
+
+/**
+ * [box] 付加情報ボックス
+ */
+.aside_box {
+  border-radius: 1em;
+  border: 1px solid #999;
+  margin-left: 20px;
+  margin-right: 20px;
+  padding: 1.5em 3em;
+}
+.aside_box :first-child {
+  margin-top: 0;
+}
+.aside_box :last-child {
+  margin-bottom: 0;
+}

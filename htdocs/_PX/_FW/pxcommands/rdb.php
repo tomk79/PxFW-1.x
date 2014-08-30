@@ -197,7 +197,7 @@ var contSql = new (function(formElm){
 		}
 
 		$define = array();
-		if( is_array($value[0]) ){
+		if( is_array(@$value[0]) ){
 			$define = array_keys($value[0]);
 			    //↑メモ：テーブル名が分かる場合は、$dbh->get_table_definition() から取得したい。
 		}
@@ -205,13 +205,13 @@ var contSql = new (function(formElm){
 		switch( $this->command[2] ){
 			case 'json':
 				$data = array();
-				$data['sql'] = $sql;
-				$data['value'] = $value;
-				$data['define'] = $define;
-				$data['affected_rows'] = $affected_rows;
-				$data['last_insert_id'] = $last_insert_id;
-				$data['message'] = $message;
-				$json = t::data2jssrc( $data );
+				$data['sql'] = @$sql;
+				$data['value'] = @$value;
+				$data['define'] = @$define;
+				$data['affected_rows'] = @$affected_rows;
+				$data['last_insert_id'] = @$last_insert_id;
+				$data['message'] = @$message;
+				$json = t::data2jssrc( @$data );
 				print $json;
 				exit;
 				break;

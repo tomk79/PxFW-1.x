@@ -12,7 +12,7 @@
 
 <h2>段落</h2>
 
-<p>段落は、p要素を用いて表現します。</p>
+<p>段落は、<code>p</code>要素を用いて表現します。</p>
 
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;p&gt;{$string|parts}&lt;/p&gt;
@@ -23,7 +23,7 @@
 <h2>見出し</h2>
 
 <p>
-	見出しタグ &lt;h2&gt;～&lt;h6&gt;要素のデフォルトスタイルは、素の状態で定義されます。デザインによっては、装飾用に&lt;span&gt;要素等の階層を追加する必要がある場合も想定されますが、学習しやすさのために <q>可能な限り、素のHTMLの構造のままでマークアップできるように設計する</q> コンセプトに従い、素のままのタグとされました。<br />
+	見出しタグ <code>h2</code>～<code>h6</code>要素のデフォルトスタイルは、素の状態で定義されます。デザインによっては、装飾用に<code>span</code>要素等の階層を追加する必要がある場合も想定されますが、学習しやすさのために <q>可能な限り、素のHTMLの構造のままでマークアップできるように設計する</q> コンセプトに従い、素のままのタグとされました。<br />
 	<!--
 		PxFW設計者向けコメント：
 		装飾用のタグを追加する必要がある場合は、出力前にDOM変換を行う実装を、テーマコレクション内の <code>_FW/styles/finalizer.php</code> に実装することを推奨します。<br />
@@ -43,7 +43,7 @@
 <h2>文字サイズ</h2>
 
 <div class="unit">
-	文字サイズ指定系のクラス同士を入れ子の関係にする(例： .large の中に .small を置くなど)ことはできません。<br />
+	文字サイズ指定系のクラス同士を入れ子の関係にする(例： <code>.large</code>の中に<code>.small</code> を置くなど)ことはできません。<br />
 </div>
 <div class="unit">
 <table class="def" style="width:100%;">
@@ -69,7 +69,7 @@
 
 <h3>通常のインラインリンク</h3>
 
-<p><a href="./">通常のインラインリンク</a></p>
+<p><a href="javascript:alert('リンクがクリックされました。');">通常のインラインリンク</a></p>
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;a href=&quot;{$string}&quot;&gt;{$string}&lt;/a&gt;</textarea></div>
 </div><!-- /.unit -->
@@ -77,7 +77,7 @@
 
 <h3>アイコン付きリンク .icon</h3>
 
-<p><a href="./" class="icon">アイコン付きリンク</a></p>
+<p><a href="javascript:alert('リンクがクリックされました。');" class="icon">アイコン付きリンク</a></p>
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;a href=&quot;{$string}&quot; class=&quot;icon&quot;&gt;{$string}&lt;/a&gt;
 </textarea></div>
@@ -85,7 +85,7 @@
 
 <h3>ページ内リンク(下向き) .down</h3>
 
-<p><a href="./" class="down">ページ内リンク(下向き)</a></p>
+<p><a href="javascript:alert('リンクがクリックされました。');" class="down">ページ内リンク(下向き)</a></p>
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;a href=&quot;{$string}&quot; class=&quot;down&quot;&gt;{$string}&lt;/a&gt;
 </textarea></div>
@@ -93,7 +93,7 @@
 
 <h3>ページ内リンク(上向き) .up</h3>
 
-<p><a href="./" class="up">ページ内リンク(上向き)</a></p>
+<p><a href="javascript:alert('リンクがクリックされました。');" class="up">ページ内リンク(上向き)</a></p>
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;a href=&quot;{$string}&quot; class=&quot;up&quot;&gt;{$string}&lt;/a&gt;
 </textarea></div>
@@ -111,12 +111,12 @@
 <h3>付加リンクモジュール</h3>
 
 <p>リンクモジュールには、任意の付加リンクモジュールを組み合わせて使用することができます。</p>
-<p>付加リンクモジュールは、&lt;a&gt;要素の内側に&lt;span&gt;要素を組み込んで使用します。付加リンク単体での使用(=&lt;a&gt;要素に直接クラスを指定しての使用)はできません。</p>
+<p>付加リンクモジュールは、<code>a</code>要素の内側に<code>span</code>要素を組み込んで使用します。付加リンク単体での使用(=<code>a</code>要素に直接クラスを指定しての使用)はできません。</p>
 <p>次に示す例は、<q>通常のインラインリンク</q> に付加した場合の実装を示しています。</p>
 
 <h4>別ウィンドウリンク .blank</h4>
 
-<p><a href="./" target="_blank"><span class="blank">別ウィンドウリンク</span></a></p>
+<p><a href="javascript:alert('リンクがクリックされました。');" target="_blank"><span class="blank">別ウィンドウリンク</span></a></p>
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;p&gt;&lt;a href=&quot;{$string}&quot; target=&quot;_blank&quot;&gt;&lt;span class=&quot;blank&quot;&gt;{$string}&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 </textarea></div>
@@ -125,7 +125,7 @@
 
 <h4>ダウンロードリンク .download</h4>
 
-<p><a href="./"><span class="download">ダウンロードリンク</span></a></p>
+<p><a href="javascript:alert('リンクがクリックされました。');"><span class="download">ダウンロードリンク</span></a></p>
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;p&gt;&lt;a href=&quot;{$string}&quot;&gt;&lt;span class=&quot;download&quot;&gt;{$string}&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 </textarea></div>
@@ -133,7 +133,7 @@
 
 <h4>PDF .pdf</h4>
 
-<p><a href="./"><span class="pdf">PDFファイル名</span></a></p>
+<p><a href="javascript:alert('リンクがクリックされました。');"><span class="pdf">PDFファイル名</span></a></p>
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;p&gt;&lt;a href=&quot;{$string}&quot;&gt;&lt;span class=&quot;pdf&quot;&gt;{$string}&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 </textarea></div>
@@ -142,19 +142,19 @@
 
 <h3>リンクリスト .anchor_links</h3>
 <p>
-	リストは、ul要素の代わりにol要素を使用することもできます。.more_links-heading の要素は削除しても構いません。また、p要素の他に、h2〜h6要素を使用することもできます。<br />
+	リストは、<code>ul</code>要素の代わりに<code>ol</code>要素を使用することもできます。<code>.more_links-heading</code> の要素は削除しても構いません。また、<code>p</code>要素の他に、<code>h2</code>〜<code>h6</code>要素を使用することもできます。<br />
 </p>
 <div class="anchor_links">
 	<p class="anchor_links-heading">目次</p>
 	<ul>
-		<li><a href="#">ページ内リンク</a></li>
-		<li><a href="#">ページ内リンク</a>
+		<li><a href="javascript:alert('リンクがクリックされました。');">ページ内リンク</a></li>
+		<li><a href="javascript:alert('リンクがクリックされました。');">ページ内リンク</a>
 		<ul>
-			<li><a href="#">ページ内リンク</a></li>
-			<li><a href="#">ページ内リンク</a></li>
+			<li><a href="javascript:alert('リンクがクリックされました。');">ページ内リンク</a></li>
+			<li><a href="javascript:alert('リンクがクリックされました。');">ページ内リンク</a></li>
 		</ul>
 		</li>
-		<li><a href="#">ページ内リンク</a></li>
+		<li><a href="javascript:alert('リンクがクリックされました。');">ページ内リンク</a></li>
 	</ul>
 </div><!-- /.anchor_links -->
 
@@ -181,9 +181,9 @@
 </p>
 <div class="more_links">
 	<ul>
-		<li><a href="./">詳しくはこちら</a></li>
-		<li><a href="./">詳しくはこちら</a></li>
-		<li><a href="./">詳しくはこちら</a></li>
+		<li><a href="javascript:alert('リンクがクリックされました。');">詳しくはこちら</a></li>
+		<li><a href="javascript:alert('リンクがクリックされました。');">詳しくはこちら</a></li>
+		<li><a href="javascript:alert('リンクがクリックされました。');">詳しくはこちら</a></li>
 	</ul>
 </div><!-- /.more_links -->
 <div class="unit">
@@ -317,7 +317,7 @@
 
 <h3>水平並びリスト ul.horizontal</h3>
 <p>
-	水平並びリストは、ul要素によるリスト構造を水平方向に横並びにレイアウトします。リストの階層は1階層まで可能で、ネストすることはできません。<br />
+	水平並びリストは、<code>ul</code>要素によるリスト構造を水平方向に横並びにレイアウトします。リストの階層は1階層まで可能で、ネストすることはできません。<br />
 </p>
 
 <ul class="horizontal">
@@ -422,7 +422,7 @@
 
 <h2>日付入りリスト .date_list</h2>
 <p>
-	日付を書くth要素と、内容を書くtd要素は必須の要素です。フラグを表示するtd.date_list-flag要素の要・不要や、フラグの種類、記述フォーマットについては、プロジェクトによって独自に設計する必要があります。<br />
+	日付を書く<code>th</code>要素と、内容を書く<code>td</code>要素は必須の要素です。フラグを表示する<code>td.date_list-flag</code>要素の要・不要や、フラグの種類、記述フォーマットについては、プロジェクトによって独自に設計する必要があります。<br />
 </p>
 
 <div class="unit">
@@ -439,17 +439,17 @@
 				<tr>
 					<th>2012年9月24日</th>
 					<td class="date_list-flag">[NEW!][CATEGORY]</td>
-					<td><a href="#">新着ニュースへのリンク</a></td>
+					<td><a href="javascript:alert('リンクがクリックされました。');">新着ニュースへのリンク</a></td>
 				</tr>
 				<tr>
 					<th>2012年9月24日</th>
 					<td class="date_list-flag">[NEW!][CATEGORY]</td>
-					<td><a href="#">新着ニュースへのリンク新着ニュースへのリンク新着ニュースへのリンク新着ニュースへのリンク</a></td>
+					<td><a href="javascript:alert('リンクがクリックされました。');">新着ニュースへのリンク新着ニュースへのリンク新着ニュースへのリンク新着ニュースへのリンク</a></td>
 				</tr>
 				<tr>
 					<th>2012年9月24日</th>
 					<td class="date_list-flag">[NEW!][CATEGORY]</td>
-					<td><a href="#">新着ニュースへのリンク</a></td>
+					<td><a href="javascript:alert('リンクがクリックされました。');">新着ニュースへのリンク</a></td>
 				</tr>
 			</tbody>
 		</table>
@@ -503,10 +503,10 @@
 <h2>テーブル table.def</h2>
 
 <p>
-	学習しやすさのために <q>可能な限り、素のHTMLの構造のままでマークアップできるように設計する</q> コンセプトに従うならば、本来はクラス名なしの素のHTMLがデフォルトのテーブルスタイルになるべきです。しかし、テーブルに限っては、素のデザインにはボーダーが表示されず、一見して表だと分かるスタイルは適用されません。これをデフォルトとしてボーダーをつけるように変更するのは混乱を招く元となるおそれがあるので、例外的に、デフォルトスタイルにクラス名 .def を定義しています。<br />
+	学習しやすさのために <q>可能な限り、素のHTMLの構造のままでマークアップできるように設計する</q> コンセプトに従うならば、本来はクラス名なしの素のHTMLがデフォルトのテーブルスタイルになるべきです。しかし、テーブルに限っては、素のデザインにはボーダーが表示されず、一見して表だと分かるスタイルは適用されません。これをデフォルトとしてボーダーをつけるように変更するのは混乱を招く元となるおそれがあるので、例外的に、デフォルトスタイルにクラス名 <code>.def</code> を定義しています。<br />
 </p>
 <p>
-	コンテンツ制作者は、table要素の幅(width)、高さ(height)、行や列の幅(width)、高さ(height) を上書きして変更できます。<br />
+	コンテンツ制作者は、<code>table</code>要素の幅(width)、高さ(height)、行や列の幅(width)、高さ(height) を上書きして変更できます。<br />
 </p>
 
 <div class="unit">
@@ -618,10 +618,10 @@
 <h2>カレント制御 .current</h2>
 
 <p>
-	カレントページを示す要素に適用します。通常は a要素 に対して適用しますが、場合によっては li要素などにも使用する場合にも、同じクラス名を使用します。<br />
+	カレントページを示す要素に適用します。通常は <code>a</code>要素 に対して適用しますが、場合によっては <code>li</code>要素などにも使用する場合にも、同じクラス名を使用します。<br />
 </p>
 
-<p><a href="***" class="current">カレントページ</a></p>
+<p><a href="javascript:alert('リンクがクリックされました。');" class="current">カレントページ</a></p>
 
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;a href=&quot;{$string}&quot; class=&quot;current&quot;&gt;{$string}&lt;/a&gt;
@@ -664,10 +664,10 @@
 </div><!-- /.unit -->
 
 
-<h2>フォーム .form_elements</h2>
+<h2>フォーム</h2>
 
-<form action="#" method="post" class="inline">
-<h3>フォーム要素</h3>
+<form action="javascript:alert('フォームが送信されました。');" method="post" class="inline">
+<h3>フォームテーブル .form_elements</h3>
 <div class="unit">
 <table class="form_elements">
 	<thead>
@@ -678,7 +678,7 @@
 	</thead>
 	<tbody>
 		<tr>
-			<th>テキスト入力</th>
+			<th>基本</th>
 			<td>
 				<ul class="form_elements-notes">
 					<li>全角カナで入力してください。</li>
@@ -688,38 +688,7 @@
 			</td>
 		</tr>
 		<tr>
-			<th>テキストエリア入力</th>
-			<td>
-				<ul class="form_elements-notes">
-					<li>複数行の入力ができます。</li>
-				</ul>
-				<textarea name=""></textarea>
-			</td>
-		</tr>
-		<tr>
-			<th>パスワード入力</th>
-			<td>
-				<ul class="form_elements-notes">
-					<li>8文字以上入力してください。</li>
-				</ul>
-				<input type="password" name="" value="" />
-			</td>
-		</tr>
-		<tr>
-			<th>ラジオボタン入力</th>
-			<td>
-				<ul class="form_elements-notes">
-					<li>一つだけ選択してください。</li>
-				</ul>
-				<ul class="form_elements-list">
-					<li><label><input type="radio" name="radio1" value="" /> 選択肢1</label></li>
-					<li><label><input type="radio" name="radio1" value="" /> 選択肢2</label></li>
-					<li><label><input type="radio" name="radio1" value="" /> 選択肢3</label></li>
-				</ul>
-			</td>
-		</tr>
-		<tr>
-			<th>チェックボックス入力</th>
+			<th>リスト</th>
 			<td>
 				<ul class="form_elements-notes">
 					<li>複数選択が可能です。</li>
@@ -732,7 +701,7 @@
 			</td>
 		</tr>
 		<tr>
-			<th>リストを水平に並べるサンプル</th>
+			<th>リスト(水平)</th>
 			<td>
 				<ul class="form_elements-notes">
 					<li>この項目は、リストを水平に並べています。(.form_elements-list_horizontal を使用)</li>
@@ -742,28 +711,6 @@
 					<li><label><input type="checkbox" name="" value="" /> 選択肢2</label></li>
 					<li><label><input type="checkbox" name="" value="" /> 選択肢3</label></li>
 				</ul>
-			</td>
-		</tr>
-		<tr>
-			<th>プルダウン選択入力</th>
-			<td>
-				<ul class="form_elements-notes">
-					<li>１つだけ選択してください。</li>
-				</ul>
-				<select name="">
-					<option value="">選択してください</option>
-					<option value="">選択肢1</option>
-					<option value="">選択肢2</option>
-					<option value="">選択肢3</option>
-				</select>
-			</td>
-		</tr>
-		<tr>
-			<th>ボタン</th>
-			<td>
-				<button onclick="alert('ボタンをクリックしました。');return false;">ボタン</button>
-				<input type="button" value="ボタン" onclick="alert('ボタンをクリックしました。');return false;" />
-				<input type="submit" value="ボタン" onclick="alert('ボタンをクリックしました。');return false;" />
 			</td>
 		</tr>
 	</tbody>
@@ -795,37 +742,6 @@
 				&lt;ul class=&quot;form_elements-notes&quot;&gt;
 					&lt;li&gt;{$string}&lt;/li&gt;
 				&lt;/ul&gt;
-				&lt;textarea name=&quot;&quot;&gt;&lt;/textarea&gt;
-			&lt;/td&gt;
-		&lt;/tr&gt;
-		&lt;tr&gt;
-			&lt;th&gt;{$string}&lt;/th&gt;
-			&lt;td&gt;
-				&lt;ul class=&quot;form_elements-notes&quot;&gt;
-					&lt;li&gt;{$string}&lt;/li&gt;
-				&lt;/ul&gt;
-				&lt;input type=&quot;password&quot; name=&quot;&quot; value=&quot;&quot; /&gt;
-			&lt;/td&gt;
-		&lt;/tr&gt;
-		&lt;tr&gt;
-			&lt;th&gt;{$string}&lt;/th&gt;
-			&lt;td&gt;
-				&lt;ul class=&quot;form_elements-notes&quot;&gt;
-					&lt;li&gt;{$string}&lt;/li&gt;
-				&lt;/ul&gt;
-				&lt;ul class=&quot;form_elements-list&quot;&gt;
-					&lt;li&gt;&lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;radio1&quot; value=&quot;&quot; /&gt; {$string}&lt;/label&gt;&lt;/li&gt;
-					&lt;li&gt;&lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;radio1&quot; value=&quot;&quot; /&gt; {$string}&lt;/label&gt;&lt;/li&gt;
-					&lt;li&gt;&lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;radio1&quot; value=&quot;&quot; /&gt; {$string}&lt;/label&gt;&lt;/li&gt;
-				&lt;/ul&gt;
-			&lt;/td&gt;
-		&lt;/tr&gt;
-		&lt;tr&gt;
-			&lt;th&gt;{$string}&lt;/th&gt;
-			&lt;td&gt;
-				&lt;ul class=&quot;form_elements-notes&quot;&gt;
-					&lt;li&gt;{$string}&lt;/li&gt;
-				&lt;/ul&gt;
 				&lt;ul class=&quot;form_elements-list&quot;&gt;
 					&lt;li&gt;&lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;&quot; value=&quot;&quot; /&gt; {$string}&lt;/label&gt;&lt;/li&gt;
 					&lt;li&gt;&lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;&quot; value=&quot;&quot; /&gt; {$string}&lt;/label&gt;&lt;/li&gt;
@@ -846,31 +762,11 @@
 				&lt;/ul&gt;
 			&lt;/td&gt;
 		&lt;/tr&gt;
-		&lt;tr&gt;
-			&lt;th&gt;{$string}&lt;/th&gt;
-			&lt;td&gt;
-				&lt;ul class=&quot;form_elements-notes&quot;&gt;
-					&lt;li&gt;{$string}&lt;/li&gt;
-				&lt;/ul&gt;
-				&lt;select name=&quot;&quot;&gt;
-					&lt;option value=&quot;&quot;&gt;選択してください&lt;/option&gt;
-					&lt;option value=&quot;&quot;&gt;{$string}&lt;/option&gt;
-					&lt;option value=&quot;&quot;&gt;{$string}&lt;/option&gt;
-					&lt;option value=&quot;&quot;&gt;{$string}&lt;/option&gt;
-				&lt;/select&gt;
-			&lt;/td&gt;
-		&lt;/tr&gt;
-		&lt;tr&gt;
-			&lt;th&gt;{$string}&lt;/th&gt;
-			&lt;td&gt;
-				&lt;button onclick=&quot;{$string}&quot;&gt;{$string}&lt;/button&gt;
-				&lt;input type=&quot;button&quot; value=&quot;{$string}&quot; onclick=&quot;{$string}&quot; /&gt;
-				&lt;input type=&quot;submit&quot; value=&quot;{$string}&quot; onclick=&quot;{$string}&quot; /&gt;
-			&lt;/td&gt;
-		&lt;/tr&gt;
 	&lt;/tbody&gt;
 &lt;/table&gt;</textarea></div>
 </div><!-- /.unit -->
+
+
 
 
 
@@ -886,7 +782,7 @@
 	</thead>
 	<tbody>
 		<tr class="form_elements-error">
-			<th>テキスト入力<span>必須</span></th>
+			<th>テキスト入力<span class="must">必須</span></th>
 			<td>
 				<ul class="form_elements-notes">
 					<li>全角カナで入力してください。</li>
@@ -912,7 +808,7 @@
 	&lt;/thead&gt;
 	&lt;tbody&gt;
 		&lt;tr class=&quot;form_elements-error&quot;&gt;
-			&lt;th&gt;{$string}&lt;span&gt;必須&lt;/span&gt;&lt;/th&gt;
+			&lt;th&gt;{$string}&lt;span class=&quot;must&quot;&gt;必須&lt;/span&gt;&lt;/th&gt;
 			&lt;td&gt;
 				&lt;ul class=&quot;form_elements-notes&quot;&gt;
 					&lt;li&gt;{$string}&lt;/li&gt;
@@ -945,8 +841,7 @@
 			<th>テキスト入力<span class="must">必須</span></th>
 			<td>
 				<ul class="form_elements-notes">
-					<li>全角カナで入力してください。</li>
-					<li>8文字以上入力してください。</li>
+					<li>必ず入力してください。</li>
 				</ul>
 				<input type="text" name="" value="" />
 			</td>
@@ -955,7 +850,7 @@
 </table>
 </div><!-- /.unit -->
 <div class="unit">
-	<div class="code"><textarea readonly="readonly">&lt;span class=&quot;must&quot;&gt;必須&lt;/span&gt;
+	<div class="code"><textarea readonly="readonly">{$string}&lt;span class=&quot;must&quot;&gt;必須&lt;/span&gt;
 </textarea></div>
 </div>
 
@@ -965,6 +860,197 @@
 	送信系ボタンは、ユニットモジュールとして設計されています。<br />
 	<a href="../units/">ユニットモジュールのページ</a>を参照してください。<br />
 </p>
+
+
+<h3>フォーム要素</h3>
+
+<h4>テキスト入力</h4>
+<div class="unit">
+	<input type="text" name="" value="" />
+</div><!-- /.unit -->
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;input type=&quot;text&quot; name=&quot;{$string}&quot; value=&quot;{$string}&quot; /&gt;
+</textarea></div>
+</div>
+
+<h4>テキスト入力(複数行)</h4>
+<div class="unit">
+	<textarea name=""></textarea>
+</div><!-- /.unit -->
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;textarea name=&quot;{$string}&quot;&gt;{$string}&lt;/textarea&gt;
+</textarea></div>
+</div>
+
+<h4>パスワード入力</h4>
+<div class="unit">
+	<input type="password" name="" value="" />
+</div><!-- /.unit -->
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;input type=&quot;password&quot; name=&quot;{$string}&quot; value=&quot;{$string}&quot; /&gt;
+</textarea></div>
+</div>
+
+<h4>プルダウン</h4>
+<div class="unit">
+	<select name="">
+		<option value="">選択してください</option>
+		<option value="">選択肢1</option>
+		<option value="">選択肢2</option>
+		<option value="">選択肢3</option>
+	</select>
+</div><!-- /.unit -->
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;select name=&quot;{$string}&quot;&gt;
+	&lt;option value=&quot;&quot;&gt;選択してください&lt;/option&gt;
+	&lt;option value=&quot;{$string}&quot;&gt;{$string}&lt;/option&gt;
+	&lt;option value=&quot;{$string}&quot;&gt;{$string}&lt;/option&gt;
+	&lt;option value=&quot;{$string}&quot;&gt;{$string}&lt;/option&gt;
+&lt;/select&gt;
+</textarea></div>
+</div>
+
+<h4>ラジオボタン</h4>
+<div class="unit">
+	<ul class="nomark">
+		<li class="nomark-li"><label><input type="radio" name="radio1" value="" checked="checked" /> 選択肢1</label></li>
+		<li class="nomark-li"><label><input type="radio" name="radio1" value="" /> 選択肢2</label></li>
+		<li class="nomark-li"><label><input type="radio" name="radio1" value="" /> 選択肢3</label></li>
+	</ul>
+</div><!-- /.unit -->
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;{$string}&quot; value=&quot;{$string}&quot; /&gt; {$string}&lt;/label&gt;
+</textarea></div>
+</div>
+
+<h4>チェックボックス</h4>
+<div class="unit">
+	<ul class="nomark">
+		<li class="nomark-li"><label><input type="checkbox" name="" value="" checked="checked" /> 選択肢1</label></li>
+		<li class="nomark-li"><label><input type="checkbox" name="" value="" /> 選択肢2</label></li>
+		<li class="nomark-li"><label><input type="checkbox" name="" value="" /> 選択肢3</label></li>
+	</ul>
+</div><!-- /.unit -->
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;{$string}&quot; value=&quot;{$string}&quot; /&gt; {$string}&lt;/label&gt;
+</textarea></div>
+</div>
+
+
+<h4>数値入力</h4>
+<div class="unit">
+	<input type="number" name="" value="" />
+</div><!-- /.unit -->
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;input type=&quot;number&quot; name=&quot;{$string}&quot; value=&quot;{$string}&quot; /&gt;
+</textarea></div>
+</div>
+
+
+<h4>日付入力</h4>
+<div class="unit">
+	<input type="date" name="" value="" />
+</div><!-- /.unit -->
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;input type=&quot;date&quot; name=&quot;{$string}&quot; value=&quot;{$string}&quot; /&gt;
+</textarea></div>
+</div>
+
+
+<h4>日時(ローカルタイム)入力</h4>
+<div class="unit">
+	<input type="datetime-local" name="" value="" />
+</div><!-- /.unit -->
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;input type=&quot;datetime-local&quot; name=&quot;{$string}&quot; value=&quot;{$string}&quot; /&gt;
+</textarea></div>
+</div>
+
+
+<h4>時刻入力</h4>
+<div class="unit">
+	<input type="time" name="" value="13:00" />
+</div><!-- /.unit -->
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;input type=&quot;time&quot; name=&quot;{$string}&quot; value=&quot;{$string}&quot; /&gt;
+</textarea></div>
+</div>
+
+
+<h4>検索キーワード入力</h4>
+<div class="unit">
+	<input type="search" name="" value="" />
+</div><!-- /.unit -->
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;input type=&quot;search&quot; name=&quot;{$string}&quot; value=&quot;{$string}&quot; /&gt;
+</textarea></div>
+</div>
+
+
+<h4>電話番号入力</h4>
+<div class="unit">
+	<input type="tel" name="" value="" />
+</div><!-- /.unit -->
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;input type=&quot;tel&quot; name=&quot;{$string}&quot; value=&quot;{$string}&quot; /&gt;
+</textarea></div>
+</div>
+
+
+<h4>URL入力</h4>
+<div class="unit">
+	<input type="url" name="" value="" />
+</div><!-- /.unit -->
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;input type=&quot;url&quot; name=&quot;{$string}&quot; value=&quot;{$string}&quot; /&gt;
+</textarea></div>
+</div>
+
+
+<h4>メールアドレス入力</h4>
+<div class="unit">
+	<input type="email" name="" value="" />
+</div><!-- /.unit -->
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;input type=&quot;email&quot; name=&quot;{$string}&quot; value=&quot;{$string}&quot; /&gt;
+</textarea></div>
+</div>
+
+
+<h4>レンジ入力</h4>
+<div class="unit">
+	<input type="range" name="" value="" />
+</div><!-- /.unit -->
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;input type=&quot;range&quot; name=&quot;{$string}&quot; value=&quot;{$string}&quot; /&gt;
+</textarea></div>
+</div>
+
+
+<h4>色入力</h4>
+<div class="unit">
+	<input type="color" name="" value="" />
+</div><!-- /.unit -->
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;input type=&quot;color&quot; name=&quot;{$string}&quot; value=&quot;{$string}&quot; /&gt;
+</textarea></div>
+</div>
+
+
+<h4>ボタン</h4>
+<div class="unit">
+	<button onclick="alert('ボタンをクリックしました。');return false;">ボタン (button要素)</button>
+	<input type="button" value="ボタン (input要素)" onclick="alert('ボタンをクリックしました。');return false;" />
+	<input type="submit" value="ボタン (submit)" onclick="alert('ボタンをクリックしました。');return false;" />
+</div><!-- /.unit -->
+
+<div class="unit">
+	<div class="code"><textarea readonly="readonly">&lt;button&gt;{$string}&lt;/button&gt;
+&lt;input type=&quot;button&quot; value=&quot;{$string}&quot; /&gt;
+&lt;input type=&quot;submit&quot; value=&quot;{$string}&quot; /&gt;
+</textarea></div>
+</div>
+
 
 </form>
 

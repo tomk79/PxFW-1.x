@@ -11,8 +11,8 @@
 <h2>ユニット .unit</h2>
 
 <p>すべてのユニットモジュールの基本となるユニットです。レイアウト上のまとまり1つ分をくくるコンテナで、標準仕様では、前後に一定のマージンが与えられ、回り込みが解除されます。</p>
-<p>ユニットの共通仕様を共有するため、他のユニットモジュールは .unit を併記する前提で設計されます。(例：&lt;div class=&quot;cols unit&quot;&gt;～～～&lt;/div&gt;)</p>
-<p>.unit は、それ単体でも使用することができますが、パーツモジュールは必ずしもユニットモジュールに収められている必要はありません。</p>
+<p>ユニットの共通仕様を共有するため、他のユニットモジュールは <code>.unit</code> を併記する前提で設計されます。(例：<code>&lt;div class=&quot;cols unit&quot;&gt;～～～&lt;/div&gt;</code>)</p>
+<p><code>.unit</code> は、それ単体でも使用することができますが、パーツモジュールは必ずしもユニットモジュールに収められている必要はありません。</p>
 
 <div class="unit">
 	<div class="code"><textarea readonly="readonly">&lt;div class=&quot;unit&quot;&gt;
@@ -24,28 +24,23 @@
 <h2>カラムレイアウト .cols</h2>
 
 <p>
-	カラムレイアウトは、.cols モジュールで、2分割、3分割、4分割のレイアウトを吸収します。.cols をコンテナとして、カラム要素 .cols-1of2(2分割)、.cols-1of3(3分割)、.cols-1of4(4分割)を組み合わせて入れ子にして表現します。異なる幅のカラムを組み合わせて使用することもできます。例えば、.cols-1of4, .cols-1of2, .cols-1of4 の順に入れ子にする、などです。幅の合計が100%になるように調整されていればよいだけです。<br />
+	カラムレイアウトは、<code>.cols</code> モジュールで、2分割、3分割、4分割のレイアウトを吸収します。<code>.cols</code> をコンテナとして、カラム要素 <code>.cols-1of2</code>(2分割)、<code>.cols-1of3</code>(3分割)、<code>.cols-1of4</code>(4分割)を組み合わせて入れ子にして表現します。異なる幅のカラムを組み合わせて使用することもできます。例えば、<code>.cols-1of4</code>, <code>.cols-1of2</code>, <code>.cols-1of4</code> の順に入れ子にする、などです。幅の合計が100%になるように調整されていればよいだけです。<br />
 </p>
 
 <ul class="notes">
 <li class="notes-li">※商品やバナーなどのリスト用途の場合、<code>.thumb_list</code> を使用してください。</li>
-<li class="notes-li">※.colsに限らず、古いブラウザで :last-child を適用させたい要素につけるクラス名は、慣例として *-last  としてください。</li>
+<li class="notes-li">※<code>.cols</code> に限らず、古いブラウザで <code>:last-child</code> を適用させたい要素につけるクラス名は、慣例として <code>*-last</code> としてください。</li>
 </ul>
 
 <h3>2分割</h3>
 <div class="cols unit">
 	<div class="cols-col cols-1of2"><div class="cols-pad">
-		<p>cols には unit を一緒につけます。</p>
-		<p>カラム cols-1of2</p>
-		<p>カラム</p>
-		<p>カラム</p>
-		<p>カラム</p>
-		<p>カラム</p>
+		<p><code>.cols</code> には <code>.unit</code> を併記します。</p>
+		<p>このカラムは、<code>.cols-1of2</code> でマークアップされた2分割サイズのカラムです。</p>
 	</div></div>
 	<div class="cols-col cols-1of2 cols-last"><div class="cols-pad">
 		<p>最後のカラムには、<code>.cols-last</code> を併記します。</p>
-		<p>カラム cols-1of2</p>
-		<p>.cols-last は古いIE対策。IE9以降は不要？。</p>
+		<p>このカラムは、<code>.cols-1of2</code> でマークアップされた2分割サイズのカラムです。</p>
 	</div></div>
 </div><!-- / .cols -->
 
@@ -65,25 +60,16 @@
 <h3>3分割</h3>
 <div class="cols unit">
 	<div class="cols-col cols-1of3"><div class="cols-pad">
-		<p>cols には unit を一緒につけます。</p>
-		<p>カラム cols-1of3</p>
-		<p>カラム</p>
-		<p>カラム</p>
-		<p>カラム</p>
-		<p>カラム</p>
+		<p><code>.cols</code> には <code>.unit</code> を併記します。</p>
+		<p>このカラムは、<code>.cols-1of3</code> でマークアップされた3分割サイズのカラムです。</p>
 	</div></div>
 	<div class="cols-col cols-1of3"><div class="cols-pad">
-		<p>cols には unit を一緒につけます。</p>
-		<p>カラム cols-1of3</p>
-		<p>カラム</p>
-		<p>カラム</p>
-		<p>カラム</p>
-		<p>カラム</p>
+		<p><code>.cols</code> には <code>.unit</code> を併記します。</p>
+		<p>このカラムは、<code>.cols-1of3</code> でマークアップされた3分割サイズのカラムです。</p>
 	</div></div>
 	<div class="cols-col cols-1of3 cols-last"><div class="cols-pad">
 		<p>最後のカラムには、<code>.cols-last</code> を併記します。</p>
-		<p>カラム cols-1of3</p>
-		<p>.cols-last は古いIE対策。IE9以降は不要？。</p>
+		<p>このカラムは、<code>.cols-1of3</code> でマークアップされた3分割サイズのカラムです。</p>
 	</div></div>
 </div><!-- / .cols -->
 
@@ -105,35 +91,20 @@
 <h3>4分割</h3>
 <div class="cols unit">
 	<div class="cols-col cols-1of4"><div class="cols-pad">
-		<p>cols には unit を一緒につけます。</p>
-		<p>カラム cols-1of4</p>
-		<p>カラム</p>
-		<p>カラム</p>
-		<p>カラム</p>
-		<p>カラム</p>
+		<p><code>.cols</code> には <code>.unit</code> を併記します。</p>
+		<p>このカラムは、<code>.cols-1of4</code> でマークアップされた4分割サイズのカラムです。</p>
 	</div></div>
 	<div class="cols-col cols-1of4"><div class="cols-pad">
-		<p>cols には unit を一緒につけます。</p>
-		<p>カラム cols-1of4</p>
-		<p>カラム</p>
-		<p>カラム</p>
-		<p>カラム</p>
-		<p>カラム</p>
-		<p>カラム</p>
+		<p><code>.cols</code> には <code>.unit</code> を併記します。</p>
+		<p>このカラムは、<code>.cols-1of4</code> でマークアップされた4分割サイズのカラムです。</p>
 	</div></div>
 	<div class="cols-col cols-1of4"><div class="cols-pad">
-		<p>cols には unit を一緒につけます。</p>
-		<p>カラム cols-1of4</p>
-		<p>カラム</p>
-		<p>カラム</p>
-		<p>カラム</p>
-		<p>カラム</p>
-		<p>カラム</p>
+		<p><code>.cols</code> には <code>.unit</code> を併記します。</p>
+		<p>このカラムは、<code>.cols-1of4</code> でマークアップされた4分割サイズのカラムです。</p>
 	</div></div>
 	<div class="cols-col cols-1of4 cols-last"><div class="cols-pad">
-		<p>カラム cols-1of4</p>
 		<p>最後のカラムには、<code>.cols-last</code> を併記します。</p>
-		<p>.cols-last は古いIE対策。IE9以降は不要？。</p>
+		<p>このカラムは、<code>.cols-1of4</code> でマークアップされた4分割サイズのカラムです。</p>
 	</div></div>
 </div><!-- / .cols -->
 
@@ -158,15 +129,12 @@
 <h3>変則2分割</h3>
 <div class="cols unit">
 	<div class="cols-col cols-3of4"><div class="cols-pad">
-		<p>cols には unit を一緒につけます。cols には unit を一緒につけます。cols には unit を一緒につけます。cols には unit を一緒につけます。cols には unit を一緒につけます。cols には unit を一緒につけます。cols には unit を一緒につけます。cols には unit を一緒につけます。</p>
-		<p>カラム cols-3of4</p>
-		<p>カラム</p>
-		<p>カラム</p>
+		<p><code>.cols</code> には <code>.unit</code> を併記します。</p>
+		<p>このカラムは、<code>.cols-3of4</code> でマークアップされた4分割サイズが3つ分のカラムです。分割の単位は1/4ですが、そのうちの3つを結合するような、均等割賦ではない場合に使用します。</p>
 	</div></div>
 	<div class="cols-col cols-1of4 cols-last"><div class="cols-pad">
 		<p>最後のカラムには、<code>.cols-last</code> を併記します。</p>
-		<p>.cols-last は古いIE対策。IE9以降は不要？。</p>
-		<p>カラム cols-1of4</p>
+		<p>このカラムは、<code>.cols-1of4</code> でマークアップされた4分割サイズのカラムです。</p>
 	</div></div>
 </div><!-- / .cols -->
 
@@ -185,21 +153,16 @@
 <h3>変則3分割</h3>
 <div class="cols unit">
 	<div class="cols-col cols-1of4"><div class="cols-pad">
-		<p>カラム</p>
-		<p>カラム cols-1of4</p>
+		<p><code>.cols</code> には <code>.unit</code> を併記します。</p>
+		<p>このカラムは、<code>.cols-1of4</code> でマークアップされた4分割サイズのカラムです。</p>
 	</div></div>
 	<div class="cols-col cols-1of2"><div class="cols-pad">
-		<p>cols には unit を一緒につけます。</p>
-		<p>カラム cols-1of2</p>
-		<p>カラム</p>
-		<p>カラム</p>
-		<p>カラム</p>
-		<p>カラム</p>
+		<p><code>.cols</code> には <code>.unit</code> を併記します。</p>
+		<p>このカラムは、<code>.cols-1of2</code> でマークアップされた2分割サイズのカラムです。分割単位としては1/4ですが、そのうち2つを結合したサンプルです。均等割賦ではない場合に使用します。</p>
 	</div></div>
 	<div class="cols-col cols-1of4 cols-last"><div class="cols-pad">
-		<p>カラム cols-1of4</p>
-		<p>カラム</p>
-		<p>.cols-last は古いIE対策。IE9以降は不要？。</p>
+		<p>最後のカラムには、<code>.cols-last</code> を併記します。</p>
+		<p>このカラムは、<code>.cols-1of4</code> でマークアップされた4分割サイズのカラムです。</p>
 	</div></div>
 </div><!-- / .cols -->
 
@@ -434,7 +397,7 @@
 	</div>
 	<div class="float_media-body_rect">
 		<p>
-			ここは本文ブロックです。このサンプルは、25%の幅で左に回りこむ画像をレイアウトするものです。本文部分を矩形に保ちたい場合(画像を回り込ませたくない場合)は、本文部分のサブクラスを、 .float_media-body から .float_media-body_rect に変更します。<br />
+			ここは本文ブロックです。このサンプルは、25%の幅で左に回りこむ画像をレイアウトするものです。本文部分を矩形に保ちたい場合(画像を回り込ませたくない場合)は、本文部分のサブクラスを、 <code>.float_media-body</code> から <code>.float_media-body_rect</code> に変更します。<br />
 		</p>
 		<p>
 			ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。ここは本文ブロック。<br />
@@ -551,7 +514,7 @@ UTODO: ガイドラインを提示すべき。
 
 <h3>送信系ボタン</h3>
 
-<form action="#" method="post" class="inline">
+<form action="javascript:alert('送信されました。');" method="post" class="inline">
 <div class="unit form_buttons">
 	<ul>
 		<li class="form_buttons-submit"><input type="submit" name="" value="確認する" /></li>
@@ -567,7 +530,7 @@ UTODO: ガイドラインを提示すべき。
 </div><!-- /.unit -->
 </form>
 
-<form action="#" method="post" class="inline">
+<form action="javascript:alert('送信されました。');" method="post" class="inline">
 <div class="unit form_buttons">
 	<ul>
 		<li class="form_buttons-submit"><input type="submit" name="" value="送信する" /></li>
@@ -587,7 +550,7 @@ UTODO: ガイドラインを提示すべき。
 
 <h3>キャンセルボタン</h3>
 
-<form action="#" method="post" class="inline">
+<form action="javascript:alert('送信されました。');" method="post" class="inline">
 <div class="unit form_buttons">
 	<ul>
 		<li class="form_buttons-cancel"><input type="submit" name="" value="キャンセル" /></li>
