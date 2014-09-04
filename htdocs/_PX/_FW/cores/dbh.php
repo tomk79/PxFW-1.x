@@ -1435,8 +1435,8 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 			return @is_file( $filepath );
 		}
 
-		$res = $this->file[$filepath]['res'];
-		if( !is_resource( $res ) ){ return false; }
+		$res = @$this->file[$filepath]['res'];
+		if( @!is_resource( $res ) ){ return false; }
 		fwrite( $res , $content );
 		$this->chmod( $filepath , $perm );
 		clearstatcache();
@@ -2036,7 +2036,7 @@ SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 			if( $res ){ break; }		#	openに成功したらループを抜ける
 			sleep(1);
 		}
-		if( !is_resource( $res ) ){ return false; }	#	5回挑戦して読み込みが成功しなかった場合、falseを返す
+		if( @!is_resource( $res ) ){ return false; }	#	5回挑戦して読み込みが成功しなかった場合、falseを返す
 		if( $flock ){ flock( $res , LOCK_EX ); }
 		if( @is_file( $filepath_fsenc ) ){
 			$filepath = t::realpath( $filepath );
