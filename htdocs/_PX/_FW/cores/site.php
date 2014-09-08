@@ -1034,11 +1034,11 @@ class px_cores_site{
 		}
 		$filter = true;
 		if(!is_null(@$opt['filter'])){
-			$filter = !empty(@$opt['filter']);
+			$filter = !@empty($opt['filter']);
 		}
 		$skip_children = false;
 		if(!is_null(@$opt['skip_children'])){
-			$skip_children = !empty(@$opt['skip_children']);
+			$skip_children = !@empty($opt['skip_children']);
 		}
 
 		$fin = null;
@@ -1097,7 +1097,7 @@ class px_cores_site{
 		}
 		$filter = true;
 		if(!is_null(@$opt['filter'])){
-			$filter = !empty(@$opt['filter']);
+			$filter = !@empty($opt['filter']);
 		}
 
 		$fin = null;
