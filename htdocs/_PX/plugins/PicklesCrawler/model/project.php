@@ -99,31 +99,31 @@ class pxplugin_PicklesCrawler_model_project{
 
 		#	基本情報
 		$project_ini = $this->load_ini( $path_project_dir.'/project.ini' );
-		$this->set_project_name( $project_ini['common']['name'] );
-		$this->set_url_startpage( $project_ini['common']['url_startpage'] );
-		$this->set_url_docroot( $project_ini['common']['url_docroot'] );
-		$this->set_default_filename( $project_ini['common']['default_filename'] );
-		$this->set_omit_filename( $project_ini['common']['omit_filename'] );
-		$this->set_path_conv_method( $project_ini['common']['path_conv_method'] );
-		$this->set_outofsite2url_flg( $project_ini['common']['outofsite2url_flg'] );//PxCrawler 0.4.2 追加
-		$this->set_send_unknown_params_flg( $project_ini['common']['send_unknown_params_flg'] );
-		$this->set_send_form_flg( $project_ini['common']['send_form_flg'] );
-		$this->set_parse_jsinhtml_flg( $project_ini['common']['parse_jsinhtml_flg'] );
-		$this->set_save404_flg( $project_ini['common']['save404_flg'] );
-		$this->set_path_copyto( $project_ini['common']['path_copyto'] );
-		$this->set_charset_charset( $project_ini['common']['charset_charset'] );
-		$this->set_charset_crlf( $project_ini['common']['charset_crlf'] );
-		$this->set_charset_ext( $project_ini['common']['charset_ext'] );
+		$this->set_project_name( @$project_ini['common']['name'] );
+		$this->set_url_startpage( @$project_ini['common']['url_startpage'] );
+		$this->set_url_docroot( @$project_ini['common']['url_docroot'] );
+		$this->set_default_filename( @$project_ini['common']['default_filename'] );
+		$this->set_omit_filename( @$project_ini['common']['omit_filename'] );
+		$this->set_path_conv_method( @$project_ini['common']['path_conv_method'] );
+		$this->set_outofsite2url_flg( @$project_ini['common']['outofsite2url_flg'] );//PxCrawler 0.4.2 追加
+		$this->set_send_unknown_params_flg( @$project_ini['common']['send_unknown_params_flg'] );
+		$this->set_send_form_flg( @$project_ini['common']['send_form_flg'] );
+		$this->set_parse_jsinhtml_flg( @$project_ini['common']['parse_jsinhtml_flg'] );
+		$this->set_save404_flg( @$project_ini['common']['save404_flg'] );
+		$this->set_path_copyto( @$project_ini['common']['path_copyto'] );
+		$this->set_charset_charset( @$project_ini['common']['charset_charset'] );
+		$this->set_charset_crlf( @$project_ini['common']['charset_crlf'] );
+		$this->set_charset_ext( @$project_ini['common']['charset_ext'] );
 
 		#	基本認証情報
-		$this->set_authentication_type( $project_ini['common']['authentication_type'] );
-		$this->set_basic_authentication_id( $project_ini['common']['basic_authentication_id'] );
-		$this->set_basic_authentication_pw( $project_ini['common']['basic_authentication_pw'] );
+		$this->set_authentication_type( @$project_ini['common']['authentication_type'] );
+		$this->set_basic_authentication_id( @$project_ini['common']['basic_authentication_id'] );
+		$this->set_basic_authentication_pw( @$project_ini['common']['basic_authentication_pw'] );
 
 		#	対象外URLリスト
 		$this->clear_urllist_outofsite();//一旦リセット
-		if( is_array( $project_ini['sec']['url_outofsite'] ) ){
-			foreach( $project_ini['sec']['url_outofsite'] as $url=>$status ){
+		if( is_array( @$project_ini['sec']['url_outofsite'] ) ){
+			foreach( @$project_ini['sec']['url_outofsite'] as $url=>$status ){
 				if( !$status ){ continue; }
 				$this->put_urllist_outofsite( $url );
 			}
@@ -139,8 +139,8 @@ class pxplugin_PicklesCrawler_model_project{
 
 		#	追加スタートURLリスト
 		$this->clear_urllist_startpages();//一旦リセット
-		if( is_array( $project_ini['sec']['url_startpages'] ) ){
-			foreach( $project_ini['sec']['url_startpages'] as $url=>$status ){
+		if( is_array( @$project_ini['sec']['url_startpages'] ) ){
+			foreach( @$project_ini['sec']['url_startpages'] as $url=>$status ){
 				if( !$status ){ continue; }
 				$this->put_urllist_startpages( $url );
 			}
@@ -180,7 +180,7 @@ class pxplugin_PicklesCrawler_model_project{
 				unset($MEMO);
 			}
 		}
-		uasort( $this->info_localfilename_rewriterules , create_function( '$a,$b' , 'if($a[\'priority\']>$b[\'priority\']){return 1;}elseif($a[\'priority\']<$b[\'priority\']){return -1;}return 0;' ) );
+		uasort( $this->info_localfilename_rewriterules , @create_function( '$a,$b' , 'if($a[\'priority\']>$b[\'priority\']){return 1;}elseif($a[\'priority\']<$b[\'priority\']){return -1;}return 0;' ) );
 
 		#	一括置換設定情報
 		$this->clear_preg_replace_rules();//一旦リセット
@@ -199,7 +199,7 @@ class pxplugin_PicklesCrawler_model_project{
 				unset($MEMO);
 			}
 		}
-		uasort( $this->info_localfilename_rewriterules , create_function( '$a,$b' , 'if($a[\'priority\']>$b[\'priority\']){return 1;}elseif($a[\'priority\']<$b[\'priority\']){return -1;}return 0;' ) );
+		uasort( $this->info_localfilename_rewriterules , @create_function( '$a,$b' , 'if($a[\'priority\']>$b[\'priority\']){return 1;}elseif($a[\'priority\']<$b[\'priority\']){return -1;}return 0;' ) );
 
 		$this->px->dbh()->fclose( $path_project_dir.'/project.ini' );
 		$this->px->dbh()->fclose( $path_project_dir.'/param_define.ini' );

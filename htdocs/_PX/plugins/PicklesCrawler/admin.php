@@ -52,7 +52,7 @@ class pxplugin_PicklesCrawler_admin{
 	public function start(){
 		$cont_src = $this->start_controller();
 
-		$title = $this->local_sitemap[':'.implode('.', @$this->cmd)]['title'];
+		$title = @$this->local_sitemap[':'.implode('.', @$this->cmd)]['title'];
 		if( strlen( $title ) ){
 			$this->title = $title;
 		}
@@ -622,7 +622,7 @@ class pxplugin_PicklesCrawler_admin{
 		}else{
 			#	新規
 			$RTN .= '			<div><input type="text" name="project_id" value="'.htmlspecialchars( $this->px->req()->get_param('project_id') ).'" style="width:80%;" /></div>'."\n";
-			if( strlen( $error['project_id'] ) ){
+			if( strlen( @$error['project_id'] ) ){
 				$RTN .= '			<div class="error">'.$error['project_id'].'</div>'."\n";
 			}
 		}
@@ -632,7 +632,7 @@ class pxplugin_PicklesCrawler_admin{
 		$RTN .= '		<th style="width:30%;"><div>プロジェクト名 <span class="form_elements-must">必須</span></div></th>'."\n";
 		$RTN .= '		<td style="width:70%;">'."\n";
 		$RTN .= '			<div><input type="text" name="project_name" value="'.htmlspecialchars( $this->px->req()->get_param('project_name') ).'" style="width:80%;" /></div>'."\n";
-		if( strlen( $error['project_name'] ) ){
+		if( strlen( @$error['project_name'] ) ){
 			$RTN .= '			<div class="error">'.$error['project_name'].'</div>'."\n";
 		}
 		$RTN .= '		</td>'."\n";
@@ -641,7 +641,7 @@ class pxplugin_PicklesCrawler_admin{
 		$RTN .= '		<th style="width:30%;"><div>ドキュメントルートのURL <span class="form_elements-must">必須</span></div></th>'."\n";
 		$RTN .= '		<td style="width:70%;">'."\n";
 		$RTN .= '			<div><input type="text" name="url_docroot" value="'.htmlspecialchars( $this->px->req()->get_param('url_docroot') ).'" style="width:80%;" /></div>'."\n";
-		if( strlen( $error['url_docroot'] ) ){
+		if( strlen( @$error['url_docroot'] ) ){
 			$RTN .= '			<div class="error">'.$error['url_docroot'].'</div>'."\n";
 		}
 		$RTN .= '		</td>'."\n";
@@ -650,7 +650,7 @@ class pxplugin_PicklesCrawler_admin{
 		$RTN .= '		<th style="width:30%;"><div>スタートページのURL <span class="form_elements-must">必須</span></div></th>'."\n";
 		$RTN .= '		<td style="width:70%;">'."\n";
 		$RTN .= '			<div><input type="text" name="url_stargpage" value="'.htmlspecialchars( $this->px->req()->get_param('url_stargpage') ).'" style="width:80%;" /></div>'."\n";
-		if( strlen( $error['url_stargpage'] ) ){
+		if( strlen( @$error['url_stargpage'] ) ){
 			$RTN .= '			<div class="error">'.$error['url_stargpage'].'</div>'."\n";
 		}
 		$RTN .= '		</td>'."\n";
@@ -659,7 +659,7 @@ class pxplugin_PicklesCrawler_admin{
 		$RTN .= '		<th style="width:30%;"><div>デフォルトのファイル名 <span class="form_elements-must">必須</span></div></th>'."\n";
 		$RTN .= '		<td style="width:70%;">'."\n";
 		$RTN .= '			<div><input type="text" name="default_filename" value="'.htmlspecialchars( $this->px->req()->get_param('default_filename') ).'" style="width:80%;" /></div>'."\n";
-		if( strlen( $error['default_filename'] ) ){
+		if( strlen( @$error['default_filename'] ) ){
 			$RTN .= '			<div class="error">'.$error['default_filename'].'</div>'."\n";
 		}
 		$RTN .= '		</td>'."\n";
@@ -668,7 +668,7 @@ class pxplugin_PicklesCrawler_admin{
 		$RTN .= '		<th style="width:30%;"><div>URL変換時に省略するファイル名</div></th>'."\n";
 		$RTN .= '		<td style="width:70%;">'."\n";
 		$RTN .= '			<div><input type="text" name="omit_filename" value="'.htmlspecialchars( $this->px->req()->get_param('omit_filename') ).'" style="width:80%;" /></div>'."\n";
-		if( strlen( $error['omit_filename'] ) ){
+		if( strlen( @$error['omit_filename'] ) ){
 			$RTN .= '			<div class="error">'.$error['omit_filename'].'</div>'."\n";
 		}
 		$RTN .= '			<ul class="form_elements-notes">'."\n";
@@ -681,7 +681,7 @@ class pxplugin_PicklesCrawler_admin{
 		$RTN .= '		<th style="width:30%;"><div>対象外URLリスト</div></th>'."\n";
 		$RTN .= '		<td style="width:70%;">'."\n";
 		$RTN .= '			<div><textarea name="urllist_outofsite" rows="9" style="width:80%;">'.htmlspecialchars( $this->px->req()->get_param('urllist_outofsite') ).'</textarea></div>'."\n";
-		if( strlen( $error['urllist_outofsite'] ) ){
+		if( strlen( @$error['urllist_outofsite'] ) ){
 			$RTN .= '			<div class="error">'.$error['urllist_outofsite'].'</div>'."\n";
 		}
 		$RTN .= '			<ul class="form_elements-notes">'."\n";
@@ -695,7 +695,7 @@ class pxplugin_PicklesCrawler_admin{
 		$RTN .= '		<th style="width:30%;"><div>追加スタートページURLリスト</div></th>'."\n";
 		$RTN .= '		<td style="width:70%;">'."\n";
 		$RTN .= '			<div><textarea name="urllist_startpages" rows="9" style="width:80%;">'.htmlspecialchars( $this->px->req()->get_param('urllist_startpages') ).'</textarea></div>'."\n";
-		if( strlen( $error['urllist_startpages'] ) ){
+		if( strlen( @$error['urllist_startpages'] ) ){
 			$RTN .= '			<div class="error">'.$error['urllist_startpages'].'</div>'."\n";
 		}
 		$RTN .= '			<ul class="form_elements-notes">'."\n";
@@ -710,17 +710,17 @@ class pxplugin_PicklesCrawler_admin{
 		$RTN .= '			<div>認証タイプ : '."\n";
 		$c = array( $this->px->req()->get_param('authentication_type')=>' selected="selected"' );
 		$RTN .= '				<select name="authentication_type">'."\n";
-		$RTN .= '					<option value=""'.$c[''].'>自動選択</option>'."\n";
-		$RTN .= '					<option value="basic"'.$c['basic'].'>ベーシック認証</option>'."\n";
-		$RTN .= '					<option value="digest"'.$c['digest'].'>ダイジェスト認証</option>'."\n";
+		$RTN .= '					<option value=""'.@$c[''].'>自動選択</option>'."\n";
+		$RTN .= '					<option value="basic"'.@$c['basic'].'>ベーシック認証</option>'."\n";
+		$RTN .= '					<option value="digest"'.@$c['digest'].'>ダイジェスト認証</option>'."\n";
 		$RTN .= '				</select>'."\n";
 		$RTN .= '			</div>'."\n";
 		$RTN .= '			<div>ID : <input type="text" name="basic_authentication_id" value="'.htmlspecialchars( $this->px->req()->get_param('basic_authentication_id') ).'" /></div>'."\n";
-		if( strlen( $error['basic_authentication_id'] ) ){
+		if( strlen( @$error['basic_authentication_id'] ) ){
 			$RTN .= '			<div class="error">'.$error['basic_authentication_id'].'</div>'."\n";
 		}
 		$RTN .= '			<div>PW : <input type="text" name="basic_authentication_pw" value="'.htmlspecialchars( $this->px->req()->get_param('basic_authentication_pw') ).'" /></div>'."\n";
-		if( strlen( $error['basic_authentication_pw'] ) ){
+		if( strlen( @$error['basic_authentication_pw'] ) ){
 			$RTN .= '			<div class="error">'.$error['basic_authentication_pw'].'</div>'."\n";
 		}
 		$RTN .= '		</td>'."\n";
@@ -731,13 +731,13 @@ class pxplugin_PicklesCrawler_admin{
 		$RTN .= '			<div>'."\n";
 		$c = array( $this->px->req()->get_param('path_conv_method')=>' selected="selected"' );
 		$RTN .= '				<select name="path_conv_method">'."\n";
-		$RTN .= '					<option value="relative"'.$c['relative'].'>相対パス</option>'."\n";
-		$RTN .= '					<option value="absolute"'.$c['absolute'].'>絶対パス</option>'."\n";
-		$RTN .= '					<option value="url"'.$c['url'].'>URL</option>'."\n";
-		$RTN .= '					<option value="none"'.$c['none'].'>変換しない</option>'."\n";
+		$RTN .= '					<option value="relative"'.@$c['relative'].'>相対パス</option>'."\n";
+		$RTN .= '					<option value="absolute"'.@$c['absolute'].'>絶対パス</option>'."\n";
+		$RTN .= '					<option value="url"'.@$c['url'].'>URL</option>'."\n";
+		$RTN .= '					<option value="none"'.@$c['none'].'>変換しない</option>'."\n";
 		$RTN .= '				</select>'."\n";
 		$RTN .= '			</div>'."\n";
-		if( strlen( $error['path_conv_method'] ) ){
+		if( strlen( @$error['path_conv_method'] ) ){
 			$RTN .= '			<div class="error">'.$error['path_conv_method'].'</div>'."\n";
 		}
 		$RTN .= '		</td>'."\n";
@@ -748,11 +748,11 @@ class pxplugin_PicklesCrawler_admin{
 		$RTN .= '			<div>'."\n";
 		$c = array( $this->px->req()->get_param('outofsite2url_flg')=>' selected="selected"' );
 		$RTN .= '				<select name="outofsite2url_flg">'."\n";
-		$RTN .= '					<option value="0"'.$c['0'].'>パス指定変換設定に従う</option>'."\n";
-		$RTN .= '					<option value="1"'.$c['1'].'>URLに変換する</option>'."\n";
+		$RTN .= '					<option value="0"'.@$c['0'].'>パス指定変換設定に従う</option>'."\n";
+		$RTN .= '					<option value="1"'.@$c['1'].'>URLに変換する</option>'."\n";
 		$RTN .= '				</select>'."\n";
 		$RTN .= '			</div>'."\n";
-		if( strlen( $error['outofsite2url_flg'] ) ){
+		if( strlen( @$error['outofsite2url_flg'] ) ){
 			$RTN .= '			<div class="error">'.$error['outofsite2url_flg'].'</div>'."\n";
 		}
 		$RTN .= '		</td>'."\n";
@@ -763,11 +763,11 @@ class pxplugin_PicklesCrawler_admin{
 		$RTN .= '			<div>'."\n";
 		$c = array( $this->px->req()->get_param('send_unknown_params_flg')=>' selected="selected"' );
 		$RTN .= '				<select name="send_unknown_params_flg">'."\n";
-		$RTN .= '					<option value="0"'.$c['0'].'>送信しない</option>'."\n";
-		$RTN .= '					<option value="1"'.$c['1'].'>送信する</option>'."\n";
+		$RTN .= '					<option value="0"'.@$c['0'].'>送信しない</option>'."\n";
+		$RTN .= '					<option value="1"'.@$c['1'].'>送信する</option>'."\n";
 		$RTN .= '				</select>'."\n";
 		$RTN .= '			</div>'."\n";
-		if( strlen( $error['send_unknown_params_flg'] ) ){
+		if( strlen( @$error['send_unknown_params_flg'] ) ){
 			$RTN .= '			<div class="error">'.$error['send_unknown_params_flg'].'</div>'."\n";
 		}
 		$RTN .= '		</td>'."\n";
@@ -778,11 +778,11 @@ class pxplugin_PicklesCrawler_admin{
 		$RTN .= '			<div>'."\n";
 		$c = array( $this->px->req()->get_param('send_form_flg')=>' selected="selected"' );
 		$RTN .= '				<select name="send_form_flg">'."\n";
-		$RTN .= '					<option value="0"'.$c['0'].'>送信しない</option>'."\n";
-		$RTN .= '					<option value="1"'.$c['1'].'>送信する</option>'."\n";
+		$RTN .= '					<option value="0"'.@$c['0'].'>送信しない</option>'."\n";
+		$RTN .= '					<option value="1"'.@$c['1'].'>送信する</option>'."\n";
 		$RTN .= '				</select>'."\n";
 		$RTN .= '			</div>'."\n";
-		if( strlen( $error['send_form_flg'] ) ){
+		if( strlen( @$error['send_form_flg'] ) ){
 			$RTN .= '			<div class="error">'.$error['send_form_flg'].'</div>'."\n";
 		}
 		$RTN .= '		</td>'."\n";
@@ -793,11 +793,11 @@ class pxplugin_PicklesCrawler_admin{
 		$RTN .= '			<div>'."\n";
 		$c = array( $this->px->req()->get_param('parse_jsinhtml_flg')=>' selected="selected"' );
 		$RTN .= '				<select name="parse_jsinhtml_flg">'."\n";
-		$RTN .= '					<option value="0"'.$c['0'].'>解析しない</option>'."\n";
-		$RTN .= '					<option value="1"'.$c['1'].'>解析する</option>'."\n";
+		$RTN .= '					<option value="0"'.@$c['0'].'>解析しない</option>'."\n";
+		$RTN .= '					<option value="1"'.@$c['1'].'>解析する</option>'."\n";
 		$RTN .= '				</select>'."\n";
 		$RTN .= '			</div>'."\n";
-		if( strlen( $error['parse_jsinhtml_flg'] ) ){
+		if( strlen( @$error['parse_jsinhtml_flg'] ) ){
 			$RTN .= '			<div class="error">'.$error['parse_jsinhtml_flg'].'</div>'."\n";
 		}
 		$RTN .= '		</td>'."\n";
@@ -808,11 +808,11 @@ class pxplugin_PicklesCrawler_admin{
 		$RTN .= '			<div>'."\n";
 		$c = array( $this->px->req()->get_param('save404_flg')=>' selected="selected"' );
 		$RTN .= '				<select name="save404_flg">'."\n";
-		$RTN .= '					<option value="0"'.$c['0'].'>収集しない</option>'."\n";
-		$RTN .= '					<option value="1"'.$c['1'].'>収集する</option>'."\n";
+		$RTN .= '					<option value="0"'.@$c['0'].'>収集しない</option>'."\n";
+		$RTN .= '					<option value="1"'.@$c['1'].'>収集する</option>'."\n";
 		$RTN .= '				</select>'."\n";
 		$RTN .= '			</div>'."\n";
-		if( strlen( $error['save404_flg'] ) ){
+		if( strlen( @$error['save404_flg'] ) ){
 			$RTN .= '			<div class="error">'.$error['save404_flg'].'</div>'."\n";
 		}
 		$RTN .= '		</td>'."\n";
@@ -821,7 +821,7 @@ class pxplugin_PicklesCrawler_admin{
 		$RTN .= '		<th style="width:30%;"><div>複製先パス</div></th>'."\n";
 		$RTN .= '		<td style="width:70%;">'."\n";
 		$RTN .= '			<div><input type="text" name="path_copyto" value="'.htmlspecialchars( $this->px->req()->get_param('path_copyto') ).'" style="width:80%;" /></div>'."\n";
-		if( strlen( $error['path_copyto'] ) ){
+		if( strlen( @$error['path_copyto'] ) ){
 			$RTN .= '			<div class="error">'.$error['path_copyto'].'</div>'."\n";
 		}
 		$RTN .= '			<ul class="form_elements-notes">'."\n";
@@ -1147,7 +1147,7 @@ class pxplugin_PicklesCrawler_admin{
 		}elseif( !strlen( $this->px->req()->get_param('mode') ) ){
 			$error = array();
 			$project_model = &$this->pcconf->factory_model_project();
-			if( !count( $this->px->req()->set_param( 'project' ) ) ){
+			if( !@count( $this->px->req()->get_param( 'project' ) ) ){
 				$project_list = $project_model->get_project_list();
 				$tmpAry = array();
 				foreach( $project_list as $Line ){
@@ -1182,10 +1182,10 @@ class pxplugin_PicklesCrawler_admin{
 		foreach( $project_list as $Line ){
 			$in_project = $this->px->req()->get_param('project');
 			$c = array( 1=>' checked="checked"' );
-			$RTN .= '				<li><label><input type="checkbox" name="project['.htmlspecialchars($Line['id']).']" value="1"'.$c[$in_project[$Line['id']]].' /> '.htmlspecialchars($Line['name']).' ('.htmlspecialchars($Line['id']).')</label></li>'."\n";
+			$RTN .= '				<li><label><input type="checkbox" name="project['.htmlspecialchars($Line['id']).']" value="1"'.@$c[$in_project[$Line['id']]].' /> '.htmlspecialchars($Line['name']).' ('.htmlspecialchars($Line['id']).')</label></li>'."\n";
 		}
 		$RTN .= '			</ul>'."\n";
-		if( strlen( $error['project'] ) ){
+		if( strlen( @$error['project'] ) ){
 			$RTN .= '<div class="error">'.$error['project'].'</div>'."\n";
 		}
 		$RTN .= '		</td>'."\n";
@@ -1204,10 +1204,10 @@ class pxplugin_PicklesCrawler_admin{
 			$RTN .= '<ul class="form_elements-list">'."\n";
 			$c = array( $this->px->req()->get_param('ziptype').''=>' checked="checked"' );
 			foreach( array_keys( $is_zip ) as $type ){
-				$RTN .= '	<li><label><input type="radio" name="ziptype" value="'.htmlspecialchars( strtolower($type) ).'"'.$c[$type].' /> '.strtoupper($type).'形式</label></li>'."\n";
+				$RTN .= '	<li><label><input type="radio" name="ziptype" value="'.htmlspecialchars( strtolower($type) ).'"'.@$c[$type].' /> '.strtoupper($type).'形式</label></li>'."\n";
 			}
 			$RTN .= '</ul>'."\n";
-			if( strlen( $error['ziptype'] ) ){
+			if( strlen( @$error['ziptype'] ) ){
 				$RTN .= '<div class="error">'.$error['ziptype'].'</div>'."\n";
 			}
 		}else{
@@ -1295,10 +1295,10 @@ class pxplugin_PicklesCrawler_admin{
 	 */
 	private function check_export_check(){
 		$RTN = array();
-		if( !count( $this->px->req()->get_param('project') ) ){
+		if( !@count( $this->px->req()->get_param('project') ) ){
 			$RTN['project'] = '対象プロジェクトを選択してください。';
 		}
-		if( !strlen( $this->px->req()->get_param('ziptype') ) ){
+		if( !@strlen( $this->px->req()->get_param('ziptype') ) ){
 			$RTN['ziptype'] = '圧縮形式を選択してください。';
 		}else{
 			$is_zip = array();
@@ -1501,7 +1501,7 @@ class pxplugin_PicklesCrawler_admin{
 		$RTN .= '		<th style="width:30%;"><div>プログラム名 <span class="form_elements-must">必須</span></div></th>'."\n";
 		$RTN .= '		<td style="width:70%;">'."\n";
 		$RTN .= '			<div><input type="text" name="program_name" value="'.htmlspecialchars( $this->px->req()->get_param('program_name') ).'" style="width:80%;" /></div>'."\n";
-		if( strlen( $error['program_name'] ) ){
+		if( strlen( @$error['program_name'] ) ){
 			$RTN .= '			<div class="error">'.$error['program_name'].'</div>'."\n";
 		}
 		$RTN .= '		</td>'."\n";
@@ -1510,7 +1510,7 @@ class pxplugin_PicklesCrawler_admin{
 		$RTN .= '		<th style="width:30%;"><div>常に送信するパラメータ</div></th>'."\n";//PicklesCrawler 0.3.0 追加
 		$RTN .= '		<td style="width:70%;">'."\n";
 		$RTN .= '			<div><input type="text" name="program_param" value="'.htmlspecialchars( $this->px->req()->get_param('program_param') ).'" style="width:80%;" /></div>'."\n";
-		if( strlen( $error['program_param'] ) ){
+		if( strlen( @$error['program_param'] ) ){
 			$RTN .= '			<div class="error">'.$error['program_param'].'</div>'."\n";
 		}
 		$RTN .= '		</td>'."\n";
@@ -1519,7 +1519,7 @@ class pxplugin_PicklesCrawler_admin{
 		$RTN .= '		<th style="width:30%;"><div>HTTP_USER_AGENT</div></th>'."\n";
 		$RTN .= '		<td style="width:70%;">'."\n";
 		$RTN .= '			<div><input type="text" name="program_useragent" value="'.htmlspecialchars( $this->px->req()->get_param('program_useragent') ).'" style="width:80%;" /></div>'."\n";
-		if( strlen( $error['program_useragent'] ) ){
+		if( strlen( @$error['program_useragent'] ) ){
 			$RTN .= '			<div class="error">'.$error['program_useragent'].'</div>'."\n";
 		}
 		$RTN .= '		</td>'."\n";
@@ -1528,7 +1528,7 @@ class pxplugin_PicklesCrawler_admin{
 		$RTN .= '		<th style="width:30%;"><div>対象範囲とするURLリスト</div></th>'."\n";
 		$RTN .= '		<td style="width:70%;">'."\n";
 		$RTN .= '			<div><textarea name="urllist_scope" rows="7" style="width:80%;">'.htmlspecialchars( $this->px->req()->get_param('urllist_scope') ).'</textarea></div>'."\n";
-		if( strlen( $error['urllist_scope'] ) ){
+		if( strlen( @$error['urllist_scope'] ) ){
 			$RTN .= '			<div class="error">'.$error['urllist_scope'].'</div>'."\n";
 		}
 		$RTN .= '			<ul class="form_elements-notes">'."\n";
@@ -1542,7 +1542,7 @@ class pxplugin_PicklesCrawler_admin{
 		$RTN .= '		<th style="width:30%;"><div>ダウンロードしないURLリスト</div></th>'."\n";
 		$RTN .= '		<td style="width:70%;">'."\n";
 		$RTN .= '			<div><textarea name="urllist_nodownload" rows="7" style="width:80%;">'.htmlspecialchars( $this->px->req()->get_param('urllist_nodownload') ).'</textarea></div>'."\n";
-		if( strlen( $error['urllist_nodownload'] ) ){
+		if( strlen( @$error['urllist_nodownload'] ) ){
 			$RTN .= '			<div class="error">'.$error['urllist_nodownload'].'</div>'."\n";
 		}
 		$RTN .= '			<ul class="form_elements-notes">'."\n";
@@ -1556,12 +1556,12 @@ class pxplugin_PicklesCrawler_admin{
 		$RTN .= '		<th style="width:30%;"><div>複製先パス</div></th>'."\n";
 		$RTN .= '		<td style="width:70%;">'."\n";
 		$RTN .= '			<div><input type="text" name="path_copyto" value="'.htmlspecialchars( $this->px->req()->get_param('path_copyto') ).'" style="width:80%;" /></div>'."\n";
-		if( strlen( $error['path_copyto'] ) ){
+		if( strlen( @$error['path_copyto'] ) ){
 			$RTN .= '			<div class="error">'.$error['path_copyto'].'</div>'."\n";
 		}
 		$c = array( '1'=>' checked="checked"' );
-		$RTN .= '			<div><label><input type="checkbox" name="copyto_apply_deletedfile_flg" value="1"'.htmlspecialchars( $c[$this->px->req()->get_param('copyto_apply_deletedfile_flg')] ).' /> 削除されたファイルを反映する</label></div>'."\n";
-		if( strlen( $error['copyto_apply_deletedfile_flg'] ) ){
+		$RTN .= '			<div><label><input type="checkbox" name="copyto_apply_deletedfile_flg" value="1"'.htmlspecialchars( @$c[$this->px->req()->get_param('copyto_apply_deletedfile_flg')] ).' /> 削除されたファイルを反映する</label></div>'."\n";
+		if( strlen( @$error['copyto_apply_deletedfile_flg'] ) ){
 			$RTN .= '			<div class="error">'.$error['copyto_apply_deletedfile_flg'].'</div>'."\n";
 		}
 		$RTN .= '			<ul class="form_elements-notes">'."\n";
@@ -1896,7 +1896,7 @@ class pxplugin_PicklesCrawler_admin{
 				$RTN .= '			<div><input type="text" name="param:'.$param_name.':name" value="'.htmlspecialchars( $this->px->req()->get_param('param:'.$param_name.':name') ).'" style="width:80%;" /></div>'."\n";
 				$check = array( 1=>' checked="checked"' );
 				$RTN .= '			<div><input type="checkbox" name="param:'.$param_name.':request" id="param:'.$param_name.':request" value="1"'.$check[$this->px->req()->get_param('param:'.$param_name.':request')].' /><label for="param:'.$param_name.':request">リクエストに含める</label></div>'."\n";
-				if( strlen( $error{'param:'.$param_name} ) ){
+				if( strlen( @$error{'param:'.$param_name} ) ){
 					$RTN .= '			<div class="error">'.$error{'param:'.$param_name}.'</div>'."\n";
 				}
 				$RTN .= '		</td>'."\n";
@@ -2146,7 +2146,7 @@ class pxplugin_PicklesCrawler_admin{
 			}
 		}
 
-		usort( $entry_list , create_function( '$a,$b' , 'if( $a[\'priority\'] > $b[\'priority\'] ){ return 1; } if( $a[\'priority\'] < $b[\'priority\'] ){ return -1; } return 0;' ) );
+		usort( $entry_list , @create_function( '$a,$b' , 'if( $a[\'priority\'] > $b[\'priority\'] ){ return 1; } if( $a[\'priority\'] < $b[\'priority\'] ){ return -1; } return 0;' ) );
 
 		foreach( $entry_list as $line ){
 			$btn_operation_up = '<a href="javascript:up_item('.t::data2text( $line['priority'] ).');">上へ</a>';
@@ -2158,7 +2158,7 @@ class pxplugin_PicklesCrawler_admin{
 			$RTN .= '		<th style="width:30%;"><div>元のパス</div></th>'."\n";
 			$RTN .= '		<td style="width:70%;">'."\n";
 			$RTN .= '			<div><input type="text" name="p'.$line['priority'].':before" value="'.htmlspecialchars( $line['before'] ).'" style="width:80%;" /></div>'."\n";
-			if( strlen( $error['p'.$line['priority'].':before'] ) ){
+			if( strlen( @$error['p'.$line['priority'].':before'] ) ){
 				$RTN .= '			<div class="error">'.$error['p'.$line['priority'].':before'].'</div>'."\n";
 			}
 			$RTN .= '		</td>'."\n";
@@ -2167,7 +2167,7 @@ class pxplugin_PicklesCrawler_admin{
 			$RTN .= '		<th style="width:30%;"><div>変換後の保存先パス</div></th>'."\n";
 			$RTN .= '		<td style="width:70%;">'."\n";
 			$RTN .= '			<div><input type="text" name="p'.$line['priority'].':after" value="'.htmlspecialchars( $line['after'] ).'" style="width:80%;" /></div>'."\n";
-			if( strlen( $error['p'.$line['priority'].':after'] ) ){
+			if( strlen( @$error['p'.$line['priority'].':after'] ) ){
 				$RTN .= '			<div class="error">'.$error['p'.$line['priority'].':after'].'</div>'."\n";
 			}
 			$RTN .= '		</td>'."\n";
@@ -2176,7 +2176,7 @@ class pxplugin_PicklesCrawler_admin{
 			$RTN .= '		<th style="width:30%;"><div>必須URLパラメータ</div></th>'."\n";
 			$RTN .= '		<td style="width:70%;">'."\n";
 			$RTN .= '			<div><input type="text" name="p'.$line['priority'].':requiredparam" value="'.htmlspecialchars( $line['requiredparam'] ).'" style="width:80%;" /></div>'."\n";
-			if( strlen( $error['p'.$line['priority'].':requiredparam'] ) ){
+			if( strlen( @$error['p'.$line['priority'].':requiredparam'] ) ){
 				$RTN .= '			<div class="error">'.$error['p'.$line['priority'].':requiredparam'].'</div>'."\n";
 			}
 			$RTN .= '		</td>'."\n";
@@ -2192,7 +2192,7 @@ class pxplugin_PicklesCrawler_admin{
 		$RTN .= '		<th style="width:30%;"><div>元のパス</div></th>'."\n";
 		$RTN .= '		<td style="width:70%;">'."\n";
 		$RTN .= '			<div><input type="text" name="add:before" value="" style="width:80%;" /></div>'."\n";
-		if( strlen( $error['add:before'] ) ){
+		if( strlen( @$error['add:before'] ) ){
 			$RTN .= '			<div class="error">'.$error['add:before'].'</div>'."\n";
 		}
 		$RTN .= '		</td>'."\n";
@@ -2201,7 +2201,7 @@ class pxplugin_PicklesCrawler_admin{
 		$RTN .= '		<th style="width:30%;"><div>変換後の保存先パス</div></th>'."\n";
 		$RTN .= '		<td style="width:70%;">'."\n";
 		$RTN .= '			<div><input type="text" name="add:after" value="" style="width:80%;" /></div>'."\n";
-		if( strlen( $error{'add:after'} ) ){
+		if( strlen( @$error{'add:after'} ) ){
 			$RTN .= '			<div class="error">'.$error{'add:after'}.'</div>'."\n";
 		}
 		$RTN .= '		</td>'."\n";
@@ -2210,7 +2210,7 @@ class pxplugin_PicklesCrawler_admin{
 		$RTN .= '		<th style="width:30%;"><div>必須URLパラメータ</div></th>'."\n";
 		$RTN .= '		<td style="width:70%;">'."\n";
 		$RTN .= '			<div><input type="text" name="add:requiredparam" value="" style="width:80%;" /></div>'."\n";
-		if( strlen( $error{'add:requiredparam'} ) ){
+		if( strlen( @$error{'add:requiredparam'} ) ){
 			$RTN .= '			<div class="error">'.$error{'add:requiredparam'}.'</div>'."\n";
 		}
 		$RTN .= '		</td>'."\n";
@@ -2418,13 +2418,13 @@ class pxplugin_PicklesCrawler_admin{
 		$RTN .= '			<div>'."\n";
 		$c = array( $this->px->req()->get_param('charset')=>' selected="selected"' );
 		$RTN .= '				<select name="charset">'."\n";
-		$RTN .= '					<option value=""'.$c[''].'>変換しない</option>'."\n";
+		$RTN .= '					<option value=""'.@$c[''].'>変換しない</option>'."\n";
 		foreach( $charsetList as $charset ){
-			$RTN .= '					<option value="'.htmlspecialchars( $charset ).'"'.$c[$charset].'>'.htmlspecialchars( $charset ).'</option>'."\n";
+			$RTN .= '					<option value="'.htmlspecialchars( $charset ).'"'.@$c[$charset].'>'.htmlspecialchars( $charset ).'</option>'."\n";
 		}
 		$RTN .= '				</select>'."\n";
 		$RTN .= '			</div>'."\n";
-		if( strlen( $error['charset'] ) ){
+		if( strlen( @$error['charset'] ) ){
 			$RTN .= '			<div class="error">'.$error['charset'].'</div>'."\n";
 		}
 		$RTN .= '		</td>'."\n";
@@ -2435,13 +2435,13 @@ class pxplugin_PicklesCrawler_admin{
 		$RTN .= '			<div>'."\n";
 		$c = array( $this->px->req()->get_param('crlf')=>' selected="selected"' );
 		$RTN .= '				<select name="crlf">'."\n";
-		$RTN .= '					<option value=""'.$c[''].'>変換しない</option>'."\n";
+		$RTN .= '					<option value=""'.@$c[''].'>変換しない</option>'."\n";
 		foreach( $crlfList as $crlf ){
-			$RTN .= '					<option value="'.htmlspecialchars( $crlf ).'"'.$c[$crlf].'>'.htmlspecialchars( $crlf ).'</option>'."\n";
+			$RTN .= '					<option value="'.htmlspecialchars( $crlf ).'"'.@$c[$crlf].'>'.htmlspecialchars( $crlf ).'</option>'."\n";
 		}
 		$RTN .= '				</select>'."\n";
 		$RTN .= '			</div>'."\n";
-		if( strlen( $error['crlf'] ) ){
+		if( strlen( @$error['crlf'] ) ){
 			$RTN .= '			<div class="error">'.$error['crlf'].'</div>'."\n";
 		}
 		$RTN .= '		</td>'."\n";
@@ -2454,7 +2454,7 @@ class pxplugin_PicklesCrawler_admin{
 		$RTN .= '				<li>※セミコロン区切りで複数指定できます。</li>'."\n";
 		$RTN .= '				<li>※例：<code>html;htm;css;js</code></li>'."\n";
 		$RTN .= '			</ul>'."\n";
-		if( strlen( $error['ext'] ) ){
+		if( strlen( @$error['ext'] ) ){
 			$RTN .= '			<div class="error">'.$error['ext'].'</div>'."\n";
 		}
 		$RTN .= '		</td>'."\n";
@@ -2711,7 +2711,7 @@ class pxplugin_PicklesCrawler_admin{
 			}
 		}
 
-		usort( $entry_list , create_function( '$a,$b' , 'if( $a[\'priority\'] > $b[\'priority\'] ){ return 1; } if( $a[\'priority\'] < $b[\'priority\'] ){ return -1; } return 0;' ) );
+		usort( $entry_list , @create_function( '$a,$b' , 'if( $a[\'priority\'] > $b[\'priority\'] ){ return 1; } if( $a[\'priority\'] < $b[\'priority\'] ){ return -1; } return 0;' ) );
 
 		foreach( $entry_list as $line ){
 			$btn_operation_up = '<a href="javascript:up_item('.t::data2text( $line['priority'] ).');">上へ</a>';
@@ -2723,7 +2723,7 @@ class pxplugin_PicklesCrawler_admin{
 			$RTN .= '		<th style="width:30%;"><div>pregパターン</div></th>'."\n";
 			$RTN .= '		<td style="width:70%;">'."\n";
 			$RTN .= '			<div><input type="text" name="p'.$line['priority'].':pregpattern" value="'.htmlspecialchars( $line['pregpattern'] ).'" style="width:80%;" /></div>'."\n";
-			if( strlen( $error['p'.$line['priority'].':pregpattern'] ) ){
+			if( strlen( @$error['p'.$line['priority'].':pregpattern'] ) ){
 				$RTN .= '			<div class="error">'.$error['p'.$line['priority'].':pregpattern'].'</div>'."\n";
 			}
 			$RTN .= '		</td>'."\n";
@@ -2732,7 +2732,7 @@ class pxplugin_PicklesCrawler_admin{
 			$RTN .= '		<th style="width:30%;"><div>置換後の文字列</div></th>'."\n";
 			$RTN .= '		<td style="width:70%;">'."\n";
 			$RTN .= '			<div><input type="text" name="p'.$line['priority'].':replaceto" value="'.htmlspecialchars( $line['replaceto'] ).'" style="width:80%;" /></div>'."\n";
-			if( strlen( $error['p'.$line['priority'].':replaceto'] ) ){
+			if( strlen( @$error['p'.$line['priority'].':replaceto'] ) ){
 				$RTN .= '			<div class="error">'.$error['p'.$line['priority'].':replaceto'].'</div>'."\n";
 			}
 			$RTN .= '		</td>'."\n";
@@ -2744,7 +2744,7 @@ class pxplugin_PicklesCrawler_admin{
 			$RTN .= '			<ul class="form_elements-notes">'."\n";
 			$RTN .= '				<li>※リライトルール適用後のパスで指定してください。</li>'."\n";
 			$RTN .= '			</ul>'."\n";
-			if( strlen( $error['p'.$line['priority'].':path'] ) ){
+			if( strlen( @$error['p'.$line['priority'].':path'] ) ){
 				$RTN .= '			<div class="error">'.$error['p'.$line['priority'].':path'].'</div>'."\n";
 			}
 			$RTN .= '		</td>'."\n";
@@ -2753,8 +2753,8 @@ class pxplugin_PicklesCrawler_admin{
 			$RTN .= '		<th style="width:30%;"><div>ディレクトリを再帰的に置換</div></th>'."\n";
 			$RTN .= '		<td style="width:70%;">'."\n";
 			$c = array( '1'=>' checked="checked"' );
-			$RTN .= '			<div><label><input type="checkbox" name="p'.$line['priority'].':dirflg" value="1"'.$c[$line['dirflg']].' />再帰的に置換する</label></div>'."\n";
-			if( strlen( $error['p'.$line['priority'].':dirflg'] ) ){
+			$RTN .= '			<div><label><input type="checkbox" name="p'.$line['priority'].':dirflg" value="1"'.@$c[$line['dirflg']].' />再帰的に置換する</label></div>'."\n";
+			if( strlen( @$error['p'.$line['priority'].':dirflg'] ) ){
 				$RTN .= '			<div class="error">'.$error['p'.$line['priority'].':dirflg'].'</div>'."\n";
 			}
 			$RTN .= '		</td>'."\n";
@@ -2767,7 +2767,7 @@ class pxplugin_PicklesCrawler_admin{
 			$RTN .= '				<li>※セミコロン区切りで複数指定できます。</li>'."\n";
 			$RTN .= '				<li>※例：<code>html;htm;css;js</code></li>'."\n";
 			$RTN .= '			</ul>'."\n";
-			if( strlen( $error['p'.$line['priority'].':ext'] ) ){
+			if( strlen( @$error['p'.$line['priority'].':ext'] ) ){
 				$RTN .= '			<div class="error">'.$error['p'.$line['priority'].':ext'].'</div>'."\n";
 			}
 			$RTN .= '		</td>'."\n";
@@ -2783,7 +2783,7 @@ class pxplugin_PicklesCrawler_admin{
 		$RTN .= '		<th style="width:30%;"><div>pregパターン</div></th>'."\n";
 		$RTN .= '		<td style="width:70%;">'."\n";
 		$RTN .= '			<div><input type="text" name="add:pregpattern" value="" style="width:80%;" /></div>'."\n";
-		if( strlen( $error['add:pregpattern'] ) ){
+		if( strlen( @$error['add:pregpattern'] ) ){
 			$RTN .= '			<div class="error">'.$error['add:pregpattern'].'</div>'."\n";
 		}
 		$RTN .= '		</td>'."\n";
@@ -2792,7 +2792,7 @@ class pxplugin_PicklesCrawler_admin{
 		$RTN .= '		<th style="width:30%;"><div>置換後の文字列</div></th>'."\n";
 		$RTN .= '		<td style="width:70%;">'."\n";
 		$RTN .= '			<div><input type="text" name="add:replaceto" value="" style="width:80%;" /></div>'."\n";
-		if( strlen( $error['add:replaceto'] ) ){
+		if( strlen( @$error['add:replaceto'] ) ){
 			$RTN .= '			<div class="error">'.$error['add:replaceto'].'</div>'."\n";
 		}
 		$RTN .= '		</td>'."\n";
@@ -2804,7 +2804,7 @@ class pxplugin_PicklesCrawler_admin{
 		$RTN .= '			<ul class="form_elements-notes">'."\n";
 		$RTN .= '				<li>※リライトルール適用後のパスで指定してください。</li>'."\n";
 		$RTN .= '			</ul>'."\n";
-		if( strlen( $error['add:path'] ) ){
+		if( strlen( @$error['add:path'] ) ){
 			$RTN .= '			<div class="error">'.$error['add:path'].'</div>'."\n";
 		}
 		$RTN .= '		</td>'."\n";
@@ -2813,7 +2813,7 @@ class pxplugin_PicklesCrawler_admin{
 		$RTN .= '		<th style="width:30%;"><div>ディレクトリを再帰的に置換</div></th>'."\n";
 		$RTN .= '		<td style="width:70%;">'."\n";
 		$RTN .= '			<div><label><input type="checkbox" name="add:dirflg" value="1" checked="checked" />再帰的に置換する</label></div>'."\n";
-		if( strlen( $error['add:dirflg'] ) ){
+		if( strlen( @$error['add:dirflg'] ) ){
 			$RTN .= '			<div class="error">'.$error['add:dirflg'].'</div>'."\n";
 		}
 		$RTN .= '		</td>'."\n";
@@ -2826,7 +2826,7 @@ class pxplugin_PicklesCrawler_admin{
 		$RTN .= '				<li>※セミコロン区切りで複数指定できます。</li>'."\n";
 		$RTN .= '				<li>※例：<code>html;htm;css;js</code></li>'."\n";
 		$RTN .= '			</ul>'."\n";
-		if( strlen( $error['add:ext'] ) ){
+		if( strlen( @$error['add:ext'] ) ){
 			$RTN .= '			<div class="error">'.$error['add:ext'].'</div>'."\n";
 		}
 		$RTN .= '		</td>'."\n";
