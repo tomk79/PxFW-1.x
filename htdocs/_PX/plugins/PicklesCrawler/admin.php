@@ -52,7 +52,7 @@ class pxplugin_PicklesCrawler_admin{
 	public function start(){
 		$cont_src = $this->start_controller();
 
-		$title = $this->local_sitemap[':'.implode('.', $this->cmd)]['title'];
+		$title = $this->local_sitemap[':'.implode('.', @$this->cmd)]['title'];
 		if( strlen( $title ) ){
 			$this->title = $title;
 		}
@@ -65,43 +65,43 @@ class pxplugin_PicklesCrawler_admin{
 	 * コントローラ
 	 */
 	private function start_controller(){
-		if( $this->cmd[0] == 'detail' ){
+		if( @$this->cmd[0] == 'detail' ){
 			#	プロジェクト詳細
 			return	$this->page_project_detail();
-		}elseif( $this->cmd[0] == 'create_proj' || $this->cmd[0] == 'edit_proj' ){
+		}elseif( @$this->cmd[0] == 'create_proj' || @$this->cmd[0] == 'edit_proj' ){
 			#	プロジェクト作成/編集
 			return	$this->start_edit_proj();
-		}elseif( $this->cmd[0] == 'edit_param_define' ){
+		}elseif( @$this->cmd[0] == 'edit_param_define' ){
 			#	プロジェクトのパラメータ定義を編集
 			return	$this->start_edit_param_define();
-		}elseif( $this->cmd[0] == 'edit_localfilename_rewriterules' ){
+		}elseif( @$this->cmd[0] == 'edit_localfilename_rewriterules' ){
 			#	保存ファイル名のリライトルール編集
 			return	$this->start_edit_localfilename_rewriterules();
-		}elseif( $this->cmd[0] == 'edit_charset' ){
+		}elseif( @$this->cmd[0] == 'edit_charset' ){
 			#	文字コード・改行コード変換設定編集
 			return	$this->start_edit_charset();
-		}elseif( $this->cmd[0] == 'edit_preg_replace' ){
+		}elseif( @$this->cmd[0] == 'edit_preg_replace' ){
 			#	一括置換設定編集
 			return	$this->start_edit_preg_replace();
-		}elseif( $this->cmd[0] == 'create_program' || $this->cmd[0] == 'edit_program' ){
+		}elseif( @$this->cmd[0] == 'create_program' || @$this->cmd[0] == 'edit_program' ){
 			#	プログラム作成/編集
 			return	$this->start_edit_program();
-		}elseif( $this->cmd[0] == 'execute_program' ){
+		}elseif( @$this->cmd[0] == 'execute_program' ){
 			#	プログラムを実行
 			return	$this->start_execute_program();
-		}elseif( $this->cmd[0] == 'delete_program_content' ){
+		}elseif( @$this->cmd[0] == 'delete_program_content' ){
 			#	プログラムが書き出したコンテンツを削除する
 			return	$this->start_delete_program_content();
-		}elseif( $this->cmd[0] == 'delete_program' ){
+		}elseif( @$this->cmd[0] == 'delete_program' ){
 			#	プログラムを削除
 			return	$this->start_delete_program();
-		}elseif( $this->cmd[0] == 'delete_proj' ){
+		}elseif( @$this->cmd[0] == 'delete_proj' ){
 			#	プロジェクトを削除
 			return	$this->start_delete_proj();
-		}elseif( $this->cmd[0] == 'configcheck' ){
+		}elseif( @$this->cmd[0] == 'configcheck' ){
 			#	設定項目の確認
 			return	$this->page_configcheck();
-		}elseif( $this->cmd[0] == 'export' ){
+		}elseif( @$this->cmd[0] == 'export' ){
 			#	エクスポート
 			return	$this->start_export();
 		}
@@ -114,7 +114,7 @@ class pxplugin_PicklesCrawler_admin{
 	 */
 	private function href( $linkto = null ){
 		if(is_null($linkto)){
-			return '?PX=plugins.PicklesCrawler.'.implode('.',$this->cmd);
+			return '?PX=plugins.PicklesCrawler.'.implode('.',@$this->cmd);
 		}
 		if($linkto == ':'){
 			return '?PX=plugins.PicklesCrawler';
@@ -129,7 +129,7 @@ class pxplugin_PicklesCrawler_admin{
 	 * コンテンツ内へのリンクを生成する。
 	 */
 	private function mk_link( $linkto , $options = array() ){
-		if( !strlen($options['label']) ){
+		if( !strlen(@$options['label']) ){
 			if( $this->local_sitemap[$linkto] ){
 				$options['label'] = $this->local_sitemap[$linkto]['title'];
 			}
@@ -145,7 +145,7 @@ class pxplugin_PicklesCrawler_admin{
 	 */
 	private function mk_form_defvalues($linkto = null){
 		if(is_null($linkto)){
-			return 'plugins.PicklesCrawler.'.implode('.',$this->cmd);
+			return 'plugins.PicklesCrawler.'.implode('.',@$this->cmd);
 		}
 		if($linkto == ':'){
 			return 'plugins.PicklesCrawler';
@@ -171,18 +171,18 @@ class pxplugin_PicklesCrawler_admin{
 		$this->local_sitemap[ ':create_proj'                                      ] = array( 'title'=>'新規プロジェクト作成'               );
 		$this->local_sitemap[ ':configcheck'                                      ] = array( 'title'=>'設定の確認'                         );
 		$this->local_sitemap[ ':export'                                           ] = array( 'title'=>'設定をエクスポート'                 );
-		$this->local_sitemap[ ':detail.'.$this->cmd[1]                            ] = array( 'title'=>'プロジェクト詳細'                   );
-		$this->local_sitemap[ ':edit_proj.'.$this->cmd[1]                         ] = array( 'title'=>'プロジェクト編集'                   );
-		$this->local_sitemap[ ':edit_param_define.'.$this->cmd[1]                 ] = array( 'title'=>'パラメータ定義の編集'               );
-		$this->local_sitemap[ ':edit_localfilename_rewriterules.'.$this->cmd[1]   ] = array( 'title'=>'保存ファイル名のリライトルール編集' );
-		$this->local_sitemap[ ':create_program.'.$this->cmd[1]                    ] = array( 'title'=>'新規プログラム作成'                 );
-		$this->local_sitemap[ ':edit_program.'.$this->cmd[1].'.'.$this->cmd[2]    ] = array( 'title'=>'プログラム編集'                     );
-		$this->local_sitemap[ ':execute_program.'.$this->cmd[1].'.'.$this->cmd[2] ] = array( 'title'=>'プログラム実行'                     );
-		$this->local_sitemap[ ':delete_program.'.$this->cmd[1].'.'.$this->cmd[2]  ] = array( 'title'=>'プログラム削除'                     );
-		$this->local_sitemap[ ':edit_charset.'.$this->cmd[1]                      ] = array( 'title'=>'文字コード・改行コード変換設定'     );
-		$this->local_sitemap[ ':edit_preg_replace.'.$this->cmd[1]                 ] = array( 'title'=>'一括置換設定'                       );
-		$this->local_sitemap[ ':delete_proj.'.$this->cmd[1]                       ] = array( 'title'=>'プロジェクトを削除'                 );
-		$this->local_sitemap[ ':delete_program_content.'.$this->cmd[1]            ] = array( 'title'=>'プログラムコンテンツの削除'         );
+		$this->local_sitemap[ ':detail.'.@$this->cmd[1]                            ] = array( 'title'=>'プロジェクト詳細'                   );
+		$this->local_sitemap[ ':edit_proj.'.@$this->cmd[1]                         ] = array( 'title'=>'プロジェクト編集'                   );
+		$this->local_sitemap[ ':edit_param_define.'.@$this->cmd[1]                 ] = array( 'title'=>'パラメータ定義の編集'               );
+		$this->local_sitemap[ ':edit_localfilename_rewriterules.'.@$this->cmd[1]   ] = array( 'title'=>'保存ファイル名のリライトルール編集' );
+		$this->local_sitemap[ ':create_program.'.@$this->cmd[1]                    ] = array( 'title'=>'新規プログラム作成'                 );
+		$this->local_sitemap[ ':edit_program.'.@$this->cmd[1].'.'.@$this->cmd[2]    ] = array( 'title'=>'プログラム編集'                     );
+		$this->local_sitemap[ ':execute_program.'.@$this->cmd[1].'.'.@$this->cmd[2] ] = array( 'title'=>'プログラム実行'                     );
+		$this->local_sitemap[ ':delete_program.'.@$this->cmd[1].'.'.@$this->cmd[2]  ] = array( 'title'=>'プログラム削除'                     );
+		$this->local_sitemap[ ':edit_charset.'.@$this->cmd[1]                      ] = array( 'title'=>'文字コード・改行コード変換設定'     );
+		$this->local_sitemap[ ':edit_preg_replace.'.@$this->cmd[1]                 ] = array( 'title'=>'一括置換設定'                       );
+		$this->local_sitemap[ ':delete_proj.'.@$this->cmd[1]                       ] = array( 'title'=>'プロジェクトを削除'                 );
+		$this->local_sitemap[ ':delete_program_content.'.@$this->cmd[1]            ] = array( 'title'=>'プログラムコンテンツの削除'         );
 
 		return true;
 	}
@@ -247,9 +247,9 @@ class pxplugin_PicklesCrawler_admin{
 	private function page_project_detail(){
 
 		$project_model = &$this->pcconf->factory_model_project();
-		$project_model->load_project( $this->cmd[1] );
+		$project_model->load_project( @$this->cmd[1] );
 
-		$this->local_sitemap[ ':'.implode('.',$this->cmd) ] = array( 'title'=>'プロジェクト『'.htmlspecialchars( $project_model->get_project_name() ).'』の詳細情報' );
+		$this->local_sitemap[ ':'.implode('.',@$this->cmd) ] = array( 'title'=>'プロジェクト『'.htmlspecialchars( $project_model->get_project_name() ).'』の詳細情報' );
 
 		$RTN = '';
 
@@ -258,7 +258,7 @@ class pxplugin_PicklesCrawler_admin{
 		$RTN .= '<table class="def" style="width:100%;">'."\n";
 		$RTN .= '	<tr>'."\n";
 		$RTN .= '		<th style="width:30%;"><div>プロジェクト名 (プロジェクトID)</div></th>'."\n";
-		$RTN .= '		<td style="width:70%;"><div><strong>'.htmlspecialchars( $project_model->get_project_name() ).'</strong> ('.htmlspecialchars( $this->cmd[1] ).')</div></td>'."\n";
+		$RTN .= '		<td style="width:70%;"><div><strong>'.htmlspecialchars( $project_model->get_project_name() ).'</strong> ('.htmlspecialchars( @$this->cmd[1] ).')</div></td>'."\n";
 		$RTN .= '	</tr>'."\n";
 		$RTN .= '	<tr>'."\n";
 		$RTN .= '		<th style="width:30%;"><div>ドキュメントルートのURL</div></th>'."\n";
@@ -358,7 +358,7 @@ class pxplugin_PicklesCrawler_admin{
 		$RTN .= '		<td style="width:70%;"><div>'.htmlspecialchars( $project_model->get_path_copyto() ).'</div></td>'."\n";
 		$RTN .= '	</tr>'."\n";
 		$RTN .= '</table>'."\n";
-		$RTN .= '<form action="'.htmlspecialchars( $this->href( ':edit_proj.'.$this->cmd[1] ) ).'" method="post" class="inline">'."\n";
+		$RTN .= '<form action="'.htmlspecialchars( $this->href( ':edit_proj.'.@$this->cmd[1] ) ).'" method="post" class="inline">'."\n";
 		$RTN .= '	<p class="center"><input type="submit" value="プロジェクト情報を編集する" /></p>'."\n";
 		$RTN .= '</form>'."\n";
 
@@ -392,19 +392,19 @@ class pxplugin_PicklesCrawler_admin{
 			foreach( $program_list as $program_id ){
 				$program_model = &$project_model->factory_program( $program_id );
 				$RTN .= '	<tr>'."\n";
-				$RTN .= '		<th><div style="overflow:hidden;">'.$this->mk_link(':execute_program.'.$this->cmd[1].'.'.$program_model->get_program_id(),array('label'=>$program_model->get_program_name(),'style'=>'inside')).'</div></th>'."\n";
+				$RTN .= '		<th><div style="overflow:hidden;">'.$this->mk_link(':execute_program.'.@$this->cmd[1].'.'.$program_model->get_program_id(),array('label'=>$program_model->get_program_name(),'style'=>'inside')).'</div></th>'."\n";
 				$RTN .= '		<td><div style="overflow:hidden;">'.htmlspecialchars( $program_model->get_program_id() ).'</div></td>'."\n";
 				$RTN .= '		<td><div style="overflow:hidden;">'.htmlspecialchars( $program_model->get_program_param() ).'</div></td>'."\n";
 				$RTN .= '		<td><div style="overflow:hidden;">'.htmlspecialchars( $program_model->get_program_useragent() ).'</div></td>'."\n";
-				$RTN .= '		<td><div class="center">'.$this->mk_link(':edit_program.'.$this->cmd[1].'.'.$program_model->get_program_id(),array('label'=>'編集')).'</div></td>'."\n";
-				$RTN .= '		<td><div class="center">'.$this->mk_link(':execute_program.'.$this->cmd[1].'.'.$program_model->get_program_id(),array('label'=>'実行')).'</div></td>'."\n";
-				$RTN .= '		<td><div class="center">'.$this->mk_link(':delete_program.'.$this->cmd[1].'.'.$program_model->get_program_id(),array('label'=>'削除')).'</div></td>'."\n";
+				$RTN .= '		<td><div class="center">'.$this->mk_link(':edit_program.'.@$this->cmd[1].'.'.$program_model->get_program_id(),array('label'=>'編集')).'</div></td>'."\n";
+				$RTN .= '		<td><div class="center">'.$this->mk_link(':execute_program.'.@$this->cmd[1].'.'.$program_model->get_program_id(),array('label'=>'実行')).'</div></td>'."\n";
+				$RTN .= '		<td><div class="center">'.$this->mk_link(':delete_program.'.@$this->cmd[1].'.'.$program_model->get_program_id(),array('label'=>'削除')).'</div></td>'."\n";
 				$RTN .= '	</tr>'."\n";
 			}
 			$RTN .= '</table>'."\n";
 		}
 		$RTN .= '</div><!-- / .cont_unit_program -->'."\n";
-		$RTN .= '<form action="'.htmlspecialchars( $this->href( ':create_program.'.$this->cmd[1] ) ).'" method="post" class="inline">'."\n";
+		$RTN .= '<form action="'.htmlspecialchars( $this->href( ':create_program.'.@$this->cmd[1] ) ).'" method="post" class="inline">'."\n";
 		$RTN .= '	<p class="center"><input type="submit" value="新規プログラムを追加する" /></p>'."\n";
 		$RTN .= '</form>'."\n";
 
@@ -436,7 +436,7 @@ class pxplugin_PicklesCrawler_admin{
 		}else{
 			$RTN .= '<p>登録されていません。</p>'."\n";
 		}
-		$RTN .= '<form action="'.htmlspecialchars( $this->href( ':edit_param_define.'.$this->cmd[1] ) ).'" method="post" class="inline">'."\n";
+		$RTN .= '<form action="'.htmlspecialchars( $this->href( ':edit_param_define.'.@$this->cmd[1] ) ).'" method="post" class="inline">'."\n";
 		$RTN .= '	<p class="center"><input type="submit" value="パラメータ定義を編集する" /></p>'."\n";
 		$RTN .= '</form>'."\n";
 
@@ -466,7 +466,7 @@ class pxplugin_PicklesCrawler_admin{
 		}else{
 			$RTN .= '<p>条件は設定されていません。</p>'."\n";
 		}
-		$RTN .= '<form action="'.htmlspecialchars( $this->href( ':edit_localfilename_rewriterules.'.$this->cmd[1] ) ).'" method="post" class="inline">'."\n";
+		$RTN .= '<form action="'.htmlspecialchars( $this->href( ':edit_localfilename_rewriterules.'.@$this->cmd[1] ) ).'" method="post" class="inline">'."\n";
 		$RTN .= '	<p class="center"><input type="submit" value="保存ファイル名のリライトルールを編集" /></p>'."\n";
 		$RTN .= '</form>'."\n";
 
@@ -486,7 +486,7 @@ class pxplugin_PicklesCrawler_admin{
 		$RTN .= '		<td style="width:70%;"><div>'.htmlspecialchars( $project_model->get_charset_ext() ).'</div></td>'."\n";
 		$RTN .= '	</tr>'."\n";
 		$RTN .= '</table>'."\n";
-		$RTN .= '<form action="'.htmlspecialchars( $this->href( ':edit_charset.'.$this->cmd[1] ) ).'" method="post">'."\n";
+		$RTN .= '<form action="'.htmlspecialchars( $this->href( ':edit_charset.'.@$this->cmd[1] ) ).'" method="post">'."\n";
 		$RTN .= '	<p class="center"><input type="submit" value="文字コード・改行コード変換設定を編集" /></p>'."\n";
 		$RTN .= '</form>'."\n";
 
@@ -519,14 +519,14 @@ class pxplugin_PicklesCrawler_admin{
 		}else{
 			$RTN .= '<p>条件は設定されていません。</p>'."\n";
 		}
-		$RTN .= '<form action="'.htmlspecialchars( $this->href( ':edit_preg_replace.'.$this->cmd[1] ) ).'" method="post" class="inline">'."\n";
+		$RTN .= '<form action="'.htmlspecialchars( $this->href( ':edit_preg_replace.'.@$this->cmd[1] ) ).'" method="post" class="inline">'."\n";
 		$RTN .= '	<p class="center"><input type="submit" value="一括置換設定を編集" /></p>'."\n";
 		$RTN .= '</form>'."\n";
 
 
 		$RTN .= '<div class="more_links">'."\n";
 		$RTN .= '	<ul>'."\n";
-		$RTN .= '		<li>'.$this->mk_link(':delete_proj.'.$this->cmd[1],array('label'=>'このプロジェクトを削除','style'=>'inside')).'</li>'."\n";
+		$RTN .= '		<li>'.$this->mk_link(':delete_proj.'.@$this->cmd[1],array('label'=>'このプロジェクトを削除','style'=>'inside')).'</li>'."\n";
 		$RTN .= '		<li><a href="'.t::h($this->href(':')).'">戻る</a></li>'."\n";
 		$RTN .= '	</ul>'."\n";
 		$RTN .= '</div><!-- /.more_links -->'."\n";
@@ -553,10 +553,10 @@ class pxplugin_PicklesCrawler_admin{
 			return	$this->execute_edit_proj_execute();
 		}elseif( !strlen( $this->px->req()->get_param('mode') ) ){
 			$error = array();
-			if( $this->cmd[0] == 'edit_proj' ){
+			if( @$this->cmd[0] == 'edit_proj' ){
 				$project_model = &$this->pcconf->factory_model_project();
-				$project_model->load_project( $this->cmd[1] );
-				$this->px->req()->set_param( 'project_id' , $this->cmd[1] );
+				$project_model->load_project( @$this->cmd[1] );
+				$this->px->req()->set_param( 'project_id' , @$this->cmd[1] );
 				$this->px->req()->set_param( 'project_name' , $project_model->get_project_name() );
 				$this->px->req()->set_param( 'url_stargpage' , $project_model->get_url_startpage() );
 				$this->px->req()->set_param( 'url_docroot' , $project_model->get_url_docroot() );
@@ -616,7 +616,7 @@ class pxplugin_PicklesCrawler_admin{
 		$RTN .= '	<tr>'."\n";
 		$RTN .= '		<th style="width:30%;"><div>プロジェクトID <span class="form_elements-must">必須</span></div></th>'."\n";
 		$RTN .= '		<td style="width:70%;">'."\n";
-		if( $this->cmd[0] == 'edit_proj' ){
+		if( @$this->cmd[0] == 'edit_proj' ){
 			#	編集
 			$RTN .= '			<div>'.htmlspecialchars( $this->px->req()->get_param('project_id') ).'<input type="hidden" name="project_id" value="'.htmlspecialchars( $this->px->req()->get_param('project_id') ).'" /></div>'."\n";
 		}else{
@@ -1076,10 +1076,10 @@ class pxplugin_PicklesCrawler_admin{
 
 		$project_model = &$this->pcconf->factory_model_project();
 
-		if( $this->cmd[0] == 'edit_proj' ){
+		if( @$this->cmd[0] == 'edit_proj' ){
 			#	既存プロジェクトの編集
-			$project_model->load_project( $this->cmd[1] );
-		}elseif( $this->cmd[0] == 'create_proj' ){
+			$project_model->load_project( @$this->cmd[1] );
+		}elseif( @$this->cmd[0] == 'create_proj' ){
 			#	新規プロジェクト作成
 			if( !$project_model->create_new_project( $this->px->req()->get_param('project_id') ) ){
 				return	'<p class="error">新規プロジェクトの作成に失敗しました。</p>';
@@ -1116,9 +1116,9 @@ class pxplugin_PicklesCrawler_admin{
 	 */
 	private function page_edit_proj_thanks(){
 		$RTN = ''."\n";
-		if( $this->cmd[0] == 'edit_proj' ){
+		if( @$this->cmd[0] == 'edit_proj' ){
 			$RTN .= '<p>プロジェクト編集処理を完了しました。</p>'."\n";
-			$backTo = ':detail.'.$this->cmd[1];
+			$backTo = ':detail.'.@$this->cmd[1];
 		}else{
 			$RTN .= '<p>新規プロジェクトを作成しました。</p>'."\n";
 			$backTo = ':';
@@ -1388,8 +1388,8 @@ class pxplugin_PicklesCrawler_admin{
 		$RTN .= '</form>'."\n";
 		$RTN .= '</div>'."\n";
 		$RTN .= '<hr />'."\n";
-		$RTN .= '<form action="'.htmlspecialchars( $this->href( ':detail.'.$this->cmd[1] ) ).'" method="post" class="inline">'."\n";
-		// $RTN .= '	'.$this->mk_form_defvalues( ':detail.'.$this->cmd[1] )."\n";
+		$RTN .= '<form action="'.htmlspecialchars( $this->href( ':detail.'.@$this->cmd[1] ) ).'" method="post" class="inline">'."\n";
+		// $RTN .= '	'.$this->mk_form_defvalues( ':detail.'.@$this->cmd[1] )."\n";
 		$RTN .= '	<div class="center"><input type="submit" value="キャンセル" /></div>'."\n";
 		$RTN .= '</form>'."\n";
 		return	$RTN;
@@ -1403,12 +1403,12 @@ class pxplugin_PicklesCrawler_admin{
 		// 	return	$this->px->redirect( $this->href().'&mode=thanks' );
 		// }
 
-		if( !strlen( $this->cmd[1] ) ){
+		if( !strlen( @$this->cmd[1] ) ){
 			return	'<p class="error">プロジェクトが選択されていません。</p>';
 		}
 
 		$project_model = &$this->pcconf->factory_model_project();
-		$project_model->load_project( $this->cmd[1] );
+		$project_model->load_project( @$this->cmd[1] );
 
 		$result = $project_model->destroy_project();
 
@@ -1441,8 +1441,8 @@ class pxplugin_PicklesCrawler_admin{
 	 * 新規プログラム作成/編集
 	 */
 	private function start_edit_program(){
-		if( $this->cmd[0] == 'edit_program' ){
-			if( !strlen( $this->cmd[1] ) || !strlen( $this->cmd[2] ) ){
+		if( @$this->cmd[0] == 'edit_program' ){
+			if( !strlen( @$this->cmd[1] ) || !strlen( @$this->cmd[2] ) ){
 				return $this->theme->errorend('編集対象のプログラムが指定されていません。');
 			}
 		}
@@ -1455,10 +1455,10 @@ class pxplugin_PicklesCrawler_admin{
 			return	$this->execute_edit_program_execute();
 		}elseif( !strlen( $this->px->req()->get_param('mode') ) ){
 			$error = array();
-			if( $this->cmd[0] == 'edit_program' ){
+			if( @$this->cmd[0] == 'edit_program' ){
 				$project_model = &$this->pcconf->factory_model_project();
-				$project_model->load_project( $this->cmd[1] );
-				$program_model = &$project_model->factory_program( $this->cmd[2] );
+				$project_model->load_project( @$this->cmd[1] );
+				$program_model = &$project_model->factory_program( @$this->cmd[2] );
 				$this->px->req()->set_param( 'program_name' , $program_model->get_program_name() );
 				$this->px->req()->set_param( 'program_param' , $program_model->get_program_param() );
 				$this->px->req()->set_param( 'program_type' , $program_model->get_program_type() );
@@ -1689,8 +1689,8 @@ class pxplugin_PicklesCrawler_admin{
 		$RTN .= '</form>'."\n";
 		$RTN .= '</div>'."\n";
 		$RTN .= '<hr />'."\n";
-		$RTN .= '<form action="'.htmlspecialchars( $this->href( ':detail.'.$this->cmd[1] ) ).'" method="post" class="inline">'."\n";
-		// $RTN .= '	'.$this->mk_form_defvalues( ':detail.'.$this->cmd[1] )."\n";
+		$RTN .= '<form action="'.htmlspecialchars( $this->href( ':detail.'.@$this->cmd[1] ) ).'" method="post" class="inline">'."\n";
+		// $RTN .= '	'.$this->mk_form_defvalues( ':detail.'.@$this->cmd[1] )."\n";
 		$RTN .= '	<p class="center"><input type="submit" value="キャンセル" /></p>'."\n";
 		$RTN .= '</form>'."\n";
 		return	$RTN;
@@ -1730,10 +1730,10 @@ class pxplugin_PicklesCrawler_admin{
 		// }
 
 		$project_model = &$this->pcconf->factory_model_project();
-		$project_model->load_project( $this->cmd[1] );
+		$project_model->load_project( @$this->cmd[1] );
 
-		if( $this->cmd[0] == 'edit_program' ){
-			$program_model = &$project_model->factory_program( $this->cmd[2] );
+		if( @$this->cmd[0] == 'edit_program' ){
+			$program_model = &$project_model->factory_program( @$this->cmd[2] );
 		}else{
 			$program_model = &$project_model->factory_program();
 		}
@@ -1760,22 +1760,22 @@ class pxplugin_PicklesCrawler_admin{
 	 */
 	private function page_edit_program_thanks(){
 		$RTN = ''."\n";
-		if( $this->cmd[0] == 'edit_program' ){
+		if( @$this->cmd[0] == 'edit_program' ){
 			$RTN .= '<p>プログラム '.htmlspecialchars( $this->px->req()->get_param('program_id') ).' の編集処理を保存しました。</p>';
 		}else{
 			$RTN .= '<p>新規プログラム '.htmlspecialchars( $this->px->req()->get_param('program_id') ).' を作成しました。</p>';
 		}
 		$RTN .= '<div class="unit">'."\n";
-		$RTN .= '<form action="'.htmlspecialchars( $this->href( ':execute_program.'.$this->cmd[1].'.'.urlencode( $this->px->req()->get_param('program_id') ) ) ).'" method="post" class="inline">'."\n";
+		$RTN .= '<form action="'.htmlspecialchars( $this->href( ':execute_program.'.@$this->cmd[1].'.'.urlencode( $this->px->req()->get_param('program_id') ) ) ).'" method="post" class="inline">'."\n";
 		$RTN .= '	<div class="inline">'."\n";
 		$RTN .= '		<input type="submit" value="実行する" />'."\n";
-		// $RTN .= '		'.$this->mk_form_defvalues( ':execute_program.'.$this->cmd[1].'.'.urlencode( $this->px->req()->get_param('program_id') ) )."\n";
+		// $RTN .= '		'.$this->mk_form_defvalues( ':execute_program.'.@$this->cmd[1].'.'.urlencode( $this->px->req()->get_param('program_id') ) )."\n";
 		$RTN .= '	</div>'."\n";
 		$RTN .= '</form>'."\n";
-		$RTN .= '<form action="'.htmlspecialchars( $this->href( ':detail.'.$this->cmd[1] ) ).'" method="post" class="inline">'."\n";
+		$RTN .= '<form action="'.htmlspecialchars( $this->href( ':detail.'.@$this->cmd[1] ) ).'" method="post" class="inline">'."\n";
 		$RTN .= '	<div class="inline">'."\n";
 		$RTN .= '		<input type="submit" value="戻る" />'."\n";
-		// $RTN .= '		'.$this->mk_form_defvalues( ':detail.'.$this->cmd[1] )."\n";
+		// $RTN .= '		'.$this->mk_form_defvalues( ':detail.'.@$this->cmd[1] )."\n";
 		$RTN .= '	</div>'."\n";
 		$RTN .= '</form>'."\n";
 		$RTN .= '</div>'."\n";
@@ -1840,8 +1840,8 @@ class pxplugin_PicklesCrawler_admin{
 		}elseif( !strlen( $this->px->req()->get_param('mode') ) ){
 			$error = array();
 			$project_model = &$this->pcconf->factory_model_project();
-			$project_model->load_project( $this->cmd[1] );
-			$param_list = $project_model->get_param_define_list( $this->cmd[2] );
+			$project_model->load_project( @$this->cmd[1] );
+			$param_list = $project_model->get_param_define_list( @$this->cmd[2] );
 			if( is_array( $param_list ) && count( $param_list ) ){
 				foreach( $param_list as $param_name ){
 					$param_info = $project_model->get_param_define( $param_name );
@@ -1995,8 +1995,8 @@ class pxplugin_PicklesCrawler_admin{
 		$RTN .= '</form>'."\n";
 		$RTN .= '</div>'."\n";
 		$RTN .= '<hr />'."\n";
-		$RTN .= '<form action="'.htmlspecialchars( $this->href( ':detail.'.$this->cmd[1] ) ).'" method="post" class="inline">'."\n";
-		// $RTN .= '	'.$this->mk_form_defvalues( ':detail.'.$this->cmd[1] )."\n";
+		$RTN .= '<form action="'.htmlspecialchars( $this->href( ':detail.'.@$this->cmd[1] ) ).'" method="post" class="inline">'."\n";
+		// $RTN .= '	'.$this->mk_form_defvalues( ':detail.'.@$this->cmd[1] )."\n";
 		$RTN .= '	<p class="center"><input type="submit" value="キャンセル" /></p>'."\n";
 		$RTN .= '</form>'."\n";
 		return	$RTN;
@@ -2018,7 +2018,7 @@ class pxplugin_PicklesCrawler_admin{
 		// }
 
 		$project_model = &$this->pcconf->factory_model_project();
-		$project_model->load_project( $this->cmd[1] );
+		$project_model->load_project( @$this->cmd[1] );
 		$project_model->clear_param_define();
 
 		foreach( $param_list as $param_key ){
@@ -2039,9 +2039,9 @@ class pxplugin_PicklesCrawler_admin{
 	private function page_edit_param_define_thanks(){
 		$RTN = ''."\n";
 		$RTN .= '<p>プロジェクトのパラメータ定義を編集処理を完了しました。</p>';
-		$RTN .= '<form action="'.htmlspecialchars( $this->href( ':detail.'.$this->cmd[1] ) ).'" method="post" class="inline">'."\n";
+		$RTN .= '<form action="'.htmlspecialchars( $this->href( ':detail.'.@$this->cmd[1] ) ).'" method="post" class="inline">'."\n";
 		$RTN .= '	<input type="submit" value="戻る" />'."\n";
-		// $RTN .= '	'.$this->mk_form_defvalues( ':detail.'.$this->cmd[1] )."\n";
+		// $RTN .= '	'.$this->mk_form_defvalues( ':detail.'.@$this->cmd[1] )."\n";
 		$RTN .= '</form>'."\n";
 		return	$RTN;
 	}
@@ -2073,7 +2073,7 @@ class pxplugin_PicklesCrawler_admin{
 		}elseif( !strlen( $this->px->req()->get_param('mode') ) ){
 			$error = array();
 			$project_model = &$this->pcconf->factory_model_project();
-			$project_model->load_project( $this->cmd[1] );
+			$project_model->load_project( @$this->cmd[1] );
 			$rule_list = $project_model->get_localfilename_rewriterules();
 			if( is_array( $rule_list ) && count( $rule_list ) ){
 				$i = 0;
@@ -2260,8 +2260,8 @@ class pxplugin_PicklesCrawler_admin{
 		$RTN .= '	'.''."\n";
 		$RTN .= '</form>'."\n";
 		$RTN .= '<hr />'."\n";
-		$RTN .= '<form action="'.htmlspecialchars( $this->href( ':detail.'.$this->cmd[1] ) ).'" method="post" class="inline">'."\n";
-		// $RTN .= '	'.$this->mk_form_defvalues( ':detail.'.$this->cmd[1] )."\n";
+		$RTN .= '<form action="'.htmlspecialchars( $this->href( ':detail.'.@$this->cmd[1] ) ).'" method="post" class="inline">'."\n";
+		// $RTN .= '	'.$this->mk_form_defvalues( ':detail.'.@$this->cmd[1] )."\n";
 		$RTN .= '	<div class="center"><input type="submit" value="キャンセル" /></div>'."\n";
 		$RTN .= '</form>'."\n";
 		return	$RTN;
@@ -2315,8 +2315,8 @@ class pxplugin_PicklesCrawler_admin{
 		$RTN .= '</form>'."\n";
 		$RTN .= '</div>'."\n";
 		$RTN .= '<hr />'."\n";
-		$RTN .= '<form action="'.htmlspecialchars( $this->href( ':detail.'.$this->cmd[1] ) ).'" method="post" class="inline">'."\n";
-		// $RTN .= '	'.$this->mk_form_defvalues( ':detail.'.$this->cmd[1] )."\n";
+		$RTN .= '<form action="'.htmlspecialchars( $this->href( ':detail.'.@$this->cmd[1] ) ).'" method="post" class="inline">'."\n";
+		// $RTN .= '	'.$this->mk_form_defvalues( ':detail.'.@$this->cmd[1] )."\n";
 		$RTN .= '	<p class="center"><input type="submit" value="キャンセル" /></p>'."\n";
 		$RTN .= '</form>'."\n";
 		return	$RTN;
@@ -2334,7 +2334,7 @@ class pxplugin_PicklesCrawler_admin{
 	private function execute_edit_localfilename_rewriterules_execute(){
 
 		$project_model = &$this->pcconf->factory_model_project();
-		$project_model->load_project( $this->cmd[1] );
+		$project_model->load_project( @$this->cmd[1] );
 		$project_model->clear_localfilename_rewriterules();
 
 		$rules = array();
@@ -2362,9 +2362,9 @@ class pxplugin_PicklesCrawler_admin{
 	private function page_edit_localfilename_rewriterules_thanks(){
 		$RTN = ''."\n";
 		$RTN .= '<p>保存ファイル名のリライトルール編集処理を完了しました。</p>';
-		$RTN .= '<form action="'.htmlspecialchars( $this->href( ':detail.'.$this->cmd[1] ) ).'" method="post" class="inline">'."\n";
+		$RTN .= '<form action="'.htmlspecialchars( $this->href( ':detail.'.@$this->cmd[1] ) ).'" method="post" class="inline">'."\n";
 		$RTN .= '	<input type="submit" value="戻る" />'."\n";
-		// $RTN .= '	'.$this->mk_form_defvalues( ':detail.'.$this->cmd[1] )."\n";
+		// $RTN .= '	'.$this->mk_form_defvalues( ':detail.'.@$this->cmd[1] )."\n";
 		$RTN .= '</form>'."\n";
 		return	$RTN;
 	}
@@ -2387,7 +2387,7 @@ class pxplugin_PicklesCrawler_admin{
 		}elseif( !strlen( $this->px->req()->get_param('mode') ) ){
 			$error = array();
 			$project_model = &$this->pcconf->factory_model_project();
-			$project_model->load_project( $this->cmd[1] );
+			$project_model->load_project( @$this->cmd[1] );
 
 			$this->px->req()->set_param( 'charset' ,$project_model->get_charset_charset() );
 			$this->px->req()->set_param( 'crlf' , $project_model->get_charset_crlf() );
@@ -2464,7 +2464,7 @@ class pxplugin_PicklesCrawler_admin{
 		$RTN .= '	<input type="hidden" name="mode" value="confirm" />'."\n";
 		$RTN .= '</form>'."\n";
 		$RTN .= '<hr />'."\n";
-		$RTN .= '<form action="'.htmlspecialchars( $this->href( ':detail.'.$this->cmd[1] ) ).'" method="post" class="inline">'."\n";
+		$RTN .= '<form action="'.htmlspecialchars( $this->href( ':detail.'.@$this->cmd[1] ) ).'" method="post" class="inline">'."\n";
 		$RTN .= '	<div class="center"><input type="submit" value="キャンセル" /></div>'."\n";
 		$RTN .= '</form>'."\n";
 		return	$RTN;
@@ -2531,7 +2531,7 @@ class pxplugin_PicklesCrawler_admin{
 		$RTN .= '</form>'."\n";
 		$RTN .= '</div>'."\n";
 		$RTN .= '<hr />'."\n";
-		$RTN .= '<form action="'.htmlspecialchars( $this->href( ':detail.'.$this->cmd[1] ) ).'" method="post" class="inline">'."\n";
+		$RTN .= '<form action="'.htmlspecialchars( $this->href( ':detail.'.@$this->cmd[1] ) ).'" method="post" class="inline">'."\n";
 		$RTN .= '	<div class="center"><input type="submit" value="キャンセル" /></div>'."\n";
 		$RTN .= '</form>'."\n";
 		return	$RTN;
@@ -2581,7 +2581,7 @@ class pxplugin_PicklesCrawler_admin{
 		// }
 
 		$project_model = &$this->pcconf->factory_model_project();
-		$project_model->load_project( $this->cmd[1] );
+		$project_model->load_project( @$this->cmd[1] );
 
 		$project_model->set_charset_charset( $this->px->req()->get_param('charset') );
 		$project_model->set_charset_crlf( $this->px->req()->get_param('crlf') );
@@ -2600,9 +2600,9 @@ class pxplugin_PicklesCrawler_admin{
 	private function page_edit_charset_thanks(){
 		$RTN = '';
 		$RTN .= '<p>文字コード・改行コード変換設定を保存しました。</p>';
-		$RTN .= '<form action="'.htmlspecialchars( $this->href( ':detail.'.$this->cmd[1] ) ).'" method="post" class="inline">'."\n";
+		$RTN .= '<form action="'.htmlspecialchars( $this->href( ':detail.'.@$this->cmd[1] ) ).'" method="post" class="inline">'."\n";
 		$RTN .= '	<input type="submit" value="戻る" />'."\n";
-		// $RTN .= '	'.$this->mk_form_defvalues( ':detail.'.$this->cmd[1] )."\n";
+		// $RTN .= '	'.$this->mk_form_defvalues( ':detail.'.@$this->cmd[1] )."\n";
 		$RTN .= '</form>'."\n";
 		return	$RTN;
 	}
@@ -2635,7 +2635,7 @@ class pxplugin_PicklesCrawler_admin{
 		}elseif( !strlen( $this->px->req()->get_param('mode') ) ){
 			$error = array();
 			$project_model = &$this->pcconf->factory_model_project();
-			$project_model->load_project( $this->cmd[1] );
+			$project_model->load_project( @$this->cmd[1] );
 			$rule_list = $project_model->get_preg_replace_rules();
 			if( is_array( $rule_list ) && count( $rule_list ) ){
 				$i = 0;
@@ -2844,8 +2844,8 @@ class pxplugin_PicklesCrawler_admin{
 		$RTN .= '	'.''."\n";
 		$RTN .= '</form>'."\n";
 		$RTN .= '<hr />'."\n";
-		$RTN .= '<form action="'.htmlspecialchars( $this->href( ':detail.'.$this->cmd[1] ) ).'" method="post" class="inline">'."\n";
-		// $RTN .= '	'.$this->mk_form_defvalues( ':detail.'.$this->cmd[1] )."\n";
+		$RTN .= '<form action="'.htmlspecialchars( $this->href( ':detail.'.@$this->cmd[1] ) ).'" method="post" class="inline">'."\n";
+		// $RTN .= '	'.$this->mk_form_defvalues( ':detail.'.@$this->cmd[1] )."\n";
 		$RTN .= '	<div class="center"><input type="submit" value="キャンセル" /></div>'."\n";
 		$RTN .= '</form>'."\n";
 		return	$RTN;
@@ -2913,8 +2913,8 @@ class pxplugin_PicklesCrawler_admin{
 		$RTN .= '</form>'."\n";
 		$RTN .= '</div>'."\n";
 		$RTN .= '<hr />'."\n";
-		$RTN .= '<form action="'.htmlspecialchars( $this->href( ':detail.'.$this->cmd[1] ) ).'" method="post" class="inline">'."\n";
-		// $RTN .= '	'.$this->mk_form_defvalues( ':detail.'.$this->cmd[1] )."\n";
+		$RTN .= '<form action="'.htmlspecialchars( $this->href( ':detail.'.@$this->cmd[1] ) ).'" method="post" class="inline">'."\n";
+		// $RTN .= '	'.$this->mk_form_defvalues( ':detail.'.@$this->cmd[1] )."\n";
 		$RTN .= '	<div class="center"><input type="submit" value="キャンセル" /></div>'."\n";
 		$RTN .= '</form>'."\n";
 		return	$RTN;
@@ -2945,7 +2945,7 @@ class pxplugin_PicklesCrawler_admin{
 		// }
 
 		$project_model = &$this->pcconf->factory_model_project();
-		$project_model->load_project( $this->cmd[1] );
+		$project_model->load_project( @$this->cmd[1] );
 		$project_model->clear_preg_replace_rules();
 
 		$rules = array();
@@ -2975,9 +2975,9 @@ class pxplugin_PicklesCrawler_admin{
 	private function page_edit_preg_replace_thanks(){
 		$RTN = '';
 		$RTN .= '<p>一括置換設定編集処理を完了しました。</p>';
-		$RTN .= '<form action="'.htmlspecialchars( $this->href( ':detail.'.$this->cmd[1] ) ).'" method="post" class="inline">'."\n";
+		$RTN .= '<form action="'.htmlspecialchars( $this->href( ':detail.'.@$this->cmd[1] ) ).'" method="post" class="inline">'."\n";
 		$RTN .= '	<input type="submit" value="戻る" />'."\n";
-		// $RTN .= '	'.$this->mk_form_defvalues( ':detail.'.$this->cmd[1] )."\n";
+		// $RTN .= '	'.$this->mk_form_defvalues( ':detail.'.@$this->cmd[1] )."\n";
 		$RTN .= '</form>'."\n";
 		return	$RTN;
 	}
@@ -2995,10 +2995,10 @@ class pxplugin_PicklesCrawler_admin{
 		}
 
 		$project_model = &$this->pcconf->factory_model_project();
-		$project_model->load_project( $this->cmd[1] );
-		$program_model = &$project_model->factory_program( $this->cmd[2] );
+		$project_model->load_project( @$this->cmd[1] );
+		$program_model = &$project_model->factory_program( @$this->cmd[2] );
 
-		$exec_page_id = ':run.'.$this->cmd[1].'.'.$this->cmd[2];
+		$exec_page_id = ':run.'.@$this->cmd[1].'.'.@$this->cmd[2];
 
 		$RTN = ''."\n";
 		$RTN .= '<div class="unit cols">'."\n";
@@ -3092,7 +3092,7 @@ class pxplugin_PicklesCrawler_admin{
 		$RTN .= '		</td>'."\n";
 		$RTN .= '	</tr>'."\n";
 		$RTN .= '</table>'."\n";
-		$RTN .= '<p>'.$this->mk_link(':edit_program.'.$this->cmd[1].'.'.$this->cmd[2],array('label'=>'このプログラムを編集する','style'=>'inside')).'</p>'."\n";
+		$RTN .= '<p>'.$this->mk_link(':edit_program.'.@$this->cmd[1].'.'.@$this->cmd[2],array('label'=>'このプログラムを編集する','style'=>'inside')).'</p>'."\n";
 
 		if( $this->px->dbh()->is_unix() ){
 			#--------------------------------------
@@ -3102,7 +3102,7 @@ class pxplugin_PicklesCrawler_admin{
 			$RTN .= '	この操作は、次のコマンドラインからも実行することができます。<br />'."\n";
 			$RTN .= '</p>'."\n";
 			$RTN .= '<blockquote><div>';
-			$RTN .= htmlspecialchars( ''.escapeshellcmd( $this->pcconf->get_path_command('php') ).' '.escapeshellarg( realpath( './_px_execute.php' ) ).' '.escapeshellarg( 'PX=plugins.PicklesCrawler.run.'.$this->cmd[1].'.'.$this->cmd[2].'&output_encoding='.urlencode('UTF-8').'' ) );
+			$RTN .= htmlspecialchars( ''.escapeshellcmd( $this->pcconf->get_path_command('php') ).' '.escapeshellarg( realpath( './_px_execute.php' ) ).' '.escapeshellarg( 'PX=plugins.PicklesCrawler.run.'.@$this->cmd[1].'.'.@$this->cmd[2].'&output_encoding='.urlencode('UTF-8').'' ) );
 			$RTN .= '</div></blockquote>'."\n";
 
 			$RTN .= '<p>'."\n";
@@ -3143,7 +3143,7 @@ class pxplugin_PicklesCrawler_admin{
 			$RTN .= '</p>'."\n";
 			$RTN .= '<ul class="none">'."\n";
 			foreach( array_keys( $is_zip ) as $type ){
-				$RTN .= '	<li>'.$this->mk_link( ':'.implode('.', $this->cmd).'&mode=download&ext='.strtolower($type) , array('label'=>strtoupper($type).'形式でダウンロード','active'=>false,'style'=>'inside') ).'</li>'."\n";
+				$RTN .= '	<li>'.$this->mk_link( ':'.implode('.', @$this->cmd).'&mode=download&ext='.strtolower($type) , array('label'=>strtoupper($type).'形式でダウンロード','active'=>false,'style'=>'inside') ).'</li>'."\n";
 			}
 			$RTN .= '</ul>'."\n";
 		}else{
@@ -3158,16 +3158,16 @@ class pxplugin_PicklesCrawler_admin{
 		$RTN .= '	書き出したデータを削除します。<br />'."\n";
 		$RTN .= '</p>'."\n";
 		$RTN .= '<ul class="none">'."\n";
-		$RTN .= '	<li>'.$this->mk_link( ':delete_program_content.'.$this->cmd[1].'.'.$this->cmd[2] , array('label'=>'削除する','active'=>false,'style'=>'inside') ).'</li>'."\n";
+		$RTN .= '	<li>'.$this->mk_link( ':delete_program_content.'.@$this->cmd[1].'.'.@$this->cmd[2] , array('label'=>'削除する','active'=>false,'style'=>'inside') ).'</li>'."\n";
 		$RTN .= '</ul>'."\n";
 
 		$RTN .= '	</div></div>'."\n";
 		$RTN .= '</div>'."\n";
 
 		$RTN .= '<hr />'."\n";
-		$RTN .= '<form action="'.htmlspecialchars( $this->href( ':detail.'.$this->cmd[1] ) ).'" method="post" class="inline">'."\n";
+		$RTN .= '<form action="'.htmlspecialchars( $this->href( ':detail.'.@$this->cmd[1] ) ).'" method="post" class="inline">'."\n";
 		$RTN .= '	<p class="center"><input type="submit" value="戻る" /></p>'."\n";
-		$RTN .= '	'.$this->mk_form_defvalues( ':detail.'.$this->cmd[1] )."\n";
+		$RTN .= '	'.$this->mk_form_defvalues( ':detail.'.@$this->cmd[1] )."\n";
 		$RTN .= '</form>'."\n";
 		return	$RTN;
 	}//start_execute_program()
@@ -3177,7 +3177,7 @@ class pxplugin_PicklesCrawler_admin{
 	 * プログラムが書き出したコンテンツのダウンロード
 	 */
 	private function download_program_content(){
-		$download_content_path = $this->pcconf->get_program_home_dir( $this->cmd[1] , $this->cmd[2] ).'/dl';
+		$download_content_path = $this->pcconf->get_program_home_dir( @$this->cmd[1] , @$this->cmd[2] ).'/dl';
 		$download_zipto_path = dirname($download_content_path).'/tmp_download_content';
 		if( !is_dir( $download_content_path ) ){
 			return	'<p class="error">ディレクトリが存在しません。</p>';
@@ -3200,14 +3200,14 @@ class pxplugin_PicklesCrawler_admin{
 				return	'<p class="error">圧縮されたアーカイブファイルは現在は存在しません。</p>';
 			}
 
-			$dl_filename = $this->cmd[1].'_'.$this->cmd[2].'.tgz';
+			$dl_filename = @$this->cmd[1].'_'.@$this->cmd[2].'.tgz';
 			if( $this->pcconf->get_value('dl_datetime_in_filename') ){
 				$CONTENT = $this->px->dbh()->file_get_contents( $download_content_path.'/__LOGS__/datetime.txt' );
 				list( $start_datetime , $end_datetime ) = explode(' --- ',$CONTENT);
 				if( !strlen( $end_datetime ) ){
 					$end_datetime = date('Y-m-d H:i:s');
 				}
-				$dl_filename = $this->cmd[1].'_'.date('Ymd_Hi',$this->px->dbh()->datetime2int($end_datetime)).'_'.$this->cmd[2].'.tgz';
+				$dl_filename = @$this->cmd[1].'_'.date('Ymd_Hi',$this->px->dbh()->datetime2int($end_datetime)).'_'.@$this->cmd[2].'.tgz';
 			}
 			$download_zipto_path = $download_zipto_path.'.tgz';
 
@@ -3227,14 +3227,14 @@ class pxplugin_PicklesCrawler_admin{
 				return	'<p class="error">圧縮されたアーカイブファイルは現在は存在しません。</p>';
 			}
 
-			$dl_filename = $this->cmd[1].'_'.$this->cmd[2].'.zip';
+			$dl_filename = @$this->cmd[1].'_'.@$this->cmd[2].'.zip';
 			if( $this->pcconf->get_value('dl_datetime_in_filename') ){
 				$CONTENT = $this->px->dbh()->file_get_contents( $download_content_path.'/__LOGS__/datetime.txt' );
 				list( $start_datetime , $end_datetime ) = explode(' --- ',$CONTENT);
 				if( !strlen( $end_datetime ) ){
 					$end_datetime = date('Y-m-d H:i:s');
 				}
-				$dl_filename = $this->cmd[1].'_'.date('Ymd_Hi',$this->px->dbh()->datetime2int($end_datetime)).'_'.$this->cmd[2].'.zip';
+				$dl_filename = @$this->cmd[1].'_'.date('Ymd_Hi',$this->px->dbh()->datetime2int($end_datetime)).'_'.@$this->cmd[2].'.zip';
 			}
 			$download_zipto_path = $download_zipto_path.'.zip';
 
@@ -3280,8 +3280,8 @@ class pxplugin_PicklesCrawler_admin{
 		$RTN .= '</form>'."\n";
 		$RTN .= '</div>'."\n";
 		$RTN .= '<hr />'."\n";
-		$RTN .= '<form action="'.htmlspecialchars( $this->href( ':execute_program.'.$this->cmd[1].'.'.$this->cmd[2] ) ).'" method="post" class="inline">'."\n";
-		// $RTN .= '	'.$this->mk_form_defvalues( ':execute_program.'.$this->cmd[1].'.'.$this->cmd[2] )."\n";
+		$RTN .= '<form action="'.htmlspecialchars( $this->href( ':execute_program.'.@$this->cmd[1].'.'.@$this->cmd[2] ) ).'" method="post" class="inline">'."\n";
+		// $RTN .= '	'.$this->mk_form_defvalues( ':execute_program.'.@$this->cmd[1].'.'.@$this->cmd[2] )."\n";
 		$RTN .= '	<p class="center"><input type="submit" value="キャンセル" /></p>'."\n";
 		$RTN .= '</form>'."\n";
 		return	$RTN;
@@ -3295,17 +3295,17 @@ class pxplugin_PicklesCrawler_admin{
 		// 	return	$this->px->redirect( $this->href().'&mode=thanks' );
 		// }
 
-		if( !strlen( $this->cmd[1] ) ){
+		if( !strlen( @$this->cmd[1] ) ){
 			return	'<p class="error">プロジェクトが選択されていません。</p>';
 		}
-		if( !strlen( $this->cmd[2] ) ){
+		if( !strlen( @$this->cmd[2] ) ){
 			return	'<p class="error">プログラムが選択されていません。</p>';
 		}
 
 
 		$project_model = &$this->pcconf->factory_model_project();
-		$project_model->load_project( $this->cmd[1] );
-		$program_model = &$project_model->factory_program( $this->cmd[2] );
+		$project_model->load_project( @$this->cmd[1] );
+		$program_model = &$project_model->factory_program( @$this->cmd[2] );
 		$result = $program_model->delete_program_content();
 
 		if( !$result ){
@@ -3320,9 +3320,9 @@ class pxplugin_PicklesCrawler_admin{
 	private function page_delete_program_content_thanks(){
 		$RTN = ''."\n";
 		$RTN .= '<p>プログラムコンテンツの削除処理を完了しました。</p>';
-		$RTN .= '<form action="'.htmlspecialchars( $this->href( ':execute_program.'.$this->cmd[1].'.'.$this->cmd[2] ) ).'" method="post" class="inline">'."\n";
+		$RTN .= '<form action="'.htmlspecialchars( $this->href( ':execute_program.'.@$this->cmd[1].'.'.@$this->cmd[2] ) ).'" method="post" class="inline">'."\n";
 		$RTN .= '	<input type="submit" value="戻る" />'."\n";
-		// $RTN .= '	'.$this->mk_form_defvalues( ':execute_program.'.$this->cmd[1].'.'.$this->cmd[2] )."\n";
+		// $RTN .= '	'.$this->mk_form_defvalues( ':execute_program.'.@$this->cmd[1].'.'.@$this->cmd[2] )."\n";
 		$RTN .= '</form>'."\n";
 		return	$RTN;
 	}
@@ -3364,8 +3364,8 @@ class pxplugin_PicklesCrawler_admin{
 		$RTN .= '</form>'."\n";
 		$RTN .= '</div>'."\n";
 		$RTN .= '<hr />'."\n";
-		$RTN .= '<form action="'.htmlspecialchars( $this->href( ':detail.'.$this->cmd[1] ) ).'" method="post" class="inline">'."\n";
-		// $RTN .= '	'.$this->mk_form_defvalues( ':detail.'.$this->cmd[1] )."\n";
+		$RTN .= '<form action="'.htmlspecialchars( $this->href( ':detail.'.@$this->cmd[1] ) ).'" method="post" class="inline">'."\n";
+		// $RTN .= '	'.$this->mk_form_defvalues( ':detail.'.@$this->cmd[1] )."\n";
 		$RTN .= '	<p class="center"><input type="submit" value="キャンセル" /></p>'."\n";
 		$RTN .= '</form>'."\n";
 		return	$RTN;
@@ -3379,17 +3379,17 @@ class pxplugin_PicklesCrawler_admin{
 		// 	return	$this->px->redirect( $this->href().'&mode=thanks' );
 		// }
 
-		if( !strlen( $this->cmd[1] ) ){
+		if( !strlen( @$this->cmd[1] ) ){
 			return	'<p class="error">プロジェクトが選択されていません。</p>';
 		}
-		if( !strlen( $this->cmd[2] ) ){
+		if( !strlen( @$this->cmd[2] ) ){
 			return	'<p class="error">プログラムが選択されていません。</p>';
 		}
 
 
 		$project_model = &$this->pcconf->factory_model_project();
-		$project_model->load_project( $this->cmd[1] );
-		$program_model = &$project_model->factory_program( $this->cmd[2] );
+		$project_model->load_project( @$this->cmd[1] );
+		$program_model = &$project_model->factory_program( @$this->cmd[2] );
 		$result = $program_model->destroy_program();
 
 		if( !$result ){
@@ -3404,9 +3404,9 @@ class pxplugin_PicklesCrawler_admin{
 	private function page_delete_program_thanks(){
 		$RTN = ''."\n";
 		$RTN .= '<p>プログラムの削除処理を完了しました。</p>';
-		$RTN .= '<form action="'.htmlspecialchars( $this->href( ':detail.'.$this->cmd[1] ) ).'" method="post" class="inline">'."\n";
+		$RTN .= '<form action="'.htmlspecialchars( $this->href( ':detail.'.@$this->cmd[1] ) ).'" method="post" class="inline">'."\n";
 		$RTN .= '	<input type="submit" value="戻る" />'."\n";
-		// $RTN .= '	'.$this->mk_form_defvalues( ':detail.'.$this->cmd[1] )."\n";
+		// $RTN .= '	'.$this->mk_form_defvalues( ':detail.'.@$this->cmd[1] )."\n";
 		$RTN .= '</form>'."\n";
 		return	$RTN;
 	}

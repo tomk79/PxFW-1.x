@@ -65,6 +65,9 @@ class pxplugin_PicklesCrawler_model_project{
 	public function get_project_list(){
 		$dir = $this->pcconf->get_home_dir().'/proj';
 		$itemlist = $this->px->dbh()->ls( $dir );
+		if(!$itemlist){
+			$itemlist = array();
+		}
 		sort($itemlist);
 
 		$RTN = array();

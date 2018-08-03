@@ -53,7 +53,7 @@ class pxplugin_PicklesCrawler_register_pxcommand extends px_bases_pxcommand{
 		array_shift($cmd);// "plugins" をトル
 		array_shift($cmd);// "PicklesCrawler" をトル
 
-		if( $cmd[0] == 'run' ){
+		if( @$cmd[0] == 'run' ){
 			// クロールを実行する
 			$obj = &$pcconf->factory_crawlctrl($cmd);
 			print $obj->start();
