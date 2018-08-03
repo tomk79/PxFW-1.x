@@ -12,6 +12,8 @@ class pxplugin_asazuke_model_program{
 	private $proj;
 
 	private $crawl_error_list = array();
+	private $info_program_id;
+
 
 	/**
 	 * コンストラクタ
@@ -33,7 +35,7 @@ class pxplugin_asazuke_model_program{
 			return	false;
 		}
 
-		$this->info_program_id = $program_id;
+		// $this->info_program_id = $program_id;
 
 		$programInfo = $this->proj->load_ini( $path_program_dir.'/programinfo.ini' );
 		$programInfo['section'] = $programInfo['sec'];

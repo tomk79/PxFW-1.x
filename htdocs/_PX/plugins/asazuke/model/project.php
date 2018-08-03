@@ -9,6 +9,7 @@ class pxplugin_asazuke_model_project{
 	private $px;
 	private $pcconf;
 
+	private $info_project_id;
 	private $info_path_startpage = null;
 	private $info_path_docroot = null;
 	private $info_accept_html_file_max_size = 0;
@@ -67,6 +68,9 @@ class pxplugin_asazuke_model_project{
 		#	select_cont_main
 		$csv = $this->px->dbh()->read_csv_utf8( $path_project_dir.'/select_cont_main.csv' );
 		$tmpAry = array();
+		if(!is_array($csv)){
+			$csv = array();
+		}
 		foreach($csv as $csvRow){
 			$tmpAryRow = array();
 			$tmpAryRow['name'] = $csvRow[0];
@@ -80,6 +84,9 @@ class pxplugin_asazuke_model_project{
 		#	select_cont_subs
 		$csv = $this->px->dbh()->read_csv_utf8( $path_project_dir.'/select_cont_subs.csv' );
 		$tmpAry = array();
+		if(!is_array($csv)){
+			$csv = array();
+		}
 		foreach($csv as $csvRow){
 			$tmpAryRow = array();
 			$tmpAryRow['name'] = $csvRow[0];
@@ -96,6 +103,9 @@ class pxplugin_asazuke_model_project{
 		#	dom_convert
 		$csv = $this->px->dbh()->read_csv_utf8( $path_project_dir.'/dom_convert.csv' );
 		$tmpAry = array();
+		if(!is_array($csv)){
+			$csv = array();
+		}
 		foreach($csv as $csvRow){
 			$tmpAryRow = array();
 			$tmpAryRow['name'] = $csvRow[0];
@@ -111,6 +121,9 @@ class pxplugin_asazuke_model_project{
 		#	select_breadcrumb
 		$csv = $this->px->dbh()->read_csv_utf8( $path_project_dir.'/select_breadcrumb.csv' );
 		$tmpAry = array();
+		if(!is_array($csv)){
+			$csv = array();
+		}
 		foreach($csv as $csvRow){
 			$tmpAryRow = array();
 			$tmpAryRow['name'] = $csvRow[0];
@@ -125,6 +138,9 @@ class pxplugin_asazuke_model_project{
 		#	replace_title
 		$csv = $this->px->dbh()->read_csv_utf8( $path_project_dir.'/replace_title.csv' );
 		$tmpAry = array();
+		if(!is_array($csv)){
+			$csv = array();
+		}
 		foreach($csv as $csvRow){
 			$tmpAryRow = array();
 			$tmpAryRow['name'] = $csvRow[0];
@@ -139,6 +155,9 @@ class pxplugin_asazuke_model_project{
 		#	replace_strings
 		$csv = $this->px->dbh()->read_csv_utf8( $path_project_dir.'/replace_strings.csv' );
 		$tmpAry = array();
+		if(!is_array($csv)){
+			$csv = array();
+		}
 		foreach($csv as $csvRow){
 			$tmpAryRow = array();
 			$tmpAryRow['name'] = $csvRow[0];
@@ -152,6 +171,9 @@ class pxplugin_asazuke_model_project{
 		#	ignore_common_resources
 		$csv = $this->px->dbh()->read_csv_utf8( $path_project_dir.'/ignore_common_resources.csv' );
 		$tmpAry = array();
+		if(!is_array($csv)){
+			$csv = array();
+		}
 		foreach($csv as $csvRow){
 			$tmpAryRow = array();
 			$tmpAryRow['name'] = $csvRow[0];

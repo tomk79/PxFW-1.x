@@ -112,9 +112,9 @@ class pxplugin_asazuke_config{
 				return	false;
 			}
 		}
-		if( strlen( $program_id ) ){
-			return	$proj_dir.'/prg/';
-		}
+		// if( strlen( $program_id ) ){
+		// 	return	$proj_dir.'/prg/';
+		// }
 		return	$proj_dir.'/prg';
 	}
 

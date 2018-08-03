@@ -51,7 +51,7 @@ class pxplugin_asazuke_admin{
 	public function start(){
 		$cont_src = $this->start_controller();
 
-		$title = $this->local_sitemap[':'.implode('.', $this->cmd)]['title'];
+		$title = @$this->local_sitemap[':'.implode('.', $this->cmd)]['title'];
 		if( strlen( $title ) ){
 			$this->title = $title;
 		}
@@ -64,16 +64,16 @@ class pxplugin_asazuke_admin{
 	 * コントローラ
 	 */
 	private function start_controller(){
-		if( $this->cmd[0] == 'edit_proj' ){
+		if( @$this->cmd[0] == 'edit_proj' ){
 			#	プロジェクト作成/編集
 			return	$this->start_edit_proj();
-		}elseif( $this->cmd[0] == 'execute_program' ){
+		}elseif( @$this->cmd[0] == 'execute_program' ){
 			#	プログラムを実行
 			return	$this->start_execute_program();
-		}elseif( $this->cmd[0] == 'delete_program_content' ){
+		}elseif( @$this->cmd[0] == 'delete_program_content' ){
 			#	プログラムが書き出したコンテンツを削除する
 			return	$this->start_delete_program_content();
-		}elseif( $this->cmd[0] == 'configcheck' ){
+		}elseif( @$this->cmd[0] == 'configcheck' ){
 			#	設定項目の確認
 			return	$this->page_configcheck();
 		}
@@ -103,7 +103,7 @@ class pxplugin_asazuke_admin{
 	private function mk_link( $linkto , $options = array() ){
 		if( !strlen($options['label']) ){
 			if( $this->local_sitemap[$linkto] ){
-				$options['label'] = $this->local_sitemap[$linkto]['title'];
+				$options['label'] = @$this->local_sitemap[$linkto]['title'];
 			}
 		}
 		$rtn = $this->href($linkto);
@@ -141,9 +141,9 @@ class pxplugin_asazuke_admin{
 
 		$this->local_sitemap[ ':'                                                 ] = array( 'title'=>'ASAZUKE'                            );
 		$this->local_sitemap[ ':configcheck'                                      ] = array( 'title'=>'設定の確認'                         );
-		$this->local_sitemap[ ':edit_proj.'.$this->cmd[1]                         ] = array( 'title'=>'プロジェクト編集'                   );
-		$this->local_sitemap[ ':execute_program.'.$this->cmd[1].'.'.$this->cmd[2] ] = array( 'title'=>'プログラム実行'                     );
-		$this->local_sitemap[ ':delete_program_content.'.$this->cmd[1]            ] = array( 'title'=>'プログラムコンテンツの削除'         );
+		$this->local_sitemap[ ':edit_proj.'.@$this->cmd[1]                         ] = array( 'title'=>'プロジェクト編集'                   );
+		$this->local_sitemap[ ':execute_program.'.@$this->cmd[1].'.'.@$this->cmd[2] ] = array( 'title'=>'プログラム実行'                     );
+		$this->local_sitemap[ ':delete_program_content.'.@$this->cmd[1]            ] = array( 'title'=>'プログラムコンテンツの削除'         );
 
 		return true;
 	}
@@ -465,7 +465,7 @@ class pxplugin_asazuke_admin{
 		$RTN .= '		<th style="width:30%;"><div>ドキュメントルートのパス <span class="must">必須</span></div></th>'."\n";
 		$RTN .= '		<td style="width:70%;">'."\n";
 		$RTN .= '			<div><input type="text" name="path_docroot" value="'.htmlspecialchars( $this->px->req()->get_param('path_docroot') ).'" style="width:80%;" /></div>'."\n";
-		if( strlen( $error['path_docroot'] ) ){
+		if( strlen( @$error['path_docroot'] ) ){
 			$RTN .= '			<div class="error">'.$error['path_docroot'].'</div>'."\n";
 		}
 		if( is_dir($path_pxc_home_dir) ){
@@ -502,7 +502,7 @@ class pxplugin_asazuke_admin{
 		$RTN .= '		<th style="width:30%;"><div>スタートページのパス <span class="must">必須</span></div></th>'."\n";
 		$RTN .= '		<td style="width:70%;">'."\n";
 		$RTN .= '			<div><input type="text" name="path_stargpage" value="'.htmlspecialchars( $this->px->req()->get_param('path_stargpage') ).'" style="width:80%;" /></div>'."\n";
-		if( strlen( $error['path_stargpage'] ) ){
+		if( strlen( @$error['path_stargpage'] ) ){
 			$RTN .= '			<div class="error">'.$error['path_stargpage'].'</div>'."\n";
 		}
 		$RTN .= '		</td>'."\n";
@@ -511,7 +511,7 @@ class pxplugin_asazuke_admin{
 		$RTN .= '		<th style="width:30%;"><div>許容するオリジナルファイルの最大サイズ</div></th>'."\n";
 		$RTN .= '		<td style="width:70%;">'."\n";
 		$RTN .= '			<div><input type="text" name="accept_html_file_max_size" value="'.htmlspecialchars( $this->px->req()->get_param('accept_html_file_max_size') ).'" style="width:80%;" /></div>'."\n";
-		if( strlen( $error['accept_html_file_max_size'] ) ){
+		if( strlen( @$error['accept_html_file_max_size'] ) ){
 			$RTN .= '			<div class="error">'.$error['accept_html_file_max_size'].'</div>'."\n";
 		}
 		$RTN .= '		</td>'."\n";
@@ -682,7 +682,7 @@ class pxplugin_asazuke_admin{
 		$RTN = '';
 		$RTN .= '<form action="'.htmlspecialchars( $this->href( ':' ) ).'" method="post">'."\n";
 		$RTN .= '	<p class="center"><input type="submit" value="戻る" /></p>'."\n";
-		$RTN .= '	'.$this->mk_form_defvalues( ':detail.'.$this->cmd[1] )."\n";
+		$RTN .= '	'.$this->mk_form_defvalues( ':detail.'.@$this->cmd[1] )."\n";
 		$RTN .= '</form>'."\n";
 		return	$RTN;
 	}//start_execute_program()
@@ -692,7 +692,7 @@ class pxplugin_asazuke_admin{
 	 * プログラムが書き出したコンテンツのダウンロード
 	 */
 	private function download_program_content(){
-		$download_content_path = $this->pcconf->get_program_home_dir( $this->cmd[1] , $this->cmd[2] ).'/dl';
+		$download_content_path = $this->pcconf->get_program_home_dir( @$this->cmd[1] , @$this->cmd[2] ).'/dl';
 		$download_zipto_path = dirname($download_content_path).'/tmp_download_content';
 		if( !is_dir( $download_content_path ) ){
 			return	'<p class="error">ディレクトリが存在しません。</p>';
@@ -715,7 +715,7 @@ class pxplugin_asazuke_admin{
 				return	'<p class="error">圧縮されたアーカイブファイルは現在は存在しません。</p>';
 			}
 
-			$dl_filename = $this->cmd[1].'_'.$this->cmd[2].'.tgz';
+			$dl_filename = @$this->cmd[1].'_'.@$this->cmd[2].'.tgz';
 			if( $this->pcconf->get_value('dl_datetime_in_filename') ){
 				$CONTENT = $this->px->dbh()->file_get_contents( $download_content_path.'/__LOGS__/datetime.txt' );
 				list( $start_datetime , $end_datetime ) = explode(' --- ',$CONTENT);
@@ -742,7 +742,7 @@ class pxplugin_asazuke_admin{
 				return	'<p class="error">圧縮されたアーカイブファイルは現在は存在しません。</p>';
 			}
 
-			$dl_filename = $this->cmd[1].'_'.$this->cmd[2].'.zip';
+			$dl_filename = @$this->cmd[1].'_'.@$this->cmd[2].'.zip';
 			if( $this->pcconf->get_value('dl_datetime_in_filename') ){
 				$CONTENT = $this->px->dbh()->file_get_contents( $download_content_path.'/__LOGS__/datetime.txt' );
 				list( $start_datetime , $end_datetime ) = explode(' --- ',$CONTENT);
